@@ -1,212 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SELLBY - Property</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
 
-<meta charset="UTF-8">
+    body {
+      background: #eef2f7;
+      color: #1f2937;
+      min-height: 100vh;
+    }
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    header {
+      background: linear-gradient(135deg, #0b4ccf, #1f6ffe);
+      color: #ffffff;
+      padding: 24px 16px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      box-shadow: 0 10px 32px rgba(15, 76, 207, 0.18);
+    }
 
-<title>SELLBY - Property</title>
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
 
-<style>
+    .page-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #0f172a;
+    }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+    .page-subtitle {
+      color: #475569;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
 
-body{
-background:#f5f5f5;
-}
+    .property-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+    }
 
-header{
-background:#0057D9;
-color:white;
-padding:18px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
+    .ad-card {
+      background: #ffffff;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+      display: flex;
+      flex-direction: column;
+      min-height: 360px;
+    }
 
-.container{
-padding:15px;
-}
+    .ad-photo {
+      min-height: 220px;
+      background: #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
 
-.ad-card{
+    .ad-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
-background:white;
+    .ad-details {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
 
-border-radius:18px;
+    .title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
 
-padding:15px;
+    .price {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0b4ccf;
+      margin-bottom: 10px;
+    }
 
-margin-bottom:18px;
+    .location {
+      color: #475569;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
 
-box-shadow:0 3px 12px rgba(0,0,0,.15);
+    .meta-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
 
-}
+    .meta-chip {
+      background: #f8fafc;
+      color: #334155;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      border: 1px solid #e2e8f0;
+    }
 
-.photo{
+    .whatsapp-link {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #ffffff;
+      background: #25d366;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+      transition: background 0.2s ease;
+    }
 
-height:180px;
+    .whatsapp-link:hover {
+      background: #18b056;
+    }
 
-background:#ddd;
+    .placeholder {
+      text-align: center;
+      padding: 50px 16px;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+      font-size: 16px;
+      color: #475569;
+    }
 
-border-radius:12px;
+    .loading {
+      text-align: center;
+      margin-top: 28px;
+      color: #475569;
+      font-size: 15px;
+    }
 
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-font-size:50px;
-
-}
-
-.title{
-
-font-size:20px;
-
-font-weight:bold;
-
-margin-top:15px;
-
-}
-
-.price{
-
-font-size:22px;
-
-font-weight:bold;
-
-color:#0057D9;
-
-margin-top:10px;
-
-}
-
-.location{
-
-margin-top:10px;
-
-color:#666;
-
-}
-
-.chat-btn{
-
-width:100%;
-
-margin-top:18px;
-
-padding:14px;
-
-border:none;
-
-border-radius:12px;
-
-background:#FFC107;
-
-font-size:18px;
-
-font-weight:bold;
-
-cursor:pointer;
-
-}
-
-</style>
-
+    @media (max-width: 900px) {
+      .property-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <header>Property Listings</header>
+  <div class="container">
+    <div class="page-title">Available Properties</div>
+    <div class="page-subtitle">Browse the latest property listings posted through SELLBY. Click WhatsApp to connect with the seller instantly.</div>
+    <div class="property-grid" id="propertyList"></div>
+    <div class="loading" id="loadingMessage">Loading properties...</div>
+  </div>
 
-<header>
-
-Property
-
-</header>
-
-<div class="container">
-
-<div class="ad-card">
-
-<div class="photo">
-
-📷
-
-</div>
-<div class="title">
-2 BHK Independent House
-</div>
-
-<div class="price">
-₹ 45,00,000
-</div>
-
-<div class="location">
-📍 Hyderabad
-</div>
-
-<button class="chat-btn">
-💬 Chat Seller
-</button>
-
-</div>
-
-<div class="ad-card">
-
-<div class="photo">
-📷
-</div>
-
-<div class="title">
-120 Sq.Yards Open Plot
-</div>
-
-<div class="price">
-₹ 18,00,000
-</div>
-
-<div class="location">
-📍 Vijayawada
-</div>
-
-<button class="chat-btn">
-💬 Chat Seller
-</button>
-
-</div>
-
-<div class="ad-card">
-
-<div class="photo">
-📷
-</div>
-
-<div class="title">
-Commercial Land
-</div>
-
-<div class="price">
-₹ 75,00,000
-</div>
-
-<div class="location">
-📍 Visakhapatnam
-</div>
-
-<button class="chat-btn">
-💬 Chat Seller
-</button>
-
-</div>
-</div>
-
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/property.js"></script>
 </body>
-
 </html>

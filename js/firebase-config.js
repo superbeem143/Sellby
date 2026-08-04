@@ -10,7 +10,6 @@ import {
   setPersistence,
   browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
-
 import {
   getFirestore,
   doc,
@@ -24,6 +23,12 @@ import {
   updateDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBFSnAwXw6uJB1QZjqT1IHlYBwsS9CsvLw",
@@ -34,7 +39,6 @@ const firebaseConfig = {
   appId: "1:1091310315390:web:d7f79a87c0b1024059f52f"
 };
 
-// Initialize Firebase
 let app;
 if (!getApps().length) {
   app = initializeApp(firebaseConfig);
@@ -44,13 +48,12 @@ if (!getApps().length) {
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const storage = getStorage(app);
 
-// Local persistence
 setPersistence(auth, browserLocalPersistence).catch((e) => {
   console.warn("Could not set persistence:", e.message || e);
 });
 
-// Export functions
 export {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -67,5 +70,8 @@ export {
   getDocs,
   addDoc,
   updateDoc,
-  serverTimestamp
+  serverTimestamp,
+  ref,
+  uploadBytes,
+  getDownloadURL
 };
