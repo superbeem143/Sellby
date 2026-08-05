@@ -1,0 +1,225 @@
+<!-- ===================================================== -->
+<!--              SELLBY REVIEWS.HTML                    -->
+<!--                   HTML PART 1                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : reviews.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 1
+    Contains  :
+    ✔ HTML Document Start
+    ✔ Head Section
+    ✔ Google Fonts
+    ✔ CSS Link
+    ✔ Header
+    ✔ Rating Summary
+-->
+<!-- ===================================================== -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SELLBY | Ratings & Reviews</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <button
+            class="back-btn"
+            onclick="history.back()">
+
+            ←
+
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+
+                Ratings & Reviews
+
+            </h1>
+
+            <p>
+
+                Seller reputation and buyer feedback
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ================= RATING SUMMARY ================= -->
+
+    <main class="reviews-page">
+
+        <section class="rating-summary">
+
+            <h2 id="averageRating">
+
+                ⭐ 0.0
+
+            </h2>
+
+            <p id="totalReviews">
+
+                0 Reviews
+
+            </p>
+
+        </section>
+<!-- ===================================================== -->
+<!--              SELLBY REVIEWS.HTML                    -->
+<!--                   HTML PART 2                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : reviews.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 2
+    Contains  :
+    ✔ Review Form
+    ✔ Star Rating
+    ✔ Review Text
+    ✔ Submit Button
+-->
+<!-- ===================================================== -->
+
+        <section class="review-form">
+
+            <h3>
+
+                Write a Review
+
+            </h3>
+
+            <div
+                id="starRating"
+                class="star-rating">
+
+                <span data-rating="1">⭐</span>
+
+                <span data-rating="2">⭐</span>
+
+                <span data-rating="3">⭐</span>
+
+                <span data-rating="4">⭐</span>
+
+                <span data-rating="5">⭐</span>
+
+            </div>
+
+            <textarea
+                id="reviewText"
+                placeholder="Share your experience with the seller..."
+                rows="5">
+
+            </textarea>
+
+            <button
+                id="submitReviewBtn"
+                class="publish-btn"
+                type="button">
+
+                Submit Review
+
+            </button>
+
+        </section>
+
+        <section
+            id="reviewsList"
+            class="reviews-list">
+
+        </section>
+<!-- ===================================================== -->
+<!--              SELLBY REVIEWS.HTML                    -->
+<!--                   HTML PART 3                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : reviews.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Empty Reviews State
+    ✔ Firebase Script
+    ✔ Reviews JavaScript
+    ✔ Ratings JavaScript
+    ✔ Closing Body & HTML
+-->
+<!-- ===================================================== -->
+
+        <div
+            id="emptyState"
+            class="empty-state"
+            style="display:none;">
+
+            <h2>
+
+                ⭐ No Reviews Yet
+
+            </h2>
+
+            <p>
+
+                Be the first to review this seller.
+
+            </p>
+
+        </div>
+
+    </main>
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script
+        type="module"
+        src="js/firebase-config.js">
+    </script>
+
+    <!-- ================= REVIEWS JS ================= -->
+
+    <script
+        type="module"
+        src="js/reviews.js">
+    </script>
+
+    <!-- ================= RATINGS JS ================= -->
+
+    <script
+        type="module"
+        src="js/ratings.js">
+    </script>
+
+</body>
+
+</html>                

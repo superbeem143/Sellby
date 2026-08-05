@@ -1,0 +1,207 @@
+<!-- ===================================================== -->
+<!--                SELLBY MOBILES.HTML                   -->
+<!--                    HTML PART 1                       -->
+<!-- ===================================================== -->
+<!--
+    File Name : mobiles.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 1
+    Contains  :
+    ✔ HTML Document Start
+    ✔ Head Section
+    ✔ Google Fonts
+    ✔ CSS Link
+    ✔ Header
+    ✔ Search Section
+-->
+<!-- ===================================================== -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SELLBY | Mobiles</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <button
+            class="back-btn"
+            onclick="history.back()">
+
+            ←
+
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+
+                Mobiles
+
+            </h1>
+
+            <p>
+
+                Buy & Sell Mobiles Easily
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ================= SEARCH ================= -->
+
+    <section class="search-section">
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search Mobiles...">
+
+            <button>
+
+                🔍
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ================= MOBILE LIST ================= -->
+
+    <main class="cars-page">
+
+        <div
+            id="loadingMessage"
+            class="loading-message">
+
+            Loading mobiles...
+
+        </div>
+
+        <div
+            id="mobileList"
+            class="car-list">
+
+        </div>
+<!-- ===================================================== -->
+<!--                SELLBY MOBILES.HTML                   -->
+<!--                    HTML PART 2                       -->
+<!-- ===================================================== -->
+<!--
+    File Name : mobiles.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 2
+    Contains  :
+    ✔ Mobile Listing Container
+    ✔ Empty State
+    ✔ Floating Add Mobile Button
+-->
+<!-- ===================================================== -->
+
+        <div
+            id="emptyState"
+            class="empty-state"
+            style="display:none;">
+
+            <h2>
+
+                📱 No Mobiles Found
+
+            </h2>
+
+            <p>
+
+                There are no mobile ads available right now.
+
+            </p>
+
+        </div>
+
+    </main>
+
+    <!-- ================= ADD MOBILE BUTTON ================= -->
+
+    <a
+        href="post-mobile.html"
+        class="floating-post-btn">
+
+        <span>
+
+            +
+
+        </span>
+
+        <span>
+
+            Sell Mobile
+
+        </span>
+
+    </a>
+<!-- ===================================================== -->
+<!--                SELLBY MOBILES.HTML                   -->
+<!--                    HTML PART 3                       -->
+<!-- ===================================================== -->
+<!--
+    File Name : mobiles.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Firebase Script
+    ✔ Mobiles JavaScript
+    ✔ Closing Body
+    ✔ Closing HTML
+-->
+<!-- ===================================================== -->
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script
+        type="module"
+        src="js/firebase-config.js">
+    </script>
+
+    <!-- ================= MOBILES JS ================= -->
+
+    <script
+        type="module"
+        src="js/mobiles.js">
+    </script>
+
+</body>
+
+</html>            

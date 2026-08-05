@@ -1,0 +1,196 @@
+<!-- ===================================================== -->
+<!--                 SELLBY CHAT.HTML                     -->
+<!--                   HTML PART 1                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : chat.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 1
+    Contains  :
+    ✔ HTML Document Start
+    ✔ Head Section
+    ✔ Google Fonts
+    ✔ CSS Link
+    ✔ Chat Header
+    ✔ Seller Info
+-->
+<!-- ===================================================== -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SELLBY | Chat</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ================= CHAT HEADER ================= -->
+
+    <header class="chat-header">
+
+        <button
+            class="back-btn"
+            onclick="history.back()">
+
+            ←
+
+        </button>
+
+        <div class="chat-user">
+
+            <div class="chat-avatar">
+
+                👤
+
+            </div>
+
+            <div>
+
+                <h2 id="sellerName">
+
+                    Seller
+
+                </h2>
+
+                <p id="sellerStatus">
+
+                    🟢 Online
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- ================= CHAT MESSAGES ================= -->
+
+    <main
+        id="chatMessages"
+        class="chat-messages">
+
+    </main>
+<!-- ===================================================== -->
+<!--                 SELLBY CHAT.HTML                     -->
+<!--                   HTML PART 2                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : chat.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 2
+    Contains  :
+    ✔ Message Input
+    ✔ Image Upload
+    ✔ Emoji Button
+    ✔ Send Button
+-->
+<!-- ===================================================== -->
+
+    <footer class="chat-footer">
+
+        <button
+            id="emojiBtn"
+            class="chat-icon-btn"
+            type="button">
+
+            😊
+
+        </button>
+
+        <label
+            for="chatImage"
+            class="chat-icon-btn">
+
+            📷
+
+        </label>
+
+        <input
+            id="chatImage"
+            type="file"
+            accept="image/*"
+            hidden>
+
+        <input
+            id="messageInput"
+            class="chat-input"
+            type="text"
+            placeholder="Type a message...">
+
+        <button
+            id="sendBtn"
+            class="send-btn"
+            type="button">
+
+            ➤
+
+        </button>
+
+    </footer>
+<!-- ===================================================== -->
+<!--                 SELLBY CHAT.HTML                     -->
+<!--                   HTML PART 3                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : chat.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Firebase Script
+    ✔ Chat JavaScript
+    ✔ Messages JavaScript
+    ✔ Closing Body
+    ✔ Closing HTML
+-->
+<!-- ===================================================== -->
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script
+        type="module"
+        src="js/firebase-config.js">
+    </script>
+
+    <!-- ================= CHAT JS ================= -->
+
+    <script
+        type="module"
+        src="js/chat.js">
+    </script>
+
+    <!-- ================= MESSAGES JS ================= -->
+
+    <script
+        type="module"
+        src="js/messages.js">
+    </script>
+
+</body>
+
+</html>        

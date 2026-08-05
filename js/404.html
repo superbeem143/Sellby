@@ -1,0 +1,187 @@
+<!-- ===================================================== -->
+<!--                 SELLBY 404.HTML                      -->
+<!--                   HTML PART 1                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : 404.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 1
+    Contains  :
+    ✔ HTML Document Start
+    ✔ Head Section
+    ✔ Google Fonts
+    ✔ CSS Link
+    ✔ 404 Illustration
+    ✔ Error Title
+-->
+<!-- ===================================================== -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SELLBY | Page Not Found</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ================= 404 PAGE ================= -->
+
+    <main class="error-page">
+
+        <section class="error-card">
+
+            <div class="error-icon">
+
+                🚫
+
+            </div>
+
+            <h1>
+
+                404
+
+            </h1>
+
+            <h2>
+
+                Page Not Found
+
+            </h2>
+
+            <p>
+
+                Sorry, the page you are looking for doesn't exist.
+
+            </p>
+<!-- ===================================================== -->
+<!--                 SELLBY 404.HTML                      -->
+<!--                   HTML PART 2                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : 404.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 2
+    Contains  :
+    ✔ Go Home Button
+    ✔ Go Back Button
+    ✔ Helpful Message
+-->
+<!-- ===================================================== -->
+
+            <div class="error-actions">
+
+                <a
+                    href="index.html"
+                    class="publish-btn">
+
+                    🏠 Go Home
+
+                </a>
+
+                <button
+                    id="backBtn"
+                    class="publish-btn"
+                    type="button">
+
+                    ⬅ Go Back
+
+                </button>
+
+            </div>
+
+            <p
+                class="error-help">
+
+                If you typed the address manually,
+
+                please check the URL and try again.
+
+            </p>
+
+        </section>
+
+    </main>
+<!-- ===================================================== -->
+<!--                 SELLBY 404.HTML                      -->
+<!--                   HTML PART 3                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : 404.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ JavaScript
+    ✔ Go Back Function
+    ✔ Closing Body
+    ✔ Closing HTML
+-->
+<!-- ===================================================== -->
+
+    <script>
+
+        const backBtn =
+
+            document.getElementById(
+
+                "backBtn"
+
+            );
+
+        backBtn.addEventListener(
+
+            "click",
+
+            () => {
+
+                if (
+
+                    window.history.length > 1
+
+                ) {
+
+                    window.history.back();
+
+                }
+
+                else {
+
+                    window.location.href =
+
+                        "index.html";
+
+                }
+
+            }
+
+        );
+
+    </script>
+
+</body>
+
+</html>                

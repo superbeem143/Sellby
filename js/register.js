@@ -1,16 +1,17 @@
 /* ===================================================== */
-/*                  SELLBY LOGIN.JS                      */
+/*                SELLBY REGISTER.JS                     */
 /*                     JS PART 1                         */
 /* ===================================================== */
 /*
-    File Name : login.js
+    File Name : register.js
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 1
     Contains  :
     ✔ Firebase Imports
     ✔ DOM Elements
-    ✔ Login Function
+    ✔ Register Button
+    ✔ Status Message
 */
 /* ===================================================== */
 
@@ -18,9 +19,13 @@ import {
 
     auth,
 
-    signInWithEmailAndPassword
+    createUserWithEmailAndPassword
 
 } from "./firebase-config.js";
+
+const fullNameInput =
+
+    document.getElementById("fullName");
 
 const emailInput =
 
@@ -30,15 +35,23 @@ const passwordInput =
 
     document.getElementById("password");
 
-const loginBtn =
+const confirmPasswordInput =
 
-    document.getElementById("loginBtn");
+    document.getElementById("confirmPassword");
+
+const registerBtn =
+
+    document.getElementById("registerBtn");
 
 const statusMessage =
 
     document.getElementById("statusMessage");
 
-loginBtn.addEventListener("click", async () => {
+registerBtn.addEventListener("click", async () => {
+
+    const fullName =
+
+        fullNameInput.value.trim();
 
     const email =
 
@@ -48,32 +61,56 @@ loginBtn.addEventListener("click", async () => {
 
         passwordInput.value;
 
-    if (!email || !password) {
+    const confirmPassword =
+
+        confirmPasswordInput.value;
+
+    if (
+
+        !fullName ||
+
+        !email ||
+
+        !password ||
+
+        !confirmPassword
+
+    ) {
 
         statusMessage.textContent =
 
-            "Please enter your email and password.";
+            "Please fill in all fields.";
 
         return;
 
     }
 
-    loginBtn.disabled = true;
+    if (password !== confirmPassword) {
 
-    loginBtn.textContent =
+        statusMessage.textContent =
 
-        "Logging in...";
+            "Passwords do not match.";
+
+        return;
+
+    }
+
+    registerBtn.disabled = true;
+
+    registerBtn.textContent =
+
+        "Creating Account...";
 /* ===================================================== */
-/*                  SELLBY LOGIN.JS                      */
+/*                SELLBY REGISTER.JS                     */
 /*                     JS PART 2                         */
 /* ===================================================== */
 /*
-    File Name : login.js
+    File Name : register.js
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 2
     Contains  :
-    ✔ Firebase Login
+    ✔ Firebase Registration
     ✔ Success Handling
     ✔ Error Handling
 */
@@ -81,7 +118,7 @@ loginBtn.addEventListener("click", async () => {
 
     try {
 
-        await signInWithEmailAndPassword(
+        await createUserWithEmailAndPassword(
 
             auth,
 
@@ -93,7 +130,7 @@ loginBtn.addEventListener("click", async () => {
 
         statusMessage.textContent =
 
-            "Login Successful!";
+            "Account Created Successfully!";
 
         window.location.href =
 
@@ -109,36 +146,46 @@ loginBtn.addEventListener("click", async () => {
 
             error.message;
 
-        loginBtn.disabled = false;
+        registerBtn.disabled = false;
 
-        loginBtn.textContent =
+        registerBtn.textContent =
 
-            "Login";
+            "Create Account";
 
     }
 
-});  
+});
 /* ===================================================== */
-/*                  SELLBY LOGIN.JS                      */
+/*                SELLBY REGISTER.JS                     */
 /*                     JS PART 3                         */
 /* ===================================================== */
 /*
-    File Name : login.js
+    File Name : register.js
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 3
     Contains  :
-    ✔ Enter Key Login
+    ✔ Enter Key Register
     ✔ Auto Redirect
     ✔ Auth State Check
 */
 /* ===================================================== */
 
+fullNameInput.addEventListener("keydown", (event) => {
+
+    if (event.key === "Enter") {
+
+        registerBtn.click();
+
+    }
+
+});
+
 emailInput.addEventListener("keydown", (event) => {
 
     if (event.key === "Enter") {
 
-        loginBtn.click();
+        registerBtn.click();
 
     }
 
@@ -148,7 +195,17 @@ passwordInput.addEventListener("keydown", (event) => {
 
     if (event.key === "Enter") {
 
-        loginBtn.click();
+        registerBtn.click();
+
+    }
+
+});
+
+confirmPasswordInput.addEventListener("keydown", (event) => {
+
+    if (event.key === "Enter") {
+
+        registerBtn.click();
 
     }
 
@@ -162,4 +219,4 @@ auth.onAuthStateChanged((user) => {
 
     }
 
-});      
+});        

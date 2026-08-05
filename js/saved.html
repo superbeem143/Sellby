@@ -1,9 +1,9 @@
 <!-- ===================================================== -->
-<!--               SELLBY PROFILE.HTML                   -->
+<!--                SELLBY SAVED.HTML                     -->
 <!--                   HTML PART 1                        -->
 <!-- ===================================================== -->
 <!--
-    File Name : profile.html
+    File Name : saved.html
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 1
@@ -12,9 +12,8 @@
     ✔ Head Section
     ✔ Google Fonts
     ✔ CSS Link
-    ✔ Profile Header
-    ✔ User Photo
-    ✔ User Details
+    ✔ Header
+    ✔ Saved Ads Title
 -->
 <!-- ===================================================== -->
 
@@ -29,7 +28,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>SELLBY | Profile</title>
+    <title>SELLBY | Saved Ads</title>
 
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
@@ -48,96 +47,109 @@
 
 <body>
 
-    <!-- ================= PROFILE ================= -->
+    <!-- ================= HEADER ================= -->
 
-    <main class="profile-page">
+    <header class="header">
 
-        <section class="profile-card">
+        <button
+            class="back-btn"
+            onclick="history.back()">
 
-            <div class="profile-avatar">
+            ←
 
-                👤
+        </button>
 
-            </div>
+        <div class="page-title">
 
-            <h1 id="userName">
+            <h1>
 
-                Loading...
+                Saved Ads
 
             </h1>
 
-            <p id="userEmail">
+            <p>
 
-                Loading Email...
+                Your favourite listings
 
             </p>
 
-        </section>
+        </div>
 
-        <section class="profile-menu">
+    </header>
+
+    <!-- ================= SAVED ADS ================= -->
+
+    <main class="saved-page">
+
+        <div
+            id="loadingMessage"
+            class="loading-message">
+
+            Loading saved ads...
+
+        </div>
+
+        <div
+            id="savedList"
+            class="saved-list">
+
+        </div>
 <!-- ===================================================== -->
-<!--               SELLBY PROFILE.HTML                   -->
+<!--                SELLBY SAVED.HTML                     -->
 <!--                   HTML PART 2                        -->
 <!-- ===================================================== -->
 <!--
-    File Name : profile.html
+    File Name : saved.html
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 2
     Contains  :
-    ✔ My Ads
-    ✔ Saved Ads
-    ✔ Settings
-    ✔ Logout Button
+    ✔ Saved Ads Container
+    ✔ Empty State
+    ✔ Back to Home Button
 -->
 <!-- ===================================================== -->
 
-            <a
-                href="my-ads.html"
-                class="profile-item">
+        <div
+            id="emptyState"
+            class="empty-state"
+            style="display:none;">
 
-                📋 My Ads
+            <h2>
+
+                ❤️ No Saved Ads
+
+            </h2>
+
+            <p>
+
+                You haven't saved any ads yet.
+
+            </p>
+
+            <a
+                href="index.html"
+                class="publish-btn">
+
+                Browse Ads
 
             </a>
 
-            <a
-                href="saved.html"
-                class="profile-item">
+        </div>
 
-                ❤️ Saved Ads
-
-            </a>
-
-            <a
-                href="settings.html"
-                class="profile-item">
-
-                ⚙️ Settings
-
-            </a>
-
-            <button
-                id="logoutBtn"
-                class="publish-btn"
-                type="button">
-
-                Logout
-
-            </button>
-
-        </section>
- <!-- ===================================================== -->
-<!--               SELLBY PROFILE.HTML                   -->
+    </main>
+<!-- ===================================================== -->
+<!--                SELLBY SAVED.HTML                     -->
 <!--                   HTML PART 3                        -->
 <!-- ===================================================== -->
 <!--
-    File Name : profile.html
+    File Name : saved.html
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 3
     Contains  :
     ✔ Firebase Script
-    ✔ Profile JavaScript
+    ✔ Saved Ads JavaScript
     ✔ Closing Body
     ✔ Closing HTML
 -->
@@ -150,14 +162,13 @@
         src="js/firebase-config.js">
     </script>
 
-    <!-- ================= PROFILE JS ================= -->
+    <!-- ================= SAVED ADS JS ================= -->
 
     <script
         type="module"
-        src="js/profile.js">
+        src="js/saved.js">
     </script>
 
 </body>
 
-</html>                   
-
+</html>            

@@ -1,0 +1,257 @@
+<!-- ===================================================== -->
+<!--             SELLBY VOICE-POST.HTML                  -->
+<!--                   HTML PART 1                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : voice-post.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 1
+    Contains  :
+    ✔ HTML Document Start
+    ✔ Head Section
+    ✔ Google Fonts
+    ✔ CSS Link
+    ✔ Header
+    ✔ Voice Recording Section
+-->
+<!-- ===================================================== -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SELLBY | Voice Posting</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <button
+            class="back-btn"
+            onclick="history.back()">
+
+            ←
+
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+
+                Voice Posting
+
+            </h1>
+
+            <p>
+
+                Speak and create your ad instantly
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ================= VOICE SECTION ================= -->
+
+    <main class="voice-page">
+
+        <section class="voice-card">
+
+            <div
+                id="voiceAnimation"
+                class="voice-animation">
+
+                🎤
+
+            </div>
+
+            <h2>
+
+                Tap the microphone
+
+            </h2>
+
+            <p>
+
+                Speak clearly in Telugu, English or Hindi.
+
+            </p>
+
+            <button
+                id="startVoiceBtn"
+                class="publish-btn"
+                type="button">
+
+                🎤 Start Recording
+
+            </button>
+
+            <div
+                id="voiceStatus"
+                class="status-message">
+
+                Ready to listen...
+
+            </div>
+<!-- ===================================================== -->
+<!--             SELLBY VOICE-POST.HTML                  -->
+<!--                   HTML PART 2                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : voice-post.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 2
+    Contains  :
+    ✔ Speech Result
+    ✔ Detected Category
+    ✔ Extracted Details
+    ✔ Continue Button
+-->
+<!-- ===================================================== -->
+
+            <div class="voice-result">
+
+                <label>
+
+                    Recognized Speech
+
+                </label>
+
+                <textarea
+                    id="speechResult"
+                    rows="6"
+                    placeholder="Your spoken text will appear here..."
+                    readonly>
+
+                </textarea>
+
+            </div>
+
+            <div class="voice-details">
+
+                <div class="form-group">
+
+                    <label>
+
+                        Detected Category
+
+                    </label>
+
+                    <input
+                        id="detectedCategory"
+                        type="text"
+                        readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Detected Price
+
+                    </label>
+
+                    <input
+                        id="detectedPrice"
+                        type="text"
+                        readonly>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>
+
+                        Detected Location
+
+                    </label>
+
+                    <input
+                        id="detectedLocation"
+                        type="text"
+                        readonly>
+
+                </div>
+
+            </div>
+
+            <button
+                id="continueBtn"
+                class="publish-btn"
+                type="button">
+
+                Continue to Post
+
+            </button>
+
+        </section>
+<!-- ===================================================== -->
+<!--             SELLBY VOICE-POST.HTML                  -->
+<!--                   HTML PART 3                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : voice-post.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Firebase Script
+    ✔ Voice Posting JavaScript
+    ✔ Speech Parser JavaScript
+    ✔ Closing Body
+    ✔ Closing HTML
+-->
+<!-- ===================================================== -->
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script
+        type="module"
+        src="js/firebase-config.js">
+    </script>
+
+    <!-- ================= VOICE POST JS ================= -->
+
+    <script
+        type="module"
+        src="js/voice-post.js">
+    </script>
+
+    <!-- ================= SPEECH PARSER JS ================= -->
+
+    <script
+        type="module"
+        src="js/speech-parser.js">
+    </script>
+
+</body>
+
+</html>                    

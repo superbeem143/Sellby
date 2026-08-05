@@ -1,0 +1,219 @@
+/* ===================================================== */
+/*             SELLBY SERVICE-WORKER.JS                  */
+/*                     PART 3                            */
+/* ===================================================== */
+/*
+    File Name : service-worker.js
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Message Event
+    ✔ Offline Fallback
+    ✔ Service Worker Ready
+*/
+/* ===================================================== */
+
+self.addEventListener(
+
+    "message",
+
+    (event) => {
+
+        if (
+
+            event.data &&
+
+            event.data.type ===
+
+            "SKIP_WAITING"
+
+        ) {
+
+            self.skipWaiting();
+
+        }
+
+    }
+
+);
+
+self.addEventListener(
+
+    "fetch",
+
+    (event) => {
+
+        if (
+
+            event.request.mode ===
+
+            "navigate"
+
+        ) {
+
+            event.respondWith(
+
+                fetch(
+
+                    event.request
+
+                ).catch(() =>
+
+                    caches.match(
+
+                        "/offline.html"
+
+                    )
+
+                )
+
+            );
+
+        }
+
+    }
+
+);
+
+console.log(
+
+    "SELLBY Service Worker Ready"
+
+);
+<!-- ===================================================== -->
+<!--              SELLBY OFFLINE.HTML                     -->
+<!--                   HTML PART 2                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : offline.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 2
+    Contains  :
+    ✔ Retry Button
+    ✔ Go Home Button
+    ✔ Status Message
+-->
+<!-- ===================================================== -->
+
+            <div class="offline-actions">
+
+                <button
+                    id="retryBtn"
+                    class="publish-btn"
+                    type="button">
+
+                    🔄 Try Again
+
+                </button>
+
+                <a
+                    href="index.html"
+                    class="publish-btn">
+
+                    🏠 Go to Home
+
+                </a>
+
+            </div>
+
+            <p
+                id="networkStatus"
+                class="status-message">
+
+                Waiting for internet connection...
+
+            </p>
+
+        </section>
+
+    </main>
+<!-- ===================================================== -->
+<!--              SELLBY OFFLINE.HTML                     -->
+<!--                   HTML PART 3                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : offline.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Offline JavaScript
+    ✔ Auto Network Detection
+    ✔ Closing Body
+    ✔ Closing HTML
+-->
+<!-- ===================================================== -->
+
+    <script>
+
+        const retryBtn =
+
+            document.getElementById(
+
+                "retryBtn"
+
+            );
+
+        const networkStatus =
+
+            document.getElementById(
+
+                "networkStatus"
+
+            );
+
+        retryBtn.addEventListener(
+
+            "click",
+
+            () => {
+
+                window.location.reload();
+
+            }
+
+        );
+
+        window.addEventListener(
+
+            "online",
+
+            () => {
+
+                networkStatus.textContent =
+
+                    "✅ Internet connection restored.";
+
+                setTimeout(() => {
+
+                    window.location.href =
+
+                        "index.html";
+
+                }, 1000);
+
+            }
+
+        );
+
+        window.addEventListener(
+
+            "offline",
+
+            () => {
+
+                networkStatus.textContent =
+
+                    "❌ Still offline.";
+
+            }
+
+        );
+
+    </script>
+
+</body>
+
+</html>    

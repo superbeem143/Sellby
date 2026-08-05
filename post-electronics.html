@@ -1,0 +1,415 @@
+<!-- ===================================================== -->
+<!--          SELLBY POST-ELECTRONICS.HTML               -->
+<!--                   HTML PART 1                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : post-electronics.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 1
+    Contains  :
+    ✔ HTML Document Start
+    ✔ Head Section
+    ✔ CSS Link
+    ✔ Header
+    ✔ Upload Photos
+    ✔ Product Name
+-->
+<!-- ===================================================== -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SELLBY | Post Electronics</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <button
+            class="back-btn"
+            onclick="history.back()">
+
+            ←
+
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+
+                Post Electronics
+
+            </h1>
+
+            <p>
+
+                Fill the details below
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ================= POST FORM ================= -->
+
+    <main class="page-wrap">
+
+        <section class="card">
+
+            <div class="form-grid">
+
+                <div class="form-group upload-field">
+
+                    <label for="photos">
+
+                        Upload Photos
+
+                    </label>
+
+                    <input
+                        id="photos"
+                        name="photos"
+                        type="file"
+                        multiple
+                        accept="image/*">
+
+                    <span class="hint">
+
+                        Upload up to 10 images.
+
+                    </span>
+
+                    <div
+                        class="image-preview"
+                        id="imagePreview">
+
+                    </div>
+
+                    <div
+                        class="preview-count"
+                        id="previewCount">
+
+                        0 / 10 images selected
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="productName">
+
+                        Product Name
+
+                    </label>
+
+                    <input
+                        id="productName"
+                        name="productName"
+                        type="text"
+                        placeholder="Example: Dell Laptop"
+                        required>
+
+                </div>
+<!-- ===================================================== -->
+<!--          SELLBY POST-ELECTRONICS.HTML               -->
+<!--                   HTML PART 2                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : post-electronics.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 2
+    Contains  :
+    ✔ Brand
+    ✔ Category
+    ✔ Condition
+    ✔ Price
+    ✔ Location
+    ✔ Warranty
+-->
+<!-- ===================================================== -->
+
+                <div class="form-group">
+
+                    <label for="brand">
+
+                        Brand
+
+                    </label>
+
+                    <input
+                        id="brand"
+                        name="brand"
+                        type="text"
+                        placeholder="Example: Dell, HP, Sony"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="category">
+
+                        Category
+
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                        required>
+
+                        <option value="">
+                            Select Category
+                        </option>
+
+                        <option>Laptop</option>
+
+                        <option>Desktop</option>
+
+                        <option>TV</option>
+
+                        <option>Camera</option>
+
+                        <option>Speaker</option>
+
+                        <option>Printer</option>
+
+                        <option>Monitor</option>
+
+                        <option>Gaming Console</option>
+
+                        <option>Other</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="condition">
+
+                        Condition
+
+                    </label>
+
+                    <select
+                        id="condition"
+                        name="condition"
+                        required>
+
+                        <option value="">
+                            Select Condition
+                        </option>
+
+                        <option>New</option>
+
+                        <option>Like New</option>
+
+                        <option>Good</option>
+
+                        <option>Used</option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="price">
+
+                        Price
+
+                    </label>
+
+                    <input
+                        id="price"
+                        name="price"
+                        type="number"
+                        placeholder="Enter Price"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="location">
+
+                        Location
+
+                    </label>
+
+                    <input
+                        id="location"
+                        name="location"
+                        type="text"
+                        placeholder="City, Area or Landmark"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="warranty">
+
+                        Warranty
+
+                    </label>
+
+                    <select
+                        id="warranty"
+                        name="warranty">
+
+                        <option value="">
+                            Select Warranty
+                        </option>
+
+                        <option>Available</option>
+
+                        <option>Expired</option>
+
+                        <option>No Warranty</option>
+
+                    </select>
+
+                </div>
+<!-- ===================================================== -->
+<!--          SELLBY POST-ELECTRONICS.HTML               -->
+<!--                   HTML PART 3                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : post-electronics.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Description
+    ✔ Contact Number
+    ✔ WhatsApp Number
+    ✔ Publish Button
+    ✔ JavaScript Files
+    ✔ Closing Body & HTML
+-->
+<!-- ===================================================== -->
+
+                <div class="form-group">
+
+                    <label for="description">
+
+                        Description
+
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Describe your electronic product..."
+                        required></textarea>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="contactNumber">
+
+                        Contact Number
+
+                    </label>
+
+                    <input
+                        id="contactNumber"
+                        name="contactNumber"
+                        type="tel"
+                        placeholder="Enter Contact Number"
+                        required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="whatsappNumber">
+
+                        WhatsApp Number
+
+                    </label>
+
+                    <input
+                        id="whatsappNumber"
+                        name="whatsappNumber"
+                        type="tel"
+                        placeholder="Enter WhatsApp Number">
+
+                </div>
+
+            </div>
+
+            <div class="submit-row">
+
+                <div
+                    class="status-message"
+                    id="statusMessage">
+
+                    Fill all required fields before publishing your electronic product.
+
+                </div>
+
+                <button
+                    id="publishBtn"
+                    class="publish-btn"
+                    type="button">
+
+                    Publish Product
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script
+        type="module"
+        src="js/firebase-config.js">
+    </script>
+
+    <!-- ================= POST ELECTRONICS ================= -->
+
+    <script
+        type="module"
+        src="js/post-electronics.js">
+    </script>
+
+</body>
+
+</html>                                

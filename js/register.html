@@ -1,9 +1,9 @@
 <!-- ===================================================== -->
-<!--                SELLBY LOGIN.HTML                     -->
+<!--              SELLBY REGISTER.HTML                    -->
 <!--                   HTML PART 1                        -->
 <!-- ===================================================== -->
 <!--
-    File Name : login.html
+    File Name : register.html
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 1
@@ -12,8 +12,9 @@
     ✔ Head Section
     ✔ Google Fonts
     ✔ CSS Link
-    ✔ Login Header
-    ✔ Email Field
+    ✔ Register Header
+    ✔ Full Name
+    ✔ Email
 -->
 <!-- ===================================================== -->
 
@@ -28,7 +29,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>SELLBY | Login</title>
+    <title>SELLBY | Register</title>
 
     <link rel="preconnect"
           href="https://fonts.googleapis.com">
@@ -47,7 +48,7 @@
 
 <body>
 
-    <!-- ================= LOGIN CARD ================= -->
+    <!-- ================= REGISTER CARD ================= -->
 
     <main class="auth-page">
 
@@ -55,15 +56,31 @@
 
             <h1>
 
-                Welcome Back
+                Create Account
 
             </h1>
 
             <p>
 
-                Login to your SELLBY account
+                Join SELLBY today
 
             </p>
+
+            <div class="form-group">
+
+                <label for="fullName">
+
+                    Full Name
+
+                </label>
+
+                <input
+                    id="fullName"
+                    type="text"
+                    placeholder="Enter your full name"
+                    required>
+
+            </div>
 
             <div class="form-group">
 
@@ -81,19 +98,19 @@
 
             </div>
 <!-- ===================================================== -->
-<!--                SELLBY LOGIN.HTML                     -->
+<!--              SELLBY REGISTER.HTML                    -->
 <!--                   HTML PART 2                        -->
 <!-- ===================================================== -->
 <!--
-    File Name : login.html
+    File Name : register.html
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 2
     Contains  :
-    ✔ Password Field
-    ✔ Forgot Password Link
-    ✔ Login Button
-    ✔ Register Link
+    ✔ Password
+    ✔ Confirm Password
+    ✔ Register Button
+    ✔ Login Link
 -->
 <!-- ===================================================== -->
 
@@ -108,57 +125,62 @@
                 <input
                     id="password"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Create a password"
                     required>
 
             </div>
 
-            <div class="auth-links">
+            <div class="form-group">
 
-                <a
-                    href="forgot-password.html">
+                <label for="confirmPassword">
 
-                    Forgot Password?
+                    Confirm Password
 
-                </a>
+                </label>
+
+                <input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Confirm your password"
+                    required>
 
             </div>
 
             <button
-                id="loginBtn"
+                id="registerBtn"
                 class="publish-btn"
                 type="button">
 
-                Login
+                Create Account
 
             </button>
 
             <p
                 class="auth-footer">
 
-                Don't have an account?
+                Already have an account?
 
                 <a
-                    href="register.html">
+                    href="login.html">
 
-                    Register
+                    Login
 
                 </a>
 
             </p>
 <!-- ===================================================== -->
-<!--                SELLBY LOGIN.HTML                     -->
+<!--              SELLBY REGISTER.HTML                    -->
 <!--                   HTML PART 3                        -->
 <!-- ===================================================== -->
 <!--
-    File Name : login.html
+    File Name : register.html
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 3
     Contains  :
     ✔ Status Message
     ✔ Firebase Script
-    ✔ Login JavaScript
+    ✔ Register JavaScript
     ✔ Closing Body
     ✔ Closing HTML
 -->
@@ -181,11 +203,11 @@
         src="js/firebase-config.js">
     </script>
 
-    <!-- ================= LOGIN JS ================= -->
+    <!-- ================= REGISTER JS ================= -->
 
     <script
         type="module"
-        src="js/login.js">
+        src="js/register.js">
     </script>
 
 </body>

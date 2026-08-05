@@ -1,16 +1,17 @@
 /* ===================================================== */
-/*                  SELLBY LOGIN.JS                      */
+/*            SELLBY FORGOT-PASSWORD.JS                  */
 /*                     JS PART 1                         */
 /* ===================================================== */
 /*
-    File Name : login.js
+    File Name : forgot-password.js
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 1
     Contains  :
     ✔ Firebase Imports
     ✔ DOM Elements
-    ✔ Login Function
+    ✔ Reset Button
+    ✔ Status Message
 */
 /* ===================================================== */
 
@@ -18,7 +19,7 @@ import {
 
     auth,
 
-    signInWithEmailAndPassword
+    sendPasswordResetEmail
 
 } from "./firebase-config.js";
 
@@ -26,54 +27,46 @@ const emailInput =
 
     document.getElementById("email");
 
-const passwordInput =
+const resetBtn =
 
-    document.getElementById("password");
-
-const loginBtn =
-
-    document.getElementById("loginBtn");
+    document.getElementById("resetBtn");
 
 const statusMessage =
 
     document.getElementById("statusMessage");
 
-loginBtn.addEventListener("click", async () => {
+resetBtn.addEventListener("click", async () => {
 
     const email =
 
         emailInput.value.trim();
 
-    const password =
-
-        passwordInput.value;
-
-    if (!email || !password) {
+    if (!email) {
 
         statusMessage.textContent =
 
-            "Please enter your email and password.";
+            "Please enter your email address.";
 
         return;
 
     }
 
-    loginBtn.disabled = true;
+    resetBtn.disabled = true;
 
-    loginBtn.textContent =
+    resetBtn.textContent =
 
-        "Logging in...";
+        "Sending Reset Link...";
 /* ===================================================== */
-/*                  SELLBY LOGIN.JS                      */
+/*            SELLBY FORGOT-PASSWORD.JS                  */
 /*                     JS PART 2                         */
 /* ===================================================== */
 /*
-    File Name : login.js
+    File Name : forgot-password.js
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 2
     Contains  :
-    ✔ Firebase Login
+    ✔ Send Password Reset Email
     ✔ Success Handling
     ✔ Error Handling
 */
@@ -81,23 +74,17 @@ loginBtn.addEventListener("click", async () => {
 
     try {
 
-        await signInWithEmailAndPassword(
+        await sendPasswordResetEmail(
 
             auth,
 
-            email,
-
-            password
+            email
 
         );
 
         statusMessage.textContent =
 
-            "Login Successful!";
-
-        window.location.href =
-
-            "index.html";
+            "Password reset link has been sent to your email.";
 
     }
 
@@ -109,28 +96,32 @@ loginBtn.addEventListener("click", async () => {
 
             error.message;
 
-        loginBtn.disabled = false;
+    }
 
-        loginBtn.textContent =
+    finally {
 
-            "Login";
+        resetBtn.disabled = false;
+
+        resetBtn.textContent =
+
+            "Send Reset Link";
 
     }
 
-});  
+});
 /* ===================================================== */
-/*                  SELLBY LOGIN.JS                      */
+/*            SELLBY FORGOT-PASSWORD.JS                  */
 /*                     JS PART 3                         */
 /* ===================================================== */
 /*
-    File Name : login.js
+    File Name : forgot-password.js
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
     Part      : 3
     Contains  :
-    ✔ Enter Key Login
-    ✔ Auto Redirect
-    ✔ Auth State Check
+    ✔ Enter Key Support
+    ✔ Email Validation
+    ✔ Auto Focus
 */
 /* ===================================================== */
 
@@ -138,28 +129,20 @@ emailInput.addEventListener("keydown", (event) => {
 
     if (event.key === "Enter") {
 
-        loginBtn.click();
+        resetBtn.click();
 
     }
 
 });
 
-passwordInput.addEventListener("keydown", (event) => {
+window.addEventListener("load", () => {
 
-    if (event.key === "Enter") {
-
-        loginBtn.click();
-
-    }
+    emailInput.focus();
 
 });
 
-auth.onAuthStateChanged((user) => {
+emailInput.addEventListener("input", () => {
 
-    if (user) {
+    statusMessage.textContent = "";
 
-        window.location.href = "index.html";
-
-    }
-
-});      
+});        
