@@ -1,7 +1,21 @@
-/* =========================
-   SELLBY MOBILE UI
-   PART 1
-========================= */
+/* ===================================================== */
+/*                  SELLBY STYLE.CSS                     */
+/*                     CSS PART 1                        */
+/* ===================================================== */
+/*
+    File Name : style.css
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 1
+    Contains  :
+    ✔ Global Styles
+    ✔ Body
+    ✔ Header
+    ✔ Logo
+    ✔ Hero Section
+    ✔ Search Box
+*/
+/* ===================================================== */
 
 *{
     margin:0;
@@ -16,7 +30,7 @@ body{
     padding-bottom:90px;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 
 .header{
     height:65px;
@@ -55,7 +69,7 @@ body{
     font-size:28px;
 }
 
-/* HERO */
+/* ================= HERO ================= */
 
 .hero{
     background:#0B3D91;
@@ -75,7 +89,7 @@ body{
     font-size:16px;
 }
 
-/* SEARCH */
+/* ================= SEARCH ================= */
 
 .search-box{
     display:flex;
@@ -100,9 +114,23 @@ body{
     font-size:20px;
     border-radius:0 10px 10px 0;
 }
-/* =========================
-   CATEGORIES
-========================= */
+/* ===================================================== */
+/*                  SELLBY STYLE.CSS                     */
+/*                     CSS PART 2                        */
+/* ===================================================== */
+/*
+    File Name : style.css
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 2
+    Contains  :
+    ✔ Categories
+    ✔ Category Cards
+    ✔ Small Mobile Layout
+*/
+/* ===================================================== */
+
+/* ================= CATEGORIES ================= */
 
 .categories{
     padding:25px 15px;
@@ -149,7 +177,7 @@ body{
     font-weight:600;
 }
 
-/* Small Mobile */
+/* ================= SMALL MOBILE ================= */
 
 @media (max-width:380px){
 
@@ -170,9 +198,23 @@ body{
 }
 
 }
-/* =========================
-   BOTTOM NAVIGATION
-========================= */
+/* ===================================================== */
+/*                  SELLBY STYLE.CSS                     */
+/*                     CSS PART 3                        */
+/* ===================================================== */
+/*
+    File Name : style.css
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Bottom Navigation
+    ✔ Floating Add Ad Button
+    ✔ Mobile Responsive
+*/
+/* ===================================================== */
+
+/* ================= BOTTOM NAVIGATION ================= */
 
 .bottom-nav{
     position:fixed;
@@ -206,37 +248,28 @@ body{
     margin-top:4px;
 }
 
-/* =========================
-   FLOATING POST BUTTON
-========================= */
+/* ================= FLOATING ADD AD BUTTON ================= */
 
 .floating-post-btn{
-    position: fixed;
-    right: 20px;
-    bottom: 80px;
-
-    width: 120px;
-    height: 55px;
-
-    background: #FFC107;
-    color: white;
-    text-decoration: none;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    border-radius: 15px;
-    font-size: 18px;
-    font-weight: bold;
-
-    box-shadow: 0 5px 15px rgba(0,0,0,.25);
+    position:fixed;
+    right:20px;
+    bottom:80px;
+    width:120px;
+    height:55px;
+    background:#FFC107;
+    color:white;
+    text-decoration:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    border-radius:15px;
+    font-size:18px;
+    font-weight:bold;
+    box-shadow:0 5px 15px rgba(0,0,0,.25);
 }
 
-/* =========================
-   MOBILE POLISH
-========================= */
+/* ================= MOBILE RESPONSIVE ================= */
 
 @media (max-width:480px){
 
