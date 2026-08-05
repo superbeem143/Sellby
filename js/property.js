@@ -182,3 +182,76 @@ function buildPropertyCard(property) {
   return card;
 
 }
+/* ===================================================== */
+/*                SELLBY PROPERTY.JS                     */
+/*                     JS PART 3                         */
+/* ===================================================== */
+/*
+    File Name : property.js
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Load Properties
+    ✔ Firestore Query
+    ✔ Display Property Cards
+    ✔ Error Handling
+    ✔ App Start
+*/
+/* ===================================================== */
+
+async function loadProperties() {
+
+  try {
+
+    const propertiesQuery = query(
+
+      collection(db, "properties"),
+
+      where("status", "==", "available"),
+
+      orderBy("createdAt", "desc"),
+
+      limit(50)
+
+    );
+
+    const snapshot = await getDocs(propertiesQuery);
+
+    propertyList.innerHTML = "";
+
+    if (snapshot.empty) {
+
+      loadingMessage.textContent =
+        "No properties found yet.";
+
+      return;
+
+    }
+
+    snapshot.forEach((docSnapshot) => {
+
+      const data = docSnapshot.data();
+
+      propertyList.appendChild(
+        buildPropertyCard(data)
+      );
+
+    });
+
+    loadingMessage.textContent = "";
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    loadingMessage.textContent =
+      "Unable to load properties right now. Please try again later.";
+
+  }
+
+}
+
+loadProperties();
