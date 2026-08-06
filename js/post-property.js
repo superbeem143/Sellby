@@ -6,23 +6,28 @@
 import { db } from "./firebase-config.js";
 
 import {
-  collection,
-  addDoc,
-  serverTimestamp
+    collection,
+    addDoc,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 const CLOUD_NAME = "onrnn2hn";
 const UPLOAD_PRESET = "mvrproperties";
 
-const publishBtn = document.getElementById("publishBtn");
+const publishBtn =
+    document.getElementById("publishBtn");
 
-const photosInput = document.getElementById("photos");
+const photosInput =
+    document.getElementById("photos");
 
-const imagePreview = document.getElementById("imagePreview");
+const imagePreview =
+    document.getElementById("imagePreview");
 
-const previewCount = document.getElementById("previewCount");
+const previewCount =
+    document.getElementById("previewCount");
 
-const statusMessage = document.getElementById("statusMessage");
+const statusMessage =
+    document.getElementById("statusMessage");
 
 let selectedFiles = [];
 
@@ -30,42 +35,49 @@ const MAX_IMAGES = 10;
 
 photosInput.addEventListener("change", () => {
 
-  selectedFiles = Array.from(photosInput.files).slice(0, MAX_IMAGES);
+    selectedFiles =
+        Array.from(photosInput.files)
+        .slice(0, MAX_IMAGES);
 
-  renderPreview();
+    renderPreview();
 
 });
 
 function renderPreview() {
 
-  imagePreview.innerHTML = "";
+    imagePreview.innerHTML = "";
 
-  selectedFiles.forEach((file) => {
+    selectedFiles.forEach((file) => {
 
-    const reader = new FileReader();
+        const reader =
+            new FileReader();
 
-    const thumb = document.createElement("div");
+        const thumb =
+            document.createElement("div");
 
-    thumb.className = "preview-thumb";
+        thumb.className =
+            "preview-thumb";
 
-    reader.onload = (e) => {
+        reader.onload = (e) => {
 
-      const img = document.createElement("img");
+            const img =
+                document.createElement("img");
 
-      img.src = e.target.result;
+            img.src =
+                e.target.result;
 
-      thumb.appendChild(img);
+            thumb.appendChild(img);
 
-    };
+        };
 
-    reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
 
-    imagePreview.appendChild(thumb);
+        imagePreview.appendChild(thumb);
 
-  });
+    });
 
-  previewCount.textContent =
-    `${selectedFiles.length} / ${MAX_IMAGES} images selected`;
+    previewCount.textContent =
+        `${selectedFiles.length} / ${MAX_IMAGES} images selected`;
 
 }
 /* ===================================================== */
@@ -75,99 +87,106 @@ function renderPreview() {
 
 async function uploadImages() {
 
-  if (!selectedFiles.length) {
-    return [];
-  }
+    if (!selectedFiles.length) {
 
-  const uploadedUrls = [];
+        return [];
 
-  for (const file of selectedFiles) {
+    }
 
-    const formData = new FormData();
+    const uploadedUrls = [];
 
-    formData.append("file", file);
+    for (const file of selectedFiles) {
 
-    formData.append("upload_preset", UPLOAD_PRESET);
+        const formData = new FormData();
 
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-      {
-        method: "POST",
-        body: formData
-      }
-    );
+        formData.append("file", file);
 
-   if (!response.ok) {
-    const errorText = await response.text();
-    console.log("Cloudinary Error:", errorText);
-    alert(errorText);
-    throw new Error(errorText);
-}
-    const data = await response.json();
+        formData.append("upload_preset", UPLOAD_PRESET);
 
-    uploadedUrls.push(data.secure_url);
+        const response = await fetch(
 
-  }
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
 
-  return uploadedUrls;
+            {
+
+                method: "POST",
+
+                body: formData
+
+            }
+
+        );
+
+        if (!response.ok) {
+
+            const errorText = await response.text();
+
+            console.error(errorText);
+
+            throw new Error(errorText);
+
+        }
+
+        const data = await response.json();
+
+        uploadedUrls.push(data.secure_url);
+
+    }
+
+    return uploadedUrls;
 
 }
 
 function getFieldValue(id) {
 
-  const element = document.getElementById(id);
+    const element = document.getElementById(id);
 
-  return element ? element.value.trim() : "";
+    return element ? element.value.trim() : "";
 
 }
 
 publishBtn.addEventListener("click", async () => {
 
-  const title = getFieldValue("title");
+    const title = getFieldValue("title");
 
-  const price = getFieldValue("price");
+    const price = getFieldValue("price");
 
-  const type = getFieldValue("type");
+    const type = getFieldValue("type");
 
-  const location = getFieldValue("location");
+    const location = getFieldValue("location");
 
-  const description = getFieldValue("description");
+    const description = getFieldValue("description");
 
-  if (
-    !title ||
-    !price ||
-    !type ||
-    !location ||
-    !description
-  ) {
+    if (
 
-    alert("Please fill in all required fields.");
+        !title ||
 
-    return;
+        !price ||
 
-  }
+        !type ||
 
-  publishBtn.disabled = true;
+        !location ||
 
-  publishBtn.textContent = "Publishing...";
+        !description
 
-  statusMessage.textContent =
-    "Uploading images and publishing your ad...";
+    ) {
+
+        alert("Please fill in all required fields.");
+
+        return;
+
+    }
+
+    publishBtn.disabled = true;
+
+    publishBtn.textContent = "Publishing...";
+
+    statusMessage.textContent =
+
+        "Uploading images and publishing your property...";
 /* ===================================================== */
 /*              SELLBY POST-PROPERTY.JS                  */
 /*                     JS PART 3                         */
-/* ===================================================== */
-/*
-    File Name : post-property.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains :
-    ✔ Upload Images
-    ✔ Save Property
-    ✔ Firestore Save
-    ✔ Success & Error Handling
-*/
 /* ===================================================== */
 
     try {
@@ -204,7 +223,8 @@ publishBtn.addEventListener("click", async () => {
 
         alert("Property Published Successfully!");
 
-        window.location.href = "index.html";
+        window.location.href =
+            "category.html?type=property";
 
     }
 
@@ -212,15 +232,22 @@ publishBtn.addEventListener("click", async () => {
 
         console.error(error);
 
-        alert(error.message);
+        alert(
+
+            error.message ||
+
+            "Failed to publish property."
+
+        );
 
         publishBtn.disabled = false;
 
-        publishBtn.textContent = "Publish Property";
+        publishBtn.textContent =
+            "Publish Property";
 
         statusMessage.textContent =
-            "Publishing failed.";
+            "Publishing failed. Please try again.";
 
     }
 
-});    
+});        

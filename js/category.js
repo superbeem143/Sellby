@@ -3,11 +3,15 @@
 /*                     JS PART 1                         */
 /* ===================================================== */
 
-import {
-    getProperties
-} from "./firebase-confing.js"
+import { db } from "./firebase-config.js";
 
-let allProperties = [];
+import {
+    collection,
+    getDocs,
+    query,
+    where,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 const adsContainer =
     document.getElementById("adsContainer");
@@ -24,42 +28,57 @@ const adsCount =
 const searchInput =
     document.getElementById("searchInput");
 
-document.addEventListener(
-    "DOMContentLoaded",
-    async () => {
+let allAds = [];
 
-        await loadProperties();
+async function loadProperties() {
 
-        searchInput.addEventListener(
-            "input",
-            filterProperties
+    try {
+
+        loadingMessage.style.display = "block";
+
+        emptyState.style.display = "none";
+
+        adsContainer.innerHTML = "";
+
+        const q = query(
+
+            collection(db, "ads"),
+
+            where("category", "==", "property"),
+
+            orderBy("createdAt", "desc")
+
         );
 
+        const snapshot = await getDocs(q);
+
+        allAds = [];
+
+        snapshot.forEach((doc) => {
+
+            allAds.push({
+
+                id: doc.id,
+
+                ...doc.data()
+
+            });
+
+        });
+
+        loadingMessage.style.display = "none";
+
+        renderProperties(allAds);
+
     }
-);
 
-async function loadProperties(){
-
-    try{
-
-        loadingMessage.style.display="block";
-        emptyState.style.display="none";
-        adsContainer.innerHTML="";
-
-        allProperties =
-            await getProperties();
-
-        loadingMessage.style.display="none";
-
-        renderProperties(allProperties);
-
-    }catch(error){
+    catch (error) {
 
         console.error(error);
 
-        loadingMessage.style.display="none";
+        loadingMessage.style.display = "none";
 
-        emptyState.style.display="block";
+        emptyState.style.display = "block";
 
     }
 
@@ -69,14 +88,14 @@ async function loadProperties(){
 /*                     JS PART 2                         */
 /* ===================================================== */
 
-function renderProperties(properties){
+function renderProperties(properties) {
 
     adsContainer.innerHTML = "";
 
     adsCount.textContent =
         `${properties.length} Ads`;
 
-    if(properties.length === 0){
+    if (!properties.length) {
 
         emptyState.style.display = "block";
 
@@ -86,7 +105,7 @@ function renderProperties(properties){
 
     emptyState.style.display = "none";
 
-    properties.forEach(property=>{
+    properties.forEach((property) => {
 
         const card =
             document.createElement("div");
@@ -94,9 +113,13 @@ function renderProperties(properties){
         card.className = "ad-card";
 
         const image =
-            property.images?.[0] ||
-            property.image ||
-            "https://via.placeholder.com/600x400?text=No+Image";
+
+            property.imageUrls &&
+            property.imageUrls.length
+
+            ? property.imageUrls[0]
+
+            : "https://via.placeholder.com/600x400?text=No+Image";
 
         card.innerHTML = `
 
@@ -104,34 +127,40 @@ function renderProperties(properties){
 
                 <img
                 src="${image}"
-                alt="Property">
+                alt="${property.title}">
 
             </div>
 
             <div style="padding:15px;">
 
-                <h3>${property.title || "Untitled Property"}</h3>
+                <h3>${property.title}</h3>
 
-                <p style="margin:8px 0;color:#555;">
+                <h2 style="color:#0057D9;margin:10px 0;">
 
-                    📍 ${property.location || "Unknown Location"}
+                    ₹${Number(property.price).toLocaleString("en-IN")}
+
+                </h2>
+
+                <p>
+
+                    📍 ${property.location}
 
                 </p>
 
-                <h2 style="color:#0057D9;">
+                <p>
 
-                    ₹ ${property.price || "N/A"}
+                    🏠 ${property.type}
 
-                </h2>
+                </p>
 
             </div>
 
         `;
 
-        card.addEventListener("click",()=>{
+        card.addEventListener("click", () => {
 
             window.location.href =
-                `details.html?id=${property.id}`;
+                `property-details.html?id=${property.id}`;
 
         });
 
@@ -145,54 +174,68 @@ function renderProperties(properties){
 /*                     JS PART 3                         */
 /* ===================================================== */
 
-function filterProperties(){
+function filterProperties() {
 
     const keyword =
+
         searchInput.value
         .trim()
         .toLowerCase();
 
-    if(keyword === ""){
+    if (!keyword) {
 
-        renderProperties(allProperties);
+        renderProperties(allAds);
 
         return;
 
     }
 
-    const filtered =
-        allProperties.filter(property=>{
+    const filtered = allAds.filter((property) => {
 
-            return (
+        return (
 
-                (property.title || "")
+            (property.title || "")
                 .toLowerCase()
                 .includes(keyword)
 
-                ||
+            ||
 
-                (property.location || "")
+            (property.location || "")
                 .toLowerCase()
                 .includes(keyword)
 
-                ||
+            ||
 
-                (property.type || "")
+            (property.type || "")
                 .toLowerCase()
                 .includes(keyword)
 
-                ||
+            ||
 
-                (property.description || "")
+            (property.description || "")
                 .toLowerCase()
                 .includes(keyword)
 
-            );
+        );
 
-        });
+    });
 
     renderProperties(filtered);
 
 }
 
-console.log("SELLBY Category Page Ready");
+document.addEventListener("DOMContentLoaded", () => {
+
+    searchInput.addEventListener(
+
+        "input",
+
+        filterProperties
+
+    );
+
+    loadProperties();
+
+});
+
+console.log("SELLBY Category Ready");
