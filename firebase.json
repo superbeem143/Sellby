@@ -1,125 +1,38 @@
 {
   "hosting": {
-
-    /* ===================================================== */
-    /*                  SELLBY FIREBASE                     */
-    /*                   FIREBASE.JSON                      */
-    /*                      PART 1                          */
-    /* ===================================================== */
-    /*
-        File Name : firebase.json
-        Project   : SELLBY
-        Mission   : Sell Easy. Buy Easy.
-        Part      : 1
-        Contains  :
-        ✔ Hosting Configuration
-        ✔ Public Folder
-        ✔ Ignore Files
-    */
-    /* ===================================================== */
-
-    "public": "public",
-
+    "public": ".",
     "ignore": [
-
       "firebase.json",
-
       "**/.*",
-
       "**/node_modules/**"
-
     ],
-
     "cleanUrls": true,
-
     "trailingSlash": false,
-    /* ===================================================== */
-    /*                  SELLBY FIREBASE                     */
-    /*                   FIREBASE.JSON                      */
-    /*                      PART 2                          */
-    /* ===================================================== */
-    /*
-        File Name : firebase.json
-        Project   : SELLBY
-        Mission   : Sell Easy. Buy Easy.
-        Part      : 2
-        Contains  :
-        ✔ Rewrites
-        ✔ Headers
-        ✔ Caching
-    */
-    /* ===================================================== */
-
     "rewrites": [
-
       {
-
         "source": "**",
-
         "destination": "/index.html"
-
       }
-
     ],
-
     "headers": [
-
       {
-
-        "source": "**/*.@(js|css)",
-
+        "source": "**/*.@(js,css)",
         "headers": [
-
           {
-
             "key": "Cache-Control",
-
             "value": "public,max-age=31536000"
-
           }
-
         ]
-
       },
-
       {
-
-        "source": "**/*.@(png|jpg|jpeg|gif|svg|webp|ico)",
-
+        "source": "**/*.@(png,jpg,jpeg,gif,svg,webp,ico)",
         "headers": [
-
           {
-
             "key": "Cache-Control",
-
             "value": "public,max-age=31536000"
-
           }
-
         ]
-
       }
-
-    ],
-    /* ===================================================== */
-    /*                  SELLBY FIREBASE                     */
-    /*                   FIREBASE.JSON                      */
-    /*                      PART 3                          */
-    /* ===================================================== */
-    /*
-        File Name : firebase.json
-        Project   : SELLBY
-        Mission   : Sell Easy. Buy Easy.
-        Part      : 3
-        Contains  :
-        ✔ Error Pages
-        ✔ Final Hosting Config
-        ✔ Close JSON
-    */
-    /* ===================================================== */
-
-    "404": "/404.html"
-
+    ]
   }
-
-}        
+}

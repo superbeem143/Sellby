@@ -235,7 +235,7 @@ publishBtn.addEventListener("click", async () => {
     statusMessage.textContent =
 
         "Uploading images and publishing your mobile ad...";
-    /* ===================================================== */
+ /* ===================================================== */
 /*              SELLBY POST-MOBILE.JS                    */
 /*                     JS PART 3                         */
 /* ===================================================== */
@@ -243,22 +243,24 @@ publishBtn.addEventListener("click", async () => {
     File Name : post-mobile.js
     Project   : SELLBY
     Mission   : Sell Easy. Buy Easy.
-    Part      : 3
+    Part      : 3 (V2.0)
     Contains  :
     ✔ Save Mobile Details
     ✔ Upload Images
-    ✔ Update Firestore
+    ✔ Save to ads Collection
     ✔ Success & Error Handling
 */
 /* ===================================================== */
 
     try {
 
-        const newMobileRef = await addDoc(
+        const newAdRef = await addDoc(
 
-            collection(db, "mobiles"),
+            collection(db, "ads"),
 
             {
+
+                category: "mobile",
 
                 brand,
 
@@ -293,13 +295,13 @@ publishBtn.addEventListener("click", async () => {
 
         const imageUrls =
 
-            await uploadImages(newMobileRef.id);
+            await uploadImages(newAdRef.id);
 
         if (imageUrls.length) {
 
             await updateDoc(
 
-                doc(db, "mobiles", newMobileRef.id),
+                doc(db, "ads", newAdRef.id),
 
                 {
 
@@ -333,4 +335,5 @@ publishBtn.addEventListener("click", async () => {
 
     }
 
-});    
+});       
+   

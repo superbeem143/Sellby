@@ -2,34 +2,17 @@
 /*              SELLBY POST-PROPERTY.JS                  */
 /*                     JS PART 1                         */
 /* ===================================================== */
-/*
-    File Name : post-property.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ Firebase Imports
-    ✔ DOM Elements
-    ✔ Image Selection
-    ✔ Image Preview
-*/
-/* ===================================================== */
 
-import { db, storage } from "./firebase-config.js";
+import { db } from "./firebase-config.js";
 
 import {
   collection,
   addDoc,
-  updateDoc,
-  doc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-storage.js";
+const CLOUD_NAME = "onrmn2hn";
+const UPLOAD_PRESET = "mvrproperties";
 
 const publishBtn = document.getElementById("publishBtn");
 
@@ -47,8 +30,7 @@ const MAX_IMAGES = 10;
 
 photosInput.addEventListener("change", () => {
 
-  selectedFiles =
-    Array.from(photosInput.files).slice(0, MAX_IMAGES);
+  selectedFiles = Array.from(photosInput.files).slice(0, MAX_IMAGES);
 
   renderPreview();
 
@@ -66,11 +48,11 @@ function renderPreview() {
 
     thumb.className = "preview-thumb";
 
-    reader.onload = (event) => {
+    reader.onload = (e) => {
 
       const img = document.createElement("img");
 
-      img.src = event.target.result;
+      img.src = e.target.result;
 
       thumb.appendChild(img);
 
@@ -90,40 +72,38 @@ function renderPreview() {
 /*              SELLBY POST-PROPERTY.JS                  */
 /*                     JS PART 2                         */
 /* ===================================================== */
-/*
-    File Name : post-property.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 2
-    Contains  :
-    ✔ Upload Images
-    ✔ Get Field Value
-    ✔ Publish Button (Start)
-*/
-/* ===================================================== */
 
-async function uploadImages(propertyId) {
+async function uploadImages() {
 
   if (!selectedFiles.length) {
-
     return [];
-
   }
 
   const uploadedUrls = [];
 
   for (const file of selectedFiles) {
 
-    const imageRef = ref(
-      storage,
-      `properties/${propertyId}/${Date.now()}_${file.name}`
+    const formData = new FormData();
+
+    formData.append("file", file);
+
+    formData.append("upload_preset", UPLOAD_PRESET);
+
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      {
+        method: "POST",
+        body: formData
+      }
     );
 
-    const snapshot = await uploadBytes(imageRef, file);
+    if (!response.ok) {
+      throw new Error("Image upload failed");
+    }
 
-    const url = await getDownloadURL(snapshot.ref);
+    const data = await response.json();
 
-    uploadedUrls.push(url);
+    uploadedUrls.push(data.secure_url);
 
   }
 
@@ -135,9 +115,7 @@ function getFieldValue(id) {
 
   const element = document.getElementById(id);
 
-  return element
-    ? element.value.trim()
-    : "";
+  return element ? element.value.trim() : "";
 
 }
 
@@ -153,30 +131,15 @@ publishBtn.addEventListener("click", async () => {
 
   const description = getFieldValue("description");
 
-  const contactNumber = getFieldValue("contactNumber");
-
-  const whatsappNumber = getFieldValue("whatsappNumber");
-
   if (
     !title ||
     !price ||
     !type ||
     !location ||
-    !description ||
-    !contactNumber
+    !description
   ) {
 
-    alert(
-      "Please fill in all required fields before publishing."
-    );
-
-    return;
-
-  }
-
-  if (selectedFiles.length > MAX_IMAGES) {
-
-    alert(`Please select up to ${MAX_IMAGES} images.`);
+    alert("Please fill in all required fields.");
 
     return;
 
@@ -187,4 +150,75 @@ publishBtn.addEventListener("click", async () => {
   publishBtn.textContent = "Publishing...";
 
   statusMessage.textContent =
-    "Uploading images and saving your property listing...";
+    "Uploading images and publishing your ad...";
+/* ===================================================== */
+/*              SELLBY POST-PROPERTY.JS                  */
+/*                     JS PART 3                         */
+/* ===================================================== */
+/*
+    File Name : post-property.js
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains :
+    ✔ Upload Images
+    ✔ Save Property
+    ✔ Firestore Save
+    ✔ Success & Error Handling
+*/
+/* ===================================================== */
+
+    try {
+
+        const imageUrls = await uploadImages();
+
+        await addDoc(
+
+            collection(db, "ads"),
+
+            {
+
+                category: "property",
+
+                title,
+
+                price: Number(price),
+
+                type,
+
+                location,
+
+                description,
+
+                imageUrls,
+
+                status: "available",
+
+                createdAt: serverTimestamp()
+
+            }
+
+        );
+
+        alert("Property Published Successfully!");
+
+        window.location.href = "index.html";
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(error.message);
+
+        publishBtn.disabled = false;
+
+        publishBtn.textContent = "Publish Property";
+
+        statusMessage.textContent =
+            "Publishing failed.";
+
+    }
+
+});    

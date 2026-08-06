@@ -5,14 +5,13 @@
 <!--
     File Name : index.html
     Project   : SELLBY
+    Version   : V2.0
     Mission   : Sell Easy. Buy Easy.
-    Part      : 1
     Contains  :
-    ✔ HTML Document Start
+    ✔ HTML Start
     ✔ Head Section
-    ✔ Google Fonts
     ✔ CSS Link
-    ✔ Header
+    ✔ Premium Header
     ✔ Hero Section
 -->
 <!-- ===================================================== -->
@@ -46,189 +45,167 @@
 
 <body>
 
-    <!-- ================= HEADER ================= -->
+<!-- ================= HEADER ================= -->
 
-    <header class="header">
+<header class="header">
 
-        <div class="logo">
+    <button class="menu-btn">
+        ☰
+    </button>
 
-            <span class="sell">SELL</span>
-            <span class="by">BY</span>
+    <div class="header-center">
 
-        </div>
-
-        <div class="header-icons">
-
-            <span class="location">
-                📍 Location
-            </span>
-
-            <span class="menu">
-                ☰
-            </span>
-
-        </div>
-
-    </header>
-
-    <!-- ================= HERO ================= -->
-
-    <section class="hero">
-
-        <h1>
-            Sell Easy.<br>
-            Buy Easy.
+        <h1 class="logo">
+            <span class="sell">SELL</span><span class="by">BY</span>
         </h1>
 
-        <p>
-            India's Simple Marketplace
+        <p class="tagline">
+            Sell Easy. Buy Easy.
         </p>
 
-        <div class="search-box">
+    </div>
 
-            <input
-                type="text"
-                placeholder="Search anything...">
+    <button class="notify-btn">
+        🔔
+    </button>
 
-            <button>
-                🔍
-            </button>
+</header>
 
-        </div>
+<!-- ================= SEARCH ================= -->
 
-    </section>
- <!-- ===================================================== -->
+<section class="search-section">
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            placeholder="Search anything...">
+
+        <button class="voice-btn">🎤</button>
+
+        <button class="camera-btn">📷</button>
+
+    </div>
+
+</section>
+<!-- ===================================================== -->
 <!--                  SELLBY INDEX.HTML                    -->
 <!--                     HTML PART 2                       -->
 <!-- ===================================================== -->
 <!--
     File Name : index.html
     Project   : SELLBY
+    Version   : V2.0
     Mission   : Sell Easy. Buy Easy.
-    Part      : 2
     Contains  :
-    ✔ Browse Categories Section
-    ✔ Category Grid
-    ✔ Property
-    ✔ Cars
-    ✔ Bikes
-    ✔ Mobiles
-    ✔ Electronics
-    ✔ Furniture
-    ✔ Others
-    ✔ More
+    ✔ Hero Section
+    ✔ Premium Categories
 -->
 <!-- ===================================================== -->
 
-    <!-- ============== CATEGORIES ============== -->
+<!-- ================= HERO ================= -->
 
-    <section class="categories">
+<section class="hero">
 
-        <h2>
-            Browse Categories
-        </h2>
+    <h2>
+        India's Premium Marketplace
+    </h2>
 
-        <div class="category-grid">
+    <p>
+        Buy and Sell anything with ease.
+    </p>
 
-            <div class="category-card">
+</section>
 
-                <a href="category.html?type=property">
+<!-- ================= CATEGORIES ================= -->
 
-                    🏠
+<section class="categories">
 
-                    <p>Property</p>
+    <h2 class="section-title">
+        Browse Categories
+    </h2>
 
-                </a>
+    <div class="category-grid">
 
-            </div>
+        <!-- Mobiles -->
 
-            <div class="category-card">
+        <a href="category.html?type=mobiles" class="category-card">
 
-                <a href="category.html?type=cars">
+            <div class="category-icon">📱</div>
 
-                    🚗
+            <h3>Mobiles</h3>
 
-                    <p>Cars</p>
+        </a>
 
-                </a>
+        <!-- Cars & Bikes -->
 
-            </div>
+        <a href="category.html?type=vehicles" class="category-card">
 
-            <div class="category-card">
+            <div class="category-icon">🚗🏍️</div>
 
-                <a href="category.html?type=bikes">
+            <h3>Cars & Bikes</h3>
 
-                    🏍️
+        </a>
 
-                    <p>Bikes</p>
+        <!-- Properties -->
 
-                </a>
+        <a href="category.html?type=properties" class="category-card">
 
-            </div>
+            <div class="category-icon">🏡</div>
 
-            <div class="category-card">
+            <h3>Properties</h3>
 
-                <a href="category.html?type=mobiles">
+        </a>
 
-                    📱
+        <!-- Electronics -->
 
-                    <p>Mobiles</p>
+        <a href="category.html?type=electronics" class="category-card">
 
-                </a>
+            <div class="category-icon">💻</div>
 
-            </div>
+            <h3>Electronics</h3>
 
-            <div class="category-card">
+        </a>
 
-                <a href="category.html?type=electronics">
+        <!-- Furniture -->
 
-                    💻
+        <a href="category.html?type=furniture" class="category-card">
 
-                    <p>Electronics</p>
+            <div class="category-icon">🪑</div>
 
-                </a>
+            <h3>Furniture</h3>
 
-            </div>
+        </a>
 
-            <div class="category-card">
+        <!-- Others -->
 
-                <a href="category.html?type=furniture">
+        <a href="category.html?type=others" class="category-card">
 
-                    🛋️
+            <div class="category-icon">📦</div>
 
-                    <p>Furniture</p>
+            <h3>Others</h3>
 
-                </a>
+        </a>
 
-            </div>
+    </div>
 
-            <div class="category-card">
+</section>
 
-                <a href="category.html?type=others">
+<!-- ================= LATEST ADS ================= -->
 
-                    📦
+<section class="latest-ads">
 
-                    <p>Others</p>
+    <h2 class="section-title">
+        Latest Ads
+    </h2>
 
-                </a>
+    <div id="latestAds">
 
-            </div>
+        <!-- Ads will load here -->
 
-            <div class="category-card">
+    </div>
 
-                <a href="category.html?type=more">
-
-                    ➕
-
-                    <p>More</p>
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
+</section>
 <!-- ===================================================== -->
 <!--                  SELLBY INDEX.HTML                    -->
 <!--                     HTML PART 3                       -->
@@ -236,69 +213,59 @@
 <!--
     File Name : index.html
     Project   : SELLBY
+    Version   : V2.0
     Mission   : Sell Easy. Buy Easy.
-    Part      : 3
     Contains  :
     ✔ Bottom Navigation
-    ✔ Floating Add Ad Button
-    ✔ JavaScript File
-    ✔ Closing Body & HTML Tags
+    ✔ Floating Add to Sell Button
+    ✔ JavaScript
+    ✔ Close HTML
 -->
 <!-- ===================================================== -->
 
-    <!-- ============== BOTTOM NAVIGATION ============== -->
+<!-- ================= BOTTOM NAVIGATION ================= -->
 
-    <nav class="bottom-nav">
+<nav class="bottom-nav">
 
-        <a href="index.html">
-
-            🏠
-
-            <span>Home</span>
-
-        </a>
-
-        <a href="search.html">
-
-            🔍
-
-            <span>Search</span>
-
-        </a>
-
-        <a href="saved.html">
-
-            ❤️
-
-            <span>Saved</span>
-
-        </a>
-
-        <a href="profile.html">
-
-            👤
-
-            <span>Profile</span>
-
-        </a>
-
-    </nav>
-
-    <!-- ============== FLOATING ADD AD BUTTON ============== -->
-
-    <a href="post-ad.html"
-       class="floating-post-btn">
-
-        <span>+</span>
-
-        <span>Add Ad</span>
-
+    <a href="index.html" class="active">
+        <span>🏠</span>
+        <small>Home</small>
     </a>
 
-    <!-- ============== JAVASCRIPT ============== -->
+    <a href="saved.html">
+        <span>❤️</span>
+        <small>Saved</small>
+    </a>
 
-    <script src="js/home.js"></script>
+    <a href="chat.html">
+        <span>💬</span>
+        <small>Chat</small>
+    </a>
+
+    <a href="profile.html">
+        <span>👤</span>
+        <small>Profile</small>
+    </a>
+
+</nav>
+
+<!-- ================= FLOATING BUTTON ================= -->
+
+<a href="post-ad.html"
+   class="floating-post-btn">
+
+    <span class="plus-icon">+</span>
+
+    <span class="floating-text">
+        Add to Sell
+    </span>
+
+</a>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="js/home.js"></script>
 
 </body>
 
-</html>    
+</html>
