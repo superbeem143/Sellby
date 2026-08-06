@@ -11,7 +11,7 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-const CLOUD_NAME = "onrmn2hn";
+const CLOUD_NAME = "onrnn2hn";
 const UPLOAD_PRESET = "mvrproperties";
 
 const publishBtn = document.getElementById("publishBtn");
