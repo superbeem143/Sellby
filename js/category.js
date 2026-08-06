@@ -5,7 +5,7 @@
 
 import {
     getProperties
-} from "./firebase.js";
+} from "./firebase-confing.js"
 
 let allProperties = [];
 
