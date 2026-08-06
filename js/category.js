@@ -2,28 +2,12 @@
 /*                SELLBY CATEGORY.JS                     */
 /*                     JS PART 1                         */
 /* ===================================================== */
-/*
-    File Name : category.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ Firebase Imports
-    ✔ Firestore Imports
-    ✔ DOM Elements
-    ✔ Category Detection
-*/
-/* ===================================================== */
-
-import { db } from "./firebase-config.js";
 
 import {
-    collection,
-    getDocs,
-    query,
-    where,
-    orderBy
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+    getProperties
+} from "./firebase.js";
+
+let allProperties = [];
 
 const adsContainer =
     document.getElementById("adsContainer");
@@ -40,117 +24,59 @@ const adsCount =
 const searchInput =
     document.getElementById("searchInput");
 
-const params =
-    new URLSearchParams(window.location.search);
+document.addEventListener(
+    "DOMContentLoaded",
+    async () => {
 
-const category =
-    params.get("type") || "property";
+        await loadProperties();
 
-let allAds = [];
-
-console.log("SELLBY Category:", category);
-/* ===================================================== */
-/*                SELLBY CATEGORY.JS                     */
-/*                     JS PART 2                         */
-/* ===================================================== */
-/*
-    File Name : category.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 2
-    Contains  :
-    ✔ Load Ads From Firestore
-    ✔ Filter By Category
-    ✔ Display Count
-*/
-/* ===================================================== */
-
-async function loadAds() {
-
-    try {
-
-        const adsQuery = query(
-
-            collection(db, "ads"),
-
-            where("category", "==", category),
-
-            orderBy("createdAt", "desc")
-
+        searchInput.addEventListener(
+            "input",
+            filterProperties
         );
 
-        const snapshot = await getDocs(adsQuery);
-
-        loadingMessage.style.display = "none";
-
-        allAds = [];
-
-        adsContainer.innerHTML = "";
-
-        if (snapshot.empty) {
-
-            emptyState.style.display = "block";
-
-            adsCount.textContent = "0 Ads";
-
-            return;
-
-        }
-
-        snapshot.forEach((docItem) => {
-
-            const ad = {
-
-                id: docItem.id,
-
-                ...docItem.data()
-
-            };
-
-            allAds.push(ad);
-
-        });
-
-        adsCount.textContent =
-
-            `${allAds.length} Ads`;
-
-        renderAds(allAds);
-
     }
+);
 
-    catch (error) {
+async function loadProperties(){
+
+    try{
+
+        loadingMessage.style.display="block";
+        emptyState.style.display="none";
+        adsContainer.innerHTML="";
+
+        allProperties =
+            await getProperties();
+
+        loadingMessage.style.display="none";
+
+        renderProperties(allProperties);
+
+    }catch(error){
 
         console.error(error);
 
-        loadingMessage.textContent =
+        loadingMessage.style.display="none";
 
-            "Failed to load ads.";
+        emptyState.style.display="block";
 
     }
 
 }
 /* ===================================================== */
 /*                SELLBY CATEGORY.JS                     */
-/*                     JS PART 3                         */
-/* ===================================================== */
-/*
-    File Name : category.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Render Ads
-    ✔ Search
-    ✔ Load Ads
-*/
+/*                     JS PART 2                         */
 /* ===================================================== */
 
-function renderAds(list) {
+function renderProperties(properties){
 
     adsContainer.innerHTML = "";
 
-    if (!list.length) {
+    adsCount.textContent =
+        `${properties.length} Ads`;
+
+    if(properties.length === 0){
 
         emptyState.style.display = "block";
 
@@ -160,89 +86,113 @@ function renderAds(list) {
 
     emptyState.style.display = "none";
 
-    list.forEach((ad) => {
+    properties.forEach(property=>{
 
-        const card = document.createElement("div");
+        const card =
+            document.createElement("div");
 
         card.className = "ad-card";
 
         const image =
-
-            ad.imageUrls && ad.imageUrls.length
-
-            ? ad.imageUrls[0]
-
-            : "";
+            property.images?.[0] ||
+            property.image ||
+            "https://via.placeholder.com/600x400?text=No+Image";
 
         card.innerHTML = `
 
             <div class="ad-image">
 
-                ${
-                    image
-                    ? `<img src="${image}" alt="${ad.title}">`
-                    : "📷"
-                }
+                <img
+                src="${image}"
+                alt="Property">
 
             </div>
 
             <div style="padding:15px;">
 
-                <h3>${ad.title || "No Title"}</h3>
+                <h3>${property.title || "Untitled Property"}</h3>
 
-                <h2 style="margin:8px 0;color:#0057D9;">
+                <p style="margin:8px 0;color:#555;">
 
-                    ₹${Number(ad.price || 0).toLocaleString("en-IN")}
+                    📍 ${property.location || "Unknown Location"}
+
+                </p>
+
+                <h2 style="color:#0057D9;">
+
+                    ₹ ${property.price || "N/A"}
 
                 </h2>
-
-                <p>📍 ${ad.location || ""}</p>
-
-                <p>${ad.type || ""}</p>
 
             </div>
 
         `;
 
-        card.onclick = () => {
+        card.addEventListener("click",()=>{
 
             window.location.href =
-                `property-details.html?id=${ad.id}`;
+                `details.html?id=${property.id}`;
 
-        };
+        });
 
         adsContainer.appendChild(card);
 
     });
 
 }
+/* ===================================================== */
+/*                SELLBY CATEGORY.JS                     */
+/*                     JS PART 3                         */
+/* ===================================================== */
 
-searchInput.addEventListener("input", () => {
+function filterProperties(){
 
     const keyword =
+        searchInput.value
+        .trim()
+        .toLowerCase();
 
-        searchInput.value.toLowerCase();
+    if(keyword === ""){
 
-    const filtered = allAds.filter((ad) =>
+        renderProperties(allProperties);
 
-        (ad.title || "")
-            .toLowerCase()
-            .includes(keyword)
+        return;
 
-        ||
+    }
 
-        (ad.location || "")
-            .toLowerCase()
-            .includes(keyword)
+    const filtered =
+        allProperties.filter(property=>{
 
-    );
+            return (
 
-    adsCount.textContent =
+                (property.title || "")
+                .toLowerCase()
+                .includes(keyword)
 
-        `${filtered.length} Ads`;
+                ||
 
-    renderAds(filtered);
+                (property.location || "")
+                .toLowerCase()
+                .includes(keyword)
 
-});
+                ||
 
-loadAds();
+                (property.type || "")
+                .toLowerCase()
+                .includes(keyword)
+
+                ||
+
+                (property.description || "")
+                .toLowerCase()
+                .includes(keyword)
+
+            );
+
+        });
+
+    renderProperties(filtered);
+
+}
+
+console.log("SELLBY Category Page Ready");
