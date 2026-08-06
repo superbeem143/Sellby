@@ -97,10 +97,12 @@ async function uploadImages() {
       }
     );
 
-    if (!response.ok) {
-      throw new Error("Image upload failed");
-    }
-
+   if (!response.ok) {
+    const errorText = await response.text();
+    console.log("Cloudinary Error:", errorText);
+    alert(errorText);
+    throw new Error(errorText);
+}
     const data = await response.json();
 
     uploadedUrls.push(data.secure_url);
