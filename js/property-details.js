@@ -143,7 +143,20 @@ function renderProperty(property) {
 
     document.getElementById("propertyDescription").textContent =
         property.description || "";
+
+ const chatBtn = document.getElementById("chatBtn");
+
+chatBtn.addEventListener("click", () => {
+
+    window.location.href =
+
+    `chat.html?adId=${property.id}&sellerId=${property.userId}`;
+
+});
+       
 }
+
+
 /* ===================================================== */
 /*           SELLBY PROPERTY-DETAILS.JS                  */
 /*                    JS PART 3                          */

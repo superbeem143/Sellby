@@ -3,7 +3,10 @@
 /*                     JS PART 1                         */
 /* ===================================================== */
 
-import { db } from "./firebase-config.js";
+import {
+    db,
+    auth
+} from "./firebase-config.js";
 
 import {
     collection,
@@ -147,6 +150,16 @@ function getFieldValue(id) {
 
 publishBtn.addEventListener("click", async () => {
 
+    if (!auth.currentUser) {
+
+        alert("Please login first.");
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
     const title = getFieldValue("title");
 
     const price = getFieldValue("price");
@@ -184,7 +197,7 @@ publishBtn.addEventListener("click", async () => {
     statusMessage.textContent =
 
         "Uploading images and publishing your property...";
-/* ===================================================== */
+    /* ===================================================== */
 /*              SELLBY POST-PROPERTY.JS                  */
 /*                     JS PART 3                         */
 /* ===================================================== */
@@ -200,6 +213,10 @@ publishBtn.addEventListener("click", async () => {
             {
 
                 category: "property",
+
+                sellerId: auth.currentUser.uid,
+
+                sellerEmail: auth.currentUser.email,
 
                 title,
 
@@ -250,4 +267,4 @@ publishBtn.addEventListener("click", async () => {
 
     }
 
-});        
+});    
