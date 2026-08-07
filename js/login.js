@@ -2,17 +2,6 @@
 /*                  SELLBY LOGIN.JS                      */
 /*                     JS PART 1                         */
 /* ===================================================== */
-/*
-    File Name : login.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ Firebase Imports
-    ✔ DOM Elements
-    ✔ Login Function
-*/
-/* ===================================================== */
 
 import {
 
@@ -23,143 +12,189 @@ import {
 } from "./firebase-config.js";
 
 const emailInput =
-
-    document.getElementById("email");
+document.getElementById("email");
 
 const passwordInput =
-
-    document.getElementById("password");
+document.getElementById("password");
 
 const loginBtn =
-
-    document.getElementById("loginBtn");
+document.getElementById("loginBtn");
 
 const statusMessage =
+document.getElementById("statusMessage");
 
-    document.getElementById("statusMessage");
+function showStatus(message,color="red"){
 
-loginBtn.addEventListener("click", async () => {
+    statusMessage.textContent = message;
 
-    const email =
+    statusMessage.style.color = color;
 
-        emailInput.value.trim();
+}
 
-    const password =
+loginBtn.addEventListener(
 
+    "click",
+
+    async()=>{
+
+        const email =
+        emailInput.value.trim().toLowerCase();
+
+        const password =
         passwordInput.value;
 
-    if (!email || !password) {
+        if(!email || !password){
 
-        statusMessage.textContent =
+            showStatus(
 
-            "Please enter your email and password.";
+                "Please enter email and password."
 
-        return;
+            );
 
-    }
+            return;
 
-    loginBtn.disabled = true;
+        }
 
-    loginBtn.textContent =
+        loginBtn.disabled = true;
 
-        "Logging in...";
+        loginBtn.textContent =
+
+            "Logging in...";
 /* ===================================================== */
 /*                  SELLBY LOGIN.JS                      */
 /*                     JS PART 2                         */
 /* ===================================================== */
-/*
-    File Name : login.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 2
-    Contains  :
-    ✔ Firebase Login
-    ✔ Success Handling
-    ✔ Error Handling
-*/
-/* ===================================================== */
 
-    try {
+        try{
 
-        await signInWithEmailAndPassword(
+            await signInWithEmailAndPassword(
 
-            auth,
+                auth,
 
-            email,
+                email,
 
-            password
+                password
 
-        );
+            );
 
-        statusMessage.textContent =
+            showStatus(
 
-            "Login Successful!";
+                "Login successful!",
 
-        window.location.href =
+                "green"
 
-            "index.html";
+            );
+
+            setTimeout(()=>{
+
+                window.location.href =
+
+                    "index.html";
+
+            },1000);
+
+        }
+
+        catch(error){
+
+            console.error(error);
+
+            switch(error.code){
+
+                case "auth/invalid-credential":
+
+                    showStatus(
+
+                        "Invalid email or password."
+
+                    );
+
+                    break;
+
+                case "auth/user-not-found":
+
+                    showStatus(
+
+                        "Account not found."
+
+                    );
+
+                    break;
+
+                case "auth/wrong-password":
+
+                    showStatus(
+
+                        "Incorrect password."
+
+                    );
+
+                    break;
+
+                case "auth/invalid-email":
+
+                    showStatus(
+
+                        "Invalid email address."
+
+                    );
+
+                    break;
+
+                default:
+
+                    showStatus(
+
+                        error.message
+
+                    );
+
+            }
+
+            loginBtn.disabled = false;
+
+            loginBtn.textContent =
+
+                "Login";
+
+        }
 
     }
 
-    catch (error) {
-
-        console.error(error);
-
-        statusMessage.textContent =
-
-            error.message;
-
-        loginBtn.disabled = false;
-
-        loginBtn.textContent =
-
-            "Login";
-
-    }
-
-});  
+);
 /* ===================================================== */
 /*                  SELLBY LOGIN.JS                      */
 /*                     JS PART 3                         */
 /* ===================================================== */
-/*
-    File Name : login.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Enter Key Login
-    ✔ Auto Redirect
-    ✔ Auth State Check
-*/
-/* ===================================================== */
 
-emailInput.addEventListener("keydown", (event) => {
+emailInput.addEventListener(
 
-    if (event.key === "Enter") {
+    "keydown",
 
-        loginBtn.click();
+    (event)=>{
+
+        if(event.key==="Enter"){
+
+            loginBtn.click();
+
+        }
 
     }
 
-});
+);
 
-passwordInput.addEventListener("keydown", (event) => {
+passwordInput.addEventListener(
 
-    if (event.key === "Enter") {
+    "keydown",
 
-        loginBtn.click();
+    (event)=>{
 
-    }
+        if(event.key==="Enter"){
 
-});
+            loginBtn.click();
 
-auth.onAuthStateChanged((user) => {
-
-    if (user) {
-
-        window.location.href = "index.html";
+        }
 
     }
 
-});      
+);            

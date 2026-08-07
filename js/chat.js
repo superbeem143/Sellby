@@ -1,51 +1,37 @@
 /* ===================================================== */
-/*                   SELLBY CHAT.JS                      */
+/*                  SELLBY CHATS.JS                      */
 /*                     JS PART 1                         */
 /* ===================================================== */
 
-import { auth, db } from "./firebase-config.js";
+import {
+
+    auth,
+    db
+
+} from "./firebase-config.js";
 
 import {
 
-    doc,
-    getDoc,
-
     collection,
-    addDoc,
-
-    getDocs,
     query,
     where,
-
     orderBy,
-    onSnapshot,
-
-    serverTimestamp
+    onSnapshot
 
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-const params = new URLSearchParams(window.location.search);
+const chatList =
+document.getElementById("chatList");
 
-const adId = params.get("adId");
-const sellerId = params.get("sellerId");
+const loadingMessage =
+document.getElementById("loadingMessage");
 
-const chatMessages =
-document.getElementById("chatMessages");
-
-const messageInput =
-document.getElementById("messageInput");
-
-const sendBtn =
-document.getElementById("sendBtn");
-
-const sellerName =
-document.getElementById("sellerName");
+const emptyState =
+document.getElementById("emptyState");
 
 let currentUser = null;
 
-let chatId = null;
-
-auth.onAuthStateChanged(async (user)=>{
+auth.onAuthStateChanged((user)=>{
 
     if(!user){
 
@@ -57,231 +43,134 @@ auth.onAuthStateChanged(async (user)=>{
 
     currentUser = user;
 
-    await initializeChat();
-
-    await loadSeller();
-
-    startMessageListener();
+    loadChats();
 
 });
 
-async function initializeChat(){
+function loadChats(){
 
-    const chatsRef = collection(db,"chats");
+    const chatsQuery = query(
 
-    const q = query(
+        collection(db,"chats"),
 
-        chatsRef,
+        where("sellerId","==",currentUser.uid),
 
-        where("buyerId","==",currentUser.uid),
-
-        where("sellerId","==",sellerId),
-
-        where("adId","==",adId)
+        orderBy("createdAt","desc")
 
     );
 
-    const snapshot = await getDocs(q);
+    onSnapshot(
 
-    if(snapshot.empty){
+        chatsQuery,
 
-        const newChat = await addDoc(
+        (snapshot)=>{
 
-            chatsRef,
+            loadingMessage.style.display="none";
 
-            {
+            chatList.innerHTML="";
 
-                buyerId:currentUser.uid,
+            if(snapshot.empty){
 
-                sellerId,
+                emptyState.style.display="block";
 
-                adId,
-
-                createdAt:serverTimestamp(),
-
-                lastMessage:""
+                return;
 
             }
 
-        );
-
-        chatId = newChat.id;
-
-    }
-
-    else{
-
-        chatId = snapshot.docs[0].id;
-
-    }
-
-}
+            emptyState.style.display="none";
 /* ===================================================== */
-/*                   SELLBY CHAT.JS                      */
+/*                  SELLBY CHATS.JS                      */
 /*                     JS PART 2                         */
 /* ===================================================== */
 
-function startMessageListener(){
+            snapshot.forEach((chatDoc)=>{
 
-    const q = query(
+                const chat = chatDoc.data();
 
-        collection(db,"messages"),
+                const chatCard =
+                document.createElement("div");
 
-        where("chatId","==",chatId),
+                chatCard.className =
+                "chat-item";
 
-        orderBy("createdAt","asc")
+                chatCard.innerHTML = `
 
-    );
+                    <div class="avatar">
 
-    onSnapshot(q,(snapshot)=>{
+                        👤
 
-        chatMessages.innerHTML="";
+                    </div>
 
-        snapshot.forEach((doc)=>{
+                    <div class="chat-info">
 
-            const data = doc.data();
+                        <div class="chat-name">
 
-            const bubble =
-            document.createElement("div");
+                            Buyer
 
-            bubble.className =
+                        </div>
 
-                data.senderId===currentUser.uid
+                        <div class="last-message">
 
-                ? "message sent"
+                            ${chat.lastMessage || "Start Conversation"}
 
-                : "message received";
+                        </div>
 
-            bubble.textContent = data.text;
+                    </div>
 
-            chatMessages.appendChild(bubble);
+                    <div class="chat-time">
 
-        });
+                        Chat
 
-        chatMessages.scrollTop =
-        chatMessages.scrollHeight;
+                    </div>
 
-    });
+                `;
 
-}
+                chatCard.addEventListener(
 
-async function sendMessage(){
+                    "click",
 
-    const text =
-    messageInput.value.trim();
+                    ()=>{
 
-    if(!text || !chatId){
+                        window.location.href =
 
-        return;
+                        `chat.html?adId=${chat.adId}&sellerId=${currentUser.uid}`;
 
-    }
+                    }
 
-    await addDoc(
+                );
 
-        collection(db,"messages"),
+                chatList.appendChild(chatCard);
 
-        {
-
-            chatId,
-
-            adId,
-
-            senderId:currentUser.uid,
-
-            receiverId:sellerId,
-
-            text,
-
-            createdAt:serverTimestamp()
-
-        }
-
-    );
-
-    messageInput.value="";
-
-}
-
-sendBtn.addEventListener(
-
-    "click",
-
-    sendMessage
-
-);
+            });
 /* ===================================================== */
-/*                   SELLBY CHAT.JS                      */
+/*                  SELLBY CHATS.JS                      */
 /*                     JS PART 3                         */
 /* ===================================================== */
 
-messageInput.addEventListener(
+        },
 
-    "keydown",
+        (error)=>{
 
-    (event)=>{
+            console.error(error);
 
-        if(event.key==="Enter"){
+            loadingMessage.style.display="none";
 
-            sendMessage();
+            emptyState.style.display="block";
 
-        }
+            emptyState.innerHTML = `
 
-    }
+                <h3>Failed to load chats.</h3>
 
-);
-
-async function loadSeller(){
-
-    try{
-
-        const sellerRef =
-
-            doc(db,"users",sellerId);
-
-        const sellerSnap =
-
-            await getDoc(sellerRef);
-
-        if(sellerSnap.exists()){
-
-            const seller =
-
-                sellerSnap.data();
-
-            sellerName.textContent =
-
-                seller.name ||
-
-                seller.displayName ||
-
-                "Seller";
+            `;
 
         }
 
-        else{
-
-            sellerName.textContent =
-
-                "Seller";
-
-        }
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        sellerName.textContent =
-
-            "Seller";
-
-    }
+    );
 
 }
 
 console.log(
 
-    "SELLBY Chat Ready"
+    "SELLBY Chats Ready"
 
-);
+);                        
