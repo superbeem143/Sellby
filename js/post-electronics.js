@@ -49,15 +49,30 @@ const statusMessage =
 let selectedFiles = [];
 
 const MAX_IMAGES = 10;
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
+function validateImageFile(file) {
+    if (!file.type || !file.type.startsWith("image/")) {
+        throw new Error(`Invalid file type: ${file.name}. Only images are allowed.`);
+    }
+    if (file.size > MAX_FILE_SIZE) {
+        throw new Error(`File too large: ${file.name}. Maximum size is 5MB.`);
+    }
+}
 
 photosInput.addEventListener("change", () => {
-
-    selectedFiles =
-        Array.from(photosInput.files)
-        .slice(0, MAX_IMAGES);
-
+    const rawFiles = Array.from(photosInput.files);
+    const valid = [];
+    for (const f of rawFiles) {
+        try {
+            validateImageFile(f);
+            valid.push(f);
+        } catch (e) {
+            alert(e.message);
+        }
+    }
+    selectedFiles = valid.slice(0, MAX_IMAGES);
     renderPreview();
-
 });
 
 function renderPreview() {
@@ -121,6 +136,8 @@ async function uploadImages(productId) {
     const uploadedUrls = [];
 
     for (const file of selectedFiles) {
+
+        validateImageFile(file);
 
         const imageRef = ref(
 
@@ -252,42 +269,38 @@ publishBtn.addEventListener("click", async () => {
 
     try {
 
-        const newProductRef = await addDoc(
+        const docData = {
 
-            collection(db, "electronics"),
+            category: "electronics",
 
-            {
+            sellerId: auth.currentUser.uid,
 
-                productName,
+            sellerEmail: auth.currentUser.email,
 
-                brand,
+            productName,
 
-                category,
+            brand,
 
-                condition,
+            condition,
 
-                price: Number(price),
+            price: Number(price),
 
-                location,
+            location,
 
-                warranty,
+            warranty,
 
-                description,
+            description,
 
-                contactNumber,
+            status: "published",
 
-                whatsappNumber:
-                    whatsappNumber || null,
+            createdAt: serverTimestamp(),
 
-                status: "available",
+            imageUrls: []
 
-                createdAt: serverTimestamp(),
+        };
 
-                imageUrls: []
-
-            }
-
-        );
+        const newProductRef = await addDoc(collection(db, "electronics"), docData);
+        await addDoc(collection(db, "ads"), docData);
 
         const imageUrls =
 

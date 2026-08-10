@@ -35,15 +35,30 @@ const statusMessage =
 let selectedFiles = [];
 
 const MAX_IMAGES = 10;
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
+function validateImageFile(file) {
+    if (!file.type || !file.type.startsWith("image/")) {
+        throw new Error(`Invalid file type: ${file.name}. Only images are allowed.`);
+    }
+    if (file.size > MAX_FILE_SIZE) {
+        throw new Error(`File too large: ${file.name}. Maximum size is 5MB.`);
+    }
+}
 
 photosInput.addEventListener("change", () => {
-
-    selectedFiles =
-        Array.from(photosInput.files)
-        .slice(0, MAX_IMAGES);
-
+    const rawFiles = Array.from(photosInput.files);
+    const valid = [];
+    for (const f of rawFiles) {
+        try {
+            validateImageFile(f);
+            valid.push(f);
+        } catch (e) {
+            alert(e.message);
+        }
+    }
+    selectedFiles = valid.slice(0, MAX_IMAGES);
     renderPreview();
-
 });
 
 function renderPreview() {
@@ -100,6 +115,8 @@ async function uploadImages() {
 
     for (const file of selectedFiles) {
 
+        validateImageFile(file);
+
         const formData = new FormData();
 
         formData.append("file", file);
@@ -126,13 +143,15 @@ async function uploadImages() {
 
             console.error(errorText);
 
-            throw new Error(errorText);
+            throw new Error(`Image upload failed for ${file.name}`);
 
         }
 
         const data = await response.json();
 
-        uploadedUrls.push(data.secure_url);
+        if (data.secure_url) {
+            uploadedUrls.push(data.secure_url);
+        }
 
     }
 
@@ -206,37 +225,35 @@ publishBtn.addEventListener("click", async () => {
 
         const imageUrls = await uploadImages();
 
-        await addDoc(
+        const docData = {
 
-            collection(db, "ads"),
+            category: "property",
 
-            {
+            sellerId: auth.currentUser.uid,
 
-                category: "property",
+            sellerEmail: auth.currentUser.email,
 
-                sellerId: auth.currentUser.uid,
+            title,
 
-                sellerEmail: auth.currentUser.email,
+            price: Number(price),
 
-                title,
+            type,
 
-                price: Number(price),
+            location,
 
-                type,
+            description,
 
-                location,
+            imageUrls,
 
-                description,
+            status: "published",
 
-                imageUrls,
+            createdAt: serverTimestamp()
 
-                status: "available",
+        };
 
-                createdAt: serverTimestamp()
-
-            }
-
-        );
+        await addDoc(collection(db, "ads"), docData);
+        await addDoc(collection(db, "properties"), docData);
+        await addDoc(collection(db, "property"), docData);
 
         alert("Property Published Successfully!");
 

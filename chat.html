@@ -148,6 +148,24 @@ Online
 
 </div>
 
+<!-- ================= AD CONTEXT BANNER ================= -->
+
+<div id="adContextBanner" style="display:none;background:#fff;padding:10px 15px;border-bottom:1px solid #ddd;align-items:center;gap:12px;cursor:pointer;">
+
+    <div style="width:50px;height:50px;border-radius:8px;overflow:hidden;background:#eee;flex-shrink:0;">
+        <img id="adContextImg" src="" alt="Ad Thumbnail" style="width:100%;height:100%;object-fit:cover;">
+    </div>
+
+    <div style="flex:1;">
+        <h4 id="adContextTitle" style="font-size:14px;color:#0057D9;margin-bottom:2px;font-weight:600;">Loading Ad...</h4>
+        <p id="adContextPrice" style="font-size:13px;color:#333;font-weight:600;"></p>
+        <p id="adContextLocation" style="font-size:11px;color:#777;"></p>
+    </div>
+
+    <div style="font-size:12px;color:#0057D9;font-weight:600;">View Ad →</div>
+
+</div>
+
 <div
 id="chatMessages"
 class="chat-area">
@@ -281,6 +299,8 @@ Send
 <script type="module" src="./js/firebase-config.js"></script>
 
 <script type="module" src="./js/chat.js"></script>
+
+<script type="module" src="./js/messages.js"></script>
 
 </body>
 

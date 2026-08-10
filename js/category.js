@@ -41,9 +41,10 @@ async function loadProperties() {
         adsContainer.innerHTML = "";
 
         const q = query(
-    collection(db, "ads"),
-    where("category", "==", "property")
-);
+            collection(db, "ads"),
+            where("category", "==", "property"),
+            where("status", "in", ["published", "available"])
+        );
         const snapshot = await getDocs(q);
 
         allAds = [];

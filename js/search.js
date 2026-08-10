@@ -223,6 +223,10 @@ function performSearch() {
 
         allResults.filter((item) => {
 
+            const isPublished =
+
+                !item.status || item.status === "published" || item.status === "available";
+
             const title =
 
                 (item.title || "")
@@ -237,9 +241,9 @@ function performSearch() {
 
             return (
 
-                title.includes(keyword) ||
+                isPublished &&
 
-                description.includes(keyword)
+                (title.includes(keyword) || description.includes(keyword))
 
             );
 

@@ -279,7 +279,7 @@ async function loadElectronics() {
 
             collection(db, "electronics"),
 
-            where("status", "==", "available"),
+            where("status", "in", ["published", "available"]),
 
             orderBy("createdAt", "desc"),
 

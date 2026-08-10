@@ -49,15 +49,30 @@ const statusMessage =
 let selectedFiles = [];
 
 const MAX_IMAGES = 10;
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
+function validateImageFile(file) {
+    if (!file.type || !file.type.startsWith("image/")) {
+        throw new Error(`Invalid file type: ${file.name}. Only images are allowed.`);
+    }
+    if (file.size > MAX_FILE_SIZE) {
+        throw new Error(`File too large: ${file.name}. Maximum size is 5MB.`);
+    }
+}
 
 photosInput.addEventListener("change", () => {
-
-    selectedFiles =
-        Array.from(photosInput.files)
-        .slice(0, MAX_IMAGES);
-
+    const rawFiles = Array.from(photosInput.files);
+    const valid = [];
+    for (const f of rawFiles) {
+        try {
+            validateImageFile(f);
+            valid.push(f);
+        } catch (e) {
+            alert(e.message);
+        }
+    }
+    selectedFiles = valid.slice(0, MAX_IMAGES);
     renderPreview();
-
 });
 
 function renderPreview() {
@@ -121,6 +136,8 @@ async function uploadImages(itemId) {
     const uploadedUrls = [];
 
     for (const file of selectedFiles) {
+
+        validateImageFile(file);
 
         const imageRef = ref(
 
@@ -252,42 +269,38 @@ publishBtn.addEventListener("click", async () => {
 
     try {
 
-        const newItemRef = await addDoc(
+        const docData = {
 
-            collection(db, "others"),
+            category: "others",
 
-            {
+            sellerId: auth.currentUser.uid,
 
-                title,
+            sellerEmail: auth.currentUser.email,
 
-                category,
+            title,
 
-                condition,
+            condition,
 
-                brand: brand || null,
+            brand: brand || null,
 
-                quantity: Number(quantity),
+            quantity: Number(quantity),
 
-                price: Number(price),
+            price: Number(price),
 
-                location,
+            location,
 
-                description,
+            description,
 
-                contactNumber,
+            status: "published",
 
-                whatsappNumber:
-                    whatsappNumber || null,
+            createdAt: serverTimestamp(),
 
-                status: "available",
+            imageUrls: []
 
-                createdAt: serverTimestamp(),
+        };
 
-                imageUrls: []
-
-            }
-
-        );
+        const newItemRef = await addDoc(collection(db, "others"), docData);
+        await addDoc(collection(db, "ads"), docData);
 
         const imageUrls =
 

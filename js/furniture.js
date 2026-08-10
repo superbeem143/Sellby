@@ -277,7 +277,7 @@ async function loadFurniture() {
 
             collection(db, "furniture"),
 
-            where("status", "==", "available"),
+            where("status", "in", ["published", "available"]),
 
             orderBy("createdAt", "desc"),
 

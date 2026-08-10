@@ -279,7 +279,7 @@ async function loadCars() {
 
             collection(db, "cars"),
 
-            where("status", "==", "available"),
+            where("status", "in", ["published", "available"]),
 
             orderBy("createdAt", "desc"),
 

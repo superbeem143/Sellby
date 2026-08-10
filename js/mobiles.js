@@ -279,7 +279,7 @@ async function loadMobiles() {
 
             collection(db, "mobiles"),
 
-            where("status", "==", "available"),
+            where("status", "in", ["published", "available"]),
 
             orderBy("createdAt", "desc"),
 

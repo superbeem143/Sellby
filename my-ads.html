@@ -1,1 +1,128 @@
+<!-- ===================================================== -->
+<!--                SELLBY MY-ADS.HTML                    -->
+<!-- ===================================================== -->
 
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SELLBY | My Ads</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <button
+            class="back-btn"
+            onclick="history.back()">
+
+            ←
+
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+
+                My Ads
+
+            </h1>
+
+            <p>
+
+                Your posted marketplace listings
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ================= MY ADS ================= -->
+
+    <main class="saved-page">
+
+        <div
+            id="loadingMessage"
+            class="loading-message">
+
+            Loading your ads...
+
+        </div>
+
+        <div
+            id="myAdsList"
+            class="saved-list">
+
+        </div>
+
+        <div
+            id="emptyState"
+            class="empty-state"
+            style="display:none;">
+
+            <h2>
+
+                📋 No Ads Posted
+
+            </h2>
+
+            <p>
+
+                You haven't posted any ads yet.
+
+            </p>
+
+            <a
+                href="index.html"
+                class="publish-btn">
+
+                Browse Ads
+
+            </a>
+
+        </div>
+
+    </main>
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script
+        type="module"
+        src="js/firebase-config.js">
+    </script>
+
+    <!-- ================= MY ADS JS ================= -->
+
+    <script
+        type="module"
+        src="js/my-ads.js">
+    </script>
+
+</body>
+
+</html>

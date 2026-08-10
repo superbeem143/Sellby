@@ -208,7 +208,7 @@ async function loadProperties() {
 
       collection(db, "properties"),
 
-      where("status", "==", "available"),
+      where("status", "in", ["published", "available"]),
 
       orderBy("createdAt", "desc"),
 

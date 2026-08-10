@@ -17,6 +17,8 @@
 
 import {
 
+    auth,
+
     db
 
 } from "./firebase-config.js";
@@ -255,13 +257,41 @@ document.addEventListener(
 
     () => {
 
-        loadReports();
+        auth.onAuthStateChanged(async (user) => {
 
-        console.log(
+            if (!user) {
 
-            "SELLBY Admin Reports Ready"
+                window.location.href = "login.html";
 
-        );
+                return;
+
+            }
+
+            try {
+
+                const tokenResult = await user.getIdTokenResult(true);
+
+                if (!tokenResult.claims.admin) {
+
+                    alert("Access Denied: Administrator privileges required.");
+
+                    window.location.href = "index.html";
+
+                    return;
+
+                }
+
+                loadReports();
+
+            } catch (error) {
+
+                console.error("Admin verification error:", error);
+
+                window.location.href = "index.html";
+
+            }
+
+        });
 
     }
 

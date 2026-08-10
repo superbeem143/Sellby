@@ -59,15 +59,35 @@ auth.onAuthStateChanged(async (user) => {
 
     if (!user) {
 
-        window.location.href =
-
-            "login.html";
+        window.location.href = "login.html";
 
         return;
 
     }
 
-    await loadDashboard();
+    try {
+
+        const tokenResult = await user.getIdTokenResult(true);
+
+        if (!tokenResult.claims.admin) {
+
+            alert("Access Denied: Administrator privileges required.");
+
+            window.location.href = "index.html";
+
+            return;
+
+        }
+
+        await loadDashboard();
+
+    } catch (error) {
+
+        console.error("Admin verification error:", error);
+
+        window.location.href = "index.html";
+
+    }
 
 });
 /* ===================================================== */

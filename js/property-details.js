@@ -145,14 +145,17 @@ function renderProperty(property) {
         property.description || "";
 
  const chatBtn = document.getElementById("chatBtn");
-
-chatBtn.addEventListener("click", () => {
-
-    window.location.href =
-
-    `chat.html?adId=${property.id}&sellerId=${property.userId}`;
-
-});
+ if (chatBtn) {
+     const existingChatId = params.get("chatId");
+     const sellerId = property.sellerId || property.userId;
+     chatBtn.addEventListener("click", () => {
+         if (existingChatId) {
+             window.location.href = `chat.html?chatId=${existingChatId}&adId=${property.id}&sellerId=${sellerId || ''}`;
+         } else {
+             window.location.href = `chat.html?adId=${property.id}&sellerId=${sellerId || ''}`;
+         }
+     });
+ }
        
 }
 

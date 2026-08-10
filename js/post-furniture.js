@@ -49,15 +49,30 @@ const statusMessage =
 let selectedFiles = [];
 
 const MAX_IMAGES = 10;
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+
+function validateImageFile(file) {
+    if (!file.type || !file.type.startsWith("image/")) {
+        throw new Error(`Invalid file type: ${file.name}. Only images are allowed.`);
+    }
+    if (file.size > MAX_FILE_SIZE) {
+        throw new Error(`File too large: ${file.name}. Maximum size is 5MB.`);
+    }
+}
 
 photosInput.addEventListener("change", () => {
-
-    selectedFiles =
-        Array.from(photosInput.files)
-        .slice(0, MAX_IMAGES);
-
+    const rawFiles = Array.from(photosInput.files);
+    const valid = [];
+    for (const f of rawFiles) {
+        try {
+            validateImageFile(f);
+            valid.push(f);
+        } catch (e) {
+            alert(e.message);
+        }
+    }
+    selectedFiles = valid.slice(0, MAX_IMAGES);
     renderPreview();
-
 });
 
 function renderPreview() {
@@ -121,6 +136,8 @@ async function uploadImages(furnitureId) {
     const uploadedUrls = [];
 
     for (const file of selectedFiles) {
+
+        validateImageFile(file);
 
         const imageRef = ref(
 
@@ -254,42 +271,40 @@ publishBtn.addEventListener("click", async () => {
 
     try {
 
-        const newFurnitureRef = await addDoc(
+        const docData = {
 
-            collection(db, "furniture"),
+            category: "furniture",
 
-            {
+            sellerId: auth.currentUser.uid,
 
-                title,
+            sellerEmail: auth.currentUser.email,
 
-                type,
+            title,
 
-                material,
+            type,
 
-                condition,
+            material,
 
-                color,
+            condition,
 
-                price: Number(price),
+            color,
 
-                location,
+            price: Number(price),
 
-                description,
+            location,
 
-                contactNumber,
+            description,
 
-                whatsappNumber:
-                    whatsappNumber || null,
+            status: "published",
 
-                status: "available",
+            createdAt: serverTimestamp(),
 
-                createdAt: serverTimestamp(),
+            imageUrls: []
 
-                imageUrls: []
+        };
 
-            }
-
-        );
+        const newFurnitureRef = await addDoc(collection(db, "furniture"), docData);
+        await addDoc(collection(db, "ads"), docData);
 
         const imageUrls =
 
