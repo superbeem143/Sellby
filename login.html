@@ -1,28 +1,7 @@
-<!-- ===================================================== -->
-<!--                SELLBY LOGIN.HTML                     -->
-<!--                   HTML PART 1                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : login.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ HTML Document Start
-    ✔ Head Section
-    ✔ Google Fonts
-    ✔ CSS Link
-    ✔ Login Header
-    ✔ Email Field
--->
-<!-- ===================================================== -->
-
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta name="viewport"
@@ -42,146 +21,147 @@
 
     <link rel="stylesheet"
           href="css/style.css">
-
 </head>
 
 <body>
-
-    <!-- ================= LOGIN CARD ================= -->
 
     <main class="auth-page">
 
         <section class="auth-card">
 
-            <h1>
+            <!-- SELLBY BRAND -->
 
-                Welcome Back
-
-            </h1>
+            <h1>SELLBY</h1>
 
             <p>
-
-                Login to your SELLBY account
-
+                Sell Easy. Buy Easy.
             </p>
 
-            <div class="form-group">
 
-                <label for="email">
+            <!-- ================= LOGIN ================= -->
 
-                    Email Address
+            <div id="phoneLoginSection">
 
-                </label>
+                <h2>Login or Register</h2>
 
-                <input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    required>
+                <p>
+                    Enter your mobile number to receive
+                    a verification code via SMS.
+                </p>
 
-            </div>
-<!-- ===================================================== -->
-<!--                SELLBY LOGIN.HTML                     -->
-<!--                   HTML PART 2                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : login.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 2
-    Contains  :
-    ✔ Password Field
-    ✔ Forgot Password Link
-    ✔ Login Button
-    ✔ Register Link
--->
-<!-- ===================================================== -->
 
-            <div class="form-group">
+                <!-- PHONE NUMBER -->
 
-                <label for="password">
+                <div class="form-group">
 
-                    Password
+                    <label for="phoneNumber">
+                        Mobile Number
+                    </label>
 
-                </label>
+                    <input
+                        id="phoneNumber"
+                        type="tel"
+                        placeholder="+91 9876543210"
+                        autocomplete="tel"
+                        maxlength="15">
 
-                <input
-                    id="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    required>
+                </div>
 
-            </div>
 
-            <div class="auth-links">
+                <!-- RECAPTCHA -->
 
-                <a
-                    href="forgot-password.html">
+                <div
+                    id="recaptcha-container">
+                </div>
 
-                    Forgot Password?
 
-                </a>
+                <!-- CONTINUE -->
+
+                <button
+                    id="sendOtpBtn"
+                    class="publish-btn"
+                    type="button">
+
+                    Continue
+
+                </button>
 
             </div>
 
-            <button
-                id="loginBtn"
-                class="publish-btn"
-                type="button">
 
-                Login
+            <!-- ================= OTP ================= -->
 
-            </button>
+            <div
+                id="otpSection"
+                style="display:none;">
 
-            <p
-                class="auth-footer">
+                <h2>Verify Mobile Number</h2>
 
-                Don't have an account?
+                <p>
+                    Enter the verification code sent
+                    to your mobile number.
+                </p>
 
-                <a
-                    href="register.html">
 
-                    Register
+                <div class="form-group">
 
-                </a>
+                    <label for="otpCode">
+                        Verification Code
+                    </label>
 
-            </p>
-<!-- ===================================================== -->
-<!--                SELLBY LOGIN.HTML                     -->
-<!--                   HTML PART 3                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : login.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Status Message
-    ✔ Firebase Script
-    ✔ Login JavaScript
-    ✔ Closing Body
-    ✔ Closing HTML
--->
-<!-- ===================================================== -->
+                    <input
+                        id="otpCode"
+                        type="text"
+                        inputmode="numeric"
+                        autocomplete="one-time-code"
+                        placeholder="Enter 6-digit OTP"
+                        maxlength="6">
+
+                </div>
+
+
+                <button
+                    id="verifyOtpBtn"
+                    class="publish-btn"
+                    type="button">
+
+                    Verify & Continue
+
+                </button>
+
+
+                <button
+                    id="backBtn"
+                    type="button">
+
+                    Change Number
+
+                </button>
+
+            </div>
+
+
+            <!-- STATUS -->
 
             <p
                 id="statusMessage"
                 class="status-message">
-
             </p>
 
         </section>
 
     </main>
 
-    <!-- ================= FIREBASE ================= -->
+
+    <!-- FIREBASE CONFIG -->
 
     <script
         type="module"
         src="js/firebase-config.js">
     </script>
 
-    <!-- ================= LOGIN JS ================= -->
+
+    <!-- LOGIN -->
 
     <script
         type="module"
@@ -190,4 +170,4 @@
 
 </body>
 
-</html>                        
+</html>
