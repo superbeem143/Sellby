@@ -220,21 +220,11 @@ function buildElectronicsCard(product) {
 
     whatsappLink.href =
 
-        product.whatsappNumber
-
-        ? `https://wa.me/${product.whatsappNumber.replace(/[^0-9]/g,"")}`
-
-        : "#";
-
-    whatsappLink.target = "_blank";
-
-    whatsappLink.rel =
-
-        "noopener noreferrer";
+        `chat.html?adId=${product.id}&sellerId=${product.userId || product.sellerId || ''}`;
 
     whatsappLink.textContent =
 
-        "WhatsApp Seller";
+        "💬 Chat with Seller";
 
     details.appendChild(title);
 

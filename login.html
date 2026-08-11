@@ -1,193 +1,108 @@
-<!-- ===================================================== -->
-<!--                SELLBY LOGIN.HTML                     -->
-<!--                   HTML PART 1                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : login.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ HTML Document Start
-    ✔ Head Section
-    ✔ Google Fonts
-    ✔ CSS Link
-    ✔ Login Header
-    ✔ Email Field
--->
-<!-- ===================================================== -->
-
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>SELLBY | Login</title>
-
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <link rel="stylesheet"
-          href="css/style.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELLBY | Mobile Login</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
-    <!-- ================= LOGIN CARD ================= -->
-
     <main class="auth-page">
-
         <section class="auth-card">
+            
+            <!-- SELLBY BRAND LOGO & TAGLINE -->
+            <header class="auth-header">
+                <h1 class="auth-brand-logo">
+                    <span class="logo-sell">SELL</span><span class="logo-by">BY</span>
+                </h1>
+                <p class="auth-tagline">
+                    Sell Easy. Buy Easy.
+                </p>
+            </header>
 
-            <h1>
+            <!-- STEP 1: MOBILE NUMBER ENTRY -->
+            <div id="phoneStep" class="form-step">
+                <h2 class="auth-card-title">Login or Register</h2>
+                <p class="auth-card-subtitle">
+                    Enter your mobile number to receive a verification code via SMS.
+                </p>
 
-                Welcome Back
+                <div class="phone-input-wrapper">
+                    <select id="countryCode" class="country-code-select" aria-label="Country Code">
+                        <option value="+91">🇮🇳 +91</option>
+                        <option value="+1">🇺🇸 +1</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+971">🇦🇪 +971</option>
+                    </select>
+                    <input 
+                        id="mobileNumber" 
+                        type="tel" 
+                        class="phone-input" 
+                        placeholder="Enter mobile number" 
+                        maxlength="10"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        autocomplete="tel-national"
+                        required>
+                </div>
 
-            </h1>
-
-            <p>
-
-                Login to your SELLBY account
-
-            </p>
-
-            <div class="form-group">
-
-                <label for="email">
-
-                    Email Address
-
-                </label>
-
-                <input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    required>
-
-            </div>
-<!-- ===================================================== -->
-<!--                SELLBY LOGIN.HTML                     -->
-<!--                   HTML PART 2                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : login.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 2
-    Contains  :
-    ✔ Password Field
-    ✔ Forgot Password Link
-    ✔ Login Button
-    ✔ Register Link
--->
-<!-- ===================================================== -->
-
-            <div class="form-group">
-
-                <label for="password">
-
-                    Password
-
-                </label>
-
-                <input
-                    id="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    required>
-
+                <button id="sendOtpBtn" class="gradient-btn" type="button">
+                    <span>Continue</span>
+                </button>
             </div>
 
-            <div class="auth-links">
+            <!-- STEP 2: OTP VERIFICATION -->
+            <div id="otpStep" class="form-step hidden">
+                <h2 class="auth-card-title">Enter verification code</h2>
+                <p class="auth-card-subtitle">
+                    Code sent to <span id="displayPhoneNumber" class="target-phone-highlight">+91 00000 00000</span>
+                </p>
 
-                <a
-                    href="forgot-password.html">
+                <div class="otp-container">
+                    <input type="text" maxlength="1" class="otp-field" id="otp-1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
+                    <input type="text" maxlength="1" class="otp-field" id="otp-2" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
+                    <input type="text" maxlength="1" class="otp-field" id="otp-3" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
+                    <input type="text" maxlength="1" class="otp-field" id="otp-4" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
+                    <input type="text" maxlength="1" class="otp-field" id="otp-5" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
+                    <input type="text" maxlength="1" class="otp-field" id="otp-6" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
+                </div>
 
-                    Forgot Password?
+                <button id="verifyOtpBtn" class="gradient-btn" type="button">
+                    <span>Verify Code</span>
+                </button>
 
-                </a>
-
+                <div class="otp-meta-row">
+                    <button id="changeNumberBtn" class="change-num-btn" type="button">
+                        ← Change number
+                    </button>
+                    
+                    <div class="timer-badge">
+                        <button id="resendOtpBtn" class="resend-btn" type="button" disabled>Resend OTP</button>
+                        <span id="timerCountdown">in <strong>30s</strong></span>
+                    </div>
+                </div>
             </div>
 
-            <button
-                id="loginBtn"
-                class="publish-btn"
-                type="button">
+            <!-- RECAPTCHA CONTAINER (INVISIBLE) -->
+            <div id="recaptcha-container"></div>
 
-                Login
-
-            </button>
-
-            <p
-                class="auth-footer">
-
-                Don't have an account?
-
-                <a
-                    href="register.html">
-
-                    Register
-
-                </a>
-
-            </p>
-<!-- ===================================================== -->
-<!--                SELLBY LOGIN.HTML                     -->
-<!--                   HTML PART 3                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : login.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Status Message
-    ✔ Firebase Script
-    ✔ Login JavaScript
-    ✔ Closing Body
-    ✔ Closing HTML
--->
-<!-- ===================================================== -->
-
-            <p
-                id="statusMessage"
-                class="status-message">
-
-            </p>
+            <!-- STATUS & ERROR MESSAGES -->
+            <div id="statusMessage" class="auth-status-msg" role="alert"></div>
 
         </section>
-
     </main>
 
-    <!-- ================= FIREBASE ================= -->
+    <!-- FIREBASE SERVICES -->
+    <script type="module" src="js/firebase-config.js"></script>
 
-    <script
-        type="module"
-        src="js/firebase-config.js">
-    </script>
-
-    <!-- ================= LOGIN JS ================= -->
-
-    <script
-        type="module"
-        src="js/login.js">
-    </script>
+    <!-- LOGIN SCRIPT -->
+    <script type="module" src="js/login.js"></script>
 
 </body>
-
-</html>                        
+</html>

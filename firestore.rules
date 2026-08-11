@@ -75,6 +75,11 @@ service cloud.firestore {
           request.auth.uid == get(/databases/$(database)/documents/chats/$(chatId)).data.buyerId ||
           request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants
         );
+        allow update: if isAuthenticated() && (
+          request.auth.uid == get(/databases/$(database)/documents/chats/$(chatId)).data.sellerId ||
+          request.auth.uid == get(/databases/$(database)/documents/chats/$(chatId)).data.buyerId ||
+          request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participants
+        );
       }
     }
 

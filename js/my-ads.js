@@ -101,7 +101,7 @@ async function loadMyAds() {
                     <img src="${thumbUrl}" alt="${escapeHtml(ad.title)}" style="width:100%;height:100%;object-fit:cover;">
                 </div>
                 <div class="my-ad-info" style="flex:1;">
-                    <h3 style="margin-bottom:4px;font-size:16px;color:#0057D9;">${escapeHtml(ad.title || "Untitled Listing")}</h3>
+                    <h3 style="margin-bottom:4px;font-size:16px;color:#6d28d9;font-weight:700;">${escapeHtml(ad.title || "Untitled Listing")}</h3>
                     <p style="color:#333;font-size:14px;font-weight:600;">₹${Number(ad.price || 0).toLocaleString("en-IN")}</p>
                     <p style="color:#666;font-size:13px;margin-top:2px;">📍 ${escapeHtml(ad.location || "Location N/A")}</p>
                     <p style="color:#888;font-size:12px;margin-top:2px;">Status: <strong>${escapeHtml(ad.status || "published")}</strong></p>

@@ -53,7 +53,7 @@ auth.onAuthStateChanged((user) => {
 
     userEmail.textContent =
 
-        user.email;
+        user.email || user.phoneNumber || "SELLBY Member";
 
 });
 /* ===================================================== */
@@ -135,7 +135,7 @@ window.addEventListener("load", () => {
 
         userEmail.textContent =
 
-            user.email;
+            user.email || user.phoneNumber || "SELLBY Member";
 
     });
 

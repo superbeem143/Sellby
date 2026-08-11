@@ -22,8 +22,10 @@ href="https://fonts.googleapis.com">
 href="https://fonts.gstatic.com"
 crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
 rel="stylesheet">
+
+<script type="module" src="js/auth-guard.js"></script>
 
 <style>
 
@@ -36,7 +38,7 @@ font-family:'Poppins',sans-serif;
 
 body{
 
-background:#f5f7fb;
+background:#f8fafc;
 
 display:flex;
 
@@ -50,7 +52,7 @@ height:100vh;
 
 height:65px;
 
-background:#0057D9;
+background:linear-gradient(135deg, #6d28d9, #db2777);
 
 color:#fff;
 
@@ -61,6 +63,8 @@ align-items:center;
 padding:0 16px;
 
 gap:15px;
+
+box-shadow:0 4px 20px rgba(109, 40, 217, 0.2);
 
 }
 
@@ -104,7 +108,7 @@ overflow-y:auto;
 
 padding:15px;
 
-background:#eef3fb;
+background:#f8fafc;
 
 display:flex;
 
@@ -157,12 +161,12 @@ Online
     </div>
 
     <div style="flex:1;">
-        <h4 id="adContextTitle" style="font-size:14px;color:#0057D9;margin-bottom:2px;font-weight:600;">Loading Ad...</h4>
-        <p id="adContextPrice" style="font-size:13px;color:#333;font-weight:600;"></p>
-        <p id="adContextLocation" style="font-size:11px;color:#777;"></p>
+        <h4 id="adContextTitle" style="font-size:14px;color:#6d28d9;margin-bottom:2px;font-weight:700;">Loading Ad...</h4>
+        <p id="adContextPrice" style="font-size:13px;color:#0f172a;font-weight:700;"></p>
+        <p id="adContextLocation" style="font-size:11px;color:#64748b;"></p>
     </div>
 
-    <div style="font-size:12px;color:#0057D9;font-weight:600;">View Ad →</div>
+    <div style="font-size:12px;color:#db2777;font-weight:600;">View Ad →</div>
 
 </div>
 
@@ -196,13 +200,15 @@ word-wrap:break-word;
 
 .sent{
 
-background:#0057D9;
+background:linear-gradient(135deg, #7c3aed, #db2777);
 
 color:#fff;
 
 align-self:flex-end;
 
-border-bottom-right-radius:5px;
+border-bottom-right-radius:4px;
+
+box-shadow:0 4px 15px rgba(124, 58, 237, 0.2);
 
 }
 
@@ -210,13 +216,15 @@ border-bottom-right-radius:5px;
 
 background:#fff;
 
-color:#222;
+color:#0f172a;
 
 align-self:flex-start;
 
-border-bottom-left-radius:5px;
+border-bottom-left-radius:4px;
 
-box-shadow:0 2px 8px rgba(0,0,0,.08);
+box-shadow:0 4px 15px rgba(0,0,0,.06);
+
+border:1px solid #f1f5f9;
 
 }
 
@@ -226,11 +234,11 @@ display:flex;
 
 gap:10px;
 
-padding:12px;
+padding:12px 16px;
 
 background:#fff;
 
-border-top:1px solid #ddd;
+border-top:1px solid #e2e8f0;
 
 }
 
@@ -238,9 +246,9 @@ border-top:1px solid #ddd;
 
 flex:1;
 
-padding:14px;
+padding:14px 18px;
 
-border:1px solid #ddd;
+border:2px solid #e2e8f0;
 
 border-radius:30px;
 
@@ -248,31 +256,119 @@ outline:none;
 
 font-size:15px;
 
+transition:border-color 0.2s;
+
+}
+
+.input-area input:focus{
+
+border-color:#7c3aed;
+
 }
 
 .input-area button{
 
-background:#0057D9;
+background:linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
 
 color:#fff;
 
 border:none;
 
-padding:0 22px;
+padding:0 24px;
 
 border-radius:30px;
 
-font-size:16px;
+.voice-msg-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #e2e8f0;
+    background: #f5f3ff;
+    color: #7c3aed;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
 
-font-weight:600;
+.voice-msg-btn:hover {
+    background: #ede9fe;
+    border-color: #7c3aed;
+    transform: scale(1.05);
+}
 
-cursor:pointer;
+.voice-msg-btn.recording {
+    background: #fef2f2;
+    border-color: #ef4444;
+    color: #ef4444;
+    animation: pulse 1.2s infinite;
+}
 
+.voice-recording-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    background: #fef2f2;
+    border-top: 1px solid #fecaca;
+}
+
+.recording-indicator {
+    font-weight: 700;
+    color: #dc2626;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.voice-action-btn {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.voice-action-btn.cancel {
+    background: #f1f5f9;
+    color: #64748b;
+    margin-right: 6px;
+}
+
+.voice-action-btn.send {
+    background: linear-gradient(135deg, #7c3aed, #db2777);
+    color: #ffffff;
+}
+
+.audio-bubble-player {
+    margin-top: 6px;
+    max-width: 240px;
+}
+
+.audio-bubble-player audio {
+    width: 100%;
+    height: 38px;
+    border-radius: 18px;
 }
 
 </style>
 
+<div id="voiceRecordingBar" class="voice-recording-bar" style="display:none;">
+    <span class="recording-indicator">🔴 Recording: <span id="recTimer">00:00</span></span>
+    <div class="recording-actions">
+        <button id="cancelVoiceBtn" type="button" class="voice-action-btn cancel">Cancel</button>
+        <button id="sendVoiceNoteBtn" type="button" class="voice-action-btn send">Send Voice 🎵</button>
+    </div>
+</div>
+
 <div class="input-area">
+
+<button id="voiceMsgBtn" class="voice-msg-btn" type="button" title="Record Voice Message">🎤</button>
 
 <input
 

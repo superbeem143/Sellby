@@ -28,10 +28,12 @@
     <link rel="stylesheet"
           href="css/style.css">
 
+    <script type="module" src="js/auth-guard.js"></script>
+
     <style>
 
         body {
-            background: #f5f7fb;
+            background: #f8fafc;
             font-family: 'Poppins', sans-serif;
         }
 
@@ -39,7 +41,33 @@
             max-width: 900px;
             margin: auto;
             background: #fff;
-            min-height: 100vh;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #6d28d9, #db2777);
+            color: #fff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.18);
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
         }
 
         #loading {
@@ -75,8 +103,8 @@
 
         .price {
             font-size: 32px;
-            font-weight: 700;
-            color: #0057D9;
+            font-weight: 800;
+            color: #6d28d9;
             margin-top: 8px;
         }
 
@@ -106,15 +134,16 @@
         .chat-btn {
             width: 100%;
             padding: 16px;
-            background: #0057D9;
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
             color: #fff;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
             margin-top: 25px;
-            transition: 0.2s;
+            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.25);
+            transition: 0.25s;
         }
 
         .chat-btn:hover {

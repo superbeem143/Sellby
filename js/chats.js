@@ -56,6 +56,13 @@ function loadUserChats() {
         });
 
         await Promise.all(chatPromises);
+
+        allChats.sort((a, b) => {
+            const timeA = a.updatedAt?.toMillis ? a.updatedAt.toMillis() : (a.createdAt?.toMillis ? a.createdAt.toMillis() : 0);
+            const timeB = b.updatedAt?.toMillis ? b.updatedAt.toMillis() : (b.createdAt?.toMillis ? b.createdAt.toMillis() : 0);
+            return timeB - timeA;
+        });
+
         renderChats(allChats);
     }, (error) => {
         console.error("Error loading chats:", error);
@@ -124,7 +131,7 @@ function renderChats(chatsToRender) {
                 <img src="${thumbUrl}" alt="Ad Thumbnail" style="width:100%;height:100%;object-fit:cover;">
             </div>
             <div class="chat-info" style="flex:1;margin-left:12px;">
-                <div class="chat-name" style="font-size:15px;font-weight:600;color:#0057D9;">${escapeHtml(adTitle)}</div>
+                <div class="chat-name" style="font-size:15px;font-weight:700;color:#6d28d9;">${escapeHtml(adTitle)}</div>
                 <div style="font-size:12px;color:#555;margin-bottom:3px;">
                     <span>${escapeHtml(priceStr)}</span> ${priceStr ? '• ' : ''}<span style="font-weight:500;color:#666;">${escapeHtml(otherRole)}</span>
                     ${chat.adLocation ? ` • 📍 ${escapeHtml(chat.adLocation)}` : ''}

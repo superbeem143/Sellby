@@ -130,7 +130,7 @@ function renderProperties(properties) {
 
                 <h3>${property.title}</h3>
 
-                <h2 style="color:#0057D9;margin:10px 0;">
+                <h2 style="color:#6d28d9;font-weight:800;margin:10px 0;">
 
                     ₹${Number(property.price).toLocaleString("en-IN")}
 

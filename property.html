@@ -169,10 +169,13 @@
   </style>
 </head>
 <body>
-  <header>Property Listings</header>
-  <div class="container">
-    <div class="page-title">Available Properties</div>
-    <div class="page-subtitle">Browse the latest property listings posted through SELLBY. Click WhatsApp to connect with the seller instantly.</div>
+  <header style="background:linear-gradient(135deg, #6d28d9, #db2777);color:#fff;padding:18px 20px;display:flex;align-items:center;justify-content:center;position:relative;font-size:22px;font-weight:700;box-shadow:0 4px 20px rgba(109, 40, 217, 0.2);">
+    <button onclick="history.back()" style="position:absolute;left:18px;width:40px;height:40px;border:none;border-radius:12px;background:rgba(255,255,255,0.18);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">←</button>
+    Property Listings
+  </header>
+  <div class="container" style="max-width:920px;margin:24px auto 48px;padding:0 18px;">
+    <div class="page-title" style="font-size:24px;font-weight:700;color:#0f172a;margin-bottom:6px;">Available Properties</div>
+    <div class="page-subtitle" style="font-size:14px;color:#64748b;margin-bottom:24px;">Browse the latest property listings posted through SELLBY. Chat directly with sellers in-app.</div>
     <div class="property-grid" id="propertyList"></div>
     <div class="loading" id="loadingMessage">Loading properties...</div>
   </div>

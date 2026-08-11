@@ -45,100 +45,135 @@ const SpeechRecognition =
 
     window.webkitSpeechRecognition;
 
-const recognition =
+let recognition = null;
 
-    new SpeechRecognition();
+if (SpeechRecognition) {
 
-recognition.lang =
+    try {
 
-    "en-IN";
+        recognition = new SpeechRecognition();
 
-recognition.interimResults =
+        recognition.lang = "en-IN";
 
-    false;
+        recognition.interimResults = false;
 
-recognition.continuous =
+        recognition.continuous = false;
 
-    false;
+    } catch (e) {
 
-startVoiceBtn.addEventListener(
-
-    "click",
-
-    () => {
-
-        voiceStatus.textContent =
-
-            "🎤 Listening...";
-
-        recognition.start();
+        console.error("SpeechRecognition initialization failed:", e);
 
     }
 
-);
-/* ===================================================== */
-/*               SELLBY VOICE-POST.JS                    */
-/*                     JS PART 2                         */
-/* ===================================================== */
-/*
-    File Name : voice-post.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 2
-    Contains  :
-    ✔ Speech Result
-    ✔ Parse Speech
-    ✔ Update Fields
-*/
-/* ===================================================== */
+}
 
-recognition.onresult = (event) => {
+if (startVoiceBtn) {
 
-    const transcript =
+    startVoiceBtn.addEventListener(
 
-        event.results[0][0].transcript;
+        "click",
 
-    speechResult.value =
+        () => {
 
-        transcript;
+            if (!recognition) {
 
-    voiceStatus.textContent =
+                alert("Speech recognition is not supported in this browser. Please try using Google Chrome or Microsoft Edge.");
 
-        "✅ Voice captured successfully.";
+                if (voiceStatus) voiceStatus.textContent = "⚠️ Speech recognition unsupported in this browser.";
 
-    const parsedData =
+                return;
 
-        parseSpeech(transcript);
+            }
 
-    detectedCategory.value =
+            try {
 
-        parsedData.category || "";
+                voiceStatus.textContent = "🎤 Listening... Speak now.";
 
-    detectedPrice.value =
+                startVoiceBtn.disabled = true;
 
-        parsedData.price || "";
+                recognition.start();
 
-    detectedLocation.value =
+            } catch (e) {
 
-        parsedData.location || "";
+                console.warn("Speech recognition start notice:", e);
 
-};
+                startVoiceBtn.disabled = false;
 
-recognition.onerror = (event) => {
+            }
 
-    console.error(event.error);
+        }
 
-    voiceStatus.textContent =
+    );
 
-        "❌ Voice recognition failed.";
+}
 
-};
+if (recognition) {
 
-recognition.onend = () => {
+    recognition.onresult = (event) => {
 
-    startVoiceBtn.disabled = false;
+        const transcript =
 
-};
+            event.results[0][0].transcript;
+
+        speechResult.value =
+
+            transcript;
+
+        voiceStatus.textContent =
+
+            "✅ Voice captured successfully.";
+
+        const parsedData =
+
+            parseSpeech(transcript);
+
+        detectedCategory.value =
+
+            parsedData.category || "";
+
+        detectedPrice.value =
+
+            parsedData.price || "";
+
+        detectedLocation.value =
+
+            parsedData.location || "";
+
+    };
+
+    recognition.onerror = (event) => {
+
+        console.error("Speech recognition error:", event.error);
+
+        if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+
+            alert("Microphone permission denied. Please click the lock icon in your browser address bar to allow microphone access for SELLBY.");
+
+            voiceStatus.textContent = "🚫 Microphone permission denied.";
+
+        } else if (event.error === "no-speech") {
+
+            voiceStatus.textContent = "⚠️ No speech detected. Please tap microphone and speak again.";
+
+        } else if (event.error === "network") {
+
+            voiceStatus.textContent = "⚠️ Network error during speech recognition.";
+
+        } else {
+
+            voiceStatus.textContent = "❌ Voice recognition failed. Tap to try again.";
+
+        }
+
+    };
+
+    recognition.onend = () => {
+
+        if (startVoiceBtn) startVoiceBtn.disabled = false;
+
+    };
+
+}
 /* ===================================================== */
 /*               SELLBY VOICE-POST.JS                    */
 /*                     JS PART 3                         */

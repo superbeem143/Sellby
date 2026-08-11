@@ -220,21 +220,11 @@ function buildMobileCard(mobile) {
 
     whatsappLink.href =
 
-        mobile.whatsappNumber
-
-        ? `https://wa.me/${mobile.whatsappNumber.replace(/[^0-9]/g,"")}`
-
-        : "#";
-
-    whatsappLink.target = "_blank";
-
-    whatsappLink.rel =
-
-        "noopener noreferrer";
+        `chat.html?adId=${mobile.id}&sellerId=${mobile.userId || mobile.sellerId || ''}`;
 
     whatsappLink.textContent =
 
-        "WhatsApp Seller";
+        "💬 Chat with Seller";
 
     details.appendChild(title);
 

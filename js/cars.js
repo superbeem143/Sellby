@@ -220,21 +220,11 @@ function buildCarCard(car) {
 
     whatsappLink.href =
 
-        car.whatsappNumber
-
-        ? `https://wa.me/${car.whatsappNumber.replace(/[^0-9]/g,"")}`
-
-        : "#";
-
-    whatsappLink.target = "_blank";
-
-    whatsappLink.rel =
-
-        "noopener noreferrer";
+        `chat.html?adId=${car.id}&sellerId=${car.userId || car.sellerId || ''}`;
 
     whatsappLink.textContent =
 
-        "WhatsApp Seller";
+        "💬 Chat with Seller";
 
     details.appendChild(title);
 

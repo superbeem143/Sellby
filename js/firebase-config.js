@@ -25,7 +25,9 @@ import {
     sendPasswordResetEmail,
     updateProfile,
     setPersistence,
-    browserLocalPersistence
+    browserLocalPersistence,
+    RecaptchaVerifier,
+    signInWithPhoneNumber
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 import {
@@ -108,6 +110,10 @@ setPersistence(auth, browserLocalPersistence)
 /* ===================================================== */
 
 export {
+
+    RecaptchaVerifier,
+
+    signInWithPhoneNumber,
 
     createUserWithEmailAndPassword,
 

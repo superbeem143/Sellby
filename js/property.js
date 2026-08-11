@@ -150,20 +150,11 @@ function buildPropertyCard(property) {
     property.contactNumber ||
     "";
 
-  const whatsappLink = document.createElement("a");
-
   whatsappLink.className = "whatsapp-link";
 
-  whatsappLink.href =
-    whatsappNumber
-      ? `https://wa.me/${whatsappNumber.replace(/[^0-9]/g,"")}`
-      : "#";
+  whatsappLink.href = `chat.html?adId=${property.id}&sellerId=${property.userId || property.sellerId || ''}`;
 
-  whatsappLink.target = "_blank";
-
-  whatsappLink.rel = "noopener noreferrer";
-
-  whatsappLink.textContent = "WhatsApp Seller";
+  whatsappLink.textContent = "💬 Chat with Seller";
 
   details.appendChild(title);
 

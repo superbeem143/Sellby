@@ -218,21 +218,11 @@ function buildFurnitureCard(item) {
 
     whatsappLink.href =
 
-        item.whatsappNumber
-
-        ? `https://wa.me/${item.whatsappNumber.replace(/[^0-9]/g, "")}`
-
-        : "#";
-
-    whatsappLink.target = "_blank";
-
-    whatsappLink.rel =
-
-        "noopener noreferrer";
+        `chat.html?adId=${item.id}&sellerId=${item.userId || item.sellerId || ''}`;
 
     whatsappLink.textContent =
 
-        "WhatsApp Seller";
+        "💬 Chat with Seller";
 
     details.appendChild(title);
 
