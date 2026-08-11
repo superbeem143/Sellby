@@ -46,7 +46,7 @@ let isVerifying = false;
 
 // Auto-redirect returning users with active session directly to Home page
 auth.onAuthStateChanged((user) => {
-    if (user && !isVerifying) {
+    if (user) {
         window.location.replace("index.html");
     }
 });
@@ -119,34 +119,33 @@ function getRecaptchaVerifier() {
         recaptchaVerifier = null;
     }
 
-    recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        'size': 'invisible',
-        'callback': () => {
-            // reCAPTCHA solved automatically
-        },
-        'expired-callback': () => {
-            showStatus("reCAPTCHA expired. Please try sending OTP again.", "error");
+    recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+        size: "invisible",
+        callback: () => {},
+        "expired-callback": () => {
+            showStatus("reCAPTCHA expired. Please try again.", "error");
             resetSendOtpBtn();
         }
     });
+
     return recaptchaVerifier;
 }
 
 function resetSendOtpBtn() {
     sendOtpBtn.disabled = false;
-    sendOtpBtn.innerHTML = `<span>Continue</span>`;
+    sendOtpBtn.innerHTML = `<span>Continue</span> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
 }
 
-// Step 1: Send OTP to Mobile Number
-async function sendOtp() {
+// Step 1: Request OTP
+async function handleSendOtp() {
     showStatus("", "");
-    const rawVal = mobileNumberInput.value;
-    const countryCode = countryCodeInput ? (countryCodeInput.value || "+91") : "+91";
+    const rawNumber = mobileNumberInput.value.trim();
+    const selectedCode = countryCodeInput ? countryCodeInput.value : "+91";
 
-    fullPhoneNumber = normalizePhoneNumber(rawVal, countryCode);
+    fullPhoneNumber = normalizePhoneNumber(rawNumber, selectedCode);
 
     if (!fullPhoneNumber) {
-        showStatus("Please enter a valid mobile number (e.g. 9876543210, 09876543210, or +16505551234).", "error");
+        showStatus("Please enter a valid 10-digit mobile number.", "error");
         mobileNumberInput.focus();
         return;
     }
@@ -154,7 +153,6 @@ async function sendOtp() {
     sendOtpBtn.disabled = true;
     sendOtpBtn.innerHTML = `<span class="spinner-icon"></span> Sending OTP...`;
 
-    // Handle test phone numbers (e.g., +1 650-555-1234) for Firebase Auth test mode
     const isTestNumber = fullPhoneNumber.startsWith("+1650555") || fullPhoneNumber.includes("5551234");
     if (isTestNumber) {
         auth.settings.appVerificationDisabledForTesting = true;
@@ -168,21 +166,15 @@ async function sendOtp() {
 
         confirmationResult = await signInWithPhoneNumber(auth, fullPhoneNumber, verifier);
 
-        // Switch to OTP view
         phoneStep.classList.add("hidden");
         otpStep.classList.remove("hidden");
         displayPhoneNumber.textContent = fullPhoneNumber;
 
-        // Clear and focus OTP inputs
         clearOtpFields();
         otpFields[0].focus();
 
         showStatus(`OTP sent successfully to ${fullPhoneNumber}`, "info");
-
-        // Start Resend Countdown Timer (30s)
         startCountdown(30);
-
-        // Listen for Android WebOTP API auto-fill if available
         listenForWebOTP();
 
     } catch (error) {
@@ -247,25 +239,29 @@ async function verifyOtp() {
         const userCredential = await confirmationResult.confirm(otpCode);
         const user = userCredential.user;
 
-        // Check/Create User Profile in Firestore
-        const userDocRef = doc(db, "users", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (!userDocSnap.exists()) {
-            await setDoc(userDocRef, {
-                uid: user.uid,
-                phoneNumber: user.phoneNumber || fullPhoneNumber,
-                displayName: user.displayName || `User ${fullPhoneNumber.slice(-4)}`,
-                createdAt: serverTimestamp(),
-                updatedAt: serverTimestamp()
-            });
-        }
-
         showStatus("OTP verified! Logging in...", "success");
 
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 500);
+        // Non-blocking background sync of user profile in Firestore
+        (async () => {
+            try {
+                const userDocRef = doc(db, "users", user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+                if (!userDocSnap.exists()) {
+                    await setDoc(userDocRef, {
+                        uid: user.uid,
+                        phoneNumber: user.phoneNumber || fullPhoneNumber,
+                        displayName: user.displayName || `User ${fullPhoneNumber.slice(-4)}`,
+                        createdAt: serverTimestamp(),
+                        updatedAt: serverTimestamp()
+                    });
+                }
+            } catch (e) {
+                console.warn("Firestore profile background sync notice:", e);
+            }
+        })();
+
+        // Immediate redirect to Home page
+        window.location.replace("index.html");
 
     } catch (error) {
         console.error("OTP Verification Error:", error);
@@ -290,6 +286,16 @@ async function verifyOtp() {
             default:
                 showStatus(error.message || "Verification failed. Please try again.", "error");
         }
+    } finally {
+        // Safety cleanup if redirect is delayed
+        setTimeout(() => {
+            if (isVerifying && !auth.currentUser) {
+                isVerifying = false;
+                verifyOtpBtn.disabled = false;
+                verifyOtpBtn.innerHTML = `<span>Verify Code</span>`;
+                disableOtpFields(false);
+            }
+        }, 3500);
     }
 }
 
