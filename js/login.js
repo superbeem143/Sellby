@@ -431,11 +431,11 @@ function startCountdown(seconds = 30) {
 }
 
 // Event Listeners
-sendOtpBtn.addEventListener("click", sendOtp);
+sendOtpBtn.addEventListener("click", handleSendOtp);
 
 mobileNumberInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
-        sendOtp();
+        handleSendOtp();
     }
 });
 
@@ -444,7 +444,7 @@ verifyOtpBtn.addEventListener("click", verifyOtp);
 resendOtpBtn.addEventListener("click", async () => {
     if (resendOtpBtn.disabled) return;
     showStatus("Resending verification code...", "info");
-    await sendOtp();
+    await handleSendOtp();
 });
 
 changeNumberBtn.addEventListener("click", () => {
