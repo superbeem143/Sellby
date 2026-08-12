@@ -5,14 +5,9 @@
 <!--
     File Name : index.html
     Project   : SELLBY
-    Version   : V2.0
+    Version   : V2.1
     Mission   : Sell Easy. Buy Easy.
-    Contains  :
-    ✔ HTML Start
-    ✔ Head Section
-    ✔ CSS Link
-    ✔ Premium Header
-    ✔ Hero Section
+    Purpose   : Premium Mobile UI + Updated SVG Icons
 -->
 <!-- ===================================================== -->
 
@@ -47,16 +42,38 @@
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- ================= SVG DEFINITIONS ================= -->
 
 <svg style="width:0;height:0;position:absolute;" aria-hidden="true">
-  <defs>
-    <linearGradient id="handshake-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="100%" stop-color="#fbcfe8"/>
-    </linearGradient>
-  </defs>
+    <defs>
+
+        <linearGradient id="handshake-grad"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%">
+
+            <stop offset="0%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#db2777"/>
+
+        </linearGradient>
+
+        <linearGradient id="violet-pink-grad"
+                        x1="0%"
+                        y1="0%"
+                        x2="100%"
+                        y2="100%">
+
+            <stop offset="0%" stop-color="#7c3aed"/>
+            <stop offset="100%" stop-color="#db2777"/>
+
+        </linearGradient>
+
+    </defs>
 </svg>
+
+
+<!-- ================= HEADER ================= -->
 
 <header class="header">
 
@@ -66,7 +83,9 @@
             <span class="sell">SELL</span><span class="by">BY</span>
         </h1>
 
-        <img src="images/sellby-handshake.png" alt="SELLBY Handshake Symbol" class="brand-handshake-img">
+        <img src="images/sellby-handshake.png"
+             alt="SELLBY Handshake Symbol"
+             class="brand-handshake-img">
 
         <p class="tagline">
             Sell Easy. Buy Easy.
@@ -74,35 +93,184 @@
 
     </div>
 
+
     <div class="header-actions">
 
-        <button class="notify-btn" id="notifyBtn" title="Notifications">
-            🔔
+        <!-- Notification -->
+
+        <button class="notify-btn"
+                id="notifyBtn"
+                title="Notifications"
+                aria-label="Notifications">
+
+            <svg class="header-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 aria-hidden="true">
+
+                <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+
+                <path d="M10 21h4"></path>
+
+            </svg>
+
         </button>
 
-        <button class="menu-btn" id="menuBtn" title="Menu">
-            ⋮
+
+        <!-- Menu -->
+
+        <button class="menu-btn"
+                id="menuBtn"
+                title="Menu"
+                aria-label="Menu">
+
+            <svg class="header-icon"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round"
+                 aria-hidden="true">
+
+                <circle cx="5" cy="12" r="1.5"></circle>
+                <circle cx="12" cy="12" r="1.5"></circle>
+                <circle cx="19" cy="12" r="1.5"></circle>
+
+            </svg>
+
         </button>
 
     </div>
 
 </header>
 
+
 <!-- ================= DROPDOWN MENU ================= -->
 
 <div id="sideMenu" class="dropdown-menu">
 
-    <a href="profile.html" class="menu-item"><span class="menu-icon">👤</span> Profile</a>
+    <a href="profile.html"
+       class="menu-item">
 
-    <a href="my-ads.html" class="menu-item"><span class="menu-icon">📢</span> My Ads</a>
+        <svg class="menu-icon-svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.9"
+             stroke-linecap="round"
+             stroke-linejoin="round">
 
-    <a href="chats.html" class="menu-item"><span class="menu-icon">💬</span> My Chats</a>
+            <circle cx="12" cy="7" r="4"></circle>
+            <path d="M5 21v-2a7 7 0 0 1 14 0v2"></path>
 
-    <a href="saved.html" class="menu-item"><span class="menu-icon">❤️</span> Saved</a>
+        </svg>
 
-    <a href="#" id="logoutBtn" class="menu-item logout"><span class="menu-icon">🚪</span> Logout</a>
+        Profile
+
+    </a>
+
+
+    <a href="my-ads.html"
+       class="menu-item">
+
+        <svg class="menu-icon-svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.9"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M4 4h16v12H4z"></path>
+            <path d="M8 20h8"></path>
+            <path d="M8 8h8"></path>
+            <path d="M8 12h5"></path>
+
+        </svg>
+
+        My Ads
+
+    </a>
+
+
+    <a href="chats.html"
+       class="menu-item">
+
+        <svg class="menu-icon-svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.9"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5
+                     8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7
+                     A8.4 8.4 0 0 1 4 11.5
+                     8.5 8.5 0 0 1 12.5 3
+                     8.5 8.5 0 0 1 21 11.5z"></path>
+
+        </svg>
+
+        My Chats
+
+    </a>
+
+
+    <a href="saved.html"
+       class="menu-item">
+
+        <svg class="menu-icon-svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.9"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M20.8 8.7
+                     A5.5 5.5 0 0 0 12 5.2
+                     A5.5 5.5 0 0 0 3.2 8.7
+                     C2.5 12.4 5.4 15 12 20
+                     c6.6-5 9.5-7.6 8.8-11.3z"></path>
+
+        </svg>
+
+        Saved
+
+    </a>
+
+
+    <a href="#"
+       id="logoutBtn"
+       class="menu-item logout">
+
+        <svg class="menu-icon-svg"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.9"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M10 17l5-5-5-5"></path>
+            <path d="M15 12H3"></path>
+            <path d="M21 3v18"></path>
+
+        </svg>
+
+        Logout
+
+    </a>
 
 </div>
+
+
 <!-- ================= SEARCH ================= -->
 
 <section class="search-section">
@@ -114,9 +282,71 @@
             id="searchInput"
             placeholder="Search anything...">
 
-        <button class="voice-btn" title="Voice Search">🎤</button>
 
-        <button class="camera-btn" title="Visual Search">📷</button>
+        <!-- Voice Search -->
+
+        <button class="voice-btn"
+                title="Voice Search"
+                aria-label="Voice Search">
+
+            <svg class="action-icon-svg"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <rect x="9"
+                      y="2"
+                      width="6"
+                      height="12"
+                      rx="3"></rect>
+
+                <path d="M5 10a7 7 0 0 0 14 0"></path>
+
+                <line x1="12"
+                      y1="17"
+                      x2="12"
+                      y2="22"></line>
+
+                <line x1="8"
+                      y1="22"
+                      x2="16"
+                      y2="22"></line>
+
+            </svg>
+
+        </button>
+
+
+        <!-- Visual Search -->
+
+        <button class="camera-btn"
+                title="Visual Search"
+                aria-label="Visual Search">
+
+            <svg class="action-icon-svg"
+                 viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+
+                <path d="M4 7h4l2-2h4l2 2h4
+                         a2 2 0 0 1 2 2v9
+                         a2 2 0 0 1-2 2H4
+                         a2 2 0 0 1-2-2V9
+                         a2 2 0 0 1 2-2z"></path>
+
+                <circle cx="12"
+                        cy="13"
+                        r="3.5"></circle>
+
+            </svg>
+
+        </button>
 
     </div>
 
@@ -128,13 +358,14 @@
 <!--
     File Name : index.html
     Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
+    Version   : V2.1
     Contains  :
-    ✔ Hero Section
-    ✔ Premium Categories
+    ✔ Hero
+    ✔ Categories
+    ✔ Updated Category SVG Icons
 -->
 <!-- ===================================================== -->
+
 
 <!-- ================= HERO ================= -->
 
@@ -150,16 +381,8 @@
 
 </section>
 
-<!-- ================= CATEGORIES ================= -->
 
-<svg style="width:0;height:0;position:absolute;" aria-hidden="true">
-  <defs>
-    <linearGradient id="violet-pink-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.85"/>
-      <stop offset="100%" stop-color="#db2777" stop-opacity="0.85"/>
-    </linearGradient>
-  </defs>
-</svg>
+<!-- ================= CATEGORIES ================= -->
 
 <section class="categories">
 
@@ -167,81 +390,243 @@
         Browse Categories
     </h2>
 
+
     <div class="category-grid">
 
-        <!-- Mobiles -->
-        <a href="mobiles.html" class="category-card">
+
+        <!-- ================= MOBILES ================= -->
+
+        <a href="mobiles.html"
+           class="category-card">
+
             <div class="category-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="5" y="2" width="14" height="20" rx="3" ry="3" fill="url(#violet-pink-grad)"></rect>
-                    <line x1="12" y1="18" x2="12.01" y2="18" stroke="#fff" stroke-width="2.5"></line>
-                    <line x1="10" y1="5" x2="14" y2="5" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"></line>
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <rect x="6"
+                          y="2.5"
+                          width="12"
+                          height="19"
+                          rx="2.5"
+                          fill="url(#violet-pink-grad)"></rect>
+
+                    <line x1="10"
+                          y1="5.5"
+                          x2="14"
+                          y2="5.5"
+                          stroke="#ffffff"></line>
+
+                    <circle cx="12"
+                            cy="18.5"
+                            r="1"
+                            fill="#ffffff"
+                            stroke="none"></circle>
+
                 </svg>
+
             </div>
+
             <h3>Mobiles</h3>
+
         </a>
 
-        <!-- Cars & Bikes -->
-        <a href="cars.html" class="category-card">
+
+        <!-- ================= CARS & BIKES ================= -->
+
+        <a href="cars.html"
+           class="category-card">
+
             <div class="category-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H7c-.8 0-1.5.4-1.9 1.1L3.3 11C2.5 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"></path>
-                    <circle cx="7" cy="17" r="2.5" fill="#db2777" stroke="#fff" stroke-width="1.5"></circle>
-                    <circle cx="17" cy="17" r="2.5" fill="#db2777" stroke="#fff" stroke-width="1.5"></circle>
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <path d="M5 16l1.5-5
+                             2-4h7l2 4
+                             1.5 5"></path>
+
+                    <path d="M4 12h16"></path>
+
+                    <rect x="3"
+                          y="12"
+                          width="18"
+                          height="6"
+                          rx="2"
+                          fill="url(#violet-pink-grad)"></rect>
+
+                    <circle cx="7"
+                            cy="18"
+                            r="1.8"
+                            fill="#ffffff"></circle>
+
+                    <circle cx="17"
+                            cy="18"
+                            r="1.8"
+                            fill="#ffffff"></circle>
+
                 </svg>
+
             </div>
-            <h3>Cars & Bikes</h3>
+
+            <h3>Cars &amp; Bikes</h3>
+
         </a>
 
-        <!-- Properties -->
-        <a href="property.html" class="category-card">
+
+        <!-- ================= PROPERTIES ================= -->
+
+        <a href="property.html"
+           class="category-card">
+
             <div class="category-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="url(#violet-pink-grad)"></path>
-                    <polyline points="9 22 9 12 15 12 15 22" stroke="#ffffff" stroke-width="1.8"></polyline>
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <path d="M3 10L12 3l9 7"></path>
+
+                    <path d="M5 9v12h14V9"></path>
+
+                    <path d="M9 21v-7h6v7"
+                          fill="url(#violet-pink-grad)"></path>
+
                 </svg>
+
             </div>
+
             <h3>Properties</h3>
+
         </a>
 
-        <!-- Electronics -->
-        <a href="electronics.html" class="category-card">
+
+        <!-- ================= ELECTRONICS ================= -->
+
+        <a href="electronics.html"
+           class="category-card">
+
             <div class="category-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" fill="url(#violet-pink-grad)"></rect>
-                    <line x1="8" y1="21" x2="16" y2="21" stroke="#db2777" stroke-width="2.2"></line>
-                    <line x1="12" y1="17" x2="12" y2="21" stroke="#db2777" stroke-width="2.2"></line>
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <rect x="2.5"
+                          y="4"
+                          width="19"
+                          height="13"
+                          rx="2"
+                          fill="url(#violet-pink-grad)"></rect>
+
+                    <path d="M8 21h8"></path>
+
+                    <path d="M12 17v4"></path>
+
+                    <circle cx="12"
+                            cy="10.5"
+                            r="2"
+                            fill="#ffffff"
+                            stroke="none"></circle>
+
                 </svg>
+
             </div>
+
             <h3>Electronics</h3>
+
         </a>
 
-        <!-- Furniture -->
-        <a href="furniture.html" class="category-card">
+
+        <!-- ================= FURNITURE ================= -->
+
+        <a href="furniture.html"
+           class="category-card">
+
             <div class="category-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 19v2M18 19v2M4 11h16a2 2 0 0 1 2 2v4H2v-4a2 2 0 0 1 2-2z" fill="url(#violet-pink-grad)"></path>
-                    <path d="M4 11V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5" stroke="#7c3aed" stroke-width="1.8"></path>
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <path d="M4 12h16
+                             a2 2 0 0 1 2 2v3H2v-3
+                             a2 2 0 0 1 2-2z"
+                          fill="url(#violet-pink-grad)"></path>
+
+                    <path d="M5 12V7
+                             a2 2 0 0 1 2-2h10
+                             a2 2 0 0 1 2 2v5"></path>
+
+                    <line x1="5"
+                          y1="17"
+                          x2="5"
+                          y2="21"></line>
+
+                    <line x1="19"
+                          y1="17"
+                          x2="19"
+                          y2="21"></line>
+
                 </svg>
+
             </div>
+
             <h3>Furniture</h3>
+
         </a>
 
-        <!-- Others -->
-        <a href="others.html" class="category-card">
+
+        <!-- ================= OTHERS ================= -->
+
+        <a href="others.html"
+           class="category-card">
+
             <div class="category-icon-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" fill="url(#violet-pink-grad)"></path>
-                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="#ffffff" stroke-width="1.8"></polyline>
-                    <line x1="12" y1="22.08" x2="12" y2="12" stroke="#ffffff" stroke-width="1.8"></line>
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.8"
+                     stroke-linecap="round"
+                     stroke-linejoin="round">
+
+                    <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"
+                          fill="url(#violet-pink-grad)"></path>
+
+                    <path d="M4 7.5l8 4.5 8-4.5"></path>
+
+                    <path d="M12 12v9"></path>
+
                 </svg>
+
             </div>
+
             <h3>Others</h3>
+
         </a>
 
     </div>
 
 </section>
+
 
 <!-- ================= LATEST ADS ================= -->
 
@@ -265,48 +650,180 @@
 <!--
     File Name : index.html
     Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
+    Version   : V2.1
     Contains  :
-    ✔ Bottom Navigation
-    ✔ Floating Add to Sell Button
-    ✔ JavaScript
-    ✔ Close HTML
+    ✔ Updated Bottom Navigation Icons
+    ✔ Floating Add-to-Sell Icon
+    ✔ Existing JavaScript Preserved
+    ✔ HTML Close
 -->
 <!-- ===================================================== -->
+
 
 <!-- ================= BOTTOM NAVIGATION ================= -->
 
 <nav class="bottom-nav">
 
-    <a href="index.html" class="active">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+
+    <!-- ================= HOME ================= -->
+
+    <a href="index.html"
+       class="active"
+       aria-label="Home">
+
+        <svg class="nav-icon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M3 10.5L12 3l9 7.5"></path>
+
+            <path d="M5 9.5V21h14V9.5"></path>
+
+            <path d="M9 21v-6h6v6"
+                  fill="currentColor"
+                  stroke="none"></path>
+
+        </svg>
+
         <small>Home</small>
+
     </a>
 
-    <a href="saved.html">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.72-8.72 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+
+    <!-- ================= SAVED ================= -->
+
+    <a href="saved.html"
+       aria-label="Saved">
+
+        <svg class="nav-icon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M20.8 8.7
+                     A5.5 5.5 0 0 0 12 5.2
+                     A5.5 5.5 0 0 0 3.2 8.7
+                     C2.5 12.4 5.4 15 12 20
+                     c6.6-5 9.5-7.6 8.8-11.3z"></path>
+
+        </svg>
+
         <small>Saved</small>
+
     </a>
 
-    <a href="chats.html">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+
+    <!-- ================= CHAT ================= -->
+
+    <a href="chats.html"
+       aria-label="Chat">
+
+        <svg class="nav-icon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M20 11.5
+                     a7.5 7.5 0 0 1-7.5 7.5
+                     7.3 7.3 0 0 1-3.3-.8
+                     L4 20l1.8-4.8
+                     A7.3 7.3 0 0 1 5 11.5
+                     A7.5 7.5 0 0 1 12.5 4
+                     A7.5 7.5 0 0 1 20 11.5z"></path>
+
+            <circle cx="9"
+                    cy="12"
+                    r="0.8"
+                    fill="currentColor"
+                    stroke="none"></circle>
+
+            <circle cx="12.5"
+                    cy="12"
+                    r="0.8"
+                    fill="currentColor"
+                    stroke="none"></circle>
+
+            <circle cx="16"
+                    cy="12"
+                    r="0.8"
+                    fill="currentColor"
+                    stroke="none"></circle>
+
+        </svg>
+
         <small>Chat</small>
+
     </a>
 
-    <a href="profile.html">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+
+    <!-- ================= PROFILE ================= -->
+
+    <a href="profile.html"
+       aria-label="Profile">
+
+        <svg class="nav-icon"
+             viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <circle cx="12"
+                    cy="7"
+                    r="4"></circle>
+
+            <path d="M4 21
+                     a8 8 0 0 1 16 0"></path>
+
+        </svg>
+
         <small>Profile</small>
+
     </a>
 
 </nav>
 
+
 <!-- ================= FLOATING BUTTON ================= -->
 
 <a href="post-ad.html"
-   class="floating-post-btn">
+   class="floating-post-btn"
+   aria-label="Add to Sell">
 
-    <span class="plus-icon">+</span>
+
+    <span class="plus-icon">
+
+        <svg viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2.5"
+             stroke-linecap="round">
+
+            <line x1="12"
+                  y1="5"
+                  x2="12"
+                  y2="19"></line>
+
+            <line x1="5"
+                  y1="12"
+                  x2="19"
+                  y2="12"></line>
+
+        </svg>
+
+    </span>
+
 
     <span class="floating-text">
         Add to Sell
@@ -314,9 +831,12 @@
 
 </a>
 
+
 <!-- ================= JAVASCRIPT ================= -->
 
-<script type="module" src="js/home.js"></script>
+<script type="module"
+        src="js/home.js"></script>
+
 
 </body>
 
