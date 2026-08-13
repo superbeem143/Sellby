@@ -1,183 +1,86 @@
 /* ===================================================== */
 /*              SELLBY POST-FURNITURE.JS                 */
-/*                     JS PART 1                         */
-/* ===================================================== */
-/*
-    File Name : post-furniture.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ Firebase Imports
-    ✔ DOM Elements
-    ✔ Image Selection
-    ✔ Image Preview
-*/
 /* ===================================================== */
 
-import { db, storage, auth } from "./firebase-config.js";
+import { db, auth } from "./firebase-config.js";
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-import {
-    collection,
-    addDoc,
-    updateDoc,
-    doc,
-    serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+const CLOUD_NAME = "onrmn2hn";
+const UPLOAD_PRESET = "mvrproperties";
 
-import {
-    ref,
-    uploadBytes,
-    getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.17.0/firebase-storage.js";
-
-const publishBtn =
-    document.getElementById("publishBtn");
-
-const photosInput =
-    document.getElementById("photos");
-
-const imagePreview =
-    document.getElementById("imagePreview");
-
-const previewCount =
-    document.getElementById("previewCount");
-
-const statusMessage =
-    document.getElementById("statusMessage");
+const publishBtn = document.getElementById("publishBtn");
+const photosInput = document.getElementById("photos");
+const imagePreview = document.getElementById("imagePreview");
+const previewCount = document.getElementById("previewCount");
+const statusMessage = document.getElementById("statusMessage");
 
 let selectedFiles = [];
-
 const MAX_IMAGES = 10;
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-
-function validateImageFile(file) {
-    if (!file.type || !file.type.startsWith("image/")) {
-        throw new Error(`Invalid file type: ${file.name}. Only images are allowed.`);
-    }
-    if (file.size > MAX_FILE_SIZE) {
-        throw new Error(`File too large: ${file.name}. Maximum size is 5MB.`);
-    }
-}
 
 photosInput.addEventListener("change", () => {
-    const rawFiles = Array.from(photosInput.files);
-    const valid = [];
-    for (const f of rawFiles) {
-        try {
-            validateImageFile(f);
-            valid.push(f);
-        } catch (e) {
-            alert(e.message);
+    const files = Array.from(photosInput.files);
+    files.forEach(file => {
+        if (selectedFiles.length < MAX_IMAGES && file.type.startsWith("image/")) {
+            selectedFiles.push(file);
         }
-    }
-    selectedFiles = valid.slice(0, MAX_IMAGES);
+    });
     renderPreview();
+    photosInput.value = "";
 });
 
 function renderPreview() {
-
     imagePreview.innerHTML = "";
-
-    selectedFiles.forEach((file) => {
-
+    selectedFiles.forEach((file, index) => {
         const reader = new FileReader();
-
-        const thumb =
-            document.createElement("div");
-
+        const thumb = document.createElement("div");
         thumb.className = "preview-thumb";
+        thumb.style.position = "relative";
 
-        reader.onload = (event) => {
-
-            const img =
-                document.createElement("img");
-
-            img.src = event.target.result;
-
-            thumb.appendChild(img);
-
+        const removeBtn = document.createElement("button");
+        removeBtn.innerHTML = "×";
+        removeBtn.style.cssText = "position:absolute;top:5px;right:5px;background:rgba(220,38,38,0.8);color:white;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;z-index:10;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;font-weight:bold;";
+        removeBtn.onclick = (e) => {
+            e.preventDefault();
+            selectedFiles.splice(index, 1);
+            renderPreview();
         };
 
+        reader.onload = (e) => {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            thumb.appendChild(img);
+            thumb.appendChild(removeBtn);
+        };
         reader.readAsDataURL(file);
-
         imagePreview.appendChild(thumb);
-
     });
-
-    previewCount.textContent =
-        `${selectedFiles.length} / ${MAX_IMAGES} images selected`;
-
+    previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES} images selected`;
 }
-/* ===================================================== */
-/*              SELLBY POST-FURNITURE.JS                 */
-/*                     JS PART 2                         */
-/* ===================================================== */
-/*
-    File Name : post-furniture.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 2
-    Contains  :
-    ✔ Upload Images
-    ✔ Get Field Value
-    ✔ Publish Validation
-*/
-/* ===================================================== */
 
-async function uploadImages(furnitureId) {
-
-    if (!selectedFiles.length) {
-
-        return [];
-
-    }
-
-    const uploadedUrls = [];
-
-    for (const file of selectedFiles) {
-
-        validateImageFile(file);
-
-        const imageRef = ref(
-
-            storage,
-
-            `furniture/${furnitureId}/${Date.now()}_${file.name}`
-
-        );
-
-        const snapshot =
-
-            await uploadBytes(imageRef, file);
-
-        const url =
-
-            await getDownloadURL(snapshot.ref);
-
-        uploadedUrls.push(url);
-
-    }
-
-    return uploadedUrls;
-
+async function uploadToCloudinary(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", UPLOAD_PRESET);
+    const resp = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+        method: "POST",
+        body: formData
+    });
+    if (!resp.ok) throw new Error("Image upload failed");
+    const data = await resp.json();
+    return data.secure_url;
 }
 
 function getFieldValue(id) {
-
-    const element =
-
-        document.getElementById(id);
-
-    return element
-
-        ? element.value.trim()
-
-        : "";
-
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : "";
 }
 
 publishBtn.addEventListener("click", async () => {
+    if (!auth.currentUser) {
+        alert("Please login first.");
+        window.location.href = "login.html";
+        return;
+    }
 
     const title = getFieldValue("title");
     const type = getFieldValue("type");
@@ -187,50 +90,32 @@ publishBtn.addEventListener("click", async () => {
     const price = getFieldValue("price");
     const location = getFieldValue("location");
     const description = getFieldValue("description");
-    const contactNumber = getFieldValue("contactNumber");
-    const whatsappNumber = getFieldValue("whatsappNumber");
 
-    // MINIMUM REQUIREMENT: 1 Image + Price + Identity (Title)
-    if (!selectedFiles.length) {
+    if (selectedFiles.length === 0) {
         alert("Please add at least one photo.");
         return;
     }
-    if (!title) {
-        alert("Please enter the furniture title.");
-        return;
-    }
-    if (!price) {
-        alert("Please enter the price.");
+    if (!title || !price) {
+        alert("Please enter title and price.");
         return;
     }
 
     publishBtn.disabled = true;
-    publishBtn.textContent = "Publishing...";
-
-    statusMessage.textContent =
-        "Uploading images and publishing your furniture ad...";
-    /* ===================================================== */
-/*              SELLBY POST-FURNITURE.JS                 */
-/*                     JS PART 3                         */
-/* ===================================================== */
-/*
-    File Name : post-furniture.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Save Furniture Details
-    ✔ Upload Images
-    ✔ Update Firestore
-    ✔ Success & Error Handling
-*/
-/* ===================================================== */
+    publishBtn.textContent = "Uploading...";
+    statusMessage.textContent = "Uploading images to Cloudinary...";
 
     try {
+        const imageUrls = [];
+        for (const file of selectedFiles) {
+            const url = await uploadToCloudinary(file);
+            imageUrls.push(url);
+        }
+
+        statusMessage.textContent = "Publishing to SELLBY...";
         const docData = {
             category: "furniture",
             sellerId: auth.currentUser.uid,
-            sellerEmail: auth.currentUser.email,
+            sellerEmail: auth.currentUser.email || "",
             title,
             type,
             material,
@@ -239,37 +124,18 @@ publishBtn.addEventListener("click", async () => {
             price: Number(price),
             location,
             description,
+            imageUrls,
             status: "published",
-            createdAt: serverTimestamp(),
-            imageUrls: []
+            createdAt: serverTimestamp()
         };
 
-        // One Publish = One Listing (unified in 'ads' collection)
-        const newFurnitureRef = await addDoc(collection(db, "ads"), docData);
-
-        const imageUrls = await uploadImages(newFurnitureRef.id);
-
-        if (imageUrls.length) {
-            await updateDoc(doc(db, "ads", newFurnitureRef.id), { imageUrls });
-        }
-
+        await addDoc(collection(db, "ads"), docData);
         alert("Furniture Published Successfully!");
-        window.location.href = "furniture.html";
-
+        window.location.href = "category.html?type=furniture";
     } catch (error) {
-
         console.error(error);
-
-        alert("Failed to publish furniture. Please try again.");
-
+        alert("Failed to publish. Please check your connection.");
         publishBtn.disabled = false;
-
         publishBtn.textContent = "Publish Furniture";
-
-        statusMessage.textContent =
-
-            "Try again or refresh the page.";
-
     }
-
-});    
+});
