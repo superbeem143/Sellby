@@ -302,28 +302,37 @@ function getAdTitle(ad) {
     return "Untitled Ad";
 }
 
-// Unified Latest Ads implementation (Real-time)
+// Unified Latest Ads implementation (Real-time + JavaScript Filtering for Index Stability)
 function listenToLatestAds() {
     const latestAdsContainer = document.getElementById("latestAds");
     if (!latestAdsContainer) return;
 
+    // Fetch the last 50 ads from 'ads' collection by creation date
     const q = query(
         collection(db, "ads"),
-        where("status", "in", ["published", "available"]),
         orderBy("createdAt", "desc"),
-        limit(12)
+        limit(50)
     );
 
     onSnapshot(q, (snapshot) => {
         latestAdsContainer.innerHTML = "";
 
-        if (snapshot.empty) {
+        // Apply status filter in JavaScript to avoid composite index requirements
+        const validAds = [];
+        snapshot.forEach((docSnapshot) => {
+            const data = docSnapshot.data();
+            if (data.status === "published" || data.status === "available") {
+                validAds.push({ id: docSnapshot.id, ...data });
+            }
+        });
+
+        if (validAds.length === 0) {
             latestAdsContainer.innerHTML = `<div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">No ads published yet.</div>`;
             return;
         }
 
-        snapshot.forEach((docSnapshot) => {
-            const ad = { id: docSnapshot.id, ...docSnapshot.data() };
+        // Render first 12 matches
+        validAds.slice(0, 12).forEach((ad) => {
             const card = document.createElement("div");
             card.className = "ad-card";
 

@@ -8,7 +8,8 @@ import {
     query,
     where,
     onSnapshot,
-    orderBy
+    orderBy,
+    limit
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 const adsContainer = document.getElementById("adsContainer");
@@ -52,38 +53,40 @@ async function startCategoryListener() {
         const labelElem = document.querySelector(".category-name");
         if (labelElem) labelElem.textContent = categoryLabels[categoryType] || "Browse";
 
-        let q;
-        if (initialSearch) {
-            // Global search query
-            q = query(
-                collection(db, "ads"),
-                where("status", "in", ["published", "available"]),
-                orderBy("createdAt", "desc")
-            );
-        } else if (categoryType === "cars") {
-            // Combine cars and bikes for this view
-            q = query(
-                collection(db, "ads"),
-                where("category", "in", ["cars", "bikes"]),
-                where("status", "in", ["published", "available"]),
-                orderBy("createdAt", "desc")
-            );
-        } else {
-            // Specific category filter
-            q = query(
-                collection(db, "ads"),
-                where("category", "==", categoryType),
-                where("status", "in", ["published", "available"]),
-                orderBy("createdAt", "desc")
-            );
-        }
+        // Fetch recent ads from global collection
+        // JavaScript filtering used to ensure reliability without custom Firestore Indexes
+        const q = query(
+            collection(db, "ads"),
+            orderBy("createdAt", "desc"),
+            limit(100)
+        );
 
         unsubscribe = onSnapshot(q, (snapshot) => {
-            allAds = [];
+            const results = [];
             snapshot.forEach((doc) => {
-                allAds.push({ id: doc.id, ...doc.data() });
+                const data = doc.data();
+                const adId = doc.id;
+
+                // Filter by Status
+                const isValidStatus = (data.status === "published" || data.status === "available");
+                if (!isValidStatus) return;
+
+                // Filter by Category (with Cars/Bikes logic)
+                let isMatch = false;
+                if (initialSearch) {
+                    isMatch = true; // Handle search filtering later in filterAds()
+                } else if (categoryType === "cars") {
+                    isMatch = (data.category === "cars" || data.category === "bikes");
+                } else {
+                    isMatch = (data.category === categoryType);
+                }
+
+                if (isMatch) {
+                    results.push({ id: adId, ...data });
+                }
             });
 
+            allAds = results;
             loadingMessage.style.display = "none";
 
             if (initialSearch) {
