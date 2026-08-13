@@ -49,30 +49,18 @@
 
     <!-- ================= HEADER ================= -->
 
-    <header class="header">
+    <header class="category-header">
 
-        <button
-            class="back-btn"
-            onclick="history.back()">
-
-            ←
-
+        <button class="back-btn-small" onclick="history.back()" aria-label="Go Back">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
         </button>
 
-        <div class="page-title">
-
-            <h1>
-
-                Cars
-
-            </h1>
-
-            <p>
-
-                Buy & Sell Cars Easily
-
-            </p>
-
+        <div class="category-title-area">
+            <h1>Cars</h1>
+            <p>Buy & Sell Cars Easily</p>
         </div>
 
     </header>
@@ -83,16 +71,15 @@
 
         <div class="search-box">
 
+            <svg class="search-btn-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+
             <input
                 type="text"
                 id="searchInput"
                 placeholder="Search Cars...">
-
-            <button>
-
-                🔍
-
-            </button>
 
         </div>
 
@@ -155,22 +142,14 @@
 
     <!-- ================= ADD CAR BUTTON ================= -->
 
-    <a
-        href="post-car.html"
-        class="floating-post-btn">
-
-        <span>
-
-            +
-
+    <a href="post-car.html" class="floating-post-btn">
+        <span class="plus-icon">
+            <svg class="plus-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
         </span>
-
-        <span>
-
-            Sell Car
-
-        </span>
-
+        <span class="floating-text">Sell</span>
     </a>
  <!-- ===================================================== -->
 <!--                  SELLBY CARS.HTML                     -->

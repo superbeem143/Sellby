@@ -277,6 +277,11 @@
 
     <div class="search-box">
 
+        <svg class="search-btn-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+
         <input
             type="text"
             id="searchInput"
@@ -286,6 +291,7 @@
         <!-- Voice Search -->
 
         <button class="voice-btn"
+                id="voiceSearchBtn"
                 title="Voice Search"
                 aria-label="Voice Search">
 
@@ -323,6 +329,7 @@
         <!-- Visual Search -->
 
         <button class="camera-btn"
+                id="cameraSearchBtn"
                 title="Visual Search"
                 aria-label="Visual Search">
 
@@ -804,29 +811,16 @@
 
     <span class="plus-icon">
 
-        <svg viewBox="0 0 24 24"
-             fill="none"
-             stroke="currentColor"
-             stroke-width="2.5"
-             stroke-linecap="round">
-
-            <line x1="12"
-                  y1="5"
-                  x2="12"
-                  y2="19"></line>
-
-            <line x1="5"
-                  y1="12"
-                  x2="19"
-                  y2="12"></line>
-
+        <svg class="plus-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
         </svg>
 
     </span>
 
 
     <span class="floating-text">
-        Add to Sell
+        Sell
     </span>
 
 </a>

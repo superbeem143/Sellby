@@ -1,133 +1,53 @@
-<!-- ===================================================== -->
-<!--               SELLBY PROFILE.HTML                   -->
-<!--                   HTML PART 1                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : profile.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ HTML Document Start
-    ✔ Head Section
-    ✔ Google Fonts
-    ✔ CSS Link
-    ✔ Profile Header
-    ✔ User Photo
-    ✔ User Details
--->
-<!-- ===================================================== -->
-
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SELLBY | Profile</title>
-
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <link rel="stylesheet"
-          href="css/style.css">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
     <script type="module" src="js/auth-guard.js"></script>
-
 </head>
-
 <body>
-
-    <!-- ================= PROFILE ================= -->
-
     <main class="profile-page">
-
         <section class="profile-card">
-
-            <div class="profile-avatar">
-
-                👤
-
+            <div class="profile-avatar" style="cursor: pointer; position: relative;" onclick="location.href='settings.html'">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 45px; height: 45px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <div style="position: absolute; bottom: 0; right: 0; background: #ffffff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 1px solid #f1f5f9;">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                </div>
             </div>
-
-            <h1 id="userName">
-
-                Loading...
-
-            </h1>
-
-            <p id="userEmail">
-
-                Loading Email...
-
-            </p>
-
+            <h1 id="userName">Loading...</h1>
+            <p id="userEmail">Loading Email...</p>
         </section>
 
         <section class="profile-menu">
-<!-- ===================================================== -->
-<!--               SELLBY PROFILE.HTML                   -->
-<!--                   HTML PART 2                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : profile.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 2
-    Contains  :
-    ✔ My Ads
-    ✔ Saved Ads
-    ✔ Settings
-    ✔ Logout Button
--->
-<!-- ===================================================== -->
-
-            <a
-                href="my-ads.html"
-                class="profile-item">
-
-                📋 My Ads
-
+            <a href="my-ads.html" class="profile-item">
+                <div class="profile-item-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 22px; height: 22px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </div>
+                <span class="profile-item-text">My Ads</span>
+                <span class="profile-item-arrow">→</span>
             </a>
-
-            <a
-                href="saved.html"
-                class="profile-item">
-
-                ❤️ Saved Ads
-
+            <a href="saved.html" class="profile-item">
+                <div class="profile-item-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 22px; height: 22px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </div>
+                <span class="profile-item-text">Saved Ads</span>
+                <span class="profile-item-arrow">→</span>
             </a>
-
-            <a
-                href="settings.html"
-                class="profile-item">
-
-                ⚙️ Settings
-
+            <a href="settings.html" class="profile-item">
+                <div class="profile-item-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 22px; height: 22px;"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </div>
+                <span class="profile-item-text">Settings</span>
+                <span class="profile-item-arrow">→</span>
             </a>
-
-            <button
-                id="logoutBtn"
-                class="publish-btn"
-                type="button">
-
-                Logout
-
-            </button>
-
+            <button id="logoutBtn" class="publish-btn" type="button">Logout</button>
         </section>
+    </main>
 
     <nav class="bottom-nav">
         <a href="index.html">
@@ -148,38 +68,7 @@
         </a>
     </nav>
 
- <!-- ===================================================== -->
-<!--               SELLBY PROFILE.HTML                   -->
-<!--                   HTML PART 3                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : profile.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Firebase Script
-    ✔ Profile JavaScript
-    ✔ Closing Body
-    ✔ Closing HTML
--->
-<!-- ===================================================== -->
-
-    <!-- ================= FIREBASE ================= -->
-
-    <script
-        type="module"
-        src="js/firebase-config.js">
-    </script>
-
-    <!-- ================= PROFILE JS ================= -->
-
-    <script
-        type="module"
-        src="js/profile.js">
-    </script>
-
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/profile.js"></script>
 </body>
-
-</html>                   
-
+</html>
