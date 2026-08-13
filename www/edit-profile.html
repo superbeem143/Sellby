@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELLBY | Edit Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/auth-guard.js"></script>
+</head>
+<body>
+    <header class="category-header">
+        <button class="back-btn-small" onclick="history.back()" aria-label="Go Back">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </button>
+        <div class="category-title-area">
+            <h1>Edit Profile</h1>
+            <p>Update your information</p>
+        </div>
+    </header>
+
+    <main class="profile-page">
+        <section class="profile-card">
+            <div class="profile-avatar" style="position: relative;">
+                <img id="profilePreview" src="images/sellby-handshake.png" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none;">
+                <svg id="profilePlaceholder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 45px; height: 45px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                <button id="takePhotoBtn" class="publish-btn" style="padding: 8px 16px; font-size: 13px; background: #ffffff; color: #7c3aed; border: 1.5px solid #7c3aed; box-shadow: none;">📷 Camera</button>
+                <button id="chooseGalleryBtn" class="publish-btn" style="padding: 8px 16px; font-size: 13px; background: #ffffff; color: #7c3aed; border: 1.5px solid #7c3aed; box-shadow: none;">🖼️ Gallery</button>
+            </div>
+            <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
+            <input type="file" id="galleryInput" accept="image/*" style="display: none;">
+        </section>
+
+        <section class="profile-menu" style="padding: 24px;">
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label>Full Name</label>
+                <input type="text" id="editName" placeholder="Enter your name">
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label>Email Address</label>
+                <input type="email" id="editEmail" placeholder="Enter your email">
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label>Phone Number</label>
+                <input type="tel" id="editPhone" placeholder="Your phone number" readonly style="background: #f1f5f9; color: #64748b;">
+            </div>
+
+            <button id="saveProfileBtn" class="publish-btn" style="width: 100%; margin-top: 10px;">Save Changes</button>
+            <div id="saveStatus" style="text-align: center; margin-top: 15px; font-size: 14px; font-weight: 600; display: none;"></div>
+        </section>
+    </main>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/edit-profile.js"></script>
+</body>
+</html>

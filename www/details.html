@@ -1,0 +1,276 @@
+<!-- ===================================================== -->
+<!--                SELLBY DETAILS.HTML                   -->
+<!--                    HTML PART 1                       -->
+<!-- ===================================================== -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>SELLBY | Ad Details</title>
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="css/style.css">
+
+<script type="module" src="js/auth-guard.js"></script>
+
+</head>
+
+<body>
+
+<header class="header">
+
+<button
+class="menu-btn"
+onclick="history.back()">
+
+←
+
+</button>
+
+<div class="header-center">
+
+<h1 class="logo">
+
+<span class="sell">SELL</span><span class="by">BY</span>
+
+</h1>
+
+<p class="tagline">
+
+Ad Details
+
+</p>
+
+</div>
+
+</header>
+
+<main class="details-container">
+
+<div
+id="imageGallery"
+class="image-gallery">
+
+<img
+id="mainImage"
+src=""
+alt="Ad Image">
+
+</div>
+
+<div
+class="details-card">
+
+<h2
+id="adTitle">
+
+Loading...
+
+</h2>
+
+<h3
+id="adPrice">
+
+₹0
+
+</h3>
+
+<p
+id="adLocation">
+
+Loading location...
+
+</p>
+<!-- ===================================================== -->
+<!--                SELLBY DETAILS.HTML                   -->
+<!--                    HTML PART 2                       -->
+<!-- ===================================================== -->
+
+<p
+id="adDescription">
+
+Loading description...
+
+</p>
+
+<hr>
+
+<div class="seller-card">
+
+<div class="seller-profile">
+
+<img
+id="sellerPhoto"
+src="https://placehold.co/80x80?text=%F0%9F%91%A4"
+alt="Seller">
+
+</div>
+
+<div class="seller-info">
+
+<h3
+id="sellerName">
+
+Loading Seller...
+
+</h3>
+
+<p>
+
+Verified SELLBY Member
+
+</p>
+
+</div>
+
+</div>
+
+<button
+
+id="chatBtn"
+
+class="publish-btn"
+
+style="margin-top:20px;width:100%;">
+
+💬 Chat with Seller
+
+</button>
+
+</div>
+
+</main>
+
+<style>
+
+.details-container{
+
+max-width:700px;
+
+margin:auto;
+
+padding:18px;
+
+}
+
+.image-gallery img{
+
+width:100%;
+
+height:280px;
+
+object-fit:cover;
+
+border-radius:18px;
+
+background:#eee;
+
+}
+
+.details-card{
+
+margin-top:18px;
+
+background:#fff;
+
+padding:20px;
+
+border-radius:18px;
+
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+
+}
+
+#adPrice{
+
+margin:12px 0;
+
+color:#6d28d9;
+
+font-weight:800;
+
+}
+
+#adDescription{
+
+margin:18px 0;
+
+line-height:1.7;
+
+}
+
+.seller-card{
+
+display:flex;
+
+align-items:center;
+
+gap:15px;
+
+margin-top:20px;
+
+}
+
+.seller-profile img{
+
+width:65px;
+
+height:65px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+border:2px solid #7c3aed;
+
+}
+
+.seller-info h3{
+
+margin-bottom:5px;
+
+}
+
+</style>
+<!-- ===================================================== -->
+<!--                SELLBY DETAILS.HTML                   -->
+<!--                    HTML PART 3                       -->
+<!-- ===================================================== -->
+
+<!-- ================= FIREBASE ================= -->
+
+<script
+type="module"
+src="js/firebase-config.js">
+
+</script>
+
+<!-- ================= DETAILS JS ================= -->
+
+<script
+type="module"
+src="js/details.js">
+
+</script>
+
+</body>
+
+</html>

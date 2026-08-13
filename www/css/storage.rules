@@ -1,0 +1,157 @@
+rules_version = '2';
+
+service firebase.storage {
+
+  match /b/{bucket}/o {
+
+    /* ===================================================== */
+    /*                SELLBY STORAGE RULES                  */
+    /*                      PART 1                          */
+    /* ===================================================== */
+    /*
+        File Name : storage.rules
+        Project   : SELLBY
+        Mission   : Sell Easy. Buy Easy.
+        Part      : 1
+        Contains  :
+        ✔ Helper Functions
+        ✔ User Uploads
+        ✔ Image Validation
+    */
+    /* ===================================================== */
+
+    function signedIn() {
+
+      return request.auth != null;
+
+    }
+
+    function isImage() {
+
+      return request.resource.contentType.matches(
+
+        'image/.*'
+
+      );
+
+    }
+
+    match /ads/{userId}/{fileName} {
+
+      allow read:
+
+        if true;
+
+      allow write:
+
+        if signedIn() &&
+
+           request.auth.uid == userId &&
+
+           isImage() &&
+
+           request.resource.size <
+
+           10 * 1024 * 1024;
+
+    }
+    /* ===================================================== */
+    /*                SELLBY STORAGE RULES                  */
+    /*                      PART 2                          */
+    /* ===================================================== */
+    /*
+        File Name : storage.rules
+        Project   : SELLBY
+        Mission   : Sell Easy. Buy Easy.
+        Part      : 2
+        Contains  :
+        ✔ Chat Images
+        ✔ Profile Images
+        ✔ Voice Uploads
+    */
+    /* ===================================================== */
+
+    match /chat/{userId}/{fileName} {
+
+      allow read:
+
+        if signedIn();
+
+      allow write:
+
+        if signedIn() &&
+
+           request.auth.uid == userId &&
+
+           isImage() &&
+
+           request.resource.size <
+
+           5 * 1024 * 1024;
+
+    }
+
+    match /profiles/{userId}/{fileName} {
+
+      allow read:
+
+        if true;
+
+      allow write:
+
+        if signedIn() &&
+
+           request.auth.uid == userId &&
+
+           isImage() &&
+
+           request.resource.size <
+
+           5 * 1024 * 1024;
+
+    }
+
+    match /voice/{userId}/{fileName} {
+
+      allow read:
+
+        if false;
+
+      allow write:
+
+        if signedIn() &&
+
+           request.auth.uid == userId &&
+
+           request.resource.size <
+
+           20 * 1024 * 1024;
+
+    }
+    /* ===================================================== */
+    /*                SELLBY STORAGE RULES                  */
+    /*                      PART 3                          */
+    /* ===================================================== */
+    /*
+        File Name : storage.rules
+        Project   : SELLBY
+        Mission   : Sell Easy. Buy Easy.
+        Part      : 3
+        Contains  :
+        ✔ Default Security Rule
+        ✔ Block Unauthorized Access
+        ✔ Close Storage Rules
+    */
+    /* ===================================================== */
+
+    match /{allPaths=**} {
+
+      allow read, write:
+
+        if false;
+
+    }
+
+  }
+
+}        

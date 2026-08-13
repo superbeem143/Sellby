@@ -1,0 +1,5 @@
+[33m148de16[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Fix firebase config
+[33mf840553[m Added Property Firestore publish
+[33m65f5837[m Connected post-property page with Firebase
+[33m43905f6[m Added property listing page
+[33mdc3751e[m Added category selection and category post pages

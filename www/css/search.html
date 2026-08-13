@@ -1,0 +1,290 @@
+<!-- ===================================================== -->
+<!--                SELLBY SEARCH.HTML                    -->
+<!--                   HTML PART 1                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : search.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 1
+    Contains  :
+    ✔ HTML Document Start
+    ✔ Head Section
+    ✔ Google Fonts
+    ✔ CSS Link
+    ✔ Header
+    ✔ Search Bar
+-->
+<!-- ===================================================== -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SELLBY | Search</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <button
+            class="back-btn"
+            onclick="history.back()">
+
+            ←
+
+        </button>
+
+        <div class="page-title">
+
+            <h1>
+
+                Search
+
+            </h1>
+
+            <p>
+
+                Find anything on SELLBY
+
+            </p>
+
+        </div>
+
+    </header>
+
+    <!-- ================= SEARCH ================= -->
+
+    <section class="search-section">
+
+        <div class="search-box">
+
+            <input
+                id="searchInput"
+                type="search"
+                placeholder="Search products, vehicles, properties...">
+
+            <button
+                id="searchBtn">
+
+                🔍
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ================= SEARCH RESULTS ================= -->
+
+    <main class="search-page">
+
+        <div
+            id="searchResults"
+            class="search-results">
+
+        </div>
+<!-- ===================================================== -->
+<!--                SELLBY SEARCH.HTML                    -->
+<!--                   HTML PART 2                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : search.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 2
+    Contains  :
+    ✔ Category Filter
+    ✔ Location Filter
+    ✔ Price Filter
+    ✔ Sort Filter
+-->
+<!-- ===================================================== -->
+
+        <section class="filters-section">
+
+            <select
+                id="categoryFilter">
+
+                <option value="">
+
+                    All Categories
+
+                </option>
+
+                <option value="property">
+
+                    Property
+
+                </option>
+
+                <option value="cars">
+
+                    Cars
+
+                </option>
+
+                <option value="bikes">
+
+                    Bikes
+
+                </option>
+
+                <option value="mobiles">
+
+                    Mobiles
+
+                </option>
+
+                <option value="electronics">
+
+                    Electronics
+
+                </option>
+
+                <option value="furniture">
+
+                    Furniture
+
+                </option>
+
+                <option value="others">
+
+                    Others
+
+                </option>
+
+            </select>
+
+            <input
+                id="locationFilter"
+                type="text"
+                placeholder="Location">
+
+            <input
+                id="minPrice"
+                type="number"
+                placeholder="Min Price">
+
+            <input
+                id="maxPrice"
+                type="number"
+                placeholder="Max Price">
+
+            <select
+                id="sortFilter">
+
+                <option value="newest">
+
+                    Newest First
+
+                </option>
+
+                <option value="oldest">
+
+                    Oldest First
+
+                </option>
+
+                <option value="low-high">
+
+                    Price: Low to High
+
+                </option>
+
+                <option value="high-low">
+
+                    Price: High to Low
+
+                </option>
+
+            </select>
+
+        </section>
+<!-- ===================================================== -->
+<!--                SELLBY SEARCH.HTML                    -->
+<!--                   HTML PART 3                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : search.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Empty Search State
+    ✔ Firebase Script
+    ✔ Search JavaScript
+    ✔ Filters JavaScript
+    ✔ Closing Body & HTML
+-->
+<!-- ===================================================== -->
+
+        <div
+            id="emptyState"
+            class="empty-state"
+            style="display:none;">
+
+            <h2>
+
+                🔍 No Results Found
+
+            </h2>
+
+            <p>
+
+                Try changing your search or filters.
+
+            </p>
+
+        </div>
+
+    </main>
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script
+        type="module"
+        src="js/firebase-config.js">
+    </script>
+
+    <!-- ================= SEARCH JS ================= -->
+
+    <script
+        type="module"
+        src="js/search.js">
+    </script>
+
+    <!-- ================= FILTERS JS ================= -->
+
+    <script
+        type="module"
+        src="js/filters.js">
+    </script>
+
+</body>
+
+</html>                

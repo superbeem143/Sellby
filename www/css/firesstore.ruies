@@ -1,0 +1,198 @@
+rules_version = '2';
+
+service cloud.firestore {
+
+  match /databases/{database}/documents {
+
+    /* ===================================================== */
+    /*                  SELLBY FIRESTORE RULES               */
+    /*                      PART 1                           */
+    /* ===================================================== */
+    /*
+        File Name : firestore.rules
+        Project   : SELLBY
+        Mission   : Sell Easy. Buy Easy.
+        Part      : 1
+        Contains  :
+        ✔ Helper Functions
+        ✔ User Authentication
+        ✔ Users Collection
+    */
+    /* ===================================================== */
+
+    function signedIn() {
+
+      return request.auth != null;
+
+    }
+
+    function isOwner(userId) {
+
+      return signedIn() &&
+
+             request.auth.uid == userId;
+
+    }
+
+    /* ================= USERS ================= */
+
+    match /users/{userId} {
+
+      allow read:
+
+        if isOwner(userId);
+
+      allow create:
+
+        if isOwner(userId);
+
+      allow update:
+
+        if isOwner(userId);
+
+      allow delete:
+
+        if false;
+
+    }
+    /* ===================================================== */
+    /*                  SELLBY FIRESTORE RULES               */
+    /*                      PART 2                           */
+    /* ===================================================== */
+    /*
+        File Name : firestore.rules
+        Project   : SELLBY
+        Mission   : Sell Easy. Buy Easy.
+        Part      : 2
+        Contains  :
+        ✔ Property
+        ✔ Cars
+        ✔ Bikes
+        ✔ Mobiles
+        ✔ Electronics
+        ✔ Furniture
+        ✔ Others
+    */
+    /* ===================================================== */
+
+    match /{category}/{adId}
+
+      where category in [
+
+        "property",
+
+        "cars",
+
+        "bikes",
+
+        "mobiles",
+
+        "electronics",
+
+        "furniture",
+
+        "others"
+
+      ] {
+
+      allow read:
+
+        if true;
+
+      allow create:
+
+        if signedIn();
+
+      allow update:
+
+        if signedIn() &&
+
+           resource.data.userId ==
+
+           request.auth.uid;
+
+      allow delete:
+
+        if signedIn() &&
+
+           resource.data.userId ==
+
+           request.auth.uid;
+
+    }
+    /* ===================================================== */
+    /*                  SELLBY FIRESTORE RULES               */
+    /*                      PART 3                           */
+    /* ===================================================== */
+    /*
+        File Name : firestore.rules
+        Project   : SELLBY
+        Mission   : Sell Easy. Buy Easy.
+        Part      : 3
+        Contains  :
+        ✔ Saved Ads
+        ✔ Reviews
+        ✔ Reports
+        ✔ Default Rule
+    */
+    /* ===================================================== */
+
+    match /savedAds/{savedId} {
+
+      allow read, create:
+
+        if signedIn();
+
+      allow update, delete:
+
+        if signedIn() &&
+
+           resource.data.userId ==
+
+           request.auth.uid;
+
+    }
+
+    match /reviews/{reviewId} {
+
+      allow read:
+
+        if true;
+
+      allow create:
+
+        if signedIn();
+
+      allow update, delete:
+
+        if signedIn() &&
+
+           resource.data.userId ==
+
+           request.auth.uid;
+
+    }
+
+    match /reports/{reportId} {
+
+      allow create:
+
+        if signedIn();
+
+      allow read, update, delete:
+
+        if false;
+
+    }
+
+    match /{document=**} {
+
+      allow read, write:
+
+        if false;
+
+    }
+
+  }
+
+}        

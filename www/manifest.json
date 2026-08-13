@@ -1,0 +1,172 @@
+{
+  /* ===================================================== */
+  /*                   SELLBY MANIFEST                     */
+  /*                  MANIFEST.JSON                        */
+  /*                      PART 1                           */
+  /* ===================================================== */
+  /*
+      File Name : manifest.json
+      Project   : SELLBY
+      Mission   : Sell Easy. Buy Easy.
+      Part      : 1
+      Contains  :
+      ✔ App Information
+      ✔ App Icons
+      ✔ Theme Colors
+  */
+  /* ===================================================== */
+
+  "name": "SELLBY",
+
+  "short_name": "SELLBY",
+
+  "description": "Sell Easy. Buy Easy.",
+
+  "start_url": "/index.html",
+
+  "scope": "/",
+
+  "display": "standalone",
+
+  "background_color": "#FFFFFF",
+
+  "theme_color": "#0B3D91",
+
+  "orientation": "portrait",
+
+  "icons": [
+
+    {
+
+      "src": "icons/icon-192.png",
+
+      "sizes": "192x192",
+
+      "type": "image/png"
+
+    },
+
+    {
+
+      "src": "icons/icon-512.png",
+
+      "sizes": "512x512",
+
+      "type": "image/png"
+
+    }
+
+  ],
+  /* ===================================================== */
+  /*                   SELLBY MANIFEST                     */
+  /*                  MANIFEST.JSON                        */
+  /*                      PART 2                           */
+  /* ===================================================== */
+  /*
+      File Name : manifest.json
+      Project   : SELLBY
+      Mission   : Sell Easy. Buy Easy.
+      Part      : 2
+      Contains  :
+      ✔ Shortcuts
+      ✔ Screenshots
+      ✔ Categories
+  */
+  /* ===================================================== */
+
+  "shortcuts": [
+
+    {
+
+      "name": "Post Ad",
+
+      "short_name": "Post",
+
+      "url": "/post-category.html",
+
+      "icons": [
+
+        {
+
+          "src": "icons/post-192.png",
+
+          "sizes": "192x192"
+
+        }
+
+      ]
+
+    },
+
+    {
+
+      "name": "Search",
+
+      "short_name": "Search",
+
+      "url": "/search.html",
+
+      "icons": [
+
+        {
+
+          "src": "icons/search-192.png",
+
+          "sizes": "192x192"
+
+        }
+
+      ]
+
+    }
+
+  ],
+
+  "screenshots": [
+
+    {
+
+      "src": "screenshots/home.png",
+
+      "sizes": "1080x1920",
+
+      "type": "image/png"
+
+    }
+
+  ],
+
+  "categories": [
+
+    "shopping",
+
+    "business",
+
+    "productivity"
+
+  ],
+  /* ===================================================== */
+  /*                   SELLBY MANIFEST                     */
+  /*                  MANIFEST.JSON                        */
+  /*                      PART 3                           */
+  /* ===================================================== */
+  /*
+      File Name : manifest.json
+      Project   : SELLBY
+      Mission   : Sell Easy. Buy Easy.
+      Part      : 3
+      Contains  :
+      ✔ Language
+      ✔ Direction
+      ✔ Final Configuration
+      ✔ Close Manifest
+  */
+  /* ===================================================== */
+
+  "lang": "en",
+
+  "dir": "ltr",
+
+  "prefer_related_applications": false
+
+}    

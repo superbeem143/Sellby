@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SELLBY - Choose Category</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script type="module" src="js/auth-guard.js"></script>
+
+<svg style="width:0;height:0;position:absolute;" aria-hidden="true">
+  <defs>
+    <linearGradient id="violet-pink-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#db2777" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f8fafc;
+}
+
+header{
+background:linear-gradient(135deg, #6d28d9, #db2777);
+color:#fff;
+padding:18px;
+text-align:center;
+font-size:22px;
+font-weight:700;
+box-shadow:0 4px 20px rgba(109, 40, 217, 0.2);
+}
+
+.container{
+padding:24px 18px;
+max-width:800px;
+margin:0 auto;
+}
+
+.title{
+text-align:center;
+font-size:24px;
+font-weight:700;
+color:#0f172a;
+margin-bottom:6px;
+}
+
+.subtitle{
+text-align:center;
+color:#64748b;
+margin-bottom:28px;
+font-size:15px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+.card{
+background:#fff;
+border-radius:24px;
+padding:28px 16px;
+text-align:center;
+text-decoration:none;
+color:#0f172a;
+box-shadow:0 10px 30px rgba(124, 58, 237, 0.08);
+border:1px solid #f1f5f9;
+transition:.25s;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+.card:hover{
+transform:translateY(-4px);
+box-shadow:0 15px 35px rgba(124, 58, 237, 0.15);
+border-color:rgba(124, 58, 237, 0.2);
+}
+
+.category-icon-box{
+width:68px;
+height:68px;
+border-radius:20px;
+background:linear-gradient(135deg, #f5f3ff 0%, #fdf2f8 100%);
+border:1px solid rgba(124, 58, 237, 0.12);
+display:flex;
+align-items:center;
+justify-content:center;
+margin:0 auto 12px;
+box-shadow:0 8px 20px rgba(124, 58, 237, 0.08);
+transition:transform .3s cubic-bezier(0.4, 0, 0.2, 1), background .3s ease;
+}
+
+.category-icon-box svg{
+width:38px;
+height:38px;
+}
+
+.card:hover .category-icon-box{
+transform:scale(1.1) translateY(-2px);
+background:linear-gradient(135deg, #ede9fe 0%, #fce7f3 100%);
+box-shadow:0 12px 25px rgba(124, 58, 237, 0.18);
+}
+
+.name{
+font-size:16px;
+font-weight:700;
+color:#0f172a;
+}
+
+</style>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+SELLBY
+</header>
+
+<div class="container">
+
+<div class="title">
+What do you want to sell?
+</div>
+
+<div class="subtitle">
+Choose a posting method or category
+</div>
+
+<a href="voice-post.html" class="voice-post-banner" style="display:flex;align-items:center;gap:16px;background:linear-gradient(135deg, #f5f3ff 0%, #fdf2f8 100%);border:2px solid #7c3aed;border-radius:20px;padding:18px 24px;text-decoration:none;margin-bottom:24px;box-shadow:0 8px 24px rgba(124, 58, 237, 0.12);transition:all 0.25s ease;">
+    <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg, #7c3aed, #db2777);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 4px 15px rgba(124, 58, 237, 0.3);">🎤</div>
+    <div style="flex:1;">
+        <div style="font-size:17px;font-weight:700;color:#6d28d9;">Voice Post — Speak to Post Ad</div>
+        <div style="font-size:13px;color:#64748b;margin-top:2px;">Describe your item in your own voice without typing</div>
+    </div>
+    <div style="font-size:18px;color:#7c3aed;font-weight:700;">→</div>
+</a>
+
+<div class="grid">
+
+<a href="post-property.html" class="card">
+    <div class="category-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="url(#violet-pink-grad)"></path>
+            <polyline points="9 22 9 12 15 12 15 22" stroke="#ffffff" stroke-width="1.8"></polyline>
+        </svg>
+    </div>
+    <div class="name">Property</div>
+</a>
+
+<a href="post-car.html" class="card">
+    <div class="category-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H7c-.8 0-1.5.4-1.9 1.1L3.3 11C2.5 11.3 2 12.1 2 13v3c0 .6.4 1 1 1h2"></path>
+            <circle cx="7" cy="17" r="2.5" fill="#db2777" stroke="#fff" stroke-width="1.5"></circle>
+            <circle cx="17" cy="17" r="2.5" fill="#db2777" stroke="#fff" stroke-width="1.5"></circle>
+        </svg>
+    </div>
+    <div class="name">Cars</div>
+</a>
+
+<a href="post-bike.html" class="card">
+    <div class="category-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="5.5" cy="17.5" r="3.5" fill="url(#violet-pink-grad)"></circle>
+            <circle cx="18.5" cy="17.5" r="3.5" fill="url(#violet-pink-grad)"></circle>
+            <path d="M15 6h2l3 6.5M12 17.5l-3-8h4l2.5 4.5"></path>
+        </svg>
+    </div>
+    <div class="name">Bikes</div>
+</a>
+
+<a href="post-mobile.html" class="card">
+    <div class="category-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="3" ry="3" fill="url(#violet-pink-grad)"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18" stroke="#fff" stroke-width="2.5"></line>
+            <line x1="10" y1="5" x2="14" y2="5" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"></line>
+        </svg>
+    </div>
+    <div class="name">Mobiles</div>
+</a>
+
+<a href="post-electronics.html" class="card">
+    <div class="category-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2" fill="url(#violet-pink-grad)"></rect>
+            <line x1="8" y1="21" x2="16" y2="21" stroke="#db2777" stroke-width="2.2"></line>
+            <line x1="12" y1="17" x2="12" y2="21" stroke="#db2777" stroke-width="2.2"></line>
+        </svg>
+    </div>
+    <div class="name">Electronics</div>
+</a>
+
+<a href="post-furniture.html" class="card">
+    <div class="category-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 19v2M18 19v2M4 11h16a2 2 0 0 1 2 2v4H2v-4a2 2 0 0 1 2-2z" fill="url(#violet-pink-grad)"></path>
+            <path d="M4 11V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5" stroke="#7c3aed" stroke-width="1.8"></path>
+        </svg>
+    </div>
+    <div class="name">Furniture</div>
+</a>
+
+<a href="post-others.html" class="card">
+    <div class="category-icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" fill="url(#violet-pink-grad)"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="#ffffff" stroke-width="1.8"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12" stroke="#ffffff" stroke-width="1.8"></line>
+        </svg>
+    </div>
+    <div class="name">Others</div>
+</a>
+
+</div>
+
+</div>
+
+<script type="module" src="js/post-ad.js"></script>
+
+</body>
+</html>    

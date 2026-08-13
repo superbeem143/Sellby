@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELLBY | About</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/auth-guard.js"></script>
+    <style>
+        .about-content { padding: 40px 18px; text-align: center; }
+        .about-logo { font-size: 44px; font-weight: 900; margin-bottom: 10px; }
+        .about-logo .sell { color: #6d28d9; }
+        .about-logo .by { background: var(--sellby-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .version { color: #64748b; font-size: 14px; margin-bottom: 30px; font-weight: 600; }
+        .about-text { color: #475569; line-height: 1.8; font-size: 15px; max-width: 500px; margin: 0 auto 40px; }
+        .social-row { display: flex; justify-content: center; gap: 20px; }
+        .social-link { width: 50px; height: 50px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; font-size: 20px; color: #7c3aed; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header class="category-header">
+        <button class="back-btn-small" onclick="history.back()">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </button>
+        <div class="category-title-area">
+            <h1 id="pageTitle">About</h1>
+        </div>
+    </header>
+
+    <main class="about-content">
+        <div class="about-logo">
+            <span class="sell">SELL</span><span class="by">BY</span>
+        </div>
+        <div class="version">Version 1.0.0</div>
+
+        <p class="about-text" id="aboutText">
+        </p>
+
+        <div class="social-row">
+            <a href="#" class="social-link">🌐</a>
+            <a href="#" class="social-link">📸</a>
+            <a href="#" class="social-link">📘</a>
+        </div>
+    </main>
+
+    <script type="module">
+        import { getTranslations } from "./js/i18n.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const trans = getTranslations();
+            document.getElementById('pageTitle').textContent = trans.about_title;
+            document.getElementById('aboutText').textContent = trans.about_text;
+        });
+    </script>
+</body>
+</html>

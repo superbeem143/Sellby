@@ -1,0 +1,246 @@
+<!-- ===================================================== -->
+<!--                SELLBY ADMIN.HTML                     -->
+<!--                   HTML PART 1                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : admin.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 1
+    Contains  :
+    ✔ HTML Document Start
+    ✔ Head Section
+    ✔ Google Fonts
+    ✔ CSS Link
+    ✔ Admin Header
+    ✔ Dashboard Cards
+-->
+<!-- ===================================================== -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SELLBY | Admin Dashboard</title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ================= ADMIN HEADER ================= -->
+
+    <header class="header">
+
+        <h1>
+
+            🛡️ SELLBY Admin
+
+        </h1>
+
+        <p>
+
+            Dashboard Overview
+
+        </p>
+
+    </header>
+
+    <!-- ================= DASHBOARD ================= -->
+
+    <main class="admin-page">
+
+        <section class="dashboard-grid">
+
+            <div class="dashboard-card">
+
+                <h2 id="totalUsers">
+
+                    0
+
+                </h2>
+
+                <p>
+
+                    👥 Total Users
+
+                </p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2 id="totalAds">
+
+                    0
+
+                </h2>
+
+                <p>
+
+                    📦 Total Ads
+
+                </p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2 id="totalReviews">
+
+                    0
+
+                </h2>
+
+                <p>
+
+                    ⭐ Total Reviews
+
+                </p>
+
+            </div>
+
+            <div class="dashboard-card">
+
+                <h2 id="pendingReports">
+
+                    0
+
+                </h2>
+
+                <p>
+
+                    🚩 Pending Reports
+
+                </p>
+
+            </div>
+
+        </section>
+<!-- ===================================================== -->
+<!--                SELLBY ADMIN.HTML                     -->
+<!--                   HTML PART 2                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : admin.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 2
+    Contains  :
+    ✔ Users Management
+    ✔ Ads Management
+    ✔ Reports Management
+    ✔ Search Box
+-->
+<!-- ===================================================== -->
+
+        <section class="admin-actions">
+
+            <div class="search-box">
+
+                <input
+                    id="adminSearch"
+                    type="search"
+                    placeholder="Search users or ads...">
+
+                <button
+                    id="searchBtn">
+
+                    🔍
+
+                </button>
+
+            </div>
+
+            <div class="admin-menu">
+
+                <a
+                    href="admin-users.html"
+                    class="profile-item">
+
+                    👥 Manage Users
+
+                </a>
+
+                <a
+                    href="admin-ads.html"
+                    class="profile-item">
+
+                    📦 Manage Ads
+
+                </a>
+
+                <a
+                    href="admin-reports.html"
+                    class="profile-item">
+
+                    🚩 Review Reports
+
+                </a>
+
+                <a
+                    href="reviews.html"
+                    class="profile-item">
+
+                    ⭐ Manage Reviews
+
+                </a>
+
+            </div>
+
+        </section>
+<!-- ===================================================== -->
+<!--                SELLBY ADMIN.HTML                     -->
+<!--                   HTML PART 3                        -->
+<!-- ===================================================== -->
+<!--
+    File Name : admin.html
+    Project   : SELLBY
+    Mission   : Sell Easy. Buy Easy.
+    Part      : 3
+    Contains  :
+    ✔ Firebase Script
+    ✔ Admin JavaScript
+    ✔ Closing Body
+    ✔ Closing HTML
+-->
+<!-- ===================================================== -->
+
+    </main>
+
+    <!-- ================= FIREBASE ================= -->
+
+    <script
+        type="module"
+        src="js/firebase-config.js">
+    </script>
+
+    <!-- ================= ADMIN JS ================= -->
+
+    <script
+        type="module"
+        src="js/admin.js">
+    </script>
+
+</body>
+
+</html>                

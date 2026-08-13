@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SELLBY | Safety & Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/auth-guard.js"></script>
+    <style>
+        .safety-content { padding: 24px 18px; line-height: 1.6; }
+        .safety-card { background: #fff; border-radius: 20px; padding: 20px; margin-bottom: 20px; border-left: 5px solid #7c3aed; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .safety-card h2 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: #1e293b; }
+        .safety-card p { font-size: 14px; color: #475569; }
+        .report-btn { display: block; width: 100%; padding: 16px; background: #fef2f2; color: #dc2626; text-align: center; border-radius: 16px; font-weight: 700; text-decoration: none; margin-top: 30px; border: 1px solid #fee2e2; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header class="category-header">
+        <button class="back-btn-small" onclick="history.back()">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </button>
+        <div class="category-title-area">
+            <h1 id="pageTitle">Safety & Report</h1>
+            <p id="pageSubtitle">Your safety is our priority</p>
+        </div>
+    </header>
+
+    <main class="safety-content" id="mainContent">
+    </main>
+
+    <script type="module">
+        import { getTranslations } from "./js/i18n.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const trans = getTranslations();
+            document.getElementById('pageTitle').textContent = trans.safety_title;
+            document.getElementById('pageSubtitle').textContent = trans.safety_subtitle;
+
+            const container = document.getElementById('mainContent');
+            trans.safety_content.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'safety-card';
+                const h2 = document.createElement('h2');
+                h2.textContent = item.h;
+                const p = document.createElement('p');
+                p.textContent = item.p;
+                card.appendChild(h2);
+                card.appendChild(p);
+                container.appendChild(card);
+            });
+
+            const reportBtn = document.createElement('a');
+            reportBtn.href = 'mailto:report@sellby.app';
+            reportBtn.className = 'report-btn';
+            reportBtn.textContent = trans.report_btn;
+            container.appendChild(reportBtn);
+        });
+    </script>
+</body>
+</html>
