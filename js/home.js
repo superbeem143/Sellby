@@ -8,7 +8,6 @@ import {
     query,
     where,
     onSnapshot,
-    getDocs,
     orderBy,
     limit
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
@@ -294,24 +293,32 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Latest Ads implementation
-async function loadLatestAds() {
+// Global Identity Resolver to handle different category field names
+function getAdTitle(ad) {
+    if (ad.title) return ad.title;
+    if (ad.brand && ad.model) return `${ad.brand} ${ad.model}`;
+    if (ad.brand) return ad.brand;
+    if (ad.productName) return ad.productName;
+    return "Untitled Ad";
+}
+
+// Unified Latest Ads implementation (Real-time)
+function listenToLatestAds() {
     const latestAdsContainer = document.getElementById("latestAds");
     if (!latestAdsContainer) return;
 
-    try {
-        const q = query(
-            collection(db, "ads"),
-            where("status", "in", ["published", "available"]),
-            orderBy("createdAt", "desc"),
-            limit(10)
-        );
+    const q = query(
+        collection(db, "ads"),
+        where("status", "in", ["published", "available"]),
+        orderBy("createdAt", "desc"),
+        limit(12)
+    );
 
-        const snapshot = await getDocs(q);
+    onSnapshot(q, (snapshot) => {
         latestAdsContainer.innerHTML = "";
 
         if (snapshot.empty) {
-            latestAdsContainer.innerHTML = `<div style="text-align:center;padding:20px;color:#64748b;">No ads published yet.</div>`;
+            latestAdsContainer.innerHTML = `<div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">No ads published yet.</div>`;
             return;
         }
 
@@ -320,14 +327,14 @@ async function loadLatestAds() {
             const card = document.createElement("div");
             card.className = "ad-card";
 
-            const image = (ad.imageUrls && ad.imageUrls.length) ? ad.imageUrls[0] : "images/sellby-handshake.png";
+            const image = (ad.imageUrls && ad.imageUrls.length) ? ad.imageUrls[0] : "images/sellby-logo.png";
 
             card.innerHTML = `
                 <div class="ad-image">
-                    <img src="${image}" alt="${escapeHtml(ad.title || ad.brand + ' ' + ad.model)}">
+                    <img src="${image}" alt="${escapeHtml(getAdTitle(ad))}">
                 </div>
                 <div class="ad-content">
-                    <div class="ad-title">${escapeHtml(ad.title || ad.brand + ' ' + ad.model || ad.productName || 'Untitled')}</div>
+                    <div class="ad-title">${escapeHtml(getAdTitle(ad))}</div>
                     <div class="ad-price">₹${Number(ad.price || 0).toLocaleString("en-IN")}</div>
                     <div class="ad-location">📍 ${escapeHtml(ad.location || 'Location N/A')}</div>
                 </div>
@@ -339,14 +346,14 @@ async function loadLatestAds() {
 
             latestAdsContainer.appendChild(card);
         });
-    } catch (error) {
-        console.warn("Error loading latest ads:", error);
-    }
+    }, (error) => {
+        console.error("Error listening to latest ads:", error);
+    });
 }
 
-// Utility to fetch latest ads on load
+// Initialize on load
 document.addEventListener("DOMContentLoaded", () => {
-    loadLatestAds();
+    listenToLatestAds();
 });
 
-console.log("SELLBY Home Script Ready");
+console.log("SELLBY Home Script Ready (Unified Ads Flow)");

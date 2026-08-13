@@ -15,7 +15,7 @@
 */
 /* ===================================================== */
 
-import { db, storage } from "./firebase-config.js";
+import { db, storage, auth } from "./firebase-config.js";
 
 import {
     collection,
