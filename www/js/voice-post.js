@@ -103,111 +103,69 @@ if (SpeechRecognition) {
 }
 
 if (startVoiceBtn) {
-
     startVoiceBtn.addEventListener(
-
         "click",
-
-        () => {
-
+        async () => {
             if (!recognition) {
-
                 alert("Speech recognition is not supported in this browser. Please try using Google Chrome or Microsoft Edge.");
-
-                if (voiceStatus) voiceStatus.textContent = "⚠️ Speech recognition unsupported in this browser.";
-
+                if (voiceStatus) voiceStatus.textContent = "⚠️ Speech recognition unsupported.";
                 return;
-
             }
 
             try {
+                // Pre-check microphone permission using the logic that works in Chat
+                voiceStatus.textContent = "⌛ Checking microphone access...";
+                await navigator.mediaDevices.getUserMedia({ audio: true });
 
                 voiceStatus.textContent = "🎤 Listening... Speak now.";
-
                 startVoiceBtn.disabled = true;
-
                 recognition.start();
 
             } catch (e) {
-
-                console.warn("Speech recognition start notice:", e);
-
+                console.error("Microphone access error:", e);
+                if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
+                    alert("Microphone permission denied. Please allow microphone access in Android settings for SELLBY.");
+                    if (voiceStatus) voiceStatus.textContent = "🚫 Permission denied.";
+                } else {
+                    alert("Could not access microphone. Please try again.");
+                }
                 startVoiceBtn.disabled = false;
-
             }
-
         }
-
     );
-
 }
 
 if (recognition) {
-
     recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        speechResult.value = transcript;
+        voiceStatus.textContent = "✅ Voice captured successfully.";
 
-        const transcript =
-
-            event.results[0][0].transcript;
-
-        speechResult.value =
-
-            transcript;
-
-        voiceStatus.textContent =
-
-            "✅ Voice captured successfully.";
-
-        const parsedData =
-
-            parseSpeech(transcript);
-
-        detectedCategory.value =
-
-            parsedData.category || "";
-
-        detectedPrice.value =
-
-            parsedData.price || "";
-
-        detectedLocation.value =
-
-            parsedData.location || "";
-
+        // Parse speech results
+        const parsedData = parseSpeech(transcript);
+        detectedCategory.value = parsedData.category || "";
+        detectedPrice.value = parsedData.price || "";
+        detectedLocation.value = parsedData.location || "";
     };
 
     recognition.onerror = (event) => {
-
         console.error("Speech recognition error:", event.error);
 
         if (event.error === "not-allowed" || event.error === "service-not-allowed") {
-
-            alert("Microphone permission denied. Please click the lock icon in your browser address bar to allow microphone access for SELLBY.");
-
-            voiceStatus.textContent = "🚫 Microphone permission denied.";
-
+            alert("Microphone permission denied. Please allow microphone access in Android settings.");
+            voiceStatus.textContent = "🚫 Permission denied.";
         } else if (event.error === "no-speech") {
-
-            voiceStatus.textContent = "⚠️ No speech detected. Please tap microphone and speak again.";
-
+            voiceStatus.textContent = "⚠️ No speech detected. Tap to try again.";
         } else if (event.error === "network") {
-
-            voiceStatus.textContent = "⚠️ Network error during speech recognition.";
-
+            voiceStatus.textContent = "⚠️ Network error. Check your connection.";
         } else {
-
-            voiceStatus.textContent = "❌ Voice recognition failed. Tap to try again.";
-
+            voiceStatus.textContent = "❌ Recognition failed. Tap to try again.";
         }
-
     };
 
     recognition.onend = () => {
-
         if (startVoiceBtn) startVoiceBtn.disabled = false;
-
     };
-
 }
 /* ===================================================== */
 /*               SELLBY VOICE-POST.JS                    */
