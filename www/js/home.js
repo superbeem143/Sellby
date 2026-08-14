@@ -139,18 +139,46 @@ if (voiceSearchBtn) {
     voiceSearchBtn.addEventListener("click", () => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) {
-            alert(t('failed'));
+            alert("Voice search is not supported in this browser. Please use Chrome.");
             return;
         }
-        const recognition = new SpeechRecognition();
-        recognition.start();
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            if (searchInput) {
-                searchInput.value = transcript;
+
+        try {
+            const recognition = new SpeechRecognition();
+            recognition.lang = "en-IN";
+            recognition.interimResults = false;
+            recognition.continuous = false;
+
+            // UI Feedback
+            if (searchInput) searchInput.placeholder = "🎤 Listening... Speak now";
+            voiceSearchBtn.style.opacity = "0.7";
+
+            recognition.start();
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                if (searchInput) searchInput.value = transcript;
                 window.location.href = `category.html?search=${encodeURIComponent(transcript.trim())}`;
-            }
-        };
+            };
+
+            recognition.onerror = (event) => {
+                console.warn("Speech error:", event.error);
+                if (searchInput) searchInput.placeholder = t('search_placeholder');
+                voiceSearchBtn.style.opacity = "1";
+                if (event.error === "not-allowed") {
+                    alert("Microphone permission denied.");
+                }
+            };
+
+            recognition.onend = () => {
+                if (searchInput && !searchInput.value) {
+                    searchInput.placeholder = t('search_placeholder');
+                }
+                voiceSearchBtn.style.opacity = "1";
+            };
+        } catch (e) {
+            console.error("Speech init error:", e);
+        }
     });
 }
 
