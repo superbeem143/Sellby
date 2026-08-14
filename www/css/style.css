@@ -2845,41 +2845,43 @@ button, input, select, textarea {
 .input-area {
     display: flex !important;
     align-items: center !important;
-    gap: 10px !important;
-    padding: 10px 16px !important;
-    background: #fff !important;
+    gap: 8px !important;
+    padding: 10px 14px !important;
+    background: #ffffff !important;
     border-top: 1px solid #e2e8f0 !important;
     position: sticky !important;
     bottom: 0 !important;
     width: 100% !important;
     z-index: 100 !important;
     padding-bottom: env(safe-area-inset-bottom, 10px) !important;
+    box-sizing: border-box !important;
 }
 
 .input-area input {
     flex: 1 !important;
-    height: 48px !important;
-    min-height: 48px !important;
+    height: 46px !important;
+    min-height: 46px !important;
     font-size: 15px !important;
-    border-radius: 24px !important;
-    padding: 0 20px !important;
+    border-radius: 23px !important;
+    padding: 0 18px !important;
     border: 2px solid #e2e8f0 !important;
     outline: none !important;
     background: #f8fafc !important;
+    width: 0 !important; /* Important for flex-grow to work without overflow */
 }
 
 .input-area input:focus {
     border-color: var(--primary) !important;
-    background: #fff !important;
+    background: #ffffff !important;
 }
 
 #sendBtn {
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
     background: var(--sellby-gradient) !important;
-    color: white !important;
-    border: 0 !important;
+    color: #ffffff !important;
+    border: 2px solid rgba(255,255,255,0.2) !important;
     outline: none !important;
     border-radius: 50% !important;
     display: flex !important;
@@ -2888,8 +2890,13 @@ button, input, select, textarea {
     cursor: pointer !important;
     flex-shrink: 0 !important;
     padding: 0 !important;
-    font-size: 20px !important;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2) !important;
+    font-size: 18px !important;
+    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2) !important;
+    transition: transform 0.2s ease !important;
+}
+
+#sendBtn:active {
+    transform: scale(0.9) !important;
 }
 
   /* 10. OTP SCREEN */
