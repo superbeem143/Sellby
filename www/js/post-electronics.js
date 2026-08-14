@@ -144,9 +144,7 @@ function prefillVoiceData() {
         if (rawData) {
             try {
                 const data = JSON.parse(rawData);
-                if (data.productName) document.getElementById("productName").value = data.productName;
-                if (data.price) document.getElementById("price").value = data.price;
-                if (data.location) document.getElementById("location").value = data.location;
+                // ONLY pre-fill description as per latest simplified requirement
                 if (data.description) document.getElementById("description").value = data.description;
 
                 // Clear after use

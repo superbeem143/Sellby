@@ -7,9 +7,6 @@ import { parseSpeech } from "./speech-parser.js";
 const startVoiceBtn = document.getElementById("startVoiceBtn");
 const voiceStatus = document.getElementById("voiceStatus");
 const speechResult = document.getElementById("speechResult");
-const detectedCategory = document.getElementById("detectedCategory");
-const detectedPrice = document.getElementById("detectedPrice");
-const detectedLocation = document.getElementById("detectedLocation");
 
 // Photo Elements
 const cameraBtn = document.getElementById("cameraBtn");
@@ -24,7 +21,6 @@ let selectedImage = null;
 let mediaRecorder = null;
 let audioChunks = [];
 let recordedAudioUrl = null;
-let parsedData = null;
 
 // Photo Handling
 if (cameraBtn) cameraBtn.onclick = () => cameraInput.click();
@@ -69,7 +65,7 @@ if (SpeechRecognition) {
         else if (currentLang === "hi") recognition.lang = "hi-IN";
         else recognition.lang = "en-IN";
 
-        recognition.interimResults = true; // Show results as they come
+        recognition.interimResults = true;
         recognition.continuous = false;
     } catch (e) {
         console.error("Speech init error:", e);
@@ -84,7 +80,7 @@ if (startVoiceBtn) {
         }
 
         if (!recognition) {
-            alert("Speech recognition not supported in this environment.");
+            alert("Speech recognition not supported.");
             return;
         }
 
@@ -92,7 +88,7 @@ if (startVoiceBtn) {
             voiceStatus.textContent = "⌛ Starting Microphone...";
             const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-            // 1. Start Audio Recording (Chat Logic)
+            // 1. Audio Recording
             mediaRecorder = new MediaRecorder(stream);
             audioChunks = [];
             mediaRecorder.ondataavailable = (e) => {
@@ -107,8 +103,8 @@ if (startVoiceBtn) {
 
             mediaRecorder.start();
 
-            // 2. Start Speech Recognition
-            speechResult.value = ""; // Clear previous
+            // 2. Speech Recognition
+            speechResult.value = "";
             recognition.start();
 
             voiceStatus.textContent = "🔴 Listening... Speak now";
@@ -117,7 +113,7 @@ if (startVoiceBtn) {
 
         } catch (e) {
             console.error("Recording start error:", e);
-            alert("Please allow microphone access in your Android settings.");
+            alert("Please allow microphone access.");
             voiceStatus.textContent = "❌ Permission denied";
         }
     });
@@ -141,30 +137,20 @@ if (recognition) {
             if (event.results[i].isFinal) {
                 finalTranscript += event.results[i][0].transcript;
             } else {
-                // Interim results can be shown if desired
+                // Showing interim results in the box for better UX
+                speechResult.value = event.results[i][0].transcript;
             }
         }
 
         if (finalTranscript) {
             speechResult.value = finalTranscript;
             voiceStatus.textContent = "✅ Speech recognized.";
-
-            // Connect to Fields
-            parsedData = parseSpeech(finalTranscript);
-            if (parsedData) {
-                detectedCategory.value = parsedData.category || "others";
-                detectedPrice.value = parsedData.price || "";
-                detectedLocation.value = parsedData.location || "";
-            }
         }
     };
 
-    recognition.onerror = (e) => {
-        console.warn("Recognition error:", e.error);
-        if (e.error !== 'no-speech') {
-            voiceStatus.textContent = "⚠️ Recognition ended.";
-            stopRecording();
-        }
+    recognition.onerror = () => {
+        voiceStatus.textContent = "⚠️ Listening ended.";
+        stopRecording();
     };
 
     recognition.onend = () => {
@@ -192,20 +178,22 @@ function showAudioPlayback(url) {
 const continueBtn = document.getElementById("continueBtn");
 if (continueBtn) {
     continueBtn.onclick = () => {
-        const cat = detectedCategory.value.trim().toLowerCase() || "others";
+        const fullText = speechResult.value.trim();
 
-        if (!speechResult.value.trim()) {
-            alert("Please record your voice details first.");
+        if (!fullText) {
+            alert("Please record or type your ad details first.");
             return;
         }
 
-        // Final sync of parsed data
-        if (!parsedData) {
-             parsedData = parseSpeech(speechResult.value);
-        }
+        // Use parseSpeech ONLY for routing (category detection)
+        const parsed = parseSpeech(fullText);
+        const cat = parsed.category || "others";
 
-        // Save to localStorage for pre-filling the next page
-        localStorage.setItem("voice_post_data", JSON.stringify(parsedData));
+        // Save ONLY the description to localStorage
+        const voiceData = {
+            description: fullText
+        };
+        localStorage.setItem("voice_post_data", JSON.stringify(voiceData));
 
         window.location.href = `post-${cat}.html?voice=true`;
     };
