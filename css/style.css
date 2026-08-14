@@ -261,6 +261,7 @@ body{
     color: var(--text-muted);
     margin-right: 4px;
     flex-shrink: 0;
+    cursor: pointer;
 }
 
 .voice-btn,

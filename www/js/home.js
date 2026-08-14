@@ -112,10 +112,23 @@ if (logoutBtn) {
 
 // Search input handling
 const searchInput = document.getElementById("searchInput");
+const searchBtnIcon = document.querySelector(".search-btn-icon");
+
 if (searchInput) {
     searchInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter" && searchInput.value.trim()) {
             window.location.href = `category.html?search=${encodeURIComponent(searchInput.value.trim())}`;
+        }
+    });
+}
+
+if (searchBtnIcon && searchInput) {
+    searchBtnIcon.addEventListener("click", () => {
+        if (searchInput.value.trim()) {
+            window.location.href = `category.html?search=${encodeURIComponent(searchInput.value.trim())}`;
+        } else {
+            // Optional: focus input if empty
+            searchInput.focus();
         }
     });
 }
