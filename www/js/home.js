@@ -127,9 +127,9 @@ auth.onAuthStateChanged((user) => {
     }
 
     try {
+        // Simplified query to avoid manual composite index requirements
         const unreadQuery = query(
             collection(db, "chats"),
-            where("participants", "array-contains", user.uid),
             where("unreadFor", "==", user.uid)
         );
 
@@ -183,7 +183,89 @@ function updateNotificationBadge() {
 if (notifyBtn) {
     notifyBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        window.location.href = "chats.html";
+
+        if (activeUnreadChats.length === 0) {
+            window.location.href = "chats.html";
+            return;
+        }
+
+        if (activeUnreadChats.length === 1) {
+            const chat = activeUnreadChats[0];
+            window.location.href = `chat.html?chatId=${chat.id}&adId=${chat.adId || ''}&sellerId=${chat.sellerId || ''}`;
+            return;
+        }
+
+        // If multiple unread chats, toggle notification dropdown popover
+        toggleNotificationPopover();
+    });
+}
+
+function toggleNotificationPopover() {
+    let popover = document.getElementById("notificationPopover");
+
+    if (popover) {
+        popover.style.display = (popover.style.display === "none" || !popover.style.display) ? "block" : "none";
+        return;
+    }
+
+    popover = document.createElement("div");
+    popover.id = "notificationPopover";
+    popover.style.cssText = `
+        position: absolute;
+        top: 60px;
+        right: 15px;
+        width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
+        background: #ffffff;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(124, 58, 237, 0.15);
+        border: 1px solid #f1f5f9;
+        z-index: 1000;
+        padding: 12px;
+    `;
+
+    renderPopoverContent(popover);
+    document.body.appendChild(popover);
+
+    // Close on click outside
+    document.addEventListener("click", (event) => {
+        if (!popover.contains(event.target) && event.target !== notifyBtn && !notifyBtn.contains(event.target)) {
+            popover.style.display = "none";
+        }
+    });
+}
+
+function renderPopoverContent(popover) {
+    const trans = getTranslations();
+    let html = `<div style="font-weight:700;font-size:14px;color:#6d28d9;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:5px;">${trans.my_chats} (${activeUnreadChats.length})</div>`;
+
+    activeUnreadChats.forEach((chat) => {
+        const title = chat.adTitle || "Ad Inquiry";
+        const msg = chat.lastMessage || "New message received";
+        const thumb = chat.adImage || "images/sellby-logo.png";
+
+        html += `
+            <div class="popover-item" data-chat-id="${chat.id}" data-ad-id="${chat.adId || ''}" data-seller-id="${chat.sellerId || ''}"
+                 style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;background:#f8f9fc;margin-bottom:8px;cursor:pointer;">
+                <img src="${thumb}" alt="Ad" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">
+                <div style="flex:1;overflow:hidden;">
+                    <div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${title}</div>
+                    <div style="font-size:12px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${msg}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    popover.innerHTML = html;
+
+    popover.querySelectorAll(".popover-item").forEach((item) => {
+        item.addEventListener("click", () => {
+            const chatId = item.dataset.chatId;
+            const adId = item.dataset.adId;
+            const sellerId = item.dataset.sellerId;
+            window.location.href = `chat.html?chatId=${chatId}&adId=${adId}&sellerId=${sellerId}`;
+        });
     });
 }
 
