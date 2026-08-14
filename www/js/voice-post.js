@@ -2,8 +2,6 @@
 /*               SELLBY VOICE-POST.JS                    */
 /* ===================================================== */
 
-import { parseSpeech } from "./speech-parser.js";
-
 const startVoiceBtn = document.getElementById("startVoiceBtn");
 const voiceStatus = document.getElementById("voiceStatus");
 const speechResult = document.getElementById("speechResult");
@@ -21,6 +19,7 @@ let selectedImage = null;
 let mediaRecorder = null;
 let audioChunks = [];
 let recordedAudioUrl = null;
+let finalTranscript = "";
 
 // Photo Handling
 if (cameraBtn) cameraBtn.onclick = () => cameraInput.click();
@@ -59,14 +58,14 @@ if (SpeechRecognition) {
     try {
         recognition = new SpeechRecognition();
 
-        // Detect App Language for better recognition
+        // Detect App Language
         const currentLang = localStorage.getItem("sellby_lang") || "en";
         if (currentLang === "te") recognition.lang = "te-IN";
         else if (currentLang === "hi") recognition.lang = "hi-IN";
         else recognition.lang = "en-IN";
 
         recognition.interimResults = true;
-        recognition.continuous = false;
+        recognition.continuous = true;
     } catch (e) {
         console.error("Speech init error:", e);
     }
@@ -104,10 +103,11 @@ if (startVoiceBtn) {
             mediaRecorder.start();
 
             // 2. Speech Recognition
+            finalTranscript = "";
             speechResult.value = "";
             recognition.start();
 
-            voiceStatus.textContent = "🔴 Listening... Speak now";
+            voiceStatus.textContent = "🔴 Recording & Listening...";
             startVoiceBtn.innerHTML = "⏹️ Stop Recording";
             startVoiceBtn.style.background = "#ef4444";
 
@@ -132,30 +132,30 @@ function stopRecording() {
 
 if (recognition) {
     recognition.onresult = (event) => {
-        let finalTranscript = '';
+        let interimTranscript = "";
         for (let i = event.resultIndex; i < event.results.length; ++i) {
+            const transcript = event.results[i][0].transcript;
             if (event.results[i].isFinal) {
-                finalTranscript += event.results[i][0].transcript;
+                finalTranscript += transcript + " ";
             } else {
-                // Showing interim results in the box for better UX
-                speechResult.value = event.results[i][0].transcript;
+                interimTranscript += transcript;
             }
         }
-
-        if (finalTranscript) {
-            speechResult.value = finalTranscript;
-            voiceStatus.textContent = "✅ Speech recognized.";
-        }
+        speechResult.value = (finalTranscript + interimTranscript).trim();
+        voiceStatus.textContent = "✅ Listening...";
     };
 
-    recognition.onerror = () => {
-        voiceStatus.textContent = "⚠️ Listening ended.";
-        stopRecording();
+    recognition.onerror = (event) => {
+        console.error("Recognition error:", event.error);
+        if (event.error !== 'no-speech') {
+            voiceStatus.textContent = "⚠️ Recognition interrupted.";
+            stopRecording();
+        }
     };
 
     recognition.onend = () => {
         if (voiceStatus.textContent.includes("Listening")) {
-             voiceStatus.textContent = "✅ Processing complete.";
+             voiceStatus.textContent = "✅ Recording finalized.";
              stopRecording();
         }
     };
@@ -185,17 +185,14 @@ if (continueBtn) {
             return;
         }
 
-        // Use parseSpeech ONLY for routing (category detection)
-        const parsed = parseSpeech(fullText);
-        const cat = parsed.category || "others";
-
-        // Save ONLY the description to localStorage
+        // Voice Posting has NO fixed category. It always routes to Other Post.
         const voiceData = {
             description: fullText
         };
         localStorage.setItem("voice_post_data", JSON.stringify(voiceData));
 
-        window.location.href = `post-${cat}.html?voice=true`;
+        // Always redirect to post-others.html (Generic / Other Post)
+        window.location.href = "post-others.html?voice=true";
     };
 }
 
