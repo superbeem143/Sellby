@@ -56,83 +56,87 @@ function loadUserChats() {
     }
 
     try {
-        // Primary query for chats the user is involved in
+        // Query for chats where the current user is a participant
         const chatsQuery = query(
             collection(db, "chats"),
             where("participants", "array-contains", currentUser.uid)
         );
 
         onSnapshot(chatsQuery, async (snapshot) => {
-            // Immediately hide loading once we have a response (even if empty)
-            if (loadingMessage) loadingMessage.style.display = "none";
+            try {
+                // Immediately hide loading state when we get a response
+                if (loadingMessage) loadingMessage.style.display = "none";
 
-            if (snapshot.empty) {
-                chatList.innerHTML = "";
-                if (emptyState) {
-                    const emptyTitle = emptyState.querySelector("h2") || emptyState.querySelector("h3");
-                    if (emptyTitle) emptyTitle.textContent = t('no_ads_yet') || "No Chats Yet";
-                    emptyState.style.display = "block";
+                if (snapshot.empty) {
+                    chatList.innerHTML = "";
+                    if (emptyState) {
+                        const emptyTitle = emptyState.querySelector("h2") || emptyState.querySelector("h3");
+                        if (emptyTitle) emptyTitle.textContent = t('no_ads_yet') || "No Chats Yet";
+                        emptyState.style.display = "block";
+                    }
+                    return;
                 }
-                return;
+
+                if (emptyState) emptyState.style.display = "none";
+
+                const newChatsList = [];
+                snapshot.forEach((chatDoc) => {
+                    newChatsList.push({ id: chatDoc.id, ...chatDoc.data() });
+                });
+
+                // Sort by most recent activity (updatedAt or createdAt)
+                newChatsList.sort((a, b) => {
+                    const timeA = a.updatedAt?.toMillis ? a.updatedAt.toMillis() : (a.createdAt?.toMillis ? a.createdAt.toMillis() : 0);
+                    const timeB = b.updatedAt?.toMillis ? b.updatedAt.toMillis() : (b.createdAt?.toMillis ? b.createdAt.toMillis() : 0);
+                    return timeB - timeA;
+                });
+
+                allChats = newChatsList;
+                renderChats(allChats);
+
+                // Perform background metadata enrichment if needed
+                newChatsList.forEach(chat => {
+                    // Enrich if title is missing or generic "Ad Inquiry"
+                    if ((!chat.adTitle || chat.adTitle === "Ad Inquiry") && chat.adId) {
+                        enrichChatWithAdMetadata(chat);
+                    }
+                });
+
+            } catch (err) {
+                console.error("Chats data processing error:", err);
             }
-
-            if (emptyState) emptyState.style.display = "none";
-
-            const newChatsList = [];
-            snapshot.forEach((chatDoc) => {
-                newChatsList.push({ id: chatDoc.id, ...chatDoc.data() });
-            });
-
-            // Sort by most recent activity
-            newChatsList.sort((a, b) => {
-                const timeA = a.updatedAt?.toMillis ? a.updatedAt.toMillis() : (a.createdAt?.toMillis ? a.createdAt.toMillis() : 0);
-                const timeB = b.updatedAt?.toMillis ? b.updatedAt.toMillis() : (b.createdAt?.toMillis ? b.createdAt.toMillis() : 0);
-                return timeB - timeA;
-            });
-
-            allChats = newChatsList;
-            renderChats(allChats);
-
-            // Enrichment happens silently in the background
-            newChatsList.forEach(chat => {
-                if (!chat.adTitle && chat.adId) {
-                    enrichChatWithAdMetadata(chat);
-                }
-            });
-
         }, (error) => {
-            console.error("Chats query failed:", error);
+            console.error("Chats onSnapshot error:", error);
             if (loadingMessage) {
-                loadingMessage.textContent = "Unable to connect. Please check internet.";
+                loadingMessage.textContent = "Connection error. Please retry.";
                 loadingMessage.style.color = "#dc2626";
             }
         });
     } catch (err) {
-        console.error("Initialization error in loadUserChats:", err);
-        if (loadingMessage) loadingMessage.style.display = "none";
+        console.error("loadUserChats initialization error:", err);
     }
 }
 
 async function enrichChatWithAdMetadata(chat) {
     try {
+        // Only try 'ads' collection as it is the unified source
         const snap = await getDoc(doc(db, "ads", chat.adId));
         if (snap.exists()) {
             const data = snap.data();
             const image = (data.imageUrls && data.imageUrls.length) ? data.imageUrls[0] : "";
             const title = data.title || (data.brand ? (data.brand + " " + (data.model || "")) : "Ad Details");
 
-            // Background update to Firestore for persistent metadata
+            // Update chat document in background to save meta for future quick loads
             await updateDoc(doc(db, "chats", chat.id), {
                 adTitle: title,
                 adPrice: data.price || 0,
                 adImage: image,
                 adLocation: data.location || ""
             });
-
-            // Note: renderChats will trigger on the next onSnapshot update from Firestore
+            // The onSnapshot listener will trigger a re-render automatically after updateDoc
         }
     } catch (e) {
-        console.warn("Meta enrich skipped for chat:", chat.id);
+        console.warn("Failed to enrich metadata for chat:", chat.id);
     }
 }
 
@@ -166,7 +170,7 @@ function renderChats(chatsToRender) {
                     ${chat.adLocation ? ` • 📍 ${escapeHtml(chat.adLocation)}` : ''}
                 </div>
                 <div class="last-message" style="font-size:13px;color:${isUnread ? '#000' : '#64748b'};font-weight:${isUnread ? '700' : '400'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                    ${escapeHtml(chat.lastMessage || "Start Conversation")}
+                    ${escapeHtml(chat.lastMessage || "No messages yet")}
                 </div>
             </div>
             ${isUnread ? '<div class="unread-dot" style="width:10px;height:10px;background:#db2777;border-radius:50%;margin-left:8px;"></div>' : ''}
@@ -181,14 +185,14 @@ function renderChats(chatsToRender) {
 }
 
 if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
+    searchInput.oninput = (e) => {
         const queryVal = e.target.value.toLowerCase().trim();
         const filtered = allChats.filter(c => 
             (c.adTitle && c.adTitle.toLowerCase().includes(queryVal)) ||
             (c.lastMessage && c.lastMessage.toLowerCase().includes(queryVal))
         );
         renderChats(filtered);
-    });
+    };
 }
 
 function escapeHtml(text) {
@@ -197,4 +201,4 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-console.log("SELLBY My Chats Logic Robustly Finalized");
+console.log("SELLBY My Chats Logic Finalized and Robust");
