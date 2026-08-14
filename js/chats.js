@@ -33,28 +33,37 @@ auth.onAuthStateChanged((user) => {
 });
 
 function localizeUI() {
-    const trans = getTranslations();
-    const header = document.querySelector(".header");
-    if (header) {
-        header.textContent = `💬 ${trans.my_chats || "My Chats"}`;
+    try {
+        const trans = getTranslations();
+        const header = document.querySelector(".header");
+        if (header) {
+            header.textContent = `💬 ${trans.my_chats || "My Chats"}`;
+        }
+        if (searchInput) {
+            searchInput.placeholder = trans.search_placeholder || "Search chats...";
+        }
+    } catch (e) {
+        console.warn("Localization failed in chats.js:", e);
     }
-    if (searchInput) searchInput.placeholder = trans.search_placeholder || "Search...";
 }
 
 function loadUserChats() {
+    if (!currentUser) return;
+
     if (loadingMessage) {
-        loadingMessage.textContent = t('loading') || "Loading...";
+        loadingMessage.textContent = t('loading') || "Loading Chats...";
         loadingMessage.style.display = "block";
     }
 
-    // Query chats where current user is a participant
-    const chatsQuery = query(
-        collection(db, "chats"),
-        where("participants", "array-contains", currentUser.uid)
-    );
+    try {
+        // Primary query for chats the user is involved in
+        const chatsQuery = query(
+            collection(db, "chats"),
+            where("participants", "array-contains", currentUser.uid)
+        );
 
-    onSnapshot(chatsQuery, async (snapshot) => {
-        try {
+        onSnapshot(chatsQuery, async (snapshot) => {
+            // Immediately hide loading once we have a response (even if empty)
             if (loadingMessage) loadingMessage.style.display = "none";
 
             if (snapshot.empty) {
@@ -71,11 +80,10 @@ function loadUserChats() {
 
             const newChatsList = [];
             snapshot.forEach((chatDoc) => {
-                const chatData = { id: chatDoc.id, ...chatDoc.data() };
-                newChatsList.push(chatData);
+                newChatsList.push({ id: chatDoc.id, ...chatDoc.data() });
             });
 
-            // Sort by most recent update
+            // Sort by most recent activity
             newChatsList.sort((a, b) => {
                 const timeA = a.updatedAt?.toMillis ? a.updatedAt.toMillis() : (a.createdAt?.toMillis ? a.createdAt.toMillis() : 0);
                 const timeB = b.updatedAt?.toMillis ? b.updatedAt.toMillis() : (b.createdAt?.toMillis ? b.createdAt.toMillis() : 0);
@@ -85,20 +93,24 @@ function loadUserChats() {
             allChats = newChatsList;
             renderChats(allChats);
 
-            // Enrichment happens in background without blocking the initial render
+            // Enrichment happens silently in the background
             newChatsList.forEach(chat => {
                 if (!chat.adTitle && chat.adId) {
                     enrichChatWithAdMetadata(chat);
                 }
             });
 
-        } catch (err) {
-            console.error("Chats snapshot error:", err);
-        }
-    }, (error) => {
-        console.error("Error loading chats listener:", error);
+        }, (error) => {
+            console.error("Chats query failed:", error);
+            if (loadingMessage) {
+                loadingMessage.textContent = "Unable to connect. Please check internet.";
+                loadingMessage.style.color = "#dc2626";
+            }
+        });
+    } catch (err) {
+        console.error("Initialization error in loadUserChats:", err);
         if (loadingMessage) loadingMessage.style.display = "none";
-    });
+    }
 }
 
 async function enrichChatWithAdMetadata(chat) {
@@ -109,13 +121,7 @@ async function enrichChatWithAdMetadata(chat) {
             const image = (data.imageUrls && data.imageUrls.length) ? data.imageUrls[0] : "";
             const title = data.title || (data.brand ? (data.brand + " " + (data.model || "")) : "Ad Details");
 
-            // Local update for immediate UI refresh if needed
-            chat.adTitle = title;
-            chat.adImage = image;
-            chat.adPrice = data.price || 0;
-            chat.adLocation = data.location || "";
-
-            // Update Firestore so next load is faster
+            // Background update to Firestore for persistent metadata
             await updateDoc(doc(db, "chats", chat.id), {
                 adTitle: title,
                 adPrice: data.price || 0,
@@ -123,11 +129,10 @@ async function enrichChatWithAdMetadata(chat) {
                 adLocation: data.location || ""
             });
 
-            // Re-render to show new metadata
-            renderChats(allChats);
+            // Note: renderChats will trigger on the next onSnapshot update from Firestore
         }
     } catch (e) {
-        console.warn("Enrichment error for chat:", chat.id, e);
+        console.warn("Meta enrich skipped for chat:", chat.id);
     }
 }
 
@@ -161,7 +166,7 @@ function renderChats(chatsToRender) {
                     ${chat.adLocation ? ` • 📍 ${escapeHtml(chat.adLocation)}` : ''}
                 </div>
                 <div class="last-message" style="font-size:13px;color:${isUnread ? '#000' : '#64748b'};font-weight:${isUnread ? '700' : '400'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                    ${escapeHtml(chat.lastMessage || "No messages yet")}
+                    ${escapeHtml(chat.lastMessage || "Start Conversation")}
                 </div>
             </div>
             ${isUnread ? '<div class="unread-dot" style="width:10px;height:10px;background:#db2777;border-radius:50%;margin-left:8px;"></div>' : ''}
@@ -176,14 +181,14 @@ function renderChats(chatsToRender) {
 }
 
 if (searchInput) {
-    searchInput.oninput = (e) => {
+    searchInput.addEventListener("input", (e) => {
         const queryVal = e.target.value.toLowerCase().trim();
         const filtered = allChats.filter(c => 
             (c.adTitle && c.adTitle.toLowerCase().includes(queryVal)) ||
             (c.lastMessage && c.lastMessage.toLowerCase().includes(queryVal))
         );
         renderChats(filtered);
-    };
+    });
 }
 
 function escapeHtml(text) {
@@ -192,4 +197,4 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-console.log("SELLBY My Chats Logic Finalized");
+console.log("SELLBY My Chats Logic Robustly Finalized");
