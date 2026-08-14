@@ -2,7 +2,7 @@
 /*              SELLBY AD-DETAILS.JS                     */
 /* ===================================================== */
 
-import { db } from "./firebase-config.js";
+import { db, auth } from "./firebase-config.js";
 import {
     doc,
     getDoc
@@ -16,6 +16,8 @@ const loading = document.getElementById("loading");
 const content = document.getElementById("content");
 const errorBox = document.getElementById("error");
 
+let adData = null;
+
 async function loadAdDetails() {
     if (!adId) {
         if (loading) loading.style.display = "none";
@@ -27,8 +29,7 @@ async function loadAdDetails() {
     }
 
     try {
-        let adData = null;
-        const collectionsToTry = targetCol 
+        const collectionsToTry = targetCol
             ? [targetCol, "ads", "properties", "property", "cars", "bikes", "mobiles", "electronics", "furniture", "others"]
             : ["ads", "properties", "property", "cars", "bikes", "mobiles", "electronics", "furniture", "others"];
 
@@ -37,11 +38,11 @@ async function loadAdDetails() {
                 const docRef = doc(db, colName, adId);
                 const snap = await getDoc(docRef);
                 if (snap.exists()) {
-                    adData = { id: snap.id, ...snap.data() };
+                    adData = { id: snap.id, collectionName: colName, ...snap.data() };
                     break;
                 }
             } catch (e) {
-                // Continue trying other collection names
+                console.warn(`Could not find in ${colName}`);
             }
         }
 
@@ -74,10 +75,14 @@ function renderAd(ad) {
         slider.innerHTML = "";
         if (ad.imageUrls && ad.imageUrls.length) {
             ad.imageUrls.forEach((imgUrl) => {
-                slider.innerHTML += `<img src="${imgUrl}" class="ad-image" alt="${escapeHtml(ad.title)}">`;
+                const img = document.createElement("img");
+                img.src = imgUrl;
+                img.className = "ad-main-image";
+                img.alt = ad.title || "Ad Image";
+                slider.appendChild(img);
             });
         } else {
-            slider.innerHTML = `<img src="https://via.placeholder.com/900x500?text=No+Image" class="ad-image" alt="No image available">`;
+            slider.innerHTML = `<img src="https://via.placeholder.com/900x500?text=No+Image" class="ad-main-image" alt="No image available">`;
         }
     }
 
@@ -85,10 +90,10 @@ function renderAd(ad) {
     if (priceElem) priceElem.textContent = "₹ " + Number(ad.price || 0).toLocaleString("en-IN");
 
     const titleElem = document.getElementById("adTitle");
-    if (titleElem) titleElem.textContent = ad.title || "Untitled Listing";
+    if (titleElem) titleElem.textContent = ad.title || ad.brand + " " + (ad.model || "") || "Untitled Listing";
 
     const locationElem = document.getElementById("adLocation");
-    if (locationElem) locationElem.textContent = ad.location || "N/A";
+    if (locationElem) locationElem.textContent = ad.location || "Location N/A";
 
     const catElem = document.getElementById("adCategory");
     if (catElem) catElem.textContent = (ad.category || ad.type || "Marketplace").toUpperCase();
@@ -98,25 +103,27 @@ function renderAd(ad) {
 
     const chatBtn = document.getElementById("chatBtn");
     if (chatBtn) {
-        const user = auth.currentUser;
-        const sellerId = ad.sellerId || ad.userId;
+        // Wait for Auth to be ready before deciding to show/hide the chat button
+        auth.onAuthStateChanged((user) => {
+            const sellerId = ad.sellerId || ad.userId;
 
-        // OWN-LISTING CHECK: If current user is the seller, hide/remove chat button
-        if (user && user.uid === sellerId) {
-            chatBtn.style.display = "none";
-        }
-
-        const existingChatId = params.get("chatId");
-        
-        chatBtn.addEventListener("click", () => {
-            if (existingChatId) {
-                window.location.href = `chat.html?chatId=${existingChatId}&adId=${ad.id}&sellerId=${sellerId || ''}`;
+            if (user && user.uid === sellerId) {
+                chatBtn.style.display = "none";
             } else {
-                if (!sellerId) {
-                    alert("Seller information is not available for this listing.");
-                    return;
-                }
-                window.location.href = `chat.html?adId=${ad.id}&sellerId=${sellerId}`;
+                chatBtn.style.display = "block";
+
+                // Remove any previous listener to be safe
+                const newBtn = chatBtn.cloneNode(true);
+                chatBtn.parentNode.replaceChild(newBtn, chatBtn);
+
+                newBtn.addEventListener("click", () => {
+                    if (!sellerId) {
+                        alert("Seller information is not available for this listing.");
+                        return;
+                    }
+                    // Navigate to chat
+                    window.location.href = `chat.html?adId=${ad.id}&sellerId=${sellerId}`;
+                });
             }
         });
     }
@@ -128,9 +135,11 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-document.addEventListener("DOMContentLoaded", loadAdDetails);
-if (document.readyState === "interactive" || document.readyState === "complete") {
-    loadAdDetails();
+// Ensure execution happens only once
+if (!window.adDetailsLoaded) {
+    window.adDetailsLoaded = true;
+    document.addEventListener("DOMContentLoaded", loadAdDetails);
+    if (document.readyState === "interactive" || document.readyState === "complete") {
+        loadAdDetails();
+    }
 }
-
-console.log("SELLBY Ad-Details Ready");
