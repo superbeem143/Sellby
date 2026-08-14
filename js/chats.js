@@ -34,8 +34,11 @@ auth.onAuthStateChanged((user) => {
 
 function localizeUI() {
     const trans = getTranslations();
-    const h1 = document.querySelector(".category-header h1");
-    if (h1) h1.textContent = trans.my_chats;
+    const header = document.querySelector(".header");
+    if (header) {
+        // Preserving the emoji icon if present
+        header.textContent = `💬 ${trans.my_chats}`;
+    }
     if (searchInput) searchInput.placeholder = trans.search_placeholder;
 }
 
@@ -48,36 +51,41 @@ function loadUserChats() {
     );
 
     onSnapshot(chatsQuery, async (snapshot) => {
-        if (loadingMessage) loadingMessage.style.display = "none";
-        chatList.innerHTML = "";
-        allChats = [];
+        try {
+            if (loadingMessage) loadingMessage.style.display = "none";
+            chatList.innerHTML = "";
+            allChats = [];
 
-        if (snapshot.empty) {
-            if (emptyState) {
-                emptyState.querySelector("h3").textContent = t('no_ads_yet');
-                emptyState.style.display = "block";
+            if (snapshot.empty) {
+                if (emptyState) {
+                    const emptyTitle = emptyState.querySelector("h2") || emptyState.querySelector("h3");
+                    if (emptyTitle) emptyTitle.textContent = t('no_ads_yet');
+                    emptyState.style.display = "block";
+                }
+                return;
             }
-            return;
+
+            if (emptyState) emptyState.style.display = "none";
+
+            const chatPromises = [];
+            snapshot.forEach((chatDoc) => {
+                const chat = { id: chatDoc.id, ...chatDoc.data() };
+                allChats.push(chat);
+                chatPromises.push(enrichChatWithAdMetadata(chat));
+            });
+
+            await Promise.all(chatPromises);
+
+            allChats.sort((a, b) => {
+                const timeA = a.updatedAt?.toMillis ? a.updatedAt.toMillis() : (a.createdAt?.toMillis ? a.createdAt.toMillis() : 0);
+                const timeB = b.updatedAt?.toMillis ? b.updatedAt.toMillis() : (b.createdAt?.toMillis ? b.createdAt.toMillis() : 0);
+                return timeB - timeA;
+            });
+
+            renderChats(allChats);
+        } catch (err) {
+            console.error("Snapshot processing error:", err);
         }
-
-        if (emptyState) emptyState.style.display = "none";
-
-        const chatPromises = [];
-        snapshot.forEach((chatDoc) => {
-            const chat = { id: chatDoc.id, ...chatDoc.data() };
-            allChats.push(chat);
-            chatPromises.push(enrichChatWithAdMetadata(chat));
-        });
-
-        await Promise.all(chatPromises);
-
-        allChats.sort((a, b) => {
-            const timeA = a.updatedAt?.toMillis ? a.updatedAt.toMillis() : (a.createdAt?.toMillis ? a.createdAt.toMillis() : 0);
-            const timeB = b.updatedAt?.toMillis ? b.updatedAt.toMillis() : (b.createdAt?.toMillis ? b.createdAt.toMillis() : 0);
-            return timeB - timeA;
-        });
-
-        renderChats(allChats);
     }, (error) => {
         console.error("Error loading chats:", error);
         if (loadingMessage) loadingMessage.style.display = "none";
@@ -91,6 +99,7 @@ function loadUserChats() {
 async function enrichChatWithAdMetadata(chat) {
     if (!chat.adTitle && chat.adId) {
         try {
+            // Simplified to only check 'ads' collection for performance
             const snap = await getDoc(doc(db, "ads", chat.adId));
             if (snap.exists()) {
                 const data = snap.data();
@@ -102,6 +111,7 @@ async function enrichChatWithAdMetadata(chat) {
                 chat.adImage = image;
                 chat.adLocation = data.location || "";
 
+                // Update Firestore if local metadata was updated
                 updateDoc(doc(db, "chats", chat.id), {
                     adTitle: chat.adTitle,
                     adPrice: chat.adPrice,
