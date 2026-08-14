@@ -3,6 +3,7 @@
 /* ===================================================== */
 
 import { auth, signOut, db } from "./firebase-config.js";
+import { getTranslations, t } from "./i18n.js";
 import {
     collection,
     query,
@@ -18,6 +19,59 @@ const logoutBtn = document.getElementById("logoutBtn");
 const notifyBtn = document.getElementById("notifyBtn") || document.querySelector(".notify-btn");
 
 let activeUnreadChats = [];
+
+// Initialize i18n for Home
+function initI18n() {
+    const trans = getTranslations();
+
+    // Static Labels
+    const logoSell = document.querySelector(".logo .sell");
+    const logoBy = document.querySelector(".logo .by");
+    const tagline = document.querySelector(".tagline");
+    const heroH2 = document.querySelector(".hero h2");
+    const heroP = document.querySelector(".hero p");
+    const browseH2 = document.querySelector(".categories .section-title");
+    const latestH2 = document.querySelector(".latest-ads .section-title");
+    const searchInp = document.getElementById("searchInput");
+
+    if (logoSell) logoSell.textContent = "SELL"; // App name remains same
+    if (logoBy) logoBy.textContent = "BY";
+    if (tagline) tagline.textContent = trans.hero_subtitle;
+    if (heroH2) heroH2.textContent = trans.hero_title;
+    if (heroP) heroP.textContent = trans.hero_subtitle;
+    if (browseH2) browseH2.textContent = trans.browse_categories;
+    if (latestH2) latestH2.textContent = trans.latest_ads;
+    if (searchInp) searchInp.placeholder = trans.search_placeholder;
+
+    // Menu Items
+    const menuItems = document.querySelectorAll(".menu-item");
+    if (menuItems.length >= 6) {
+        menuItems[0].childNodes[2].textContent = trans.profile;
+        menuItems[1].childNodes[2].textContent = trans.my_ads;
+        menuItems[2].childNodes[2].textContent = trans.my_chats;
+        menuItems[3].childNodes[2].textContent = trans.saved;
+        menuItems[4].childNodes[2].textContent = trans.settings;
+        menuItems[5].childNodes[2].textContent = trans.logout;
+    }
+
+    // Category Titles
+    const catTitles = document.querySelectorAll(".category-card h3");
+    const cats = [trans.cat_mobiles, trans.cat_cars, trans.cat_properties, trans.cat_electronics, trans.cat_furniture, trans.cat_others];
+    catTitles.forEach((el, i) => { if(cats[i]) el.textContent = cats[i]; });
+
+    // Bottom Nav
+    const navSmalls = document.querySelectorAll(".bottom-nav small");
+    if (navSmalls.length >= 4) {
+        navSmalls[0].textContent = trans.home;
+        navSmalls[1].textContent = trans.saved;
+        navSmalls[2].textContent = trans.chat;
+        navSmalls[3].textContent = trans.profile;
+    }
+
+    // Floating Button
+    const floatText = document.querySelector(".floating-text");
+    if (floatText) floatText.textContent = trans.sell;
+}
 
 if (menuBtn && sideMenu) {
     menuBtn.addEventListener("click", (e) => {
@@ -66,78 +120,8 @@ if (searchInput) {
     });
 }
 
-// Voice Search Button Listener
-const voiceBtn = document.querySelector(".voice-btn");
-if (voiceBtn) {
-    voiceBtn.addEventListener("click", () => {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) {
-            alert("Voice search is not supported in this browser. Please type your search or use Google Chrome / Microsoft Edge.");
-            return;
-        }
-
-        try {
-            const recognition = new SpeechRecognition();
-            recognition.lang = "en-IN";
-            recognition.interimResults = false;
-            recognition.continuous = false;
-
-            if (searchInput) searchInput.placeholder = "🎤 Listening... Speak now";
-            voiceBtn.style.opacity = "0.7";
-
-            recognition.start();
-
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                if (searchInput) searchInput.value = transcript;
-                window.location.href = `category.html?search=${encodeURIComponent(transcript.trim())}`;
-            };
-
-            recognition.onerror = (event) => {
-                console.warn("Home voice search error:", event.error);
-                if (event.error === "not-allowed" || event.error === "service-not-allowed") {
-                    alert("Microphone permission denied. Please allow microphone access in your browser settings to use Voice Search.");
-                } else if (event.error === "no-speech") {
-                    alert("No speech detected. Please tap microphone button and speak again.");
-                }
-                if (searchInput) searchInput.placeholder = "Search anything...";
-                voiceBtn.style.opacity = "1";
-            };
-
-            recognition.onend = () => {
-                if (searchInput) searchInput.placeholder = "Search anything...";
-                voiceBtn.style.opacity = "1";
-            };
-        } catch (err) {
-            console.error("Voice search initialization error:", err);
-        }
-    });
-}
-
-// Camera / Visual Search Button Listener
-const cameraBtn = document.querySelector(".camera-btn");
-if (cameraBtn) {
-    cameraBtn.addEventListener("click", () => {
-        const fileInput = document.createElement("input");
-        fileInput.type = "file";
-        fileInput.accept = "image/*";
-        fileInput.onchange = (e) => {
-            if (e.target.files && e.target.files[0]) {
-                alert("Image uploaded for Visual Search. Redirecting to browse items...");
-                window.location.href = "category.html";
-            }
-        };
-        fileInput.click();
-    });
-}
-
 auth.onAuthStateChanged((user) => {
     if (!user) {
-        if (logoutBtn) {
-            logoutBtn.innerHTML = '<span class="menu-icon">🔑</span> Login';
-            logoutBtn.href = "login.html";
-            logoutBtn.classList.remove("logout");
-        }
         window.location.replace("login.html");
         return;
     }
@@ -199,91 +183,7 @@ function updateNotificationBadge() {
 if (notifyBtn) {
     notifyBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-
-        if (activeUnreadChats.length === 0) {
-            window.location.href = "chats.html";
-            return;
-        }
-
-        if (activeUnreadChats.length === 1) {
-            const chat = activeUnreadChats[0];
-            window.location.href = `chat.html?chatId=${chat.id}&adId=${chat.adId || ''}&sellerId=${chat.sellerId || ''}`;
-            return;
-        }
-
-        // If multiple unread chats, toggle notification dropdown popover
-        toggleNotificationPopover();
-    });
-}
-
-function toggleNotificationPopover() {
-    let popover = document.getElementById("notificationPopover");
-
-    if (popover) {
-        popover.style.display = (popover.style.display === "none" || !popover.style.display) ? "block" : "none";
-        return;
-    }
-
-    popover = document.createElement("div");
-    popover.id = "notificationPopover";
-    popover.style.cssText = `
-        position: absolute;
-        top: 60px;
-        right: 15px;
-        width: 320px;
-        max-height: 400px;
-        overflow-y: auto;
-        background: #ffffff;
-        border-radius: 18px;
-        box-shadow: 0 10px 30px rgba(124, 58, 237, 0.15);
-        border: 1px solid #f1f5f9;
-        z-index: 1000;
-        padding: 14px;
-        font-family: 'Poppins', sans-serif;
-    `;
-
-    renderPopoverContent(popover);
-    document.body.appendChild(popover);
-
-    document.addEventListener("click", function closePopover(event) {
-        if (!popover.contains(event.target) && event.target !== notifyBtn && !notifyBtn.contains(event.target)) {
-            popover.style.display = "none";
-        }
-    });
-}
-
-function renderPopoverContent(popover) {
-    let html = `<div style="font-weight:700;font-size:14px;color:#6d28d9;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center;">
-        <span>🔔 Notifications (${activeUnreadChats.length})</span>
-        <a href="chats.html" style="font-size:12px;color:#db2777;text-decoration:none;font-weight:600;">View All</a>
-    </div>`;
-
-    activeUnreadChats.forEach((chat) => {
-        const title = chat.adTitle || "Ad Inquiry";
-        const msg = chat.lastMessage || "New message received";
-        const thumb = chat.adImage || "https://via.placeholder.com/45x45?text=Ad";
-
-        html += `
-            <div class="popover-item" data-chat-id="${chat.id}" data-ad-id="${chat.adId || ''}" data-seller-id="${chat.sellerId || ''}" 
-                 style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:#f8f9fc;margin-bottom:8px;cursor:pointer;transition:background 0.2s;">
-                <img src="${thumb}" alt="Ad" style="width:42px;height:42px;border-radius:6px;object-fit:cover;flex-shrink:0;">
-                <div style="flex:1;overflow:hidden;">
-                    <div style="font-weight:600;font-size:13px;color:#222;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(title)}</div>
-                    <div style="font-size:12px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">💬 ${escapeHtml(msg)}</div>
-                </div>
-            </div>
-        `;
-    });
-
-    popover.innerHTML = html;
-
-    popover.querySelectorAll(".popover-item").forEach((item) => {
-        item.addEventListener("click", () => {
-            const chatId = item.dataset.chatId;
-            const adId = item.dataset.adId;
-            const sellerId = item.dataset.sellerId;
-            window.location.href = `chat.html?chatId=${chatId}&adId=${adId}&sellerId=${sellerId}`;
-        });
+        window.location.href = "chats.html";
     });
 }
 
@@ -299,15 +199,14 @@ function getAdTitle(ad) {
     if (ad.brand && ad.model) return `${ad.brand} ${ad.model}`;
     if (ad.brand) return ad.brand;
     if (ad.productName) return ad.productName;
-    return "Untitled Ad";
+    return t('untitled_ad');
 }
 
-// Unified Latest Ads implementation (Real-time + JavaScript Filtering for Index Stability)
+// Unified Latest Ads implementation
 function listenToLatestAds() {
     const latestAdsContainer = document.getElementById("latestAds");
     if (!latestAdsContainer) return;
 
-    // Fetch the last 50 ads from 'ads' collection by creation date
     const q = query(
         collection(db, "ads"),
         orderBy("createdAt", "desc"),
@@ -317,7 +216,6 @@ function listenToLatestAds() {
     onSnapshot(q, (snapshot) => {
         latestAdsContainer.innerHTML = "";
 
-        // Apply status filter in JavaScript to avoid composite index requirements
         const validAds = [];
         snapshot.forEach((docSnapshot) => {
             const data = docSnapshot.data();
@@ -327,24 +225,24 @@ function listenToLatestAds() {
         });
 
         if (validAds.length === 0) {
-            latestAdsContainer.innerHTML = `<div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">No ads published yet.</div>`;
+            latestAdsContainer.innerHTML = `<div style="text-align:center;padding:20px;color:#64748b;grid-column:1/-1;">${t('no_ads_yet')}</div>`;
             return;
         }
 
-        // Render first 12 matches
         validAds.slice(0, 12).forEach((ad) => {
             const card = document.createElement("div");
             card.className = "ad-card";
 
             const image = (ad.imageUrls && ad.imageUrls.length) ? ad.imageUrls[0] : "images/sellby-logo.png";
+            const title = getAdTitle(ad);
 
             card.innerHTML = `
                 <div class="ad-image">
-                    <img src="${image}" alt="${escapeHtml(getAdTitle(ad))}">
+                    <img src="${image}" alt="${escapeHtml(title)}">
                 </div>
                 <div class="ad-content">
-                    <div class="ad-title">${escapeHtml(getAdTitle(ad))}</div>
-                    <div class="ad-price">₹${Number(ad.price || 0).toLocaleString("en-IN")}</div>
+                    <div class="ad-title">${escapeHtml(title)}</div>
+                    <div class="ad-price">${t('price_symbol')}${Number(ad.price || 0).toLocaleString("en-IN")}</div>
                     <div class="ad-location">📍 ${escapeHtml(ad.location || 'Location N/A')}</div>
                 </div>
             `;
@@ -362,7 +260,8 @@ function listenToLatestAds() {
 
 // Initialize on load
 document.addEventListener("DOMContentLoaded", () => {
+    initI18n();
     listenToLatestAds();
 });
 
-console.log("SELLBY Home Script Ready (Unified Ads Flow)");
+console.log("SELLBY Home Ready");

@@ -115,6 +115,7 @@ function renderAd(ad) {
         chatBtn.textContent = trans.chat_with_seller;
         auth.onAuthStateChanged((user) => {
             const sellerId = ad.sellerId || ad.userId;
+            // FIXED logic: only show if user is NOT the seller
             if (user && user.uid === sellerId) {
                 chatBtn.style.display = "none";
             } else {

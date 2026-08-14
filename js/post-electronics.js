@@ -3,10 +3,10 @@
 /* ===================================================== */
 
 import { db, auth } from "./firebase-config.js";
-import { t } from "./i18n.js";
+import { t, getTranslations } from "./i18n.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-const CLOUD_NAME = "onrmn2hn";
+const CLOUD_NAME = "onrnn2hn";
 const UPLOAD_PRESET = "mvrproperties";
 
 const publishBtn = document.getElementById("publishBtn");
@@ -17,6 +17,13 @@ const statusMessage = document.getElementById("statusMessage");
 
 let selectedFiles = [];
 const MAX_IMAGES = 10;
+
+function localizeUI() {
+    const trans = getTranslations();
+    const h1 = document.querySelector(".page-title h1");
+    if (h1) h1.textContent = trans.post_electronics;
+    if (publishBtn) publishBtn.textContent = trans.publish;
+}
 
 photosInput.addEventListener("change", () => {
     const files = Array.from(photosInput.files);
@@ -55,7 +62,7 @@ function renderPreview() {
         reader.readAsDataURL(file);
         imagePreview.appendChild(thumb);
     });
-    previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES} images selected`;
+    previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES} ${t('profile_photo')}`;
 }
 
 async function uploadToCloudinary(file) {
@@ -66,7 +73,10 @@ async function uploadToCloudinary(file) {
         method: "POST",
         body: formData
     });
-    if (!resp.ok) throw new Error("Image upload failed");
+    if (!resp.ok) {
+        const errData = await resp.json().catch(() => ({}));
+        throw new Error(errData.error?.message || "Cloudinary Upload Failed");
+    }
     const data = await resp.json();
     return data.secure_url;
 }
@@ -84,25 +94,17 @@ publishBtn.addEventListener("click", async () => {
     }
 
     const productName = getFieldValue("productName");
-    const brand = getFieldValue("brand");
-    const condition = getFieldValue("condition");
     const price = getFieldValue("price");
     const location = getFieldValue("location");
-    const warranty = getFieldValue("warranty");
     const description = getFieldValue("description");
 
-    if (selectedFiles.length === 0) {
-        alert(t('identity_required'));
-        return;
-    }
-    if (!productName || !price) {
+    if (selectedFiles.length === 0 || !productName || !price) {
         alert(t('identity_required'));
         return;
     }
 
     publishBtn.disabled = true;
     publishBtn.textContent = t('uploading');
-    statusMessage.textContent = t('uploading');
 
     try {
         const imageUrls = [];
@@ -116,11 +118,8 @@ publishBtn.addEventListener("click", async () => {
             sellerId: auth.currentUser.uid,
             sellerEmail: auth.currentUser.email || "",
             productName,
-            brand,
-            condition,
             price: Number(price),
             location,
-            warranty,
             description,
             imageUrls,
             status: "published",
@@ -132,8 +131,10 @@ publishBtn.addEventListener("click", async () => {
         window.location.href = "category.html?type=electronics";
     } catch (error) {
         console.error(error);
-        alert(t('failed'));
+        alert(`${t('failed')} (${error.message})`);
         publishBtn.disabled = false;
         publishBtn.textContent = t('publish');
     }
 });
+
+document.addEventListener("DOMContentLoaded", localizeUI);

@@ -3,6 +3,7 @@
 /* ===================================================== */
 
 import { auth, db } from "./firebase-config.js";
+import { getTranslations, t } from "./i18n.js";
 import {
     collection,
     query,
@@ -39,7 +40,6 @@ function pollForChatId() {
         return;
     }
 
-    // Wait for chat.js to initialize activeChatId if navigating via adId/sellerId
     const checkInterval = setInterval(() => {
         if (window.activeChatId) {
             clearInterval(checkInterval);
@@ -48,7 +48,6 @@ function pollForChatId() {
         }
     }, 100);
 
-    // Timeout safety after 10s
     setTimeout(() => clearInterval(checkInterval), 10000);
 }
 
@@ -78,7 +77,6 @@ function listenToMessages(chatId) {
                 unreadDocsToMark.push(messageDoc.ref);
             }
 
-            // Check if this specific message was just added and is not from me
             if (!isFirstLoad && !isSentByMe) {
                 const isNew = snapshot.docChanges().some(change =>
                     change.type === "added" && change.doc.id === messageDoc.id
@@ -135,7 +133,6 @@ function listenToMessages(chatId) {
 
         isFirstLoad = false;
 
-        // Mark incoming messages read if chat is actively viewed in foreground
         if (document.visibilityState === "visible") {
             await markChatMessagesAsRead(chatId, unreadDocsToMark);
         }
@@ -148,8 +145,9 @@ function listenToMessages(chatId) {
 
 function playNotificationSound() {
     try {
+        // Use a generic notification sound hosted on Firebase
         const audio = new Audio("https://firebasestorage.googleapis.com/v0/b/mvr-properties-64922.firebasestorage.app/o/sounds%2Fnotification.mp3?alt=media");
-        audio.play().catch(e => console.warn("Audio play blocked by browser policy:", e));
+        audio.play().catch(e => console.warn("Audio play blocked:", e));
     } catch (e) {
         console.warn("Notification sound error:", e);
     }
@@ -167,7 +165,6 @@ async function markChatMessagesAsRead(chatId, unreadDocsToMark = []) {
             await batch.commit();
         }
 
-        // Clear unread indicator since current user is actively viewing this chat
         const chatSnap = await getDoc(doc(db, "chats", chatId));
         if (chatSnap.exists() && chatSnap.data().unreadFor === currentUser.uid) {
             await updateDoc(doc(db, "chats", chatId), { unreadFor: "" });
@@ -177,14 +174,8 @@ async function markChatMessagesAsRead(chatId, unreadDocsToMark = []) {
     }
 }
 
-// Re-check read status on tab visibility change or focus
 document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible" && currentChatId) {
-        markChatMessagesAsRead(currentChatId);
-    }
-});
-window.addEventListener("focus", () => {
-    if (currentChatId) {
         markChatMessagesAsRead(currentChatId);
     }
 });
@@ -197,10 +188,7 @@ async function sendMessage() {
         currentChatId = params.get("chatId") || window.activeChatId;
     }
 
-    if (!currentChatId) {
-        console.warn("Chat session initializing...");
-        return;
-    }
+    if (!currentChatId) return;
 
     const messageInput = document.getElementById("messageInput");
     if (!messageInput) return;
@@ -239,7 +227,6 @@ async function sendMessage() {
         scrollToBottom();
     } catch (error) {
         console.error("Failed to send message:", error);
-        alert("Could not send message. Please try again.");
     }
 }
 
@@ -250,10 +237,12 @@ function initEventListeners() {
     if (sendBtn && !sendBtn.dataset.bound) {
         sendBtn.dataset.bound = "true";
         sendBtn.addEventListener("click", sendMessage);
+        sendBtn.textContent = t('send');
     }
 
     if (messageInput && !messageInput.dataset.bound) {
         messageInput.dataset.bound = "true";
+        messageInput.placeholder = t('type_message');
         messageInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
@@ -280,6 +269,9 @@ function initVoiceRecorder() {
 
     if (!voiceMsgBtn || voiceMsgBtn.dataset.bound) return;
     voiceMsgBtn.dataset.bound = "true";
+
+    if (cancelVoiceBtn) cancelVoiceBtn.textContent = t('cancel');
+    if (sendVoiceNoteBtn) sendVoiceNoteBtn.textContent = t('send_voice');
 
     voiceMsgBtn.addEventListener("click", async () => {
         if (mediaRecorder && mediaRecorder.state === "recording") {
@@ -321,16 +313,6 @@ function initVoiceRecorder() {
 
         } catch (err) {
             console.error("Microphone access error:", err);
-            if (voiceRecordingBar) voiceRecordingBar.style.display = "none";
-            if (voiceMsgBtn) voiceMsgBtn.classList.remove("recording");
-
-            if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
-                alert("Microphone permission was denied. Please click the lock icon in your browser address bar to allow microphone access for SELLBY.");
-            } else if (err.name === "NotFoundError" || err.name === "DevicesNotFoundError") {
-                alert("No microphone hardware found on your device. Please connect a microphone to record voice messages.");
-            } else {
-                alert("Could not access microphone: " + (err.message || "Please check browser permissions."));
-            }
         }
     });
 
@@ -397,13 +379,13 @@ async function sendVoiceMessage(audioDataUrl) {
             receiverId: recipientUid,
             type: "audio",
             audioUrl: audioDataUrl,
-            message: "🎵 Voice Note",
+            message: t('voice_note'),
             isRead: false,
             createdAt: serverTimestamp()
         });
 
         await updateDoc(doc(db, "chats", currentChatId), {
-            lastMessage: "🎵 Voice Note",
+            lastMessage: t('voice_note'),
             lastMessageSenderId: currentUser.uid,
             unreadFor: recipientUid,
             updatedAt: serverTimestamp()
@@ -427,4 +409,4 @@ function scrollToBottom() {
     }
 }
 
-console.log("SELLBY Messages Manager Loaded");
+console.log("SELLBY Messages Loaded");

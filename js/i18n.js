@@ -14,6 +14,7 @@ const translations = {
         failed: "Failed to publish. Please check your connection.",
         identity_required: "1 Photo + Price + Name required.",
         login_first: "Please login first.",
+        untitled_ad: "Untitled Ad",
 
         // Navigation
         home: "Home",
@@ -92,7 +93,16 @@ const translations = {
         lang_en: "English",
         lang_te: "తెలుగు",
         lang_hi: "हिन्दी",
-        select_lang: "Select Language"
+        select_lang: "Select Language",
+
+        // Post Category Specifics
+        post_property: "Post Property",
+        post_mobile: "Post Mobile",
+        post_car: "Post Car",
+        post_bike: "Post Bike",
+        post_electronics: "Post Electronics",
+        post_furniture: "Post Furniture",
+        post_others: "Post Others"
     },
     te: {
         // Shared
@@ -109,6 +119,7 @@ const translations = {
         failed: "ప్రచురించడం విఫలమైంది. దయచేసి మీ కనెక్షన్‌ని తనిఖీ చేయండి.",
         identity_required: "1 ఫోటో + ధర + పేరు అవసరం.",
         login_first: "దయచేసి మొదట లాగిన్ అవ్వండి.",
+        untitled_ad: "పేరు లేని ప్రకటన",
 
         // Navigation
         home: "హోమ్",
@@ -187,7 +198,16 @@ const translations = {
         lang_en: "English",
         lang_te: "తెలుగు",
         lang_hi: "हिन्दी",
-        select_lang: "భాషను ఎంచుకోండి"
+        select_lang: "భాషను ఎంచుకోండి",
+
+        // Post Category Specifics
+        post_property: "ఆస్తిని పోస్ట్ చేయండి",
+        post_mobile: "మొబైల్‌ను పోస్ట్ చేయండి",
+        post_car: "కారును పోస్ట్ చేయండి",
+        post_bike: "బైక్‌ను పోస్ట్ చేయండి",
+        post_electronics: "ఎలక్ట్రానిక్స్‌ను పోస్ట్ చేయండి",
+        post_furniture: "ఫర్నిచర్‌ను పోస్ట్ చేయండి",
+        post_others: "ఇతరాలను పోస్ట్ చేయండి"
     },
     hi: {
         // Shared
@@ -196,7 +216,7 @@ const translations = {
         sell: "बेचें",
         loading: "लोड हो रहा है...",
         price_symbol: "₹",
-        location_placeholder: "शहर, क्षेत्र या लैंडమార్క్",
+        location_placeholder: "शहर, क्षेत्र या लैंडమార్क",
         desc_placeholder: "अपने आइटम का विवरण लिखें...",
         publish: "प्रकाशित करें",
         uploading: "अपलोड हो रहा है...",
@@ -204,6 +224,7 @@ const translations = {
         failed: "प्रकाशित करने में विफल। कृपया अपना कनेक्शन जांचें।",
         identity_required: "1 फोटो + कीमत + नाम आवश्यक है।",
         login_first: "कृपया पहले लॉगिन करें।",
+        untitled_ad: "बिना नाम का विज्ञापन",
 
         // Navigation
         home: "होम",
@@ -271,7 +292,7 @@ const translations = {
         language: "भाषा",
         preferences: "प्राथमिकताएं",
         notifications: "नोटिफिकेशन",
-        privacy_policy: "गोప్యతా విధానం",
+        privacy_policy: "गोपनीयता नीति",
         terms_conditions: "नियम और शर्तें",
         support: "समर्थन",
         help_support: "सहायता और समर्थन",
@@ -282,7 +303,16 @@ const translations = {
         lang_en: "English",
         lang_te: "తెలుగు",
         lang_hi: "हिन्दी",
-        select_lang: "भाषा चुनें"
+        select_lang: "भाषा चुनें",
+
+        // Post Category Specifics
+        post_property: "प्रॉपर्टी पोस्ट करें",
+        post_mobile: "मोबाइल पोस्ट करें",
+        post_car: "कार पोस्ट करें",
+        post_bike: "बाइक पोस्ट करें",
+        post_electronics: "इलेक्ट्रॉनिक्स पोस्ट करें",
+        post_furniture: "फर्नीचर पोस्ट करें",
+        post_others: "अन्य पोस्ट करें"
     }
 };
 

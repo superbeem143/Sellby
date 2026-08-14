@@ -3,6 +3,7 @@
 /* ===================================================== */
 
 import { auth, db } from "./firebase-config.js";
+import { getTranslations, t } from "./i18n.js";
 import {
     collection,
     query,
@@ -32,6 +33,9 @@ auth.onAuthStateChanged(async (user) => {
     }
 
     currentUser = user;
+    const trans = getTranslations();
+    if (sellerStatusElem) sellerStatusElem.textContent = trans.online;
+
     await initializeChat();
 });
 
@@ -49,14 +53,10 @@ async function initializeChat() {
                 if (sellerNameElem) {
                     sellerNameElem.textContent = chatData.adTitle ? `${chatData.adTitle} (${otherRole})` : otherRole;
                 }
-                if (sellerStatusElem) {
-                    sellerStatusElem.textContent = "🟢 Online";
-                }
                 if (chatData.unreadFor === currentUser.uid) {
                     await updateDoc(doc(db, "chats", activeChatId), { unreadFor: "" });
                 }
 
-                // Render Ad Context Banner
                 await renderAdBanner(adId, chatData);
             }
         } catch (err) {
@@ -66,11 +66,9 @@ async function initializeChat() {
     }
 
     if (adId && sellerId) {
-        // Fetch ad details to ensure ad metadata is saved on chat document
         const adMeta = await fetchAdMetadata(adId);
 
         if (currentUser.uid === sellerId) {
-            // Seller opening chat for own ad
             const chatsQuery = query(
                 collection(db, "chats"),
                 where("adId", "==", adId),
@@ -82,20 +80,18 @@ async function initializeChat() {
                 activeChatId = chatDoc.id;
                 window.activeChatId = activeChatId;
                 if (sellerNameElem) sellerNameElem.textContent = (adMeta.title ? `${adMeta.title} (Buyer)` : "Buyer");
-                if (sellerStatusElem) sellerStatusElem.textContent = "🟢 Online";
                 if (chatDoc.data().unreadFor === currentUser.uid) {
                     await updateDoc(doc(db, "chats", activeChatId), { unreadFor: "" });
                 }
                 renderAdBannerWithMeta(adId, adMeta);
             } else {
-                alert("You are the seller of this listing.");
+                alert("Own ad chat only via My Chats.");
                 window.history.back();
                 return;
             }
             return;
         }
 
-        // Current user is Buyer, query existing conversation with seller for this exact ad
         const existingQuery = query(
             collection(db, "chats"),
             where("adId", "==", adId),
@@ -112,7 +108,6 @@ async function initializeChat() {
             if (existingData.unreadFor === currentUser.uid) {
                 await updateDoc(doc(db, "chats", activeChatId), { unreadFor: "" });
             }
-            // Update metadata on existing chat if missing
             if (!existingData.adTitle && adMeta.title) {
                 await updateDoc(doc(db, "chats", activeChatId), {
                     adTitle: adMeta.title,
@@ -122,7 +117,6 @@ async function initializeChat() {
                 });
             }
         } else {
-            // Create new chat document linked permanently to adId
             const newChatRef = await addDoc(collection(db, "chats"), {
                 adId,
                 sellerId,
@@ -143,33 +137,27 @@ async function initializeChat() {
 
         window.activeChatId = activeChatId;
         if (sellerNameElem) sellerNameElem.textContent = (adMeta.title ? `${adMeta.title} (Seller)` : "Seller");
-        if (sellerStatusElem) sellerStatusElem.textContent = "🟢 Online";
         renderAdBannerWithMeta(adId, adMeta);
     }
 }
 
 async function fetchAdMetadata(targetAdId) {
     if (!targetAdId) return { title: "", price: 0, image: "", location: "" };
-
-    const collectionsToTry = ["ads", "properties", "property", "cars", "bikes", "mobiles", "electronics", "furniture", "others"];
-    for (const colName of collectionsToTry) {
-        try {
-            const snap = await getDoc(doc(db, colName, targetAdId));
-            if (snap.exists()) {
-                const data = snap.data();
-                const image = (data.imageUrls && data.imageUrls.length)
-                    ? data.imageUrls[0]
-                    : (data.imageUrl || data.image || data.photo || "");
-                return {
-                    title: data.title || "Untitled Listing",
-                    price: data.price || 0,
-                    image: image,
-                    location: data.location || ""
-                };
-            }
-        } catch (e) {
-            // Continue trying other collections
+    try {
+        const snap = await getDoc(doc(db, "ads", targetAdId));
+        if (snap.exists()) {
+            const data = snap.data();
+            const image = (data.imageUrls && data.imageUrls.length) ? data.imageUrls[0] : "";
+            const title = data.title || (data.brand ? (data.brand + " " + (data.model || "")) : "Ad Details");
+            return {
+                title: title,
+                price: data.price || 0,
+                image: image,
+                location: data.location || ""
+            };
         }
+    } catch (e) {
+        console.error("Ad meta fetch error:", e);
     }
     return { title: "Ad Inquiry", price: 0, image: "", location: "" };
 }
@@ -193,7 +181,6 @@ async function renderAdBanner(targetAdId, chatData) {
             });
         }
     }
-
     renderAdBannerWithMeta(targetAdId, meta);
 }
 
@@ -205,29 +192,12 @@ function renderAdBannerWithMeta(targetAdId, meta) {
     const locElem = document.getElementById("adContextLocation");
 
     if (!banner) return;
-
     if (meta.title || targetAdId) {
         banner.style.display = "flex";
-
-        if (imgElem) {
-            imgElem.src = meta.image || "https://via.placeholder.com/100x100?text=No+Image";
-        }
-        if (titleElem) {
-            titleElem.textContent = meta.title || "Ad Listing";
-        }
-        if (priceElem) {
-            priceElem.textContent = meta.price ? ("₹ " + Number(meta.price).toLocaleString("en-IN")) : "";
-        }
-        if (locElem) {
-            locElem.textContent = meta.location ? ("📍 " + meta.location) : "";
-        }
-
-        banner.onclick = () => {
-            if (targetAdId) {
-                window.location.href = `ad-details.html?id=${targetAdId}`;
-            }
-        };
+        if (imgElem) imgElem.src = meta.image || "images/sellby-logo.png";
+        if (titleElem) titleElem.textContent = meta.title;
+        if (priceElem) priceElem.textContent = t('price_symbol') + " " + Number(meta.price).toLocaleString("en-IN");
+        if (locElem) locElem.textContent = "📍 " + meta.location;
+        banner.onclick = () => { if (targetAdId) window.location.href = `ad-details.html?id=${targetAdId}`; };
     }
 }
-
-console.log("SELLBY Chat Session Initializer Ready");

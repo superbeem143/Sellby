@@ -2846,30 +2846,37 @@ button, input, select, textarea {
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
-    padding: 12px 16px !important;
+    padding: 10px 16px !important;
     background: #fff !important;
     border-top: 1px solid #e2e8f0 !important;
     position: sticky !important;
     bottom: 0 !important;
     width: 100% !important;
     z-index: 100 !important;
+    padding-bottom: env(safe-area-inset-bottom, 10px) !important;
 }
 
 .input-area input {
     flex: 1 !important;
-    height: 50px !important;
+    height: 48px !important;
     min-height: 48px !important;
     font-size: 15px !important;
-    border-radius: 25px !important;
+    border-radius: 24px !important;
     padding: 0 20px !important;
     border: 2px solid #e2e8f0 !important;
     outline: none !important;
+    background: #f8fafc !important;
+}
+
+.input-area input:focus {
+    border-color: var(--primary) !important;
+    background: #fff !important;
 }
 
 #sendBtn {
-    width: 50px !important;
-    height: 50px !important;
-    min-width: 50px !important;
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
     background: var(--sellby-gradient) !important;
     color: white !important;
     border: none !important;
@@ -2881,6 +2888,7 @@ button, input, select, textarea {
     flex-shrink: 0 !important;
     padding: 0 !important;
     font-size: 20px !important;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2) !important;
 }
 
   /* 10. OTP SCREEN */

@@ -32,7 +32,7 @@ function getAdTitle(ad) {
     if (ad.brand && ad.model) return `${ad.brand} ${ad.model}`;
     if (ad.brand) return ad.brand;
     if (ad.productName) return ad.productName;
-    return "Untitled Ad";
+    return t('untitled_ad');
 }
 
 async function startCategoryListener() {

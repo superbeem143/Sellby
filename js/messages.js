@@ -145,6 +145,7 @@ function listenToMessages(chatId) {
 
 function playNotificationSound() {
     try {
+        // Use a generic notification sound hosted on Firebase
         const audio = new Audio("https://firebasestorage.googleapis.com/v0/b/mvr-properties-64922.firebasestorage.app/o/sounds%2Fnotification.mp3?alt=media");
         audio.play().catch(e => console.warn("Audio play blocked:", e));
     } catch (e) {
