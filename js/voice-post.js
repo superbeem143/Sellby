@@ -1,32 +1,15 @@
 /* ===================================================== */
 /*               SELLBY VOICE-POST.JS                    */
-/*                     JS PART 1                         */
-/* ===================================================== */
-/*
-    File Name : voice-post.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ Speech Recognition
-    ✔ DOM Elements
-    ✔ Start Recording
-    ✔ Status Update
-*/
 /* ===================================================== */
 
-const startVoiceBtn =
-    document.getElementById("startVoiceBtn");
-const voiceStatus =
-    document.getElementById("voiceStatus");
-const speechResult =
-    document.getElementById("speechResult");
-const detectedCategory =
-    document.getElementById("detectedCategory");
-const detectedPrice =
-    document.getElementById("detectedPrice");
-const detectedLocation =
-    document.getElementById("detectedLocation");
+import { parseSpeech } from "./speech-parser.js";
+
+const startVoiceBtn = document.getElementById("startVoiceBtn");
+const voiceStatus = document.getElementById("voiceStatus");
+const speechResult = document.getElementById("speechResult");
+const detectedCategory = document.getElementById("detectedCategory");
+const detectedPrice = document.getElementById("detectedPrice");
+const detectedLocation = document.getElementById("detectedLocation");
 
 // Photo Elements
 const cameraBtn = document.getElementById("cameraBtn");
@@ -38,15 +21,17 @@ const photoPreview = document.getElementById("photoPreview");
 const removePhotoBtn = document.getElementById("removePhotoBtn");
 
 let selectedImage = null;
+let mediaRecorder = null;
+let audioChunks = [];
+let recordedAudioUrl = null;
+let parsedData = null;
 
 // Photo Handling
-if (cameraBtn) {
-    cameraBtn.addEventListener("click", () => cameraInput.click());
-}
+if (cameraBtn) cameraBtn.onclick = () => cameraInput.click();
+if (galleryBtn) galleryBtn.onclick = () => galleryInput.click();
 
-if (galleryBtn) {
-    galleryBtn.addEventListener("click", () => galleryInput.click());
-}
+cameraInput.onchange = handleImageSelect;
+galleryInput.onchange = handleImageSelect;
 
 function handleImageSelect(e) {
     const file = e.target.files[0];
@@ -61,182 +46,171 @@ function handleImageSelect(e) {
     }
 }
 
-cameraInput.addEventListener("change", handleImageSelect);
-galleryInput.addEventListener("change", handleImageSelect);
-
 if (removePhotoBtn) {
-    removePhotoBtn.addEventListener("click", () => {
+    removePhotoBtn.onclick = () => {
         selectedImage = null;
         cameraInput.value = "";
         galleryInput.value = "";
-        photoPreview.src = "";
         photoPreviewContainer.style.display = "none";
-    });
+    };
 }
 
-const SpeechRecognition =
-
-    window.SpeechRecognition ||
-
-    window.webkitSpeechRecognition;
-
+// Speech Recognition setup
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition = null;
 
 if (SpeechRecognition) {
-
     try {
-
         recognition = new SpeechRecognition();
 
-        recognition.lang = "en-IN";
+        // Detect App Language for better recognition
+        const currentLang = localStorage.getItem("sellby_lang") || "en";
+        if (currentLang === "te") recognition.lang = "te-IN";
+        else if (currentLang === "hi") recognition.lang = "hi-IN";
+        else recognition.lang = "en-IN";
 
-        recognition.interimResults = false;
-
+        recognition.interimResults = true; // Show results as they come
         recognition.continuous = false;
-
     } catch (e) {
-
-        console.error("SpeechRecognition initialization failed:", e);
-
+        console.error("Speech init error:", e);
     }
-
 }
 
 if (startVoiceBtn) {
-    startVoiceBtn.addEventListener(
-        "click",
-        async () => {
-            if (!recognition) {
-                alert("Speech recognition is not supported in this browser. Please try using Google Chrome or Microsoft Edge.");
-                if (voiceStatus) voiceStatus.textContent = "⚠️ Speech recognition unsupported.";
-                return;
-            }
-
-            try {
-                // Pre-check microphone permission using the logic that works in Chat
-                voiceStatus.textContent = "⌛ Checking microphone access...";
-                await navigator.mediaDevices.getUserMedia({ audio: true });
-
-                voiceStatus.textContent = "🎤 Listening... Speak now.";
-                startVoiceBtn.disabled = true;
-                recognition.start();
-
-            } catch (e) {
-                console.error("Microphone access error:", e);
-                if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
-                    alert("Microphone permission denied. Please allow microphone access in Android settings for SELLBY.");
-                    if (voiceStatus) voiceStatus.textContent = "🚫 Permission denied.";
-                } else {
-                    alert("Could not access microphone. Please try again.");
-                }
-                startVoiceBtn.disabled = false;
-            }
+    startVoiceBtn.addEventListener("click", async () => {
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            stopRecording();
+            return;
         }
-    );
+
+        if (!recognition) {
+            alert("Speech recognition not supported in this environment.");
+            return;
+        }
+
+        try {
+            voiceStatus.textContent = "⌛ Starting Microphone...";
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+            // 1. Start Audio Recording (Chat Logic)
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+            mediaRecorder.ondataavailable = (e) => {
+                if (e.data.size > 0) audioChunks.push(e.data);
+            };
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+                recordedAudioUrl = URL.createObjectURL(audioBlob);
+                showAudioPlayback(recordedAudioUrl);
+                stream.getTracks().forEach(track => track.stop());
+            };
+
+            mediaRecorder.start();
+
+            // 2. Start Speech Recognition
+            speechResult.value = ""; // Clear previous
+            recognition.start();
+
+            voiceStatus.textContent = "🔴 Listening... Speak now";
+            startVoiceBtn.innerHTML = "⏹️ Stop Recording";
+            startVoiceBtn.style.background = "#ef4444";
+
+        } catch (e) {
+            console.error("Recording start error:", e);
+            alert("Please allow microphone access in your Android settings.");
+            voiceStatus.textContent = "❌ Permission denied";
+        }
+    });
+}
+
+function stopRecording() {
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+    }
+    if (recognition) {
+        try { recognition.stop(); } catch(e) {}
+    }
+    startVoiceBtn.innerHTML = "🎤 Start Recording";
+    startVoiceBtn.style.background = "linear-gradient(135deg, #7c3aed 0%, #db2777 100%)";
 }
 
 if (recognition) {
     recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        speechResult.value = transcript;
-        voiceStatus.textContent = "✅ Voice captured successfully.";
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+                finalTranscript += event.results[i][0].transcript;
+            } else {
+                // Interim results can be shown if desired
+            }
+        }
 
-        // Parse speech results
-        const parsedData = parseSpeech(transcript);
-        detectedCategory.value = parsedData.category || "";
-        detectedPrice.value = parsedData.price || "";
-        detectedLocation.value = parsedData.location || "";
+        if (finalTranscript) {
+            speechResult.value = finalTranscript;
+            voiceStatus.textContent = "✅ Speech recognized.";
+
+            // Connect to Fields
+            parsedData = parseSpeech(finalTranscript);
+            if (parsedData) {
+                detectedCategory.value = parsedData.category || "others";
+                detectedPrice.value = parsedData.price || "";
+                detectedLocation.value = parsedData.location || "";
+            }
+        }
     };
 
-    recognition.onerror = (event) => {
-        console.error("Speech recognition error:", event.error);
-
-        if (event.error === "not-allowed" || event.error === "service-not-allowed") {
-            alert("Microphone permission denied. Please allow microphone access in Android settings.");
-            voiceStatus.textContent = "🚫 Permission denied.";
-        } else if (event.error === "no-speech") {
-            voiceStatus.textContent = "⚠️ No speech detected. Tap to try again.";
-        } else if (event.error === "network") {
-            voiceStatus.textContent = "⚠️ Network error. Check your connection.";
-        } else {
-            voiceStatus.textContent = "❌ Recognition failed. Tap to try again.";
+    recognition.onerror = (e) => {
+        console.warn("Recognition error:", e.error);
+        if (e.error !== 'no-speech') {
+            voiceStatus.textContent = "⚠️ Recognition ended.";
+            stopRecording();
         }
     };
 
     recognition.onend = () => {
-        if (startVoiceBtn) startVoiceBtn.disabled = false;
+        if (voiceStatus.textContent.includes("Listening")) {
+             voiceStatus.textContent = "✅ Processing complete.";
+             stopRecording();
+        }
     };
 }
-/* ===================================================== */
-/*               SELLBY VOICE-POST.JS                    */
-/*                     JS PART 3                         */
-/* ===================================================== */
-/*
-    File Name : voice-post.js
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Continue Button
-    ✔ Redirect to Category
-    ✔ Page Ready
-*/
-/* ===================================================== */
 
-const continueBtn =
+function showAudioPlayback(url) {
+    let player = document.getElementById("voicePlayback");
+    if (!player) {
+        player = document.createElement("audio");
+        player.id = "voicePlayback";
+        player.controls = true;
+        player.style.width = "100%";
+        player.style.marginTop = "15px";
+        voiceStatus.parentNode.insertBefore(player, voiceStatus.nextSibling);
+    }
+    player.src = url;
+    player.style.display = "block";
+}
 
-    document.getElementById("continueBtn");
+const continueBtn = document.getElementById("continueBtn");
+if (continueBtn) {
+    continueBtn.onclick = () => {
+        const cat = detectedCategory.value.trim().toLowerCase() || "others";
 
-continueBtn.addEventListener(
-
-    "click",
-
-    () => {
-
-        const category =
-
-            detectedCategory.value
-
-            .trim()
-
-            .toLowerCase();
-
-        if (!category) {
-
-            alert(
-
-                "Please record your voice first."
-
-            );
-
+        if (!speechResult.value.trim()) {
+            alert("Please record your voice details first.");
             return;
-
         }
 
-        window.location.href =
+        // Final sync of parsed data
+        if (!parsedData) {
+             parsedData = parseSpeech(speechResult.value);
+        }
 
-            `post-${category}.html`;
+        // Save to localStorage for pre-filling the next page
+        localStorage.setItem("voice_post_data", JSON.stringify(parsedData));
 
-    }
+        window.location.href = `post-${cat}.html?voice=true`;
+    };
+}
 
-);
-
-document.addEventListener(
-
-    "DOMContentLoaded",
-
-    () => {
-
-        voiceStatus.textContent =
-
-            "Ready to listen...";
-
-        console.log(
-
-            "Voice Posting Ready"
-
-        );
-
-    }
-
-);
+document.addEventListener("DOMContentLoaded", () => {
+    voiceStatus.textContent = "Ready to record...";
+});

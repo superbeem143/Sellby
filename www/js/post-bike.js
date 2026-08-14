@@ -139,4 +139,29 @@ publishBtn.addEventListener("click", async () => {
     }
 });
 
-document.addEventListener("DOMContentLoaded", localizeUI);
+function prefillVoiceData() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("voice") === "true") {
+        const rawData = localStorage.getItem("voice_post_data");
+        if (rawData) {
+            try {
+                const data = JSON.parse(rawData);
+                if (data.brand) document.getElementById("brand").value = data.brand;
+                if (data.model) document.getElementById("model").value = data.model;
+                if (data.price) document.getElementById("price").value = data.price;
+                if (data.location) document.getElementById("location").value = data.location;
+                if (data.description) document.getElementById("description").value = data.description;
+
+                // Clear after use
+                localStorage.removeItem("voice_post_data");
+            } catch (e) {
+                console.warn("Voice data parse failed:", e);
+            }
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    localizeUI();
+    prefillVoiceData();
+});
