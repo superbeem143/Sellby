@@ -3,6 +3,7 @@
 /* ===================================================== */
 
 import { auth, db } from "./firebase-config.js";
+import { getTranslations, t } from "./i18n.js";
 import {
     collection,
     query,
@@ -27,10 +28,20 @@ auth.onAuthStateChanged((user) => {
         return;
     }
     currentUser = user;
+    localizeUI();
     loadUserChats();
 });
 
+function localizeUI() {
+    const trans = getTranslations();
+    const h1 = document.querySelector(".category-header h1");
+    if (h1) h1.textContent = trans.my_chats;
+    if (searchInput) searchInput.placeholder = trans.search_placeholder;
+}
+
 function loadUserChats() {
+    if (loadingMessage) loadingMessage.textContent = t('loading');
+
     const chatsQuery = query(
         collection(db, "chats"),
         where("participants", "array-contains", currentUser.uid)
@@ -42,7 +53,10 @@ function loadUserChats() {
         allChats = [];
 
         if (snapshot.empty) {
-            if (emptyState) emptyState.style.display = "block";
+            if (emptyState) {
+                emptyState.querySelector("h3").textContent = t('no_ads_yet');
+                emptyState.style.display = "block";
+            }
             return;
         }
 
@@ -69,40 +83,34 @@ function loadUserChats() {
         if (loadingMessage) loadingMessage.style.display = "none";
         if (emptyState) {
             emptyState.style.display = "block";
-            emptyState.innerHTML = "<h3>Failed to load chats.</h3>";
+            emptyState.innerHTML = `<h3>${t('failed')}</h3>`;
         }
     });
 }
 
 async function enrichChatWithAdMetadata(chat) {
     if (!chat.adTitle && chat.adId) {
-        const collectionsToTry = ["ads", "properties", "property", "cars", "bikes", "mobiles", "electronics", "furniture", "others"];
-        for (const colName of collectionsToTry) {
-            try {
-                const snap = await getDoc(doc(db, colName, chat.adId));
-                if (snap.exists()) {
-                    const data = snap.data();
-                    const image = (data.imageUrls && data.imageUrls.length)
-                        ? data.imageUrls[0]
-                        : (data.imageUrl || data.image || data.photo || "");
-                    chat.adTitle = data.title || "Untitled Listing";
-                    chat.adPrice = data.price || 0;
-                    chat.adImage = image;
-                    chat.adLocation = data.location || "";
+        try {
+            const snap = await getDoc(doc(db, "ads", chat.adId));
+            if (snap.exists()) {
+                const data = snap.data();
+                const image = (data.imageUrls && data.imageUrls.length)
+                    ? data.imageUrls[0]
+                    : (data.imageUrl || data.image || data.photo || "");
+                chat.adTitle = data.title || (data.brand ? (data.brand + " " + (data.model || "")) : "Ad Details");
+                chat.adPrice = data.price || 0;
+                chat.adImage = image;
+                chat.adLocation = data.location || "";
 
-                    // Asynchronously save to chat document in Firestore
-                    updateDoc(doc(db, "chats", chat.id), {
-                        adTitle: chat.adTitle,
-                        adPrice: chat.adPrice,
-                        adImage: chat.adImage,
-                        adLocation: chat.adLocation
-                    }).catch(() => {});
-
-                    break;
-                }
-            } catch (e) {
-                // Try next collection
+                updateDoc(doc(db, "chats", chat.id), {
+                    adTitle: chat.adTitle,
+                    adPrice: chat.adPrice,
+                    adImage: chat.adImage,
+                    adLocation: chat.adLocation
+                }).catch(() => {});
             }
+        } catch (e) {
+            console.error("Meta enrich error:", e);
         }
     }
 }
@@ -121,8 +129,8 @@ function renderChats(chatsToRender) {
         const isUnread = (chat.unreadFor === currentUser.uid);
         const otherRole = (chat.buyerId === currentUser.uid) ? "Seller" : "Buyer";
         const adTitle = chat.adTitle || chat.title || "Ad Inquiry";
-        const thumbUrl = chat.adImage || "https://via.placeholder.com/60x60?text=Ad";
-        const priceStr = chat.adPrice ? `₹${Number(chat.adPrice).toLocaleString("en-IN")}` : "";
+        const thumbUrl = chat.adImage || "images/sellby-logo.png";
+        const priceStr = chat.adPrice ? `${t('price_symbol')}${Number(chat.adPrice).toLocaleString("en-IN")}` : "";
 
         const chatCard = document.createElement("div");
         chatCard.className = isUnread ? "chat-item unread" : "chat-item";
@@ -154,7 +162,6 @@ if (searchInput) {
         const queryVal = e.target.value.toLowerCase().trim();
         const filtered = allChats.filter(c => 
             (c.adTitle && c.adTitle.toLowerCase().includes(queryVal)) ||
-            (c.title && c.title.toLowerCase().includes(queryVal)) ||
             (c.lastMessage && c.lastMessage.toLowerCase().includes(queryVal))
         );
         renderChats(filtered);
@@ -167,4 +174,4 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-console.log("SELLBY Chats Ad Context Script Loaded");
+console.log("SELLBY Chats Loaded");

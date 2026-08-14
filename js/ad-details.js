@@ -3,6 +3,7 @@
 /* ===================================================== */
 
 import { db, auth } from "./firebase-config.js";
+import { getTranslations, t } from "./i18n.js";
 import {
     doc,
     getDoc
@@ -23,14 +24,14 @@ async function loadAdDetails() {
         if (loading) loading.style.display = "none";
         if (errorBox) {
             errorBox.style.display = "block";
-            errorBox.innerHTML = "<h2>Listing not found.</h2>";
+            errorBox.innerHTML = `<h2>${t('failed')}</h2>`;
         }
         return;
     }
 
     try {
         const collectionsToTry = targetCol
-            ? [targetCol, "ads", "properties", "property", "cars", "bikes", "mobiles", "electronics", "furniture", "others"]
+            ? [targetCol, "ads"]
             : ["ads", "properties", "property", "cars", "bikes", "mobiles", "electronics", "furniture", "others"];
 
         for (const colName of collectionsToTry) {
@@ -42,7 +43,7 @@ async function loadAdDetails() {
                     break;
                 }
             } catch (e) {
-                console.warn(`Could not find in ${colName}`);
+                console.warn(`Not in ${colName}`);
             }
         }
 
@@ -51,7 +52,7 @@ async function loadAdDetails() {
         if (!adData) {
             if (errorBox) {
                 errorBox.style.display = "block";
-                errorBox.innerHTML = "<h2>Listing not found.</h2>";
+                errorBox.innerHTML = `<h2>${t('failed')}</h2>`;
             }
             return;
         }
@@ -62,13 +63,20 @@ async function loadAdDetails() {
         if (loading) loading.style.display = "none";
         if (errorBox) {
             errorBox.style.display = "block";
-            errorBox.innerHTML = "<h2>Failed to load listing.</h2>";
+            errorBox.innerHTML = `<h2>${t('failed')}</h2>`;
         }
     }
 }
 
 function renderAd(ad) {
     if (content) content.style.display = "block";
+    const trans = getTranslations();
+
+    // Localize Static UI
+    const headerH1 = document.querySelector(".category-header h1");
+    if (headerH1) headerH1.textContent = trans.ad_details_title;
+    const descTitle = document.querySelector(".ad-desc-title");
+    if (descTitle) descTitle.textContent = trans.description;
 
     const slider = document.getElementById("imageSlider");
     if (slider) {
@@ -87,10 +95,11 @@ function renderAd(ad) {
     }
 
     const priceElem = document.getElementById("adPrice");
-    if (priceElem) priceElem.textContent = "₹ " + Number(ad.price || 0).toLocaleString("en-IN");
+    if (priceElem) priceElem.textContent = trans.price_symbol + " " + Number(ad.price || 0).toLocaleString("en-IN");
 
     const titleElem = document.getElementById("adTitle");
-    if (titleElem) titleElem.textContent = ad.title || ad.brand + " " + (ad.model || "") || "Untitled Listing";
+    const title = ad.title || (ad.brand + " " + (ad.model || "")) || "Untitled Listing";
+    if (titleElem) titleElem.textContent = title;
 
     const locationElem = document.getElementById("adLocation");
     if (locationElem) locationElem.textContent = ad.location || "Location N/A";
@@ -103,27 +112,21 @@ function renderAd(ad) {
 
     const chatBtn = document.getElementById("chatBtn");
     if (chatBtn) {
-        // Wait for Auth to be ready before deciding to show/hide the chat button
+        chatBtn.textContent = trans.chat_with_seller;
         auth.onAuthStateChanged((user) => {
             const sellerId = ad.sellerId || ad.userId;
-
             if (user && user.uid === sellerId) {
                 chatBtn.style.display = "none";
             } else {
                 chatBtn.style.display = "block";
-
-                // Remove any previous listener to be safe
-                const newBtn = chatBtn.cloneNode(true);
-                chatBtn.parentNode.replaceChild(newBtn, chatBtn);
-
-                newBtn.addEventListener("click", () => {
+                chatBtn.onclick = (e) => {
+                    e.preventDefault();
                     if (!sellerId) {
-                        alert("Seller information is not available for this listing.");
+                        alert("Seller information unavailable.");
                         return;
                     }
-                    // Navigate to chat
                     window.location.href = `chat.html?adId=${ad.id}&sellerId=${sellerId}`;
-                });
+                };
             }
         });
     }

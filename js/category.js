@@ -3,6 +3,7 @@
 /* ===================================================== */
 
 import { db } from "./firebase-config.js";
+import { getTranslations, t } from "./i18n.js";
 import {
     collection,
     query,
@@ -38,23 +39,41 @@ async function startCategoryListener() {
     try {
         if (unsubscribe) unsubscribe();
 
+        const trans = getTranslations();
+        loadingMessage.textContent = trans.loading;
         loadingMessage.style.display = "block";
         emptyState.style.display = "none";
 
-        // Update UI Header Label
+        // Update UI Header Label and Empty State Text
         const categoryLabels = {
-            property: "Properties",
-            mobile: "Mobiles",
-            cars: "Cars & Bikes",
-            electronics: "Electronics",
-            furniture: "Furniture",
-            others: "Others"
+            property: trans.cat_properties,
+            mobile: trans.cat_mobiles,
+            cars: trans.cat_cars,
+            electronics: trans.cat_electronics,
+            furniture: trans.cat_furniture,
+            others: trans.cat_others
         };
+
+        const emptyTitles = {
+            property: trans.no_properties,
+            mobile: trans.no_mobiles,
+            cars: trans.no_cars,
+            electronics: trans.no_electronics,
+            furniture: trans.no_furniture,
+            others: trans.no_others
+        };
+
         const labelElem = document.querySelector(".category-name");
         if (labelElem) labelElem.textContent = categoryLabels[categoryType] || "Browse";
 
+        const emptyTitleElem = emptyState.querySelector("h2");
+        const emptyDescElem = emptyState.querySelector("p");
+        if (emptyTitleElem) emptyTitleElem.textContent = emptyTitles[categoryType] || "No Ads Found";
+        if (emptyDescElem) emptyDescElem.textContent = trans.empty_desc;
+
+        if (searchInput) searchInput.placeholder = `${trans.search_placeholder}`;
+
         // Fetch recent ads from global collection
-        // JavaScript filtering used to ensure reliability without custom Firestore Indexes
         const q = query(
             collection(db, "ads"),
             orderBy("createdAt", "desc"),
@@ -74,7 +93,7 @@ async function startCategoryListener() {
                 // Filter by Category (with Cars/Bikes logic)
                 let isMatch = false;
                 if (initialSearch) {
-                    isMatch = true; // Handle search filtering later in filterAds()
+                    isMatch = true;
                 } else if (categoryType === "cars") {
                     isMatch = (data.category === "cars" || data.category === "bikes");
                 } else {
@@ -109,7 +128,7 @@ async function startCategoryListener() {
 function renderAds(ads) {
     if (!adsContainer) return;
     adsContainer.innerHTML = "";
-    if (adsCount) adsCount.textContent = `${ads.length} Ads`;
+    if (adsCount) adsCount.textContent = `${ads.length} ${t('latest_ads')}`;
 
     if (!ads.length) {
         emptyState.style.display = "block";
@@ -129,12 +148,12 @@ function renderAds(ads) {
             <div class="ad-image">
                 <img src="${image}" alt="${escapeHtml(title)}">
             </div>
-            <div style="padding:15px;">
+            <div style="padding:15px; flex:1;">
                 <h3 style="font-size:16px;font-weight:700;color:#1e293b;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;">
                     ${escapeHtml(title)}
                 </h3>
                 <h2 style="color:#6d28d9;font-weight:800;margin:10px 0;font-size:20px;">
-                    ₹${Number(ad.price || 0).toLocaleString("en-IN")}
+                    ${t('price_symbol')}${Number(ad.price || 0).toLocaleString("en-IN")}
                 </h2>
                 <p style="font-size:13px;color:#64748b;margin-bottom:4px;">📍 ${escapeHtml(ad.location || 'Location N/A')}</p>
                 <div style="display:inline-block;padding:4px 10px;background:#f5f3ff;color:#7c3aed;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;">

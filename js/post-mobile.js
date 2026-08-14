@@ -3,6 +3,7 @@
 /* ===================================================== */
 
 import { db, auth } from "./firebase-config.js";
+import { t } from "./i18n.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 const CLOUD_NAME = "onrmn2hn";
@@ -77,7 +78,7 @@ function getFieldValue(id) {
 
 publishBtn.addEventListener("click", async () => {
     if (!auth.currentUser) {
-        alert("Please login first.");
+        alert(t('login_first'));
         window.location.href = "login.html";
         return;
     }
@@ -92,17 +93,17 @@ publishBtn.addEventListener("click", async () => {
     const description = getFieldValue("description");
 
     if (selectedFiles.length === 0) {
-        alert("Please add at least one photo.");
+        alert(t('identity_required'));
         return;
     }
     if (!brand || !model || !price) {
-        alert("Please enter brand, model and price.");
+        alert(t('identity_required'));
         return;
     }
 
     publishBtn.disabled = true;
-    publishBtn.textContent = "Uploading...";
-    statusMessage.textContent = "Uploading images to Cloudinary...";
+    publishBtn.textContent = t('uploading');
+    statusMessage.textContent = t('uploading');
 
     try {
         const imageUrls = [];
@@ -111,7 +112,6 @@ publishBtn.addEventListener("click", async () => {
             imageUrls.push(url);
         }
 
-        statusMessage.textContent = "Publishing to SELLBY...";
         const docData = {
             category: "mobile",
             sellerId: auth.currentUser.uid,
@@ -130,12 +130,12 @@ publishBtn.addEventListener("click", async () => {
         };
 
         await addDoc(collection(db, "ads"), docData);
-        alert("Mobile Published Successfully!");
+        alert(t('success'));
         window.location.href = "category.html?type=mobile";
     } catch (error) {
         console.error(error);
-        alert("Failed to publish. Please check your connection.");
+        alert(t('failed'));
         publishBtn.disabled = false;
-        publishBtn.textContent = "Publish Mobile";
+        publishBtn.textContent = t('publish');
     }
 });

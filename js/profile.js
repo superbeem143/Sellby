@@ -5,6 +5,7 @@ import {
     doc,
     getDoc
 } from "./firebase-config.js";
+import { getTranslations, t } from "./i18n.js";
 
 const userName = document.getElementById("userName");
 const userEmail = document.getElementById("userEmail");
@@ -17,6 +18,8 @@ async function loadUserData(user) {
         return;
     }
 
+    localizeUI();
+
     // Default values from Auth
     userName.textContent = user.displayName || "SELLBY User";
     userEmail.textContent = user.phoneNumber || user.email || "Member";
@@ -25,7 +28,6 @@ async function loadUserData(user) {
         profileAvatar.innerHTML = `<img src="${user.photoURL}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
     }
 
-    // Load extra info from Firestore if needed
     try {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
@@ -37,7 +39,34 @@ async function loadUserData(user) {
             }
         }
     } catch (e) {
-        console.error("Error loading user data from firestore:", e);
+        console.error("Error loading user data:", e);
+    }
+}
+
+function localizeUI() {
+    const trans = getTranslations();
+    const h1 = document.querySelector(".category-header h1");
+    if (h1) h1.textContent = trans.profile;
+
+    const items = document.querySelectorAll(".profile-item-text");
+    if (items.length >= 6) {
+        items[0].textContent = trans.my_ads;
+        items[1].textContent = trans.my_chats;
+        items[2].textContent = trans.saved;
+        items[3].textContent = trans.settings;
+        items[4].textContent = trans.help_support;
+        items[5].textContent = trans.about_sellby;
+    }
+
+    if (logoutBtn) logoutBtn.textContent = trans.logout;
+
+    // Bottom Nav
+    const navSmalls = document.querySelectorAll(".bottom-nav small");
+    if (navSmalls.length >= 4) {
+        navSmalls[0].textContent = trans.home;
+        navSmalls[1].textContent = trans.saved;
+        navSmalls[2].textContent = trans.chat;
+        navSmalls[3].textContent = trans.profile;
     }
 }
 
@@ -50,12 +79,10 @@ if (logoutBtn) {
             window.location.href = "login.html";
         } catch (error) {
             console.error("Logout error:", error);
-            alert("Unable to logout. Please try again.");
         }
     });
 }
 
-// Redirect to edit profile when clicking avatar
 if (profileAvatar) {
     profileAvatar.addEventListener("click", () => {
         window.location.href = "edit-profile.html";

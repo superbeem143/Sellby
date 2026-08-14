@@ -103,27 +103,27 @@ function renderAd(ad) {
 
     const chatBtn = document.getElementById("chatBtn");
     if (chatBtn) {
-        // Wait for Auth to be ready before deciding to show/hide the chat button
+        // Use a persistent reference and safe listener attachment
         auth.onAuthStateChanged((user) => {
             const sellerId = ad.sellerId || ad.userId;
+            const btn = document.getElementById("chatBtn");
+            if (!btn) return;
 
             if (user && user.uid === sellerId) {
-                chatBtn.style.display = "none";
+                btn.style.display = "none";
             } else {
-                chatBtn.style.display = "block";
+                btn.style.display = "block";
 
-                // Remove any previous listener to be safe
-                const newBtn = chatBtn.cloneNode(true);
-                chatBtn.parentNode.replaceChild(newBtn, chatBtn);
-
-                newBtn.addEventListener("click", () => {
+                // Set the click handler (overwrites any previous to avoid duplicates)
+                btn.onclick = (e) => {
+                    e.preventDefault();
                     if (!sellerId) {
                         alert("Seller information is not available for this listing.");
                         return;
                     }
-                    // Navigate to chat
+                    console.log(`Navigating to chat with seller: ${sellerId} for ad: ${ad.id}`);
                     window.location.href = `chat.html?adId=${ad.id}&sellerId=${sellerId}`;
-                });
+                };
             }
         });
     }
