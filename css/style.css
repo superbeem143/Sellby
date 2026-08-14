@@ -2879,7 +2879,8 @@ button, input, select, textarea {
     min-width: 48px !important;
     background: var(--sellby-gradient) !important;
     color: white !important;
-    border: none !important;
+    border: 0 !important;
+    outline: none !important;
     border-radius: 50% !important;
     display: flex !important;
     align-items: center !important;

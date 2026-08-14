@@ -120,6 +120,43 @@ if (searchInput) {
     });
 }
 
+// Voice Search Fix
+const voiceSearchBtn = document.getElementById("voiceSearchBtn");
+if (voiceSearchBtn) {
+    voiceSearchBtn.addEventListener("click", () => {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert(t('failed'));
+            return;
+        }
+        const recognition = new SpeechRecognition();
+        recognition.start();
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            if (searchInput) {
+                searchInput.value = transcript;
+                window.location.href = `category.html?search=${encodeURIComponent(transcript.trim())}`;
+            }
+        };
+    });
+}
+
+// Camera Search Fix
+const cameraSearchBtn = document.getElementById("cameraSearchBtn");
+if (cameraSearchBtn) {
+    cameraSearchBtn.addEventListener("click", () => {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+        fileInput.onchange = (e) => {
+            if (e.target.files && e.target.files[0]) {
+                window.location.href = "category.html";
+            }
+        };
+        fileInput.click();
+    });
+}
+
 auth.onAuthStateChanged((user) => {
     if (!user) {
         window.location.replace("login.html");
