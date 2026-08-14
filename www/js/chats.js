@@ -36,15 +36,18 @@ function localizeUI() {
     const trans = getTranslations();
     const header = document.querySelector(".header");
     if (header) {
-        // Preserving the emoji icon if present
-        header.textContent = `💬 ${trans.my_chats}`;
+        header.textContent = `💬 ${trans.my_chats || "My Chats"}`;
     }
-    if (searchInput) searchInput.placeholder = trans.search_placeholder;
+    if (searchInput) searchInput.placeholder = trans.search_placeholder || "Search...";
 }
 
 function loadUserChats() {
-    if (loadingMessage) loadingMessage.textContent = t('loading');
+    if (loadingMessage) {
+        loadingMessage.textContent = t('loading') || "Loading...";
+        loadingMessage.style.display = "block";
+    }
 
+    // Query chats where current user is a participant
     const chatsQuery = query(
         collection(db, "chats"),
         where("participants", "array-contains", currentUser.uid)
@@ -53,13 +56,12 @@ function loadUserChats() {
     onSnapshot(chatsQuery, async (snapshot) => {
         try {
             if (loadingMessage) loadingMessage.style.display = "none";
-            chatList.innerHTML = "";
-            allChats = [];
 
             if (snapshot.empty) {
+                chatList.innerHTML = "";
                 if (emptyState) {
                     const emptyTitle = emptyState.querySelector("h2") || emptyState.querySelector("h3");
-                    if (emptyTitle) emptyTitle.textContent = t('no_ads_yet');
+                    if (emptyTitle) emptyTitle.textContent = t('no_ads_yet') || "No Chats Yet";
                     emptyState.style.display = "block";
                 }
                 return;
@@ -67,65 +69,70 @@ function loadUserChats() {
 
             if (emptyState) emptyState.style.display = "none";
 
-            const chatPromises = [];
+            const newChatsList = [];
             snapshot.forEach((chatDoc) => {
-                const chat = { id: chatDoc.id, ...chatDoc.data() };
-                allChats.push(chat);
-                chatPromises.push(enrichChatWithAdMetadata(chat));
+                const chatData = { id: chatDoc.id, ...chatDoc.data() };
+                newChatsList.push(chatData);
             });
 
-            await Promise.all(chatPromises);
-
-            allChats.sort((a, b) => {
+            // Sort by most recent update
+            newChatsList.sort((a, b) => {
                 const timeA = a.updatedAt?.toMillis ? a.updatedAt.toMillis() : (a.createdAt?.toMillis ? a.createdAt.toMillis() : 0);
                 const timeB = b.updatedAt?.toMillis ? b.updatedAt.toMillis() : (b.createdAt?.toMillis ? b.createdAt.toMillis() : 0);
                 return timeB - timeA;
             });
 
+            allChats = newChatsList;
             renderChats(allChats);
+
+            // Enrichment happens in background without blocking the initial render
+            newChatsList.forEach(chat => {
+                if (!chat.adTitle && chat.adId) {
+                    enrichChatWithAdMetadata(chat);
+                }
+            });
+
         } catch (err) {
-            console.error("Snapshot processing error:", err);
+            console.error("Chats snapshot error:", err);
         }
     }, (error) => {
-        console.error("Error loading chats:", error);
+        console.error("Error loading chats listener:", error);
         if (loadingMessage) loadingMessage.style.display = "none";
-        if (emptyState) {
-            emptyState.style.display = "block";
-            emptyState.innerHTML = `<h3>${t('failed')}</h3>`;
-        }
     });
 }
 
 async function enrichChatWithAdMetadata(chat) {
-    if (!chat.adTitle && chat.adId) {
-        try {
-            // Simplified to only check 'ads' collection for performance
-            const snap = await getDoc(doc(db, "ads", chat.adId));
-            if (snap.exists()) {
-                const data = snap.data();
-                const image = (data.imageUrls && data.imageUrls.length)
-                    ? data.imageUrls[0]
-                    : (data.imageUrl || data.image || data.photo || "");
-                chat.adTitle = data.title || (data.brand ? (data.brand + " " + (data.model || "")) : "Ad Details");
-                chat.adPrice = data.price || 0;
-                chat.adImage = image;
-                chat.adLocation = data.location || "";
+    try {
+        const snap = await getDoc(doc(db, "ads", chat.adId));
+        if (snap.exists()) {
+            const data = snap.data();
+            const image = (data.imageUrls && data.imageUrls.length) ? data.imageUrls[0] : "";
+            const title = data.title || (data.brand ? (data.brand + " " + (data.model || "")) : "Ad Details");
 
-                // Update Firestore if local metadata was updated
-                updateDoc(doc(db, "chats", chat.id), {
-                    adTitle: chat.adTitle,
-                    adPrice: chat.adPrice,
-                    adImage: chat.adImage,
-                    adLocation: chat.adLocation
-                }).catch(() => {});
-            }
-        } catch (e) {
-            console.error("Meta enrich error:", e);
+            // Local update for immediate UI refresh if needed
+            chat.adTitle = title;
+            chat.adImage = image;
+            chat.adPrice = data.price || 0;
+            chat.adLocation = data.location || "";
+
+            // Update Firestore so next load is faster
+            await updateDoc(doc(db, "chats", chat.id), {
+                adTitle: title,
+                adPrice: data.price || 0,
+                adImage: image,
+                adLocation: data.location || ""
+            });
+
+            // Re-render to show new metadata
+            renderChats(allChats);
         }
+    } catch (e) {
+        console.warn("Enrichment error for chat:", chat.id, e);
     }
 }
 
 function renderChats(chatsToRender) {
+    if (!chatList) return;
     chatList.innerHTML = "";
 
     if (!chatsToRender.length) {
@@ -133,49 +140,50 @@ function renderChats(chatsToRender) {
         return;
     }
 
-    if (emptyState) emptyState.style.display = "none";
-
     chatsToRender.forEach((chat) => {
         const isUnread = (chat.unreadFor === currentUser.uid);
         const otherRole = (chat.buyerId === currentUser.uid) ? "Seller" : "Buyer";
-        const adTitle = chat.adTitle || chat.title || "Ad Inquiry";
+        const adTitle = chat.adTitle || "Ad Inquiry";
         const thumbUrl = chat.adImage || "images/sellby-logo.png";
         const priceStr = chat.adPrice ? `${t('price_symbol')}${Number(chat.adPrice).toLocaleString("en-IN")}` : "";
 
         const chatCard = document.createElement("div");
         chatCard.className = isUnread ? "chat-item unread" : "chat-item";
+
         chatCard.innerHTML = `
-            <div class="avatar" style="width:55px;height:55px;border-radius:10px;overflow:hidden;background:#eee;flex-shrink:0;">
-                <img src="${thumbUrl}" alt="Ad Thumbnail" style="width:100%;height:100%;object-fit:cover;">
+            <div class="avatar" style="width:55px;height:55px;border-radius:12px;overflow:hidden;background:#f1f5f9;flex-shrink:0;border:1px solid #e2e8f0;">
+                <img src="${thumbUrl}" alt="Ad" style="width:100%;height:100%;object-fit:cover;">
             </div>
-            <div class="chat-info" style="flex:1;margin-left:12px;">
-                <div class="chat-name" style="font-size:15px;font-weight:700;color:#6d28d9;">${escapeHtml(adTitle)}</div>
-                <div style="font-size:12px;color:#555;margin-bottom:3px;">
-                    <span>${escapeHtml(priceStr)}</span> ${priceStr ? '• ' : ''}<span style="font-weight:500;color:#666;">${escapeHtml(otherRole)}</span>
+            <div class="chat-info" style="flex:1;margin-left:12px;overflow:hidden;">
+                <div class="chat-name" style="font-size:15px;font-weight:700;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(adTitle)}</div>
+                <div style="font-size:12px;color:#64748b;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                    <span style="font-weight:700;color:#6d28d9;">${escapeHtml(priceStr)}</span> ${priceStr ? '• ' : ''}<span style="font-weight:600;">${otherRole}</span>
                     ${chat.adLocation ? ` • 📍 ${escapeHtml(chat.adLocation)}` : ''}
                 </div>
-                <div class="last-message" style="${isUnread ? 'font-weight:600;color:#000;' : ''}">${escapeHtml(chat.lastMessage || "Start Conversation")}</div>
+                <div class="last-message" style="font-size:13px;color:${isUnread ? '#000' : '#64748b'};font-weight:${isUnread ? '700' : '400'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                    ${escapeHtml(chat.lastMessage || "No messages yet")}
+                </div>
             </div>
-            ${isUnread ? '<div class="unread-dot" title="Unread Message"></div>' : '<div class="chat-time">Chat</div>'}
+            ${isUnread ? '<div class="unread-dot" style="width:10px;height:10px;background:#db2777;border-radius:50%;margin-left:8px;"></div>' : ''}
         `;
 
-        chatCard.addEventListener("click", () => {
+        chatCard.onclick = () => {
             window.location.href = `chat.html?chatId=${chat.id}&adId=${chat.adId || ''}&sellerId=${chat.sellerId || ''}`;
-        });
+        };
 
         chatList.appendChild(chatCard);
     });
 }
 
 if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
+    searchInput.oninput = (e) => {
         const queryVal = e.target.value.toLowerCase().trim();
         const filtered = allChats.filter(c => 
             (c.adTitle && c.adTitle.toLowerCase().includes(queryVal)) ||
             (c.lastMessage && c.lastMessage.toLowerCase().includes(queryVal))
         );
         renderChats(filtered);
-    });
+    };
 }
 
 function escapeHtml(text) {
@@ -184,4 +192,4 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-console.log("SELLBY Chats Loaded");
+console.log("SELLBY My Chats Logic Finalized");
