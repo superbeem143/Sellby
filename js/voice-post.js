@@ -5,9 +5,6 @@
 import { db, auth } from "./firebase-config.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
-const CLOUD_NAME = "onrnn2hn";
-const UPLOAD_PRESET = "mvrproperties";
-
 const photosInput = document.getElementById("photos");
 const imagePreview = document.getElementById("imagePreview");
 const previewCount = document.getElementById("previewCount");
@@ -16,22 +13,32 @@ const micBtn = document.getElementById("micBtn");
 const publishBtn = document.getElementById("publishBtn");
 const statusMessage = document.getElementById("statusMessage");
 
+const adTitle = document.getElementById("adTitle");
+const adPrice = document.getElementById("adPrice");
+const adLocation = document.getElementById("adLocation");
+
+const CLOUD_NAME = "onrnn2hn";
+const UPLOAD_PRESET = "mvrproperties";
+
 let selectedFiles = [];
 const MAX_IMAGES = 10;
 
 /* 1. PHOTO HANDLING */
-photosInput.addEventListener("change", () => {
-    const files = Array.from(photosInput.files);
-    files.forEach(file => {
-        if (selectedFiles.length < MAX_IMAGES && file.type.startsWith("image/")) {
-            selectedFiles.push(file);
-        }
+if (photosInput) {
+    photosInput.addEventListener("change", () => {
+        const files = Array.from(photosInput.files);
+        files.forEach(file => {
+            if (selectedFiles.length < MAX_IMAGES && file.type.startsWith("image/")) {
+                selectedFiles.push(file);
+            }
+        });
+        renderPreview();
+        photosInput.value = "";
     });
-    renderPreview();
-    photosInput.value = "";
-});
+}
 
 function renderPreview() {
+    if (!imagePreview) return;
     imagePreview.innerHTML = "";
     selectedFiles.forEach((file, index) => {
         const reader = new FileReader();
@@ -54,110 +61,82 @@ function renderPreview() {
         reader.readAsDataURL(file);
         imagePreview.appendChild(thumb);
     });
-    previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES} images selected`;
+    if (previewCount) previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES} images selected`;
 }
 
-/* 2. SPEECH RECOGNITION (VOICE TO TEXT ONLY) */
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-let recognition = null;
-let finalTranscriptAccumulator = "";
+/* 2. SPEECH RECOGNITION (ANDROID NATIVE BRIDGE) */
 let isMicActive = false;
 
-if (SpeechRecognition) {
-    try {
-        recognition = new SpeechRecognition();
+// Native Callbacks defined globally
+window.onSpeechResults = (text) => {
+    // Append to existing text in textarea
+    const currentText = adDescription.value.trim();
+    adDescription.value = (currentText + (currentText ? " " : "") + text).trim();
+    adDescription.scrollTop = adDescription.scrollHeight;
+    stopMic();
+};
 
+window.onSpeechPartialResults = (text) => {
+    // We show partial results as a visual hint in status,
+    // we don't append partials to textarea to avoid duplicate text.
+    if (voiceStatus) voiceStatus.textContent = "🎤 Listening: " + text;
+};
+
+window.onSpeechError = (msg) => {
+    console.warn("Voice Post Native Speech Error:", msg);
+    // Error 7 is no-match (often silence)
+    if (!msg.includes("(7)") && !msg.includes("(8)")) {
+        alert("Speech Error: " + msg);
+    }
+    stopMic();
+};
+
+window.onSpeechStarted = () => {
+    isMicActive = true;
+    micBtn.classList.add("recording");
+    micBtn.innerHTML = "⏹️";
+    if (voiceStatus) voiceStatus.textContent = "🔴 Listening... Speak clearly.";
+};
+
+window.onSpeechEnded = () => {
+    // Session ended naturally
+    stopMic();
+};
+
+function startMic() {
+    if (window.AndroidSpeech) {
         const currentLang = localStorage.getItem("sellby_lang") || "en";
-        if (currentLang === "te") recognition.lang = "te-IN";
-        else if (currentLang === "hi") recognition.lang = "hi-IN";
-        else recognition.lang = "en-IN";
+        let langCode = "en-IN";
+        if (currentLang === "te") langCode = "te-IN";
+        else if (currentLang === "hi") langCode = "hi-IN";
 
-        recognition.interimResults = true;
-        recognition.continuous = true;
-
-        recognition.onresult = (event) => {
-            let interimTranscript = "";
-            for (let i = event.resultIndex; i < event.results.length; ++i) {
-                const transcript = event.results[i][0].transcript;
-                if (event.results[i].isFinal) {
-                    finalTranscriptAccumulator += transcript + " ";
-                } else {
-                    interimTranscript += transcript;
-                }
-            }
-            adDescription.value = (finalTranscriptAccumulator + interimTranscript).trim();
-            adDescription.scrollTop = adDescription.scrollHeight;
-        };
-
-        recognition.onerror = (e) => {
-            console.warn("Speech recognition error:", e.error);
-            if (e.error === "not-allowed") {
-                alert("Microphone permission denied. Please allow it in settings.");
-            }
-            stopMic();
-        };
-
-        recognition.onend = () => {
-            if (isMicActive) {
-                try {
-                    recognition.start();
-                } catch(err) {
-                    stopMic();
-                }
-            }
-        };
-
-    } catch (e) {
-        console.error("Speech Recognition initialization failed:", e);
-    }
-}
-
-async function startMic() {
-    if (!recognition) {
-        alert("Speech recognition not supported in this browser.");
-        return;
-    }
-
-    try {
-        // Request microphone access from the browser/WebView
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        // Stop the stream immediately, we only needed it to trigger the permission prompt
-        stream.getTracks().forEach(track => track.stop());
-
-        finalTranscriptAccumulator = adDescription.value ? adDescription.value + " " : "";
-        isMicActive = true;
-        micBtn.classList.add("recording");
-        micBtn.innerHTML = "⏹️";
-
-        recognition.start();
-    } catch (e) {
-        console.error("Mic start failed:", e);
-        if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
-            alert("Microphone permission denied. Please allow microphone access in your phone settings for the SELLBY app.");
-        } else {
-            alert("Could not start microphone. Please try again.");
-        }
-        stopMic();
+        window.AndroidSpeech.startListening(langCode);
+    } else {
+        console.warn("AndroidSpeech bridge not found. Browsers not supported.");
+        alert("Speech recognition is only available in the Android app.");
     }
 }
 
 function stopMic() {
     isMicActive = false;
-    if (recognition) {
-        try { recognition.stop(); } catch(e) {}
+    if (window.AndroidSpeech) {
+        window.AndroidSpeech.stopListening();
     }
     micBtn.classList.remove("recording");
     micBtn.innerHTML = "🎤";
+    if (voiceStatus) voiceStatus.textContent = "✅ Processing complete.";
 }
 
-micBtn.onclick = (e) => {
-    e.preventDefault();
-    if (isMicActive) {
-        stopMic();
-    } else {
-        startMic();
-    }
-};
+if (micBtn) {
+    micBtn.onclick = (e) => {
+        e.preventDefault();
+        if (isMicActive) {
+            stopMic();
+        } else {
+            startMic();
+        }
+    };
+}
 
 /* 3. CLOUDINARY & FIREBASE PIPELINE */
 async function uploadToCloudinary(file) {
@@ -176,68 +155,79 @@ async function uploadToCloudinary(file) {
     return data.secure_url;
 }
 
-publishBtn.addEventListener("click", async () => {
-    if (!auth.currentUser) {
-        alert("Please log in first.");
-        window.location.href = "login.html";
-        return;
-    }
-
-    const description = adDescription.value.trim();
-
-    if (!description) {
-        alert("Please provide ad details (speak or type).");
-        return;
-    }
-
-    publishBtn.disabled = true;
-    publishBtn.textContent = "⏳ Publishing...";
-    statusMessage.textContent = "Uploading images...";
-    statusMessage.style.color = "#6d28d9";
-
-    try {
-        const imageUrls = [];
-        for (const file of selectedFiles) {
-            statusMessage.textContent = `Uploading photo ${imageUrls.length + 1} of ${selectedFiles.length}...`;
-            const url = await uploadToCloudinary(file);
-            imageUrls.push(url);
+if (publishBtn) {
+    publishBtn.addEventListener("click", async () => {
+        if (!auth.currentUser) {
+            alert("Please log in first.");
+            window.location.href = "login.html";
+            return;
         }
 
-        statusMessage.textContent = "Saving to database...";
+        const description = adDescription.value.trim();
+        const title = adTitle.value.trim();
+        const price = adPrice.value.trim();
+        const location = adLocation.value.trim();
 
-        const docData = {
-            category: "others",
-            subCategory: "voice-post",
-            sellerId: auth.currentUser.uid,
-            sellerEmail: auth.currentUser.email || "",
-            title: description.substring(0, 40) + (description.length > 40 ? "..." : ""),
-            price: 0,
-            location: "Local",
-            description,
-            imageUrls,
-            status: "published",
-            createdAt: serverTimestamp()
-        };
+        if (!title || !price || !location || !description || selectedFiles.length === 0) {
+            alert("Please fill all fields and upload at least one photo.");
+            return;
+        }
 
-        await addDoc(collection(db, "ads"), docData);
+        publishBtn.disabled = true;
+        publishBtn.textContent = "⏳ Publishing...";
+        if (statusMessage) {
+            statusMessage.textContent = "Uploading images...";
+            statusMessage.style.color = "#6d28d9";
+        }
 
-        statusMessage.textContent = "✅ Ad Published Successfully!";
-        statusMessage.style.color = "#16a34a";
-        publishBtn.textContent = "Published!";
+        try {
+            const imageUrls = [];
+            for (const file of selectedFiles) {
+                if (statusMessage) statusMessage.textContent = `Uploading photo ${imageUrls.length + 1} of ${selectedFiles.length}...`;
+                const url = await uploadToCloudinary(file);
+                imageUrls.push(url);
+            }
 
-        alert("Success: Your ad is now live!");
-        window.location.href = "index.html";
+            if (statusMessage) statusMessage.textContent = "Saving to database...";
 
-    } catch (error) {
-        console.error("Voice Publish Error:", error);
-        alert(`Failed to publish: ${error.message}`);
-        statusMessage.textContent = "❌ Error: " + error.message;
-        statusMessage.style.color = "#dc2626";
-        publishBtn.disabled = false;
-        publishBtn.textContent = "Publish";
-    }
-});
+            const docData = {
+                category: "others",
+                subCategory: "voice-post",
+                sellerId: auth.currentUser.uid,
+                sellerEmail: auth.currentUser.email || "",
+                title,
+                price: Number(price),
+                location,
+                description,
+                imageUrls,
+                status: "published",
+                createdAt: serverTimestamp()
+            };
+
+            await addDoc(collection(db, "ads"), docData);
+
+            if (statusMessage) {
+                statusMessage.textContent = "✅ Ad Published Successfully!";
+                statusMessage.style.color = "#16a34a";
+            }
+            publishBtn.textContent = "Published!";
+
+            alert("Success: Your ad is now live!");
+            window.location.href = "index.html";
+
+        } catch (error) {
+            console.error("Voice Publish Error:", error);
+            alert(`Failed to publish: ${error.message}`);
+            if (statusMessage) {
+                statusMessage.textContent = "❌ Error: " + error.message;
+                statusMessage.style.color = "#dc2626";
+            }
+            publishBtn.disabled = false;
+            publishBtn.textContent = "Publish Ad";
+        }
+    });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("SELLBY Voice Post Direct Pipeline Ready");
+    console.log("SELLBY Voice Post Page Ready");
 });

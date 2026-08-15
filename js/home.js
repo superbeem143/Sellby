@@ -34,7 +34,7 @@ function initI18n() {
     const latestH2 = document.querySelector(".latest-ads .section-title");
     const searchInp = document.getElementById("searchInput");
 
-    if (logoSell) logoSell.textContent = "SELL"; // App name remains same
+    if (logoSell) logoSell.textContent = "SELL";
     if (logoBy) logoBy.textContent = "BY";
     if (tagline) tagline.textContent = trans.hero_subtitle;
     if (heroH2) heroH2.textContent = trans.hero_title;
@@ -127,95 +127,86 @@ if (searchBtnIcon && searchInput) {
         if (searchInput.value.trim()) {
             window.location.href = `category.html?search=${encodeURIComponent(searchInput.value.trim())}`;
         } else {
-            // Optional: focus input if empty
             searchInput.focus();
         }
     });
 }
 
-// Voice Search Fix
+// Voice Search Logic (Android Native Bridge)
 const voiceSearchBtn = document.getElementById("voiceSearchBtn");
-let homeRecognition = null;
 let isHomeMicActive = false;
 
 if (voiceSearchBtn) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
-        try {
-            homeRecognition = new SpeechRecognition();
-            const currentLang = localStorage.getItem("sellby_lang") || "en";
-            if (currentLang === "te") homeRecognition.lang = "te-IN";
-            else if (currentLang === "hi") homeRecognition.lang = "hi-IN";
-            else homeRecognition.lang = "en-IN";
-
-            homeRecognition.interimResults = true;
-            homeRecognition.continuous = false; // Search is usually short
-
-            homeRecognition.onresult = (event) => {
-                let transcript = "";
-                for (let i = event.resultIndex; i < event.results.length; ++i) {
-                    transcript += event.results[i][0].transcript;
-                }
-                if (searchInput) {
-                    searchInput.value = transcript;
-                    if (event.results[0].isFinal) {
-                        window.location.href = `category.html?search=${encodeURIComponent(transcript.trim())}`;
-                    }
-                }
-            };
-
-            homeRecognition.onerror = (event) => {
-                console.warn("Home Speech error:", event.error);
-                stopHomeMic();
-            };
-
-            homeRecognition.onend = () => {
-                stopHomeMic();
-            };
-        } catch (e) {
-            console.error("Home Speech init error:", e);
+    // Native Callbacks defined globally
+    window.onSpeechResults = (text) => {
+        if (searchInput) {
+            searchInput.value = text;
+            // Auto-trigger search on final result
+            window.location.href = `category.html?search=${encodeURIComponent(text.trim())}`;
         }
-    }
+        stopHomeMic();
+    };
 
-    voiceSearchBtn.addEventListener("click", async () => {
+    window.onSpeechPartialResults = (text) => {
+        if (searchInput) {
+            searchInput.value = text;
+            searchInput.placeholder = "🎤 Listening...";
+        }
+    };
+
+    window.onSpeechError = (msg) => {
+        console.warn("Home Native Speech Error:", msg);
+        // Ignore "No match" error for partial UX, but alert others
+        if (!msg.includes("(7)") && !msg.includes("(8)")) {
+            alert("Speech Error: " + msg);
+        }
+        stopHomeMic();
+    };
+
+    window.onSpeechStarted = () => {
+        isHomeMicActive = true;
+        if (searchInput) {
+            searchInput.value = "";
+            searchInput.placeholder = "🎤 Listening...";
+        }
+        voiceSearchBtn.style.opacity = "0.7";
+    };
+
+    window.onSpeechEnded = () => {
+        // Recognition naturally ended
+        isHomeMicActive = false;
+        if (voiceSearchBtn) voiceSearchBtn.style.opacity = "1";
+        if (searchInput && !searchInput.value) {
+             searchInput.placeholder = t('search_placeholder') || "Search...";
+        }
+    };
+
+    voiceSearchBtn.addEventListener("click", () => {
         if (isHomeMicActive) {
+            if (window.AndroidSpeech) window.AndroidSpeech.stopListening();
             stopHomeMic();
             return;
         }
 
-        if (!homeRecognition) {
-            alert("Voice search not supported.");
-            return;
-        }
+        if (window.AndroidSpeech) {
+            const currentLang = localStorage.getItem("sellby_lang") || "en";
+            let langCode = "en-IN";
+            if (currentLang === "te") langCode = "te-IN";
+            else if (currentLang === "hi") langCode = "hi-IN";
 
-        try {
-            // Request microphone access from the browser/WebView
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            // Stop the stream immediately, we only needed it to trigger the permission prompt
-            stream.getTracks().forEach(track => track.stop());
-
-            isHomeMicActive = true;
-            if (searchInput) searchInput.placeholder = "🎤 Listening...";
-            voiceSearchBtn.style.opacity = "0.7";
-            homeRecognition.start();
-        } catch (e) {
-            console.error("Home Mic access error:", e);
-            if (e.name === "NotAllowedError" || e.name === "PermissionDeniedError") {
-                alert("Microphone permission denied. Please allow microphone access in your phone settings for the SELLBY app.");
-            } else {
-                alert("Could not start microphone. Please try again.");
-            }
-            stopHomeMic();
+            window.AndroidSpeech.startListening(langCode);
+        } else {
+            console.warn("AndroidSpeech bridge not available. Browsers not supported.");
+            alert("Speech recognition is only available in the Android app.");
         }
     });
 }
 
 function stopHomeMic() {
     isHomeMicActive = false;
-    if (homeRecognition) {
-        try { homeRecognition.stop(); } catch(e) {}
+    if (searchInput) {
+        searchInput.placeholder = t('search_placeholder') || "Search...";
     }
-    if (searchInput) searchInput.placeholder = t('search_placeholder');
     if (voiceSearchBtn) voiceSearchBtn.style.opacity = "1";
 }
 
@@ -242,7 +233,6 @@ auth.onAuthStateChanged((user) => {
     }
 
     try {
-        // Simplified query to avoid manual composite index requirements
         const unreadQuery = query(
             collection(db, "chats"),
             where("unreadFor", "==", user.uid)
@@ -310,7 +300,6 @@ if (notifyBtn) {
             return;
         }
 
-        // If multiple unread chats, toggle notification dropdown popover
         toggleNotificationPopover();
     });
 }
@@ -343,7 +332,6 @@ function toggleNotificationPopover() {
     renderPopoverContent(popover);
     document.body.appendChild(popover);
 
-    // Close on click outside
     document.addEventListener("click", (event) => {
         if (!popover.contains(event.target) && event.target !== notifyBtn && !notifyBtn.contains(event.target)) {
             popover.style.display = "none";
@@ -390,7 +378,6 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Global Identity Resolver to handle different category field names
 function getAdTitle(ad) {
     if (ad.title) return ad.title;
     if (ad.brand && ad.model) return `${ad.brand} ${ad.model}`;
@@ -399,7 +386,6 @@ function getAdTitle(ad) {
     return t('untitled_ad');
 }
 
-// Unified Latest Ads implementation
 function listenToLatestAds() {
     const latestAdsContainer = document.getElementById("latestAds");
     if (!latestAdsContainer) return;
@@ -455,10 +441,9 @@ function listenToLatestAds() {
     });
 }
 
-// Initialize on load
 document.addEventListener("DOMContentLoaded", () => {
     initI18n();
     listenToLatestAds();
 });
 
-console.log("SELLBY Home Ready");
+console.log("SELLBY Home Loaded");
