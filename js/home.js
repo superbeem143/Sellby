@@ -134,60 +134,23 @@ if (searchBtnIcon && searchInput) {
 
 // Voice Search Logic (Android Native Bridge)
 const voiceSearchBtn = document.getElementById("voiceSearchBtn");
-let isHomeMicActive = false;
 
 if (voiceSearchBtn) {
-    // Native Callbacks defined globally
+    // Native Callback
     window.onSpeechResults = (text) => {
         if (searchInput) {
             searchInput.value = text;
-            // Auto-trigger search on final result
+            // Auto-trigger search
             window.location.href = `category.html?search=${encodeURIComponent(text.trim())}`;
-        }
-        stopHomeMic();
-    };
-
-    window.onSpeechPartialResults = (text) => {
-        if (searchInput) {
-            searchInput.value = text;
-            searchInput.placeholder = "🎤 Listening...";
         }
     };
 
     window.onSpeechError = (msg) => {
-        console.warn("Home Native Speech Error:", msg);
-        // Ignore "No match" error for partial UX, but alert others
-        if (!msg.includes("(7)") && !msg.includes("(8)")) {
-            alert("Speech Error: " + msg);
-        }
-        stopHomeMic();
-    };
-
-    window.onSpeechStarted = () => {
-        isHomeMicActive = true;
-        if (searchInput) {
-            searchInput.value = "";
-            searchInput.placeholder = "🎤 Listening...";
-        }
-        voiceSearchBtn.style.opacity = "0.7";
-    };
-
-    window.onSpeechEnded = () => {
-        // Recognition naturally ended
-        isHomeMicActive = false;
-        if (voiceSearchBtn) voiceSearchBtn.style.opacity = "1";
-        if (searchInput && !searchInput.value) {
-             searchInput.placeholder = t('search_placeholder') || "Search...";
-        }
+        console.warn("Speech error:", msg);
+        if (msg) alert(msg);
     };
 
     voiceSearchBtn.addEventListener("click", () => {
-        if (isHomeMicActive) {
-            if (window.AndroidSpeech) window.AndroidSpeech.stopListening();
-            stopHomeMic();
-            return;
-        }
-
         if (window.AndroidSpeech) {
             const currentLang = localStorage.getItem("sellby_lang") || "en";
             let langCode = "en-IN";
@@ -196,18 +159,9 @@ if (voiceSearchBtn) {
 
             window.AndroidSpeech.startListening(langCode);
         } else {
-            console.warn("AndroidSpeech bridge not available. Browsers not supported.");
-            alert("Speech recognition is only available in the Android app.");
+            console.warn("AndroidSpeech bridge not available.");
         }
     });
-}
-
-function stopHomeMic() {
-    isHomeMicActive = false;
-    if (searchInput) {
-        searchInput.placeholder = t('search_placeholder') || "Search...";
-    }
-    if (voiceSearchBtn) voiceSearchBtn.style.opacity = "1";
 }
 
 // Camera Search Fix

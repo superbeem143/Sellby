@@ -65,75 +65,33 @@ function renderPreview() {
 }
 
 /* 2. SPEECH RECOGNITION (ANDROID NATIVE BRIDGE) */
-let isMicActive = false;
-
 // Native Callbacks defined globally
 window.onSpeechResults = (text) => {
-    // Append to existing text in textarea
-    const currentText = adDescription.value.trim();
-    adDescription.value = (currentText + (currentText ? " " : "") + text).trim();
-    adDescription.scrollTop = adDescription.scrollHeight;
-    stopMic();
-};
-
-window.onSpeechPartialResults = (text) => {
-    // We show partial results as a visual hint in status,
-    // we don't append partials to textarea to avoid duplicate text.
-    if (voiceStatus) voiceStatus.textContent = "🎤 Listening: " + text;
+    if (adDescription) {
+        // Append text if already exists
+        const currentText = adDescription.value.trim();
+        adDescription.value = (currentText + (currentText ? " " : "") + text).trim();
+        adDescription.scrollTop = adDescription.scrollHeight;
+    }
 };
 
 window.onSpeechError = (msg) => {
-    console.warn("Voice Post Native Speech Error:", msg);
-    // Error 7 is no-match (often silence)
-    if (!msg.includes("(7)") && !msg.includes("(8)")) {
-        alert("Speech Error: " + msg);
-    }
-    stopMic();
+    console.warn("Speech error:", msg);
+    if (msg) alert(msg);
 };
-
-window.onSpeechStarted = () => {
-    isMicActive = true;
-    micBtn.classList.add("recording");
-    micBtn.innerHTML = "⏹️";
-    if (voiceStatus) voiceStatus.textContent = "🔴 Listening... Speak clearly.";
-};
-
-window.onSpeechEnded = () => {
-    // Session ended naturally
-    stopMic();
-};
-
-function startMic() {
-    if (window.AndroidSpeech) {
-        const currentLang = localStorage.getItem("sellby_lang") || "en";
-        let langCode = "en-IN";
-        if (currentLang === "te") langCode = "te-IN";
-        else if (currentLang === "hi") langCode = "hi-IN";
-
-        window.AndroidSpeech.startListening(langCode);
-    } else {
-        console.warn("AndroidSpeech bridge not found. Browsers not supported.");
-        alert("Speech recognition is only available in the Android app.");
-    }
-}
-
-function stopMic() {
-    isMicActive = false;
-    if (window.AndroidSpeech) {
-        window.AndroidSpeech.stopListening();
-    }
-    micBtn.classList.remove("recording");
-    micBtn.innerHTML = "🎤";
-    if (voiceStatus) voiceStatus.textContent = "✅ Processing complete.";
-}
 
 if (micBtn) {
     micBtn.onclick = (e) => {
         e.preventDefault();
-        if (isMicActive) {
-            stopMic();
+        if (window.AndroidSpeech) {
+            const currentLang = localStorage.getItem("sellby_lang") || "en";
+            let langCode = "en-IN";
+            if (currentLang === "te") langCode = "te-IN";
+            else if (currentLang === "hi") langCode = "hi-IN";
+
+            window.AndroidSpeech.startListening(langCode);
         } else {
-            startMic();
+            console.warn("AndroidSpeech bridge not found.");
         }
     };
 }
