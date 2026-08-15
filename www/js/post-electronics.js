@@ -104,14 +104,19 @@ publishBtn.addEventListener("click", async () => {
     }
 
     publishBtn.disabled = true;
-    publishBtn.textContent = t('uploading');
+    publishBtn.textContent = "⏳ " + t('uploading');
+    statusMessage.textContent = t('uploading') + "... Please wait.";
+    statusMessage.style.color = "#6d28d9";
 
     try {
         const imageUrls = [];
         for (const file of selectedFiles) {
+            statusMessage.textContent = `Uploading image ${imageUrls.length + 1} of ${selectedFiles.length}...`;
             const url = await uploadToCloudinary(file);
             imageUrls.push(url);
         }
+
+        statusMessage.textContent = "Finalizing ad... Do not close the app.";
 
         const docData = {
             category: "electronics",
@@ -127,11 +132,19 @@ publishBtn.addEventListener("click", async () => {
         };
 
         await addDoc(collection(db, "ads"), docData);
-        alert(t('success'));
+
+        // Success State
+        statusMessage.textContent = "✅ Ad Published Successfully!";
+        statusMessage.style.color = "#16a34a";
+        publishBtn.textContent = "Published!";
+
+        alert("Success: Your ad is now live!");
         window.location.href = "category.html?type=electronics";
     } catch (error) {
         console.error(error);
-        alert(`${t('failed')} (${error.message})`);
+        alert(`Failed to publish: ${error.message}`);
+        statusMessage.textContent = "❌ Error: " + error.message;
+        statusMessage.style.color = "#dc2626";
         publishBtn.disabled = false;
         publishBtn.textContent = t('publish');
     }

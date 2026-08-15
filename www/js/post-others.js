@@ -62,7 +62,7 @@ function renderPreview() {
         reader.readAsDataURL(file);
         imagePreview.appendChild(thumb);
     });
-    previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES} ${t('profile_photo')}`;
+    if (previewCount) previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES} images selected`;
 }
 
 async function uploadToCloudinary(file) {
@@ -97,41 +97,71 @@ publishBtn.addEventListener("click", async () => {
     const price = getFieldValue("price");
     const location = getFieldValue("location");
     const description = getFieldValue("description");
+    const category = getFieldValue("category");
+    const condition = getFieldValue("condition");
 
-    if (selectedFiles.length === 0 || !title || !price) {
-        alert(t('identity_required'));
+    if (!title || !price || !location || !description || !category || !condition) {
+        alert("Please fill all required fields.");
+        return;
+    }
+
+    if (selectedFiles.length === 0) {
+        alert("Please upload at least one photo.");
         return;
     }
 
     publishBtn.disabled = true;
-    publishBtn.textContent = t('uploading');
+    publishBtn.textContent = "⏳ " + t('uploading');
+    if (statusMessage) {
+        statusMessage.textContent = "Uploading images... Please wait.";
+        statusMessage.style.color = "#6d28d9";
+    }
 
     try {
         const imageUrls = [];
         for (const file of selectedFiles) {
+            if (statusMessage) statusMessage.textContent = `Uploading image ${imageUrls.length + 1} of ${selectedFiles.length}...`;
             const url = await uploadToCloudinary(file);
             imageUrls.push(url);
         }
 
+        if (statusMessage) statusMessage.textContent = "Saving ad details...";
+
         const docData = {
             category: "others",
+            itemCategory: category,
             sellerId: auth.currentUser.uid,
             sellerEmail: auth.currentUser.email || "",
             title,
             price: Number(price),
             location,
             description,
+            condition,
+            brand: getFieldValue("brand"),
+            quantity: Number(getFieldValue("quantity")) || 1,
             imageUrls,
             status: "published",
             createdAt: serverTimestamp()
         };
 
         await addDoc(collection(db, "ads"), docData);
-        alert(t('success'));
-        window.location.href = "category.html?type=others";
+
+        if (statusMessage) {
+            statusMessage.textContent = "✅ Ad Published Successfully!";
+            statusMessage.style.color = "#16a34a";
+        }
+        publishBtn.textContent = "Published!";
+
+        alert("Success: Your ad is now live!");
+        window.location.href = "index.html"; // Navigate to home/feed
+
     } catch (error) {
-        console.error(error);
-        alert(`${t('failed')} (${error.message})`);
+        console.error("Publish Error:", error);
+        alert(`Failed to publish: ${error.message}`);
+        if (statusMessage) {
+            statusMessage.textContent = "❌ Error: " + error.message;
+            statusMessage.style.color = "#dc2626";
+        }
         publishBtn.disabled = false;
         publishBtn.textContent = t('publish');
     }
@@ -144,9 +174,7 @@ function prefillVoiceData() {
         if (rawData) {
             try {
                 const data = JSON.parse(rawData);
-                // ONLY pre-fill description as per latest simplified requirement
                 if (data.description) document.getElementById("description").value = data.description;
-
                 // Clear after use
                 localStorage.removeItem("voice_post_data");
             } catch (e) {

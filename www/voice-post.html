@@ -1,450 +1,87 @@
 <!-- ===================================================== -->
 <!--             SELLBY VOICE-POST.HTML                  -->
-<!--                   HTML PART 1                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : voice-post.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ HTML Document Start
-    ✔ Head Section
-    ✔ Google Fonts
-    ✔ CSS Link
-    ✔ Header
-    ✔ Voice Recording Section
--->
 <!-- ===================================================== -->
 
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SELLBY | Voice Posting</title>
-
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <script type="module" src="js/auth-guard.js"></script>
-
-    <style>
-
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Poppins',sans-serif;
-        }
-
-        body{
-            background:#f8fafc;
-            color:#0f172a;
-            min-height:100vh;
-        }
-
-        .header{
-            background:linear-gradient(135deg, #6d28d9, #db2777);
-            color:#fff;
-            padding:18px 20px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            position:relative;
-            box-shadow:0 4px 20px rgba(109, 40, 217, 0.2);
-        }
-
-        .back-btn{
-            position:absolute;
-            left:18px;
-            width:40px;
-            height:40px;
-            border:none;
-            border-radius:12px;
-            background:rgba(255,255,255,0.18);
-            color:#fff;
-            font-size:20px;
-            cursor:pointer;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-        }
-
-        .page-title h1{
-            font-size:22px;
-            font-weight:700;
-            text-align:center;
-        }
-
-        .page-title p{
-            font-size:13px;
-            color:#fce7f3;
-            text-align:center;
-            margin-top:2px;
-        }
-
-        .voice-page{
-            max-width:760px;
-            margin:24px auto 48px;
-            padding:0 18px;
-        }
-
-        .voice-card{
-            background:#ffffff;
-            border-radius:24px;
-            padding:36px 28px;
-            text-align:center;
-            box-shadow:0 10px 30px rgba(124, 58, 237, 0.08);
-            border:1px solid #f1f5f9;
-        }
-
-        .voice-animation{
-            width:96px;
-            height:96px;
-            border-radius:50%;
-            background:linear-gradient(135deg, #f5f3ff, #fdf2f8);
-            border:3px solid #7c3aed;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:44px;
-            margin:0 auto 20px;
-            box-shadow:0 10px 25px rgba(124, 58, 237, 0.2);
-            transition:all 0.3s ease;
-        }
-
-        .voice-card h2{
-            font-size:22px;
-            font-weight:700;
-            color:#0f172a;
-            margin-bottom:6px;
-        }
-
-        .voice-card p{
-            font-size:14px;
-            color:#64748b;
-            margin-bottom:24px;
-        }
-
-        .publish-btn{
-            background:linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
-            color:#ffffff;
-            border:none;
-            border-radius:16px;
-            padding:16px 32px;
-            font-size:16px;
-            font-weight:700;
-            cursor:pointer;
-            transition:all .2s ease;
-            box-shadow:0 10px 24px rgba(124, 58, 237, 0.25);
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            gap:8px;
-        }
-
-        .publish-btn:hover{
-            transform:translateY(-2px);
-            box-shadow:0 14px 28px rgba(124, 58, 237, 0.35);
-        }
-
-        .status-message{
-            margin-top:16px;
-            font-size:14px;
-            font-weight:600;
-            color:#6d28d9;
-        }
-
-        .voice-result{
-            margin-top:28px;
-            text-align:left;
-        }
-
-        .voice-result label,
-        .form-group label{
-            display:block;
-            font-size:14px;
-            font-weight:600;
-            color:#1e293b;
-            margin-bottom:6px;
-        }
-
-        textarea, input{
-            width:100%;
-            border:2px solid #e2e8f0;
-            border-radius:16px;
-            padding:14px 16px;
-            font-size:15px;
-            background:#f8fafc;
-            color:#0f172a;
-            outline:none;
-        }
-
-        .voice-details{
-            display:grid;
-            grid-template-columns:repeat(3, 1fr);
-            gap:16px;
-            margin:20px 0 28px;
-            text-align:left;
-        }
-
-        @media (max-width:640px){
-            .voice-details{
-                grid-template-columns:1fr;
-            }
-            .voice-card{
-                padding:28px 18px;
-            }
-        }
-
-    </style>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/auth-guard.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f8fafc; color: #0f172a; padding-bottom: 40px; }
+        .header { background: var(--sellby-gradient-header); color: #fff; padding: 18px 20px; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 4px 20px rgba(109, 40, 217, 0.2); }
+        .back-btn { position: absolute; left: 18px; width: 40px; height: 40px; border: none; border-radius: 12px; background: rgba(255,255,255,0.18); color: #fff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .page-title h1 { font-size: 22px; font-weight: 700; text-align: center; }
+        .page-wrap { max-width: 600px; margin: 20px auto; padding: 0 16px; }
+        .card { background: #ffffff; border-radius: 24px; padding: 24px; box-shadow: 0 10px 30px rgba(124, 58, 237, 0.08); border: 1px solid #f1f5f9; margin-bottom: 20px; }
+        .section-label { font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 12px; display: block; }
 
+        /* Box 1: Photo Upload */
+        .upload-area { border: 2px dashed #cbd5e1; border-radius: 18px; padding: 20px; text-align: center; background: #f8fafc; cursor: pointer; transition: all 0.2s; }
+        .upload-area:hover { border-color: #7c3aed; background: #f5f3ff; }
+        .image-preview { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; margin-top: 15px; }
+        .preview-thumb { position: relative; height: 80px; border-radius: 10px; overflow: hidden; background: #eee; }
+        .preview-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .remove-img { position: absolute; top: 2px; right: 2px; background: rgba(0,0,0,0.5); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; cursor: pointer; }
+
+        /* Box 2: Ad Details */
+        .details-container { position: relative; }
+        textarea { width: 100%; border: 2px solid #e2e8f0; border-radius: 16px; padding: 15px; padding-right: 50px; font-size: 15px; background: #f8fafc; min-height: 200px; outline: none; transition: all 0.2s; resize: none; }
+        textarea:focus { border-color: #7c3aed; background: #fff; }
+        .mic-btn-inline { position: absolute; top: 12px; right: 12px; width: 38px; height: 38px; border-radius: 50%; border: none; background: var(--sellby-gradient); color: #fff; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3); transition: transform 0.2s; }
+        .mic-btn-inline.recording { background: #ef4444; animation: pulse 1.2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+        .publish-btn { width: 100%; background: var(--sellby-gradient); color: #fff; border: none; border-radius: 16px; padding: 16px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; box-shadow: 0 10px 24px rgba(124, 58, 237, 0.25); transition: all 0.2s; }
+        .publish-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .status-msg { margin-top: 12px; text-align: center; font-size: 13px; font-weight: 500; color: #64748b; }
+    </style>
 </head>
-
 <body>
 
-    <!-- ================= HEADER ================= -->
-
     <header class="header">
-
-        <button
-            class="back-btn"
-            onclick="history.back()"
-            title="Back">
-
-            ←
-
-        </button>
-
+        <button class="back-btn" onclick="history.back()">←</button>
         <div class="page-title">
-
-            <h1>
-
-                Voice Posting
-
-            </h1>
-
-            <p>
-
-                Speak and create your ad instantly
-
-            </p>
-
+            <h1>Voice Posting</h1>
         </div>
-
     </header>
 
-    <!-- ================= VOICE SECTION ================= -->
-
-    <main class="voice-page">
-
-        <section class="voice-card">
-
-            <div
-                id="voiceAnimation"
-                class="voice-animation">
-
-                🎤
-
+    <main class="page-wrap">
+        <!-- Box 1: Photos -->
+        <section class="card">
+            <label class="section-label">Add Photos</label>
+            <div class="upload-area" onclick="document.getElementById('photos').click()">
+                <div style="font-size: 30px; margin-bottom: 5px;">📷</div>
+                <div style="font-weight: 600; color: #7c3aed;">Choose File</div>
+                <div style="font-size: 12px; color: #94a3b8;">Add photos (optional)</div>
+                <input type="file" id="photos" multiple accept="image/*" style="display: none;">
             </div>
-
-            <h2>
-
-                Tap the microphone
-
-            </h2>
-
-            <p>
-
-                Speak clearly in Telugu, English or Hindi.
-
-            </p>
-
-            <button
-                id="startVoiceBtn"
-                class="publish-btn"
-                type="button">
-
-                🎤 Start Recording
-
-            </button>
-
-            <div
-                id="voiceStatus"
-                class="status-message">
-
-                Ready to listen...
-
-            </div>
-
-            <!-- PHOTO SECTION (NEW) -->
-            <div class="photo-section" style="margin-top: 32px; border-top: 1px solid #f1f5f9; padding-top: 24px;">
-                <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px; text-align: left;">Add Photo (Optional)</h3>
-
-                <div style="display: flex; gap: 12px; margin-bottom: 16px;">
-                    <button id="cameraBtn" class="publish-btn" type="button" style="flex: 1; background: #ffffff; color: #7c3aed; border: 2px solid #7c3aed; box-shadow: none;">
-                        📷 Take Photo
-                    </button>
-                    <button id="galleryBtn" class="publish-btn" type="button" style="flex: 1; background: #ffffff; color: #7c3aed; border: 2px solid #7c3aed; box-shadow: none;">
-                        🖼️ Gallery
-                    </button>
-                </div>
-
-                <div id="photoPreviewContainer" style="display: none; position: relative; margin-top: 12px;">
-                    <img id="photoPreview" src="" style="width: 100%; height: 200px; object-fit: cover; border-radius: 16px; border: 1px solid #e2e8f0;">
-                    <button id="removePhotoBtn" type="button" style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; border: none; border-radius: 50%; width: 32px; height: 32px; font-size: 18px; cursor: pointer;">✕</button>
-                </div>
-
-                <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
-                <input type="file" id="galleryInput" accept="image/*" style="display: none;">
-            </div>
-<!-- ===================================================== -->
-<!--             SELLBY VOICE-POST.HTML                  -->
-<!--                   HTML PART 2                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : voice-post.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 2
-    Contains  :
-    ✔ Speech Result
-    ✔ Detected Category
-    ✔ Extracted Details
-    ✔ Continue Button
--->
-<!-- ===================================================== -->
-
-            <div class="voice-result">
-
-                <label>
-
-                    Ad Details (Spoken Description)
-
-                </label>
-
-                <textarea
-                    id="speechResult"
-                    rows="8"
-                    placeholder="Your spoken text will appear here. You can edit it manually before continuing..."></textarea>
-
-            </div>
-
-            <!-- Hidden details as extraction is no longer required -->
-            <div class="voice-details" style="display: none;">
-
-                <div class="form-group">
-
-                    <label>
-
-                        Detected Category
-
-                    </label>
-
-                    <input
-                        id="detectedCategory"
-                        type="text"
-                        readonly>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-
-                        Detected Price
-
-                    </label>
-
-                    <input
-                        id="detectedPrice"
-                        type="text"
-                        readonly>
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>
-
-                        Detected Location
-
-                    </label>
-
-                    <input
-                        id="detectedLocation"
-                        type="text"
-                        readonly>
-
-                </div>
-
-            </div>
-
-            <button
-                id="continueBtn"
-                class="publish-btn"
-                type="button">
-
-                Continue to Post
-
-            </button>
-
+            <div class="image-preview" id="imagePreview"></div>
+            <div id="previewCount" style="font-size: 12px; color: #64748b; margin-top: 8px;">0 / 10 images selected</div>
         </section>
-<!-- ===================================================== -->
-<!--             SELLBY VOICE-POST.HTML                  -->
-<!--                   HTML PART 3                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : voice-post.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Firebase Script
-    ✔ Voice Posting JavaScript
-    ✔ Speech Parser JavaScript
-    ✔ Closing Body
-    ✔ Closing HTML
--->
-<!-- ===================================================== -->
 
-    <!-- ================= FIREBASE ================= -->
+        <!-- Box 2: Ad Details -->
+        <section class="card">
+            <label class="section-label">Ad Details</label>
+            <div class="details-container">
+                <textarea id="adDescription" placeholder="Tap the microphone and speak, or type your ad details..."></textarea>
+                <button id="micBtn" class="mic-btn-inline" title="Speak to write description">🎤</button>
+            </div>
 
-    <script
-        type="module"
-        src="js/firebase-config.js">
-    </script>
+            <button id="publishBtn" class="publish-btn">Publish</button>
+            <div id="statusMessage" class="status-msg">Ready to publish</div>
+        </section>
+    </main>
 
-    <!-- ================= VOICE POST JS ================= -->
-
-    <script
-        type="module"
-        src="js/voice-post.js">
-    </script>
-
-    <!-- ================= SPEECH PARSER JS ================= -->
-
-    <script
-        type="module"
-        src="js/speech-parser.js">
-    </script>
-
+    <!-- Scripts -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/voice-post.js"></script>
 </body>
-
-</html>                    
+</html>

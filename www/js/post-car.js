@@ -101,8 +101,6 @@ publishBtn.addEventListener("click", async () => {
     const brand = getFieldValue("brand");
     const model = getFieldValue("model");
     const price = getFieldValue("price");
-    const year = getFieldValue("year");
-    const kms = getFieldValue("kms");
     const location = getFieldValue("location");
     const description = getFieldValue("description");
 
@@ -112,14 +110,19 @@ publishBtn.addEventListener("click", async () => {
     }
 
     publishBtn.disabled = true;
-    publishBtn.textContent = t('uploading');
+    publishBtn.textContent = "⏳ " + t('uploading');
+    statusMessage.textContent = t('uploading') + "... Please wait.";
+    statusMessage.style.color = "#6d28d9";
 
     try {
         const imageUrls = [];
         for (const file of selectedFiles) {
+            statusMessage.textContent = `Uploading image ${imageUrls.length + 1} of ${selectedFiles.length}...`;
             const url = await uploadToCloudinary(file);
             imageUrls.push(url);
         }
+
+        statusMessage.textContent = "Finalizing ad... Do not close the app.";
 
         const docData = {
             category: "cars",
@@ -128,8 +131,8 @@ publishBtn.addEventListener("click", async () => {
             brand,
             model,
             price: Number(price),
-            year: Number(year) || null,
-            kms: Number(kms) || null,
+            year: Number(getFieldValue("year")) || null,
+            kms: Number(getFieldValue("kms")) || null,
             location,
             description,
             imageUrls,
@@ -138,11 +141,19 @@ publishBtn.addEventListener("click", async () => {
         };
 
         await addDoc(collection(db, "ads"), docData);
-        alert(t('success'));
+
+        // Success State
+        statusMessage.textContent = "✅ Ad Published Successfully!";
+        statusMessage.style.color = "#16a34a";
+        publishBtn.textContent = "Published!";
+
+        alert("Success: Your ad is now live!");
         window.location.href = "category.html?type=cars";
     } catch (error) {
         console.error(error);
-        alert(`${t('failed')} (${error.message})`);
+        alert(`Failed to publish: ${error.message}`);
+        statusMessage.textContent = "❌ Error: " + error.message;
+        statusMessage.style.color = "#dc2626";
         publishBtn.disabled = false;
         publishBtn.textContent = t('publish');
     }

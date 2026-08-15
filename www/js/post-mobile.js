@@ -105,43 +105,39 @@ publishBtn.addEventListener("click", async () => {
 
     const brand = getFieldValue("brand");
     const model = getFieldValue("model");
-    const ram = getFieldValue("ram");
-    const storage = getFieldValue("storage");
-    const condition = getFieldValue("condition");
     const price = getFieldValue("price");
     const location = getFieldValue("location");
     const description = getFieldValue("description");
 
-    if (selectedFiles.length === 0) {
-        alert(t('identity_required'));
-        return;
-    }
-    if (!brand || !model || !price) {
+    if (selectedFiles.length === 0 || !brand || !model || !price) {
         alert(t('identity_required'));
         return;
     }
 
     publishBtn.disabled = true;
-    publishBtn.textContent = t('uploading');
-    statusMessage.textContent = t('uploading');
+    publishBtn.textContent = "⏳ " + t('uploading');
+    statusMessage.textContent = t('uploading') + "... Please wait.";
+    statusMessage.style.color = "#6d28d9";
 
     try {
         const imageUrls = [];
         for (const file of selectedFiles) {
+            statusMessage.textContent = `Uploading image ${imageUrls.length + 1} of ${selectedFiles.length}...`;
             const url = await uploadToCloudinary(file);
             imageUrls.push(url);
         }
 
-        statusMessage.textContent = t('loading');
+        statusMessage.textContent = "Finalizing ad... Do not close the app.";
+
         const docData = {
             category: "mobile",
             sellerId: auth.currentUser.uid,
             sellerEmail: auth.currentUser.email || "",
             brand,
             model,
-            ram,
-            storage,
-            condition,
+            ram: getFieldValue("ram"),
+            storage: getFieldValue("storage"),
+            condition: getFieldValue("condition"),
             price: Number(price),
             location,
             description,
@@ -151,11 +147,19 @@ publishBtn.addEventListener("click", async () => {
         };
 
         await addDoc(collection(db, "ads"), docData);
-        alert(t('success'));
+
+        // Success State
+        statusMessage.textContent = "✅ Ad Published Successfully!";
+        statusMessage.style.color = "#16a34a";
+        publishBtn.textContent = "Published!";
+
+        alert("Success: Your ad is now live!");
         window.location.href = "category.html?type=mobile";
     } catch (error) {
         console.error("Publish Error:", error);
-        alert(`${t('failed')} (${error.message})`);
+        alert(`Failed to publish: ${error.message}`);
+        statusMessage.textContent = "❌ Error: " + error.message;
+        statusMessage.style.color = "#dc2626";
         publishBtn.disabled = false;
         publishBtn.textContent = t('publish');
     }
