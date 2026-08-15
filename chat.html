@@ -126,14 +126,12 @@ gap:12px;
 
 <body>
 
-<div class="header">
-
-    <div class="back" onclick="history.back()" data-i18n="back">←</div>
+<div class="header" style="justify-content: flex-start; gap: 12px;">
+    <button class="back-btn-small" onclick="history.back()">←</button>
     <div class="user">
         <h2 id="sellerName">Seller</h2>
         <p id="sellerStatus" data-i18n="online">Online</p>
     </div>
-
 </div>
 
 <!-- ================= AD CONTEXT BANNER ================= -->
@@ -154,196 +152,10 @@ gap:12px;
 
 </div>
 
-<div
-id="chatMessages"
-class="chat-area">
-
-</div>
-<!-- ===================================================== -->
-<!--                 SELLBY CHAT.HTML                      -->
-<!--                     HTML PART 2                       -->
-<!-- ===================================================== -->
-
-<style>
-
-.message{
-
-max-width:80%;
-
-padding:12px 15px;
-
-border-radius:16px;
-
-font-size:15px;
-
-line-height:1.5;
-
-word-wrap:break-word;
-
-}
-
-.sent{
-
-background:linear-gradient(135deg, #7c3aed, #db2777);
-
-color:#fff;
-
-align-self:flex-end;
-
-border-bottom-right-radius:4px;
-
-box-shadow:0 4px 15px rgba(124, 58, 237, 0.2);
-
-}
-
-.received{
-
-background:#fff;
-
-color:#0f172a;
-
-align-self:flex-start;
-
-border-bottom-left-radius:4px;
-
-box-shadow:0 4px 15px rgba(0,0,0,.06);
-
-border:1px solid #f1f5f9;
-
-}
-
-.input-area{
-
-display:flex;
-
-gap:10px;
-
-padding:12px 16px;
-
-background:#fff;
-
-border-top:1px solid #e2e8f0;
-
-}
-
-.input-area input{
-
-flex:1;
-
-padding:14px 18px;
-
-border:2px solid #e2e8f0;
-
-border-radius:30px;
-
-outline:none;
-
-font-size:15px;
-
-transition:border-color 0.2s;
-
-}
-
-.input-area input:focus{
-
-border-color:#7c3aed;
-
-}
-
-.input-area button{
-
-background:linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
-
-color:#fff;
-
-border:none;
-
-padding:0 24px;
-
-border-radius:30px;
-
-.voice-msg-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 2px solid #e2e8f0;
-    background: #f5f3ff;
-    color: #7c3aed;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.voice-msg-btn:hover {
-    background: #ede9fe;
-    border-color: #7c3aed;
-    transform: scale(1.05);
-}
-
-.voice-msg-btn.recording {
-    background: #fef2f2;
-    border-color: #ef4444;
-    color: #ef4444;
-    animation: pulse 1.2s infinite;
-}
-
-.voice-recording-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 18px;
-    background: #fef2f2;
-    border-top: 1px solid #fecaca;
-}
-
-.recording-indicator {
-    font-weight: 700;
-    color: #dc2626;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.voice-action-btn {
-    border: none;
-    padding: 8px 16px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.voice-action-btn.cancel {
-    background: #f1f5f9;
-    color: #64748b;
-    margin-right: 6px;
-}
-
-.voice-action-btn.send {
-    background: linear-gradient(135deg, #7c3aed, #db2777);
-    color: #ffffff;
-}
-
-.audio-bubble-player {
-    margin-top: 6px;
-    max-width: 240px;
-}
-
-.audio-bubble-player audio {
-    width: 100%;
-    height: 38px;
-    border-radius: 18px;
-}
-
-</style>
+<div id="chatMessages" class="chat-area"></div>
 
 <div id="voiceRecordingBar" class="voice-recording-bar" style="display:none;">
-    <span class="recording-indicator">🔴 <span data-i18n="recording">Recording:</span> <span id="recTimer">00:00</span></span>
+    <span class="recording-indicator"><span data-i18n="recording">Recording:</span> <span id="recTimer">00:00</span></span>
     <div class="recording-actions">
         <button id="cancelVoiceBtn" type="button" class="voice-action-btn cancel" data-i18n="cancel">Cancel</button>
         <button id="sendVoiceNoteBtn" type="button" class="voice-action-btn send" data-i18n="send_voice">Send Voice 🎵</button>
@@ -351,25 +163,9 @@ border-radius:30px;
 </div>
 
 <div class="input-area">
-
-<button id="voiceMsgBtn" class="voice-msg-btn" type="button" data-i18n="record_voice" title="Record Voice Message">🎤</button>
-
-<input
-
-id="messageInput"
-
-type="text"
-data-i18n="type_message"
-placeholder="Type your message...">
-
-<button
-
-id="sendBtn" data-i18n="send">
-
-Send
-
-</button>
-
+    <button id="voiceMsgBtn" class="voice-msg-btn" type="button" title="Record Voice Message">🎤</button>
+    <input id="messageInput" type="text" data-i18n="type_message" placeholder="Type your message...">
+    <button id="sendBtn" data-i18n="send"></button>
 </div>
 <!-- ===================================================== -->
 <!--                 SELLBY CHAT.HTML                      -->

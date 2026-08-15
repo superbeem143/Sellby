@@ -150,6 +150,7 @@ auth.onAuthStateChanged((user) => {
             where("unreadFor", "==", user.uid)
         );
 
+        let isInitialLoad = true;
         onSnapshot(unreadQuery, (snapshot) => {
             const previousCount = activeUnreadChats.length;
             activeUnreadChats = [];
@@ -157,9 +158,10 @@ auth.onAuthStateChanged((user) => {
                 activeUnreadChats.push({ id: doc.id, ...doc.data() });
             });
 
-            if (activeUnreadChats.length > previousCount) {
+            if (!isInitialLoad && activeUnreadChats.length > previousCount) {
                 playNotificationSound();
             }
+            isInitialLoad = false;
 
             updateNotificationBadge();
         }, (error) => {
@@ -170,10 +172,21 @@ auth.onAuthStateChanged((user) => {
     }
 });
 
+const notificationSound = new Audio("https://firebasestorage.googleapis.com/v0/b/mvr-properties-64922.firebasestorage.app/o/sounds%2Fnotification.mp3?alt=media");
+// Unlock audio on first interaction
+document.addEventListener('click', () => {
+    notificationSound.play().then(() => {
+        notificationSound.pause();
+        notificationSound.currentTime = 0;
+    }).catch(() => {});
+}, { once: true });
+
 function playNotificationSound() {
     try {
-        const audio = new Audio("https://firebasestorage.googleapis.com/v0/b/mvr-properties-64922.firebasestorage.app/o/sounds%2Fnotification.mp3?alt=media");
-        audio.play().catch(e => console.warn("Audio play blocked by browser policy:", e));
+        notificationSound.currentTime = 0;
+        notificationSound.play().catch(e => {
+            console.warn("Audio play blocked by browser policy. Interaction needed.", e);
+        });
     } catch (e) {
         console.warn("Notification sound error:", e);
     }

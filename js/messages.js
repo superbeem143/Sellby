@@ -144,11 +144,21 @@ function listenToMessages(chatId) {
     });
 }
 
+const notificationSound = new Audio("https://firebasestorage.googleapis.com/v0/b/mvr-properties-64922.firebasestorage.app/o/sounds%2Fnotification.mp3?alt=media");
+// Unlock audio on first interaction
+document.addEventListener('click', () => {
+    notificationSound.play().then(() => {
+        notificationSound.pause();
+        notificationSound.currentTime = 0;
+    }).catch(() => {});
+}, { once: true });
+
 function playNotificationSound() {
     try {
-        // Use a generic notification sound hosted on Firebase
-        const audio = new Audio("https://firebasestorage.googleapis.com/v0/b/mvr-properties-64922.firebasestorage.app/o/sounds%2Fnotification.mp3?alt=media");
-        audio.play().catch(e => console.warn("Audio play blocked:", e));
+        notificationSound.currentTime = 0;
+        notificationSound.play().catch(e => {
+            console.warn("Audio play blocked by browser policy. Interaction needed.", e);
+        });
     } catch (e) {
         console.warn("Notification sound error:", e);
     }

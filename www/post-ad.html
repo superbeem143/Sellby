@@ -130,16 +130,14 @@ color:#0f172a;
 
 <body>
 
-<header style="display:flex; align-items:center; justify-content:center; position:relative;">
-    <button class="back-btn" onclick="history.back()" data-i18n="back" style="position:absolute; left:18px; width:40px; height:40px; border:none; border-radius:12px; background:rgba(255,255,255,0.18); color:#fff; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;">←</button>
-    <span data-i18n="app_name">SELLBY</span>
+<header class="category-header">
+    <button class="back-btn-small" onclick="history.back()">←</button>
+    <div class="category-title-area">
+        <h1 data-i18n="post_ad_title">What do you want to sell?</h1>
+    </div>
 </header>
 
 <div class="container">
-
-<div class="title" data-i18n="post_ad_title">
-What do you want to sell?
-</div>
 
 <div class="subtitle" data-i18n="post_ad_subtitle">
 Choose a posting method or category
