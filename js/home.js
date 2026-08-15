@@ -3,7 +3,7 @@
 /* ===================================================== */
 
 import { auth, signOut, db } from "./firebase-config.js";
-import { getTranslations, t } from "./i18n.js";
+import { getTranslations, t, initTranslations, getLanguage } from "./i18n.js";
 import {
     collection,
     query,
@@ -22,55 +22,13 @@ let activeUnreadChats = [];
 
 // Initialize i18n for Home
 function initI18n() {
-    const trans = getTranslations();
+    initTranslations(); // Use the global mechanism
 
-    // Static Labels
+    // Static Labels (Logo etc)
     const logoSell = document.querySelector(".logo .sell");
     const logoBy = document.querySelector(".logo .by");
-    const tagline = document.querySelector(".tagline");
-    const heroH2 = document.querySelector(".hero h2");
-    const heroP = document.querySelector(".hero p");
-    const browseH2 = document.querySelector(".categories .section-title");
-    const latestH2 = document.querySelector(".latest-ads .section-title");
-    const searchInp = document.getElementById("searchInput");
-
     if (logoSell) logoSell.textContent = "SELL";
     if (logoBy) logoBy.textContent = "BY";
-    if (tagline) tagline.textContent = trans.hero_subtitle;
-    if (heroH2) heroH2.textContent = trans.hero_title;
-    if (heroP) heroP.textContent = trans.hero_subtitle;
-    if (browseH2) browseH2.textContent = trans.browse_categories;
-    if (latestH2) latestH2.textContent = trans.latest_ads;
-    if (searchInp) searchInp.placeholder = trans.search_placeholder;
-
-    // Menu Items
-    const menuItems = document.querySelectorAll(".menu-item");
-    if (menuItems.length >= 6) {
-        menuItems[0].childNodes[2].textContent = trans.profile;
-        menuItems[1].childNodes[2].textContent = trans.my_ads;
-        menuItems[2].childNodes[2].textContent = trans.my_chats;
-        menuItems[3].childNodes[2].textContent = trans.saved;
-        menuItems[4].childNodes[2].textContent = trans.settings;
-        menuItems[5].childNodes[2].textContent = trans.logout;
-    }
-
-    // Category Titles
-    const catTitles = document.querySelectorAll(".category-card h3");
-    const cats = [trans.cat_mobiles, trans.cat_cars, trans.cat_properties, trans.cat_electronics, trans.cat_furniture, trans.cat_others];
-    catTitles.forEach((el, i) => { if(cats[i]) el.textContent = cats[i]; });
-
-    // Bottom Nav
-    const navSmalls = document.querySelectorAll(".bottom-nav small");
-    if (navSmalls.length >= 4) {
-        navSmalls[0].textContent = trans.home;
-        navSmalls[1].textContent = trans.saved;
-        navSmalls[2].textContent = trans.chat;
-        navSmalls[3].textContent = trans.profile;
-    }
-
-    // Floating Button
-    const floatText = document.querySelector(".floating-text");
-    if (floatText) floatText.textContent = trans.sell;
 }
 
 if (menuBtn && sideMenu) {
@@ -152,7 +110,7 @@ if (voiceSearchBtn) {
 
     voiceSearchBtn.addEventListener("click", () => {
         if (window.AndroidSpeech) {
-            const currentLang = localStorage.getItem("sellby_lang") || "en";
+            const currentLang = getLanguage();
             let langCode = "en-IN";
             if (currentLang === "te") langCode = "te-IN";
             else if (currentLang === "hi") langCode = "hi-IN";

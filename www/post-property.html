@@ -237,11 +237,8 @@
 <body>
 
     <header>
-
-        <button class="back-btn" onclick="history.back()" title="Back">←</button>
-
-        Post Property
-
+        <button class="back-btn" onclick="history.back()" data-i18n="back">←</button>
+        <span data-i18n="post_property">Post Property</span>
     </header>
 
     <main class="page-wrap">
@@ -251,122 +248,39 @@
             <div class="form-grid">
 
                 <div class="form-group upload-field full-width">
-
-                    <label for="photos">
-
-                        Upload Photos
-
-                    </label>
-
-                    <input
-                        id="photos"
-                        name="photos"
-                        type="file"
-                        multiple
-                        accept="image/*">
-
-                    <span class="hint">
-
-                        Upload up to 10 images.
-                        JPEG, PNG, and WebP supported.
-
-                    </span>
-
-                    <div class="image-preview"
-                         id="imagePreview"></div>
-
-                    <div class="preview-count"
-                         id="previewCount">
-
-                        0 / 10 images selected
-
-                    </div>
-
+                    <label for="photos" data-i18n="add_photos">Upload Photos</label>
+                    <input id="photos" name="photos" type="file" multiple accept="image/*">
+                    <span class="hint" data-i18n="upload_hint">Upload up to 10 images. JPEG, PNG, and WebP supported.</span>
+                    <div class="image-preview" id="imagePreview"></div>
+                    <div id="previewCount" class="preview-count">0 / 10 images selected</div>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="title">
-
-                        Property Title
-
-                    </label>
-
-                    <input
-                        id="title"
-                        name="title"
-                        type="text"
-                        placeholder="Example: Spacious 3BHK in downtown"
-                        required>
-
+                    <label for="title" data-i18n="title">Property Title</label>
+                    <input id="title" name="title" type="text" data-i18n="title" placeholder="Example: Spacious 3BHK in downtown" required>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="price">
-
-                        Price
-
-                    </label>
-
-                    <input
-                        id="price"
-                        name="price"
-                        type="number"
-                        placeholder="Enter price in rupees"
-                        min="0"
-                        required>
-
+                    <label for="price" data-i18n="price">Price</label>
+                    <input id="price" name="price" type="number" data-i18n="price" placeholder="Enter price in rupees" min="0" required>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="type">
-
-                        Property Type
-
-                    </label>
-
-                    <select
-                        id="type"
-                        name="type"
-                        required>
-
-                        <option value="">
-                            Select property type
-                        </option>
-
-                        <option>Apartment</option>
-
-                        <option>Independent House</option>
-
-                        <option>Plot / Land</option>
-
-                        <option>Villa</option>
-
-                        <option>Office / Commercial</option>
-
-                        <option>PG / Hostel</option>
-
+                    <label for="type" data-i18n="property_type">Property Type</label>
+                    <select id="type" name="type" required>
+                        <option value="" data-i18n="select_type">Select property type</option>
+                        <option data-i18n="apartment">Apartment</option>
+                        <option data-i18n="independent_house">Independent House</option>
+                        <option data-i18n="plot_land">Plot / Land</option>
+                        <option data-i18n="villa">Villa</option>
+                        <option data-i18n="commercial">Office / Commercial</option>
+                        <option data-i18n="pg_hostel">PG / Hostel</option>
                     </select>
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="location">
-
-                        Location
-
-                    </label>
-
-                    <input
-                        id="location"
-                        name="location"
-                        type="text"
-                        placeholder="City, area, or landmark"
-                        required>
-
+                    <label for="location" data-i18n="location">Location</label>
+                    <input id="location" name="location" type="text" data-i18n="location_placeholder" placeholder="City, area, or landmark" required>
                 </div>
       <!-- ===================================================== -->
 <!--             SELLBY POST-PROPERTY.HTML                 -->
@@ -388,40 +302,13 @@
 <!-- ===================================================== -->
 
                 <div class="form-group full-width">
-
-                    <label for="description">
-
-                        Description
-
-                    </label>
-
-                    <textarea
-                        id="description"
-                        name="description"
-                        placeholder="Describe the property, amenities, and nearby points of interest"
-                        required></textarea>
-
-                
+                    <label for="description" data-i18n="description">Description</label>
+                    <textarea id="description" name="description" data-i18n="desc_placeholder" placeholder="Describe the property, amenities, and nearby points of interest" required></textarea>
             </div>
 
             <div class="submit-row">
-
-                <div class="status-message"
-                     id="statusMessage">
-
-                    1 Photo + Price + Title required.
-
-                </div>
-
-                <button
-                    id="publishBtn"
-                    class="publish-btn"
-                    type="button">
-
-                    Publish Property
-
-                </button>
-
+                <div class="status-message" id="statusMessage" data-i18n="identity_required">1 Photo + Price + Title required.</div>
+                <button id="publishBtn" class="publish-btn" type="button" data-i18n="publish">Publish Property</button>
             </div>
 
         </section>

@@ -3,7 +3,7 @@
 /* ===================================================== */
 
 import { db } from "./firebase-config.js";
-import { getTranslations, t } from "./i18n.js";
+import { getTranslations, t, initTranslations } from "./i18n.js";
 import {
     collection,
     query,
@@ -39,6 +39,7 @@ async function startCategoryListener() {
     try {
         if (unsubscribe) unsubscribe();
 
+        initTranslations();
         const trans = getTranslations();
         loadingMessage.textContent = trans.loading;
         loadingMessage.style.display = "block";

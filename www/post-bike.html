@@ -228,32 +228,11 @@
     <!-- ================= HEADER ================= -->
 
     <header class="header">
-
-        <button
-            class="back-btn"
-            onclick="history.back()"
-            title="Back">
-
-            ←
-
-        </button>
-
+        <button class="back-btn" onclick="history.back()" data-i18n="back">←</button>
         <div class="page-title">
-
-            <h1>
-
-                Post Your Bike
-
-            </h1>
-
-            <p>
-
-                Fill the details below
-
-            </p>
-
+            <h1 data-i18n="post_bike">Post Your Bike</h1>
+            <p data-i18n="post_hint">Fill the details below</p>
         </div>
-
     </header>
 
     <!-- ================= POST FORM ================= -->
@@ -265,57 +244,16 @@
             <div class="form-grid">
 
                 <div class="form-group upload-field full-width">
-
-                    <label for="photos">
-
-                        Upload Photos
-
-                    </label>
-
-                    <input
-                        id="photos"
-                        name="photos"
-                        type="file"
-                        multiple
-                        accept="image/*">
-
-                    <span class="hint">
-
-                        Upload up to 10 images.
-
-                    </span>
-
-                    <div
-                        class="image-preview"
-                        id="imagePreview">
-
-                    </div>
-
-                    <div
-                        class="preview-count"
-                        id="previewCount">
-
-                        0 / 10 images selected
-
-                    </div>
-
+                    <label for="photos" data-i18n="add_photos">Upload Photos</label>
+                    <input id="photos" name="photos" type="file" multiple accept="image/*">
+                    <span class="hint" data-i18n="upload_hint">Upload up to 10 images.</span>
+                    <div class="image-preview" id="imagePreview"></div>
+                    <div id="previewCount" class="preview-count">0 / 10 images selected</div>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="brand">
-
-                        Bike Brand
-
-                    </label>
-
-                    <input
-                        id="brand"
-                        name="brand"
-                        type="text"
-                        placeholder="Example: Hero"
-                        required>
-
+                    <label for="brand" data-i18n="brand">Bike Brand</label>
+                    <input id="brand" name="brand" type="text" data-i18n="brand" placeholder="Example: Hero" required>
                 </div>
 <!-- ===================================================== -->
 <!--              SELLBY POST-BIKE.HTML                   -->
@@ -337,113 +275,37 @@
 <!-- ===================================================== -->
 
                 <div class="form-group">
-
-                    <label for="model">
-
-                        Bike Model
-
-                    </label>
-
-                    <input
-                        id="model"
-                        name="model"
-                        type="text"
-                        placeholder="Example: Splendor Plus"
-                        required>
-
+                    <label for="model" data-i18n="model">Bike Model</label>
+                    <input id="model" name="model" type="text" data-i18n="model" placeholder="Example: Splendor Plus" required>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="year">
-
-                        Year
-
-                    </label>
-
-                    <input
-                        id="year"
-                        name="year"
-                        type="number"
-                        placeholder="Example: 2023"
-                        required>
-
+                    <label for="year" data-i18n="year">Year</label>
+                    <input id="year" name="year" type="number" data-i18n="year" placeholder="Example: 2023" required>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="fuel">
-
-                        Fuel Type
-
-                    </label>
-
-                    <select
-                        id="fuel"
-                        name="fuel"
-                        required>
-
-                        <option value="">
-                            Select Fuel Type
-                        </option>
-
-                        <option>Petrol</option>
-
-                        <option>Electric</option>
-
+                    <label for="fuel" data-i18n="select_type">Fuel Type</label>
+                    <select id="fuel" name="fuel" required>
+                        <option value="" data-i18n="select_type">Select Fuel Type</option>
+                        <option data-i18n="petrol">Petrol</option>
+                        <option data-i18n="electric">Electric</option>
                     </select>
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="kms">
-
-                        KM Driven
-
-                    </label>
-
-                    <input
-                        id="kms"
-                        name="kms"
-                        type="number"
-                        placeholder="Example: 12000"
-                        required>
-
+                    <label for="kms" data-i18n="kms">KM Driven</label>
+                    <input id="kms" name="kms" type="number" data-i18n="kms" placeholder="Example: 12000" required>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="price">
-
-                        Price
-
-                    </label>
-
-                    <input
-                        id="price"
-                        name="price"
-                        type="number"
-                        placeholder="Enter Price"
-                        required>
-
+                    <label for="price" data-i18n="price">Price</label>
+                    <input id="price" name="price" type="number" data-i18n="price" placeholder="Enter Price" required>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="location">
-
-                        Location
-
-                    </label>
-
-                    <input
-                        id="location"
-                        name="location"
-                        type="text"
-                        placeholder="City, Area or Landmark"
-                        required>
-
+                    <label for="location" data-i18n="location">Location</label>
+                    <input id="location" name="location" type="text" data-i18n="location_placeholder" placeholder="City, Area or Landmark" required>
                 </div>
 <!-- ===================================================== -->
 <!--              SELLBY POST-BIKE.HTML                   -->
@@ -465,42 +327,14 @@
 <!-- ===================================================== -->
 
                 <div class="form-group full-width">
-
-                    <label for="description">
-
-                        Description
-
-                    </label>
-
-                    <textarea
-                        id="description"
-                        name="description"
-                        placeholder="Describe your bike..."
-                        required></textarea>
-
+                    <label for="description" data-i18n="description">Description</label>
+                    <textarea id="description" name="description" data-i18n="desc_placeholder" placeholder="Describe your bike..." required></textarea>
                 </div>
-
             </div>
 
             <div class="submit-row">
-
-                <div
-                    class="status-message"
-                    id="statusMessage">
-
-                    1 Photo + Price + Brand/Model required.
-
-                </div>
-
-                <button
-                    id="publishBtn"
-                    class="publish-btn"
-                    type="button">
-
-                    Publish Bike
-
-                </button>
-
+                <div class="status-message" id="statusMessage" data-i18n="identity_required">1 Photo + Price + Brand/Model required.</div>
+                <button id="publishBtn" class="publish-btn" type="button" data-i18n="publish">Publish Bike</button>
             </div>
 
         </section>

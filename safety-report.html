@@ -19,47 +19,28 @@
 </head>
 <body>
     <header class="category-header">
-        <button class="back-btn-small" onclick="history.back()">
+        <button class="back-btn-small" onclick="history.back()" data-i18n="back">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
         </button>
         <div class="category-title-area">
-            <h1 id="pageTitle">Safety & Report</h1>
-            <p id="pageSubtitle">Your safety is our priority</p>
+            <h1 id="pageTitle" data-i18n="safety_report">Safety & Report</h1>
+            <p id="pageSubtitle" data-i18n="app_name">Your safety is our priority</p>
         </div>
     </header>
 
     <main class="safety-content" id="mainContent">
+        <p data-i18n="safety_text"></p>
+        <a href="mailto:report@sellby.app" class="report-btn" data-i18n="report_btn">Report Suspicious Activity</a>
     </main>
 
     <script type="module">
-        import { getTranslations } from "./js/i18n.js";
+        import { initTranslations } from "./js/i18n.js";
 
         document.addEventListener('DOMContentLoaded', () => {
-            const trans = getTranslations();
-            document.getElementById('pageTitle').textContent = trans.safety_title;
-            document.getElementById('pageSubtitle').textContent = trans.safety_subtitle;
-
-            const container = document.getElementById('mainContent');
-            trans.safety_content.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'safety-card';
-                const h2 = document.createElement('h2');
-                h2.textContent = item.h;
-                const p = document.createElement('p');
-                p.textContent = item.p;
-                card.appendChild(h2);
-                card.appendChild(p);
-                container.appendChild(card);
-            });
-
-            const reportBtn = document.createElement('a');
-            reportBtn.href = 'mailto:report@sellby.app';
-            reportBtn.className = 'report-btn';
-            reportBtn.textContent = trans.report_btn;
-            container.appendChild(reportBtn);
+            initTranslations();
         });
     </script>
 </body>

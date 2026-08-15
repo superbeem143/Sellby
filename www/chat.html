@@ -128,29 +128,11 @@ gap:12px;
 
 <div class="header">
 
-<div
-class="back"
-onclick="history.back()">
-
-←
-
-</div>
-
-<div class="user">
-
-<h2 id="sellerName">
-
-Seller
-
-</h2>
-
-<p id="sellerStatus">
-
-Online
-
-</p>
-
-</div>
+    <div class="back" onclick="history.back()" data-i18n="back">←</div>
+    <div class="user">
+        <h2 id="sellerName">Seller</h2>
+        <p id="sellerStatus" data-i18n="online">Online</p>
+    </div>
 
 </div>
 
@@ -163,12 +145,12 @@ Online
     </div>
 
     <div style="flex:1;">
-        <h4 id="adContextTitle" style="font-size:14px;color:#6d28d9;margin-bottom:2px;font-weight:700;">Loading Ad...</h4>
+        <h4 id="adContextTitle" style="font-size:14px;color:#6d28d9;margin-bottom:2px;font-weight:700;" data-i18n="loading">Loading Ad...</h4>
         <p id="adContextPrice" style="font-size:13px;color:#0f172a;font-weight:700;"></p>
         <p id="adContextLocation" style="font-size:11px;color:#64748b;"></p>
     </div>
 
-    <div style="font-size:12px;color:#db2777;font-weight:600;">View Ad →</div>
+    <div style="font-size:12px;color:#db2777;font-weight:600;"><span data-i18n="view_all">View Ad</span> →</div>
 
 </div>
 
@@ -361,28 +343,28 @@ border-radius:30px;
 </style>
 
 <div id="voiceRecordingBar" class="voice-recording-bar" style="display:none;">
-    <span class="recording-indicator">🔴 Recording: <span id="recTimer">00:00</span></span>
+    <span class="recording-indicator">🔴 <span data-i18n="recording">Recording:</span> <span id="recTimer">00:00</span></span>
     <div class="recording-actions">
-        <button id="cancelVoiceBtn" type="button" class="voice-action-btn cancel">Cancel</button>
-        <button id="sendVoiceNoteBtn" type="button" class="voice-action-btn send">Send Voice 🎵</button>
+        <button id="cancelVoiceBtn" type="button" class="voice-action-btn cancel" data-i18n="cancel">Cancel</button>
+        <button id="sendVoiceNoteBtn" type="button" class="voice-action-btn send" data-i18n="send_voice">Send Voice 🎵</button>
     </div>
 </div>
 
 <div class="input-area">
 
-<button id="voiceMsgBtn" class="voice-msg-btn" type="button" title="Record Voice Message">🎤</button>
+<button id="voiceMsgBtn" class="voice-msg-btn" type="button" data-i18n="record_voice" title="Record Voice Message">🎤</button>
 
 <input
 
 id="messageInput"
 
 type="text"
-
+data-i18n="type_message"
 placeholder="Type your message...">
 
 <button
 
-id="sendBtn">
+id="sendBtn" data-i18n="send">
 
 Send
 

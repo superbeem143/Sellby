@@ -3,7 +3,7 @@
 /* ===================================================== */
 
 import { auth, db } from "./firebase-config.js";
-import { t, getTranslations } from "./i18n.js";
+import { t, getTranslations, initTranslations } from "./i18n.js";
 import {
     collection,
     query,
@@ -26,15 +26,9 @@ auth.onAuthStateChanged((user) => {
         return;
     }
     currentUser = user;
-    localizeUI();
+    initTranslations();
     loadMyAds();
 });
-
-function localizeUI() {
-    const trans = getTranslations();
-    const h1 = document.querySelector(".category-header h1");
-    if (h1) h1.textContent = trans.my_ads;
-}
 
 async function loadMyAds() {
     if (!myAdsList) return;

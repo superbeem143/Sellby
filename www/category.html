@@ -106,101 +106,29 @@ font-size:14px;
 <body>
 
 <header>
-
-<button
-class="back-btn"
-onclick="history.back()">
-
-←
-
-</button>
-
-<div class="header-title">
-
-SELLBY
-
-</div>
-
+    <button class="back-btn" onclick="history.back()" data-i18n="back">←</button>
+    <div class="header-title" data-i18n="app_name">SELLBY</div>
 </header>
 
 <div class="search-box">
-
-<input
-type="text"
-id="searchInput"
-placeholder="Search properties...">
-
+    <input type="text" id="searchInput" data-i18n="search_placeholder" placeholder="Search properties...">
 </div>
 
 <div class="category-info">
-
-<div
-class="category-name">
-
-Properties
-
+    <div class="category-name">...</div>
+    <div class="ads-count" id="adsCount" data-i18n="loading">Loading...</div>
 </div>
-
-<div
-class="ads-count"
-id="adsCount">
-
-Loading...
-
-</div>
-
-</div>
-<!-- ===================================================== -->
-<!--               SELLBY CATEGORY.HTML                    -->
-<!--                     HTML PART 2                       -->
-<!-- ===================================================== -->
 
 <main class="page-wrap">
-
-    <section
-        class="ads-section">
-
-        <div
-            id="loadingMessage"
-            class="loading-message">
-
-            Loading Properties...
-
+    <section class="ads-section">
+        <div id="loadingMessage" class="loading-message" data-i18n="loading">Loading Properties...</div>
+        <div id="emptyState" class="empty-state" style="display:none;">
+            <div class="empty-icon">🏡</div>
+            <h2 data-i18n="no_ads_yet">No Properties Found</h2>
+            <p data-i18n="empty_desc">No property ads are available yet.</p>
         </div>
-
-        <div
-            id="emptyState"
-            class="empty-state"
-            style="display:none;">
-
-            <div class="empty-icon">
-
-                🏡
-
-            </div>
-
-            <h2>
-
-                No Properties Found
-
-            </h2>
-
-            <p>
-
-                No property ads are available yet.
-
-            </p>
-
-        </div>
-
-        <div
-            id="adsContainer"
-            class="ads-grid">
-
-        </div>
-
+        <div id="adsContainer" class="ads-grid"></div>
     </section>
-
 </main>
 
 <style>

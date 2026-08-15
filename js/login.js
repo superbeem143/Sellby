@@ -7,12 +7,12 @@ import {
     db,
     RecaptchaVerifier,
     signInWithPhoneNumber,
-    doc,
     getDoc,
+    doc,
     setDoc,
     serverTimestamp
 } from "./firebase-config.js";
-import { getTranslations, t } from "./i18n.js";
+import { getTranslations, t, initTranslations } from "./i18n.js";
 
 // DOM Elements
 const phoneStep = document.getElementById("phoneStep");
@@ -197,6 +197,5 @@ changeNumberBtn.addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-    const trans = getTranslations();
-    // Localize static labels if needed
+    initTranslations();
 });

@@ -28,8 +28,8 @@
 
             <!-- STEP 1: MOBILE NUMBER ENTRY -->
             <div id="phoneStep" class="form-step">
-                <h2 class="auth-card-title">Login or Register</h2>
-                <p class="auth-card-subtitle">
+                <h2 class="auth-card-title" data-i18n="login_or_register">Login or Register</h2>
+                <p class="auth-card-subtitle" data-i18n="enter_mobile">
                     Enter your mobile number to receive a verification code via SMS.
                 </p>
 
@@ -44,7 +44,8 @@
                         id="mobileNumber" 
                         type="tel" 
                         class="phone-input" 
-                        placeholder="Enter mobile number" 
+                        data-i18n="phone_placeholder"
+                        placeholder="Enter mobile number"
                         maxlength="10"
                         inputmode="numeric"
                         pattern="[0-9]*"
@@ -53,15 +54,15 @@
                 </div>
 
                 <button id="sendOtpBtn" class="gradient-btn" type="button">
-                    <span>Continue</span>
+                    <span data-i18n="continue">Continue</span>
                 </button>
             </div>
 
             <!-- STEP 2: OTP VERIFICATION -->
             <div id="otpStep" class="form-step hidden">
-                <h2 class="auth-card-title">Enter verification code</h2>
+                <h2 class="auth-card-title" data-i18n="enter_code">Enter verification code</h2>
                 <p class="auth-card-subtitle">
-                    Code sent to <span id="displayPhoneNumber" class="target-phone-highlight">+91 00000 00000</span>
+                    <span data-i18n="code_sent">Code sent to</span> <span id="displayPhoneNumber" class="target-phone-highlight">+91 00000 00000</span>
                 </p>
 
                 <div class="otp-container">
@@ -74,16 +75,16 @@
                 </div>
 
                 <button id="verifyOtpBtn" class="gradient-btn" type="button">
-                    <span>Verify Code</span>
+                    <span data-i18n="verify_code">Verify Code</span>
                 </button>
 
                 <div class="otp-meta-row">
-                    <button id="changeNumberBtn" class="change-num-btn" type="button">
+                    <button id="changeNumberBtn" class="change-num-btn" type="button" data-i18n="change_number">
                         ← Change number
                     </button>
                     
                     <div class="timer-badge">
-                        <button id="resendOtpBtn" class="resend-btn" type="button" disabled>Resend OTP</button>
+                        <button id="resendOtpBtn" class="resend-btn" type="button" disabled data-i18n="resend_otp">Resend OTP</button>
                         <span id="timerCountdown">in <strong>30s</strong></span>
                     </div>
                 </div>

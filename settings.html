@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SELLBY | Settings</title>
+    <title data-i18n="settings_title">SELLBY | Settings</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -12,15 +12,15 @@
 </head>
 <body>
     <header class="category-header">
-        <button class="back-btn-small" onclick="history.back()" aria-label="Go Back">
+        <button class="back-btn-small" onclick="history.back()" data-i18n="back" aria-label="Go Back">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
         </button>
         <div class="category-title-area">
-            <h1>Settings</h1>
-            <p>Preferences & Account</p>
+            <h1 data-i18n="settings_title">Settings</h1>
+            <p data-i18n="settings_subtitle">Preferences & Account</p>
         </div>
     </header>
 
@@ -28,105 +28,105 @@
         <!-- Language Modal -->
         <div id="langModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center;">
             <div style="background: #ffffff; width: 85%; max-width: 320px; border-radius: 24px; padding: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.2);">
-                <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #1e293b; text-align: center;">Select Language</h2>
+                <h2 style="font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #1e293b; text-align: center;" data-i18n="select_lang">Select Language</h2>
                 <div style="display: flex; flex-direction: column; gap: 12px;">
                     <button class="lang-option" data-lang="en" style="padding: 14px; border-radius: 14px; border: 2px solid #e2e8f0; background: #f8fafc; font-size: 16px; font-weight: 600; color: #334155; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center;">
-                        <span>English</span>
+                        <span data-i18n="lang_en">English</span>
                         <span class="check" style="display: none; color: #7c3aed;">✓</span>
                     </button>
                     <button class="lang-option" data-lang="te" style="padding: 14px; border-radius: 14px; border: 2px solid #e2e8f0; background: #f8fafc; font-size: 16px; font-weight: 600; color: #334155; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center;">
-                        <span>తెలుగు (Telugu)</span>
+                        <span data-i18n="lang_te">తెలుగు (Telugu)</span>
                         <span class="check" style="display: none; color: #7c3aed;">✓</span>
                     </button>
                     <button class="lang-option" data-lang="hi" style="padding: 14px; border-radius: 14px; border: 2px solid #e2e8f0; background: #f8fafc; font-size: 16px; font-weight: 600; color: #334155; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center;">
-                        <span>हिन्दी (Hindi)</span>
+                        <span data-i18n="lang_hi">हिन्दी (Hindi)</span>
                         <span class="check" style="display: none; color: #7c3aed;">✓</span>
                     </button>
                 </div>
-                <button id="closeLangModal" class="publish-btn" style="width: 100%; margin-top: 24px; box-shadow: none;">Cancel</button>
+                <button id="closeLangModal" class="publish-btn" style="width: 100%; margin-top: 24px; box-shadow: none;" data-i18n="cancel">Cancel</button>
             </div>
         </div>
 
         <section class="profile-menu">
             <a href="edit-profile.html" class="profile-item">
                 <div class="profile-item-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
-                <span class="profile-item-text">Edit Profile</span>
+                <span class="profile-item-text" data-i18n="edit_profile">Edit Profile</span>
                 <span class="profile-item-arrow">→</span>
             </a>
             <a href="edit-profile.html" class="profile-item">
                 <div class="profile-item-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div>
-                <span class="profile-item-text">Profile Photo</span>
+                <span class="profile-item-text" data-i18n="profile_photo">Profile Photo</span>
                 <span class="profile-item-arrow">→</span>
             </a>
             <a href="#" class="profile-item" id="langItem">
                 <div class="profile-item-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
                 <div class="profile-item-text">
-                    <div>Language</div>
-                    <div id="currentLangDisplay" style="font-size: 12px; font-weight: 400; color: #64748b; margin-top: 2px;">English / Telugu / Hindi</div>
+                    <div data-i18n="language">Language</div>
+                    <div class="lang-subtext" style="font-size: 12px; font-weight: 400; color: #64748b; margin-top: 2px;">English / Telugu / Hindi</div>
                 </div>
                 <span class="profile-item-arrow">→</span>
             </a>
         </section>
 
-        <div style="margin: 20px 0 10px 10px; font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Preferences</div>
+        <div style="margin: 20px 0 10px 10px; font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="preferences">Preferences</div>
 
         <section class="profile-menu">
             <a href="#" class="profile-item" onclick="alert('Notifications settings coming soon!')">
                 <div class="profile-item-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg></div>
-                <span class="profile-item-text">Notifications</span>
+                <span class="profile-item-text" data-i18n="notifications">Notifications</span>
                 <span class="profile-item-arrow">→</span>
             </a>
             <a href="privacy-policy.html" class="profile-item">
                 <div class="profile-item-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg></div>
-                <span class="profile-item-text">Privacy Policy</span>
+                <span class="profile-item-text" data-i18n="privacy_policy">Privacy Policy</span>
                 <span class="profile-item-arrow">→</span>
             </a>
             <a href="terms-conditions.html" class="profile-item">
                 <div class="profile-item-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div>
-                <span class="profile-item-text">Terms & Conditions</span>
+                <span class="profile-item-text" data-i18n="terms_conditions">Terms & Conditions</span>
                 <span class="profile-item-arrow">→</span>
             </a>
         </section>
 
-        <div style="margin: 20px 0 10px 10px; font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Support</div>
+        <div style="margin: 20px 0 10px 10px; font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="support">Support</div>
 
         <section class="profile-menu">
             <a href="help-support.html" class="profile-item">
                 <div class="profile-item-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
-                <span class="profile-item-text">Help & Support</span>
+                <span class="profile-item-text" data-i18n="help_support">Help & Support</span>
                 <span class="profile-item-arrow">→</span>
             </a>
             <a href="safety-report.html" class="profile-item">
                 <div class="profile-item-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
-                <span class="profile-item-text">Safety & Report</span>
+                <span class="profile-item-text" data-i18n="safety_report">Safety & Report</span>
                 <span class="profile-item-arrow">→</span>
             </a>
             <a href="about.html" class="profile-item">
                 <div class="profile-item-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></div>
-                <span class="profile-item-text">About SELLBY</span>
+                <span class="profile-item-text" data-i18n="about_sellby">About SELLBY</span>
                 <span class="profile-item-arrow">→</span>
             </a>
         </section>
 
-        <button id="logoutBtn" class="publish-btn" style="margin-top: 30px; background: #fef2f2; color: #dc2626; border: 1px solid #fee2e2; box-shadow: none;">Logout</button>
+        <button id="logoutBtn" class="publish-btn" style="margin-top: 30px; background: #fef2f2; color: #dc2626; border: 1px solid #fee2e2; box-shadow: none;" data-i18n="logout">Logout</button>
     </main>
 
     <nav class="bottom-nav">
         <a href="index.html">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path><path d="M9 21v-6h6v6" fill="currentColor" stroke="none"></path></svg>
-            <small>Home</small>
+            <small data-i18n="home">Home</small>
         </a>
         <a href="saved.html">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.7 A5.5 5.5 0 0 0 12 5.2 A5.5 5.5 0 0 0 3.2 8.7 C2.5 12.4 5.4 15 12 20 c6.6-5 9.5-7.6 8.8-11.3z"></path></svg>
-            <small>Saved</small>
+            <small data-i18n="saved">Saved</small>
         </a>
         <a href="chats.html">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5 a7.5 7.5 0 0 1-7.5 7.5 7.3 7.3 0 0 1-3.3-.8 L4 20l1.8-4.8 A7.3 7.3 0 0 1 5 11.5 A7.5 7.5 0 0 1 12.5 4 A7.5 7.5 0 0 1 20 11.5z"></path><circle cx="9" cy="12" r="0.8" fill="currentColor" stroke="none"></circle><circle cx="12.5" cy="12" r="0.8" fill="currentColor" stroke="none"></circle><circle cx="16" cy="12" r="0.8" fill="currentColor" stroke="none"></circle></svg>
-            <small>Chat</small>
+            <small data-i18n="chat">Chat</small>
         </a>
         <a href="profile.html" class="active">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"></circle><path d="M4 21 a8 8 0 0 1 16 0"></path></svg>
-            <small>Profile</small>
+            <small data-i18n="profile">Profile</small>
         </a>
     </nav>
 

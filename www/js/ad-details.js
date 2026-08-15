@@ -3,7 +3,7 @@
 /* ===================================================== */
 
 import { db, auth } from "./firebase-config.js";
-import { getTranslations, t } from "./i18n.js";
+import { getTranslations, t, initTranslations } from "./i18n.js";
 import {
     doc,
     getDoc
@@ -70,6 +70,7 @@ async function loadAdDetails() {
 
 function renderAd(ad) {
     if (content) content.style.display = "block";
+    initTranslations(); // Apply translations to details page
     const trans = getTranslations();
 
     // Localize Static UI

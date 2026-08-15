@@ -3,7 +3,7 @@
 /* ===================================================== */
 
 import { db, auth } from "./firebase-config.js";
-import { t, getTranslations } from "./i18n.js";
+import { t, getTranslations, initTranslations } from "./i18n.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 const CLOUD_NAME = "onrnn2hn";
@@ -19,10 +19,7 @@ let selectedFiles = [];
 const MAX_IMAGES = 10;
 
 function localizeUI() {
-    const trans = getTranslations();
-    const h1 = document.querySelector(".page-title h1");
-    if (h1) h1.textContent = trans.post_others;
-    if (publishBtn) publishBtn.textContent = trans.publish;
+    initTranslations();
 }
 
 photosInput.addEventListener("change", () => {
@@ -147,7 +144,7 @@ publishBtn.addEventListener("click", async () => {
         await addDoc(collection(db, "ads"), docData);
 
         if (statusMessage) {
-            statusMessage.textContent = "✅ Ad Published Successfully!";
+            statusMessage.textContent = t('publish_success');
             statusMessage.style.color = "#16a34a";
         }
         publishBtn.textContent = "Published!";

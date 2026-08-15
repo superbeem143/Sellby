@@ -3,7 +3,7 @@
 /* ===================================================== */
 
 import { db, auth } from "./firebase-config.js";
-import { t, getTranslations } from "./i18n.js";
+import { t, getTranslations, initTranslations } from "./i18n.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 const CLOUD_NAME = "onrnn2hn";
@@ -19,20 +19,7 @@ let selectedFiles = [];
 const MAX_IMAGES = 10;
 
 function localizeUI() {
-    const trans = getTranslations();
-    const h1 = document.querySelector(".page-title h1");
-    if (h1) h1.textContent = trans.post_mobile;
-
-    if (publishBtn) publishBtn.textContent = trans.publish;
-
-    const labels = document.querySelectorAll("label");
-    // Map labels based on their text or association if needed,
-    // but at minimum placeholders and button text.
-    const inputs = document.querySelectorAll("input, textarea, select");
-    inputs.forEach(el => {
-        if (el.id === "location") el.placeholder = trans.location_placeholder;
-        if (el.id === "description") el.placeholder = trans.desc_placeholder;
-    });
+    initTranslations();
 }
 
 photosInput.addEventListener("change", () => {

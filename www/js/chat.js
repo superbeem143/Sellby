@@ -3,7 +3,7 @@
 /* ===================================================== */
 
 import { auth, db } from "./firebase-config.js";
-import { getTranslations, t } from "./i18n.js";
+import { getTranslations, t, initTranslations } from "./i18n.js";
 import {
     collection,
     query,
@@ -33,6 +33,7 @@ auth.onAuthStateChanged(async (user) => {
     }
 
     currentUser = user;
+    initTranslations();
     const trans = getTranslations();
     if (sellerStatusElem) sellerStatusElem.textContent = trans.online;
 

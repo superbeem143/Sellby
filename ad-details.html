@@ -66,19 +66,19 @@
 </head>
 <body>
     <header class="category-header">
-        <button class="back-btn-small" onclick="history.back()" aria-label="Go Back">
+        <button class="back-btn-small" onclick="history.back()" data-i18n="back" aria-label="Go Back">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
         </button>
         <div class="category-title-area">
-            <h1>Ad Details</h1>
+            <h1 data-i18n="ad_details_title">Ad Details</h1>
         </div>
     </header>
 
     <main class="ad-details-page">
-        <div id="loading" style="text-align: center; padding: 50px; color: #64748b;">Loading Details...</div>
+        <div id="loading" style="text-align: center; padding: 50px; color: #64748b;" data-i18n="loading">Loading Details...</div>
         <div id="error" style="display: none; text-align: center; padding: 50px; color: #dc2626;"></div>
 
         <div id="content" style="display: none;">
@@ -97,10 +97,10 @@
                         <span id="adCategory"></span>
                     </div>
 
-                    <h3 class="ad-desc-title">Description</h3>
+                    <h3 class="ad-desc-title" data-i18n="description">Description</h3>
                     <p class="ad-desc-text" id="adDescription"></p>
 
-                    <button id="chatBtn" class="publish-btn" style="margin-top: 30px;">
+                    <button id="chatBtn" class="publish-btn" style="margin-top: 30px;" data-i18n="chat_with_seller">
                         💬 Chat with Seller
                     </button>
                 </div>

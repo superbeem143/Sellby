@@ -228,32 +228,11 @@
     <!-- ================= HEADER ================= -->
 
     <header class="header">
-
-        <button
-            class="back-btn"
-            onclick="history.back()"
-            title="Back">
-
-            ←
-
-        </button>
-
+        <button class="back-btn" onclick="history.back()" data-i18n="back">←</button>
         <div class="page-title">
-
-            <h1>
-
-                Post Your Mobile
-
-            </h1>
-
-            <p>
-
-                Fill the details below
-
-            </p>
-
+            <h1 data-i18n="post_mobile">Post Your Mobile</h1>
+            <p data-i18n="post_hint">Fill the details below</p>
         </div>
-
     </header>
 
     <!-- ================= POST FORM ================= -->
@@ -265,57 +244,16 @@
             <div class="form-grid">
 
                 <div class="form-group upload-field full-width">
-
-                    <label for="photos">
-
-                        Upload Photos
-
-                    </label>
-
-                    <input
-                        id="photos"
-                        name="photos"
-                        type="file"
-                        multiple
-                        accept="image/*">
-
-                    <span class="hint">
-
-                        Upload up to 10 images.
-
-                    </span>
-
-                    <div
-                        class="image-preview"
-                        id="imagePreview">
-
-                    </div>
-
-                    <div
-                        class="preview-count"
-                        id="previewCount">
-
-                        0 / 10 images selected
-
-                    </div>
-
+                    <label for="photos" data-i18n="add_photos">Upload Photos</label>
+                    <input id="photos" name="photos" type="file" multiple accept="image/*">
+                    <span class="hint" data-i18n="upload_hint">Upload up to 10 images.</span>
+                    <div class="image-preview" id="imagePreview"></div>
+                    <div id="previewCount" class="preview-count">0 / 10 images selected</div>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="brand">
-
-                        Mobile Brand
-
-                    </label>
-
-                    <input
-                        id="brand"
-                        name="brand"
-                        type="text"
-                        placeholder="Example: Samsung"
-                        required>
-
+                    <label for="brand" data-i18n="brand">Mobile Brand</label>
+                    <input id="brand" name="brand" type="text" data-i18n="brand" placeholder="Example: Samsung" required>
                 </div>
 <!-- ===================================================== -->
 <!--             SELLBY POST-MOBILE.HTML                  -->
@@ -337,39 +275,14 @@
 <!-- ===================================================== -->
 
                 <div class="form-group">
-
-                    <label for="model">
-
-                        Mobile Model
-
-                    </label>
-
-                    <input
-                        id="model"
-                        name="model"
-                        type="text"
-                        placeholder="Example: Galaxy S24"
-                        required>
-
+                    <label for="model" data-i18n="model">Mobile Model</label>
+                    <input id="model" name="model" type="text" data-i18n="model" placeholder="Example: Galaxy S24" required>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="ram">
-
-                        RAM
-
-                    </label>
-
-                    <select
-                        id="ram"
-                        name="ram"
-                        required>
-
-                        <option value="">
-                            Select RAM
-                        </option>
-
+                    <label for="ram" data-i18n="ram">RAM</label>
+                    <select id="ram" name="ram" required>
+                        <option value="" data-i18n="select_type">Select RAM</option>
                         <option>2 GB</option>
                         <option>3 GB</option>
                         <option>4 GB</option>
@@ -377,100 +290,41 @@
                         <option>8 GB</option>
                         <option>12 GB</option>
                         <option>16 GB</option>
-
                     </select>
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="storage">
-
-                        Storage
-
-                    </label>
-
-                    <select
-                        id="storage"
-                        name="storage"
-                        required>
-
-                        <option value="">
-                            Select Storage
-                        </option>
-
+                    <label for="storage" data-i18n="storage">Storage</label>
+                    <select id="storage" name="storage" required>
+                        <option value="" data-i18n="select_type">Select Storage</option>
                         <option>32 GB</option>
                         <option>64 GB</option>
                         <option>128 GB</option>
                         <option>256 GB</option>
                         <option>512 GB</option>
                         <option>1 TB</option>
-
                     </select>
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="condition">
-
-                        Condition
-
-                    </label>
-
-                    <select
-                        id="condition"
-                        name="condition"
-                        required>
-
-                        <option value="">
-                            Select Condition
-                        </option>
-
-                        <option>New</option>
-
-                        <option>Like New</option>
-
-                        <option>Good</option>
-
-                        <option>Used</option>
-
+                    <label for="condition" data-i18n="condition">Condition</label>
+                    <select id="condition" name="condition" required>
+                        <option value="" data-i18n="select_condition">Select Condition</option>
+                        <option data-i18n="new">New</option>
+                        <option data-i18n="like_new">Like New</option>
+                        <option data-i18n="good">Good</option>
+                        <option data-i18n="used">Used</option>
                     </select>
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="price">
-
-                        Price
-
-                    </label>
-
-                    <input
-                        id="price"
-                        name="price"
-                        type="number"
-                        placeholder="Enter Price"
-                        required>
-
+                    <label for="price" data-i18n="price">Price</label>
+                    <input id="price" name="price" type="number" data-i18n="price" placeholder="Enter Price" required>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="location">
-
-                        Location
-
-                    </label>
-
-                    <input
-                        id="location"
-                        name="location"
-                        type="text"
-                        placeholder="City, Area or Landmark"
-                        required>
-
+                    <label for="location" data-i18n="location">Location</label>
+                    <input id="location" name="location" type="text" data-i18n="location_placeholder" placeholder="City, Area or Landmark" required>
                 </div>
 <!-- ===================================================== -->
 <!--             SELLBY POST-MOBILE.HTML                  -->
@@ -492,42 +346,14 @@
 <!-- ===================================================== -->
 
                 <div class="form-group full-width">
-
-                    <label for="description">
-
-                        Description
-
-                    </label>
-
-                    <textarea
-                        id="description"
-                        name="description"
-                        placeholder="Describe your mobile..."
-                        required></textarea>
-
+                    <label for="description" data-i18n="description">Description</label>
+                    <textarea id="description" name="description" data-i18n="desc_placeholder" placeholder="Describe your mobile..." required></textarea>
                 </div>
-
             </div>
 
             <div class="submit-row">
-
-                <div
-                    class="status-message"
-                    id="statusMessage">
-
-                    1 Photo + Price + Brand/Model required.
-
-                </div>
-
-                <button
-                    id="publishBtn"
-                    class="publish-btn"
-                    type="button">
-
-                    Publish Mobile
-
-                </button>
-
+                <div class="status-message" id="statusMessage" data-i18n="identity_required">1 Photo + Price + Brand/Model required.</div>
+                <button id="publishBtn" class="publish-btn" type="button" data-i18n="publish">Publish Mobile</button>
             </div>
 
         </section>

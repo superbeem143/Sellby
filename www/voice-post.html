@@ -47,20 +47,20 @@
 <body>
 
     <header class="header">
-        <button class="back-btn" onclick="history.back()">←</button>
+        <button class="back-btn" onclick="history.back()" data-i18n="back">←</button>
         <div class="page-title">
-            <h1>Voice Posting</h1>
+            <h1 data-i18n="voice_posting">Voice Posting</h1>
         </div>
     </header>
 
     <main class="page-wrap">
         <!-- Box 1: Photos -->
         <section class="card">
-            <label class="section-label">Add Photos</label>
+            <label class="section-label" data-i18n="add_photos">Add Photos</label>
             <div class="upload-area" onclick="document.getElementById('photos').click()">
                 <div style="font-size: 30px; margin-bottom: 5px;">📷</div>
-                <div style="font-weight: 600; color: #7c3aed;">Choose File</div>
-                <div style="font-size: 12px; color: #94a3b8;">Add photos (optional)</div>
+                <div style="font-weight: 600; color: #7c3aed;" data-i18n="select_lang">Choose File</div>
+                <div style="font-size: 12px; color: #94a3b8;" data-i18n="upload_hint">Add photos (optional)</div>
                 <input type="file" id="photos" multiple accept="image/*" style="display: none;">
             </div>
             <div class="image-preview" id="imagePreview"></div>
@@ -69,14 +69,14 @@
 
         <!-- Box 2: Ad Details -->
         <section class="card">
-            <label class="section-label">Ad Details</label>
+            <label class="section-label" data-i18n="ad_details_voice">Ad Details</label>
             <div class="details-container">
-                <textarea id="adDescription" placeholder="Tap the microphone and speak, or type your ad details..."></textarea>
+                <textarea id="adDescription" data-i18n="desc_placeholder" placeholder="Tap the microphone and speak, or type your ad details..."></textarea>
                 <button id="micBtn" class="mic-btn-inline" title="Speak to write description">🎤</button>
             </div>
 
-            <button id="publishBtn" class="publish-btn">Publish</button>
-            <div id="statusMessage" class="status-msg">Ready to publish</div>
+            <button id="publishBtn" class="publish-btn" data-i18n="publish">Publish</button>
+            <div id="statusMessage" class="status-msg" data-i18n="loading">Ready to publish</div>
         </section>
     </main>
 

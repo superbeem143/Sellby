@@ -5,7 +5,7 @@ import {
     doc,
     getDoc
 } from "./firebase-config.js";
-import { getTranslations, t } from "./i18n.js";
+import { getTranslations, t, initTranslations } from "./i18n.js";
 
 const userName = document.getElementById("userName");
 const userEmail = document.getElementById("userEmail");
@@ -18,7 +18,7 @@ async function loadUserData(user) {
         return;
     }
 
-    localizeUI();
+    initTranslations();
 
     // Default values from Auth
     userName.textContent = user.displayName || "SELLBY User";

@@ -228,32 +228,11 @@
     <!-- ================= HEADER ================= -->
 
     <header class="header">
-
-        <button
-            class="back-btn"
-            onclick="history.back()"
-            title="Back">
-
-            ←
-
-        </button>
-
+        <button class="back-btn" onclick="history.back()" data-i18n="back">←</button>
         <div class="page-title">
-
-            <h1>
-
-                Post Other Listing
-
-            </h1>
-
-            <p>
-
-                Fill the details below
-
-            </p>
-
+            <h1 data-i18n="post_others">Post Other Listing</h1>
+            <p data-i18n="post_hint">Fill the details below</p>
         </div>
-
     </header>
 
     <!-- ================= POST FORM ================= -->
@@ -265,57 +244,16 @@
             <div class="form-grid">
 
                 <div class="form-group upload-field full-width">
-
-                    <label for="photos">
-
-                        Upload Photos
-
-                    </label>
-
-                    <input
-                        id="photos"
-                        name="photos"
-                        type="file"
-                        multiple
-                        accept="image/*">
-
-                    <span class="hint">
-
-                        Upload up to 10 images.
-
-                    </span>
-
-                    <div
-                        class="image-preview"
-                        id="imagePreview">
-
-                    </div>
-
-                    <div
-                        class="preview-count"
-                        id="previewCount">
-
-                        0 / 10 images selected
-
-                    </div>
-
+                    <label for="photos" data-i18n="add_photos">Upload Photos</label>
+                    <input id="photos" name="photos" type="file" multiple accept="image/*">
+                    <span class="hint" data-i18n="upload_hint">Upload up to 10 images.</span>
+                    <div class="image-preview" id="imagePreview"></div>
+                    <div id="previewCount" class="preview-count">0 / 10 images selected</div>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="title">
-
-                        Item Title
-
-                    </label>
-
-                    <input
-                        id="title"
-                        name="title"
-                        type="text"
-                        placeholder="Example: Sports Bicycle"
-                        required>
-
+                    <label for="title" data-i18n="title">Item Title</label>
+                    <input id="title" name="title" type="text" data-i18n="title" placeholder="Example: Sports Bicycle" required>
                 </div>
 <!-- ===================================================== -->
 <!--             SELLBY POST-OTHERS.HTML                 -->
@@ -337,194 +275,53 @@
 <!-- ===================================================== -->
 
                 <div class="form-group">
-
-                    <label for="category">
-
-                        Category
-
-                    </label>
-
-                    <select
-                        id="category"
-                        name="category"
-                        required>
-
-                        <option value="">
-                            Select Category
-                        </option>
-
-                        <option>Sports</option>
-
-                        <option>Books</option>
-
-                        <option>Musical Instruments</option>
-
-                        <option>Toys</option>
-
-                        <option>Fashion</option>
-
-                        <option>Pets Accessories</option>
-
-                        <option>Garden</option>
-
-                        <option>Other</option>
-
+                    <label for="category" data-i18n="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="" data-i18n="select_type">Select Category</option>
+                        <option data-i18n="cat_others">Other</option>
                     </select>
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="condition">
-
-                        Condition
-
-                    </label>
-
-                    <select
-                        id="condition"
-                        name="condition"
-                        required>
-
-                        <option value="">
-                            Select Condition
-                        </option>
-
-                        <option>New</option>
-
-                        <option>Like New</option>
-
-                        <option>Good</option>
-
-                        <option>Used</option>
-
+                    <label for="condition" data-i18n="condition">Condition</label>
+                    <select id="condition" name="condition" required>
+                        <option value="" data-i18n="select_condition">Select Condition</option>
+                        <option data-i18n="new">New</option>
+                        <option data-i18n="like_new">Like New</option>
+                        <option data-i18n="good">Good</option>
+                        <option data-i18n="used">Used</option>
                     </select>
-
                 </div>
 
                 <div class="form-group">
-
-                    <label for="brand">
-
-                        Brand (Optional)
-
-                    </label>
-
-                    <input
-                        id="brand"
-                        name="brand"
-                        type="text"
-                        placeholder="Example: Nike">
-
+                    <label for="brand" data-i18n="brand">Brand (Optional)</label>
+                    <input id="brand" name="brand" type="text" data-i18n="brand" placeholder="Example: Nike">
                 </div>
 
                 <div class="form-group">
-
-                    <label for="quantity">
-
-                        Quantity
-
-                    </label>
-
-                    <input
-                        id="quantity"
-                        name="quantity"
-                        type="number"
-                        min="1"
-                        value="1"
-                        required>
-
+                    <label for="quantity" data-i18n="quantity">Quantity</label>
+                    <input id="quantity" name="quantity" type="number" min="1" value="1" required>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="price">
-
-                        Price
-
-                    </label>
-
-                    <input
-                        id="price"
-                        name="price"
-                        type="number"
-                        placeholder="Enter Price"
-                        required>
-
+                    <label for="price" data-i18n="price">Price</label>
+                    <input id="price" name="price" type="number" data-i18n="price" placeholder="Enter Price" required>
                 </div>
 
                 <div class="form-group">
-
-                    <label for="location">
-
-                        Location
-
-                    </label>
-
-                    <input
-                        id="location"
-                        name="location"
-                        type="text"
-                        placeholder="City, Area or Landmark"
-                        required>
-
+                    <label for="location" data-i18n="location">Location</label>
+                    <input id="location" name="location" type="text" data-i18n="location_placeholder" placeholder="City, Area or Landmark" required>
                 </div>
-<!-- ===================================================== -->
-<!--             SELLBY POST-OTHERS.HTML                 -->
-<!--                   HTML PART 3                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : post-others.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Description
-    ✔ Contact Number
-    ✔ WhatsApp Number
-    ✔ Publish Button
-    ✔ JavaScript Files
-    ✔ Closing Body & HTML
--->
-<!-- ===================================================== -->
 
                 <div class="form-group full-width">
-
-                    <label for="description">
-
-                        Description
-
-                    </label>
-
-                    <textarea
-                        id="description"
-                        name="description"
-                        placeholder="Describe your item..."
-                        required></textarea>
-
+                    <label for="description" data-i18n="description">Description</label>
+                    <textarea id="description" name="description" data-i18n="desc_placeholder" placeholder="Describe your item..." required></textarea>
                 </div>
-
             </div>
 
             <div class="submit-row">
-
-                <div
-                    class="status-message"
-                    id="statusMessage">
-
-                    1 Photo + Price + Title required.
-
-                </div>
-
-                <button
-                    id="publishBtn"
-                    class="publish-btn"
-                    type="button">
-
-                    Publish Item
-
-                </button>
-
+                <div class="status-message" id="statusMessage" data-i18n="identity_required">1 Photo + Price + Title required.</div>
+                <button id="publishBtn" class="publish-btn" type="button" data-i18n="publish">Publish Item</button>
             </div>
 
         </section>

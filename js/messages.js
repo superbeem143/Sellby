@@ -3,7 +3,7 @@
 /* ===================================================== */
 
 import { auth, db } from "./firebase-config.js";
-import { getTranslations, t } from "./i18n.js";
+import { getTranslations, t, initTranslations } from "./i18n.js";
 import {
     collection,
     query,
@@ -27,6 +27,7 @@ auth.onAuthStateChanged((user) => {
         return;
     }
     currentUser = user;
+    initTranslations();
     pollForChatId();
 });
 
@@ -237,12 +238,10 @@ function initEventListeners() {
     if (sendBtn && !sendBtn.dataset.bound) {
         sendBtn.dataset.bound = "true";
         sendBtn.addEventListener("click", sendMessage);
-        sendBtn.textContent = t('send');
     }
 
     if (messageInput && !messageInput.dataset.bound) {
         messageInput.dataset.bound = "true";
-        messageInput.placeholder = t('type_message');
         messageInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
@@ -269,9 +268,6 @@ function initVoiceRecorder() {
 
     if (!voiceMsgBtn || voiceMsgBtn.dataset.bound) return;
     voiceMsgBtn.dataset.bound = "true";
-
-    if (cancelVoiceBtn) cancelVoiceBtn.textContent = t('cancel');
-    if (sendVoiceNoteBtn) sendVoiceNoteBtn.textContent = t('send_voice');
 
     voiceMsgBtn.addEventListener("click", async () => {
         if (mediaRecorder && mediaRecorder.state === "recording") {

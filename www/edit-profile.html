@@ -12,15 +12,15 @@
 </head>
 <body>
     <header class="category-header">
-        <button class="back-btn-small" onclick="history.back()" aria-label="Go Back">
+        <button class="back-btn-small" onclick="history.back()" data-i18n="back" aria-label="Go Back">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
         </button>
         <div class="category-title-area">
-            <h1>Edit Profile</h1>
-            <p>Update your information</p>
+            <h1 data-i18n="edit_profile">Edit Profile</h1>
+            <p data-i18n="settings_subtitle">Update your information</p>
         </div>
     </header>
 
@@ -32,8 +32,8 @@
             </div>
 
             <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
-                <button id="takePhotoBtn" class="publish-btn" style="padding: 8px 16px; font-size: 13px; background: #ffffff; color: #7c3aed; border: 1.5px solid #7c3aed; box-shadow: none;">📷 Camera</button>
-                <button id="chooseGalleryBtn" class="publish-btn" style="padding: 8px 16px; font-size: 13px; background: #ffffff; color: #7c3aed; border: 1.5px solid #7c3aed; box-shadow: none;">🖼️ Gallery</button>
+                <button id="takePhotoBtn" class="publish-btn" style="padding: 8px 16px; font-size: 13px; background: #ffffff; color: #7c3aed; border: 1.5px solid #7c3aed; box-shadow: none;" data-i18n="take_photo">📷 Camera</button>
+                <button id="chooseGalleryBtn" class="publish-btn" style="padding: 8px 16px; font-size: 13px; background: #ffffff; color: #7c3aed; border: 1.5px solid #7c3aed; box-shadow: none;" data-i18n="choose_gallery">🖼️ Gallery</button>
             </div>
             <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;">
             <input type="file" id="galleryInput" accept="image/*" style="display: none;">
@@ -41,19 +41,19 @@
 
         <section class="profile-menu" style="padding: 24px;">
             <div class="form-group" style="margin-bottom: 20px;">
-                <label>Full Name</label>
-                <input type="text" id="editName" placeholder="Enter your name">
+                <label data-i18n="full_name">Full Name</label>
+                <input type="text" id="editName" data-i18n="full_name" placeholder="Enter your name">
             </div>
             <div class="form-group" style="margin-bottom: 20px;">
-                <label>Email Address</label>
-                <input type="email" id="editEmail" placeholder="Enter your email">
+                <label data-i18n="email_address">Email Address</label>
+                <input type="email" id="editEmail" data-i18n="email_address" placeholder="Enter your email">
             </div>
             <div class="form-group" style="margin-bottom: 20px;">
-                <label>Phone Number</label>
-                <input type="tel" id="editPhone" placeholder="Your phone number" readonly style="background: #f1f5f9; color: #64748b;">
+                <label data-i18n="phone_number">Phone Number</label>
+                <input type="tel" id="editPhone" data-i18n="phone_number" placeholder="Your phone number" readonly style="background: #f1f5f9; color: #64748b;">
             </div>
 
-            <button id="saveProfileBtn" class="publish-btn" style="width: 100%; margin-top: 10px;">Save Changes</button>
+            <button id="saveProfileBtn" class="publish-btn" style="width: 100%; margin-top: 10px;" data-i18n="save_changes">Save Changes</button>
             <div id="saveStatus" style="text-align: center; margin-top: 15px; font-size: 14px; font-weight: 600; display: none;"></div>
         </section>
     </main>

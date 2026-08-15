@@ -130,25 +130,26 @@ color:#0f172a;
 
 <body>
 
-<header>
-SELLBY
+<header style="display:flex; align-items:center; justify-content:center; position:relative;">
+    <button class="back-btn" onclick="history.back()" data-i18n="back" style="position:absolute; left:18px; width:40px; height:40px; border:none; border-radius:12px; background:rgba(255,255,255,0.18); color:#fff; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center;">←</button>
+    <span data-i18n="app_name">SELLBY</span>
 </header>
 
 <div class="container">
 
-<div class="title">
+<div class="title" data-i18n="post_ad_title">
 What do you want to sell?
 </div>
 
-<div class="subtitle">
+<div class="subtitle" data-i18n="post_ad_subtitle">
 Choose a posting method or category
 </div>
 
 <a href="voice-post.html" class="voice-post-banner" style="display:flex;align-items:center;gap:16px;background:linear-gradient(135deg, #f5f3ff 0%, #fdf2f8 100%);border:2px solid #7c3aed;border-radius:20px;padding:18px 24px;text-decoration:none;margin-bottom:24px;box-shadow:0 8px 24px rgba(124, 58, 237, 0.12);transition:all 0.25s ease;">
     <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg, #7c3aed, #db2777);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;box-shadow:0 4px 15px rgba(124, 58, 237, 0.3);">🎤</div>
     <div style="flex:1;">
-        <div style="font-size:17px;font-weight:700;color:#6d28d9;">Voice Post — Speak to Post Ad</div>
-        <div style="font-size:13px;color:#64748b;margin-top:2px;">Describe your item in your own voice without typing</div>
+        <div style="font-size:17px;font-weight:700;color:#6d28d9;" data-i18n="voice_posting">Voice Post — Speak to Post Ad</div>
+        <div style="font-size:13px;color:#64748b;margin-top:2px;" data-i18n="speak_instantly">Describe your item in your own voice without typing</div>
     </div>
     <div style="font-size:18px;color:#7c3aed;font-weight:700;">→</div>
 </a>
@@ -162,7 +163,8 @@ Choose a posting method or category
             <polyline points="9 22 9 12 15 12 15 22" stroke="#ffffff" stroke-width="1.8"></polyline>
         </svg>
     </div>
-    <div class="name">Property</div>
+    <div class="name" data-i18n="cat_properties">Property</div>
+    <div style="font-size:12px;color:#64748b;margin-top:4px;" data-i18n="desc_prop">House, Apartment, Land</div>
 </a>
 
 <a href="post-car.html" class="card">
@@ -173,7 +175,8 @@ Choose a posting method or category
             <circle cx="17" cy="17" r="2.5" fill="#db2777" stroke="#fff" stroke-width="1.5"></circle>
         </svg>
     </div>
-    <div class="name">Cars</div>
+    <div class="name" data-i18n="cat_cars">Cars</div>
+    <div style="font-size:12px;color:#64748b;margin-top:4px;" data-i18n="desc_car">Sedan, SUV, Hatchback</div>
 </a>
 
 <a href="post-bike.html" class="card">
@@ -184,7 +187,8 @@ Choose a posting method or category
             <path d="M15 6h2l3 6.5M12 17.5l-3-8h4l2.5 4.5"></path>
         </svg>
     </div>
-    <div class="name">Bikes</div>
+    <div class="name" data-i18n="cat_bikes">Bikes</div>
+    <div style="font-size:12px;color:#64748b;margin-top:4px;" data-i18n="desc_bike">Motorcycle, Scooters</div>
 </a>
 
 <a href="post-mobile.html" class="card">
@@ -195,7 +199,8 @@ Choose a posting method or category
             <line x1="10" y1="5" x2="14" y2="5" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"></line>
         </svg>
     </div>
-    <div class="name">Mobiles</div>
+    <div class="name" data-i18n="cat_mobiles">Mobiles</div>
+    <div style="font-size:12px;color:#64748b;margin-top:4px;" data-i18n="desc_mobile">Phone, Tablet, Accessories</div>
 </a>
 
 <a href="post-electronics.html" class="card">
@@ -206,7 +211,8 @@ Choose a posting method or category
             <line x1="12" y1="17" x2="12" y2="21" stroke="#db2777" stroke-width="2.2"></line>
         </svg>
     </div>
-    <div class="name">Electronics</div>
+    <div class="name" data-i18n="cat_electronics">Electronics</div>
+    <div style="font-size:12px;color:#64748b;margin-top:4px;" data-i18n="desc_electronics">Laptop, TV, Camera</div>
 </a>
 
 <a href="post-furniture.html" class="card">
@@ -216,7 +222,8 @@ Choose a posting method or category
             <path d="M4 11V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5" stroke="#7c3aed" stroke-width="1.8"></path>
         </svg>
     </div>
-    <div class="name">Furniture</div>
+    <div class="name" data-i18n="cat_furniture">Furniture</div>
+    <div style="font-size:12px;color:#64748b;margin-top:4px;" data-i18n="desc_furniture">Sofa, Bed, Table</div>
 </a>
 
 <a href="post-others.html" class="card">
@@ -227,7 +234,8 @@ Choose a posting method or category
             <line x1="12" y1="22.08" x2="12" y2="12" stroke="#ffffff" stroke-width="1.8"></line>
         </svg>
     </div>
-    <div class="name">Others</div>
+    <div class="name" data-i18n="cat_others">Others</div>
+    <div style="font-size:12px;color:#64748b;margin-top:4px;" data-i18n="desc_others">Fashion, Books, Sports</div>
 </a>
 
 </div>

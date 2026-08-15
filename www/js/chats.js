@@ -28,24 +28,9 @@ auth.onAuthStateChanged((user) => {
         return;
     }
     currentUser = user;
-    localizeUI();
+    initTranslations();
     loadUserChats();
 });
-
-function localizeUI() {
-    try {
-        const trans = getTranslations();
-        const header = document.querySelector(".header");
-        if (header) {
-            header.textContent = `💬 ${trans.my_chats || "My Chats"}`;
-        }
-        if (searchInput) {
-            searchInput.placeholder = trans.search_placeholder || "Search chats...";
-        }
-    } catch (e) {
-        console.warn("Localization failed in chats.js:", e);
-    }
-}
 
 function loadUserChats() {
     if (!currentUser) return;

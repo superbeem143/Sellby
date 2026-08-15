@@ -4,6 +4,7 @@
 
 import { db, auth } from "./firebase-config.js";
 import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+import { initTranslations, t, getLanguage } from "./i18n.js";
 
 const photosInput = document.getElementById("photos");
 const imagePreview = document.getElementById("imagePreview");
@@ -84,7 +85,7 @@ if (micBtn) {
     micBtn.onclick = (e) => {
         e.preventDefault();
         if (window.AndroidSpeech) {
-            const currentLang = localStorage.getItem("sellby_lang") || "en";
+            const currentLang = getLanguage();
             let langCode = "en-IN";
             if (currentLang === "te") langCode = "te-IN";
             else if (currentLang === "hi") langCode = "hi-IN";
@@ -165,7 +166,7 @@ if (publishBtn) {
             await addDoc(collection(db, "ads"), docData);
 
             if (statusMessage) {
-                statusMessage.textContent = "✅ Ad Published Successfully!";
+                statusMessage.textContent = t('publish_success');
                 statusMessage.style.color = "#16a34a";
             }
             publishBtn.textContent = "Published!";
@@ -187,5 +188,6 @@ if (publishBtn) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    initTranslations();
     console.log("SELLBY Voice Post Page Ready");
 });

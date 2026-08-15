@@ -10,7 +10,7 @@ import {
     uploadBytes,
     getDownloadURL
 } from "./firebase-config.js";
-import { getTranslations, t } from "./i18n.js";
+import { getTranslations, t, initTranslations } from "./i18n.js";
 
 const profilePreview = document.getElementById("profilePreview");
 const profilePlaceholder = document.getElementById("profilePlaceholder");
@@ -29,7 +29,7 @@ let selectedFile = null;
 
 auth.onAuthStateChanged(async (user) => {
     if (user) {
-        localizeUI();
+        initTranslations();
         editName.value = user.displayName || "";
         editEmail.value = user.email || "";
         editPhone.value = user.phoneNumber || "";
