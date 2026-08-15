@@ -144,6 +144,11 @@ auth.onAuthStateChanged((user) => {
         return;
     }
 
+    // Request notification permission
+    if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+        Notification.requestPermission();
+    }
+
     try {
         const unreadQuery = query(
             collection(db, "chats"),
@@ -159,7 +164,14 @@ auth.onAuthStateChanged((user) => {
             });
 
             if (!isInitialLoad && activeUnreadChats.length > previousCount) {
-                playNotificationSound();
+                const newChat = activeUnreadChats.find(c => !snapshot.docChanges().some(change => change.type === "added" && change.doc.id === c.id) || true); // Simplified check for demonstration
+                // Find the actually new message to show in notification
+                const addedDoc = snapshot.docChanges().find(change => change.type === "added" || (change.type === "modified" && change.doc.data().lastMessageSenderId !== user.uid));
+
+                if (addedDoc) {
+                    const chatData = addedDoc.doc.data();
+                    showSystemNotification(chatData.adTitle || "New Message", chatData.lastMessage || "You have a new message on SELLBY");
+                }
             }
             isInitialLoad = false;
 
@@ -172,23 +184,16 @@ auth.onAuthStateChanged((user) => {
     }
 });
 
-const notificationSound = new Audio("https://firebasestorage.googleapis.com/v0/b/mvr-properties-64922.firebasestorage.app/o/sounds%2Fnotification.mp3?alt=media");
-// Unlock audio on first interaction
-document.addEventListener('click', () => {
-    notificationSound.play().then(() => {
-        notificationSound.pause();
-        notificationSound.currentTime = 0;
-    }).catch(() => {});
-}, { once: true });
-
-function playNotificationSound() {
-    try {
-        notificationSound.currentTime = 0;
-        notificationSound.play().catch(e => {
-            console.warn("Audio play blocked by browser policy. Interaction needed.", e);
-        });
-    } catch (e) {
-        console.warn("Notification sound error:", e);
+function showSystemNotification(title, body) {
+    if ("Notification" in window && Notification.permission === "granted") {
+        try {
+            new Notification(title, {
+                body: body,
+                icon: "images/sellby-logo.png"
+            });
+        } catch (e) {
+            console.warn("Notification error:", e);
+        }
     }
 }
 
@@ -196,15 +201,35 @@ function updateNotificationBadge() {
     if (!notifyBtn) return;
 
     let badge = notifyBtn.querySelector(".notify-badge");
-    if (activeUnreadChats.length > 0) {
+    const count = activeUnreadChats.length;
+
+    if (count > 0) {
         if (!badge) {
             badge = document.createElement("span");
             badge.className = "notify-badge";
-            badge.style.cssText = "position:absolute;top:4px;right:4px;width:10px;height:10px;background:#db2777;border-radius:50%;border:2px solid #6d28d9;";
+            badge.style.cssText = `
+                position: absolute;
+                top: -2px;
+                right: -2px;
+                background: #db2777;
+                color: #ffffff;
+                font-size: 10px;
+                font-weight: 800;
+                min-width: 18px;
+                height: 18px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid #ffffff;
+                padding: 0 4px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            `;
             notifyBtn.style.position = "relative";
             notifyBtn.appendChild(badge);
         }
-        badge.style.display = "block";
+        badge.textContent = count > 9 ? "9+" : count;
+        badge.style.display = "flex";
     } else {
         if (badge) badge.style.display = "none";
     }
@@ -266,24 +291,41 @@ function toggleNotificationPopover() {
 
 function renderPopoverContent(popover) {
     const trans = getTranslations();
-    let html = `<div style="font-weight:700;font-size:14px;color:#6d28d9;margin-bottom:10px;border-bottom:1px solid #eee;padding-bottom:5px;">${trans.my_chats} (${activeUnreadChats.length})</div>`;
+    const count = activeUnreadChats.length;
 
-    activeUnreadChats.forEach((chat) => {
-        const title = chat.adTitle || "Ad Inquiry";
-        const msg = chat.lastMessage || "New message received";
-        const thumb = chat.adImage || "images/sellby-logo.png";
+    let html = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid #f1f5f9;">
+            <div style="font-weight:800; font-size:15px; color:var(--primary);">${trans.notifications || 'Notifications'}</div>
+            <div style="background:var(--sellby-pink); color:#fff; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px;">${count} NEW</div>
+        </div>
+    `;
 
-        html += `
-            <div class="popover-item" data-chat-id="${chat.id}" data-ad-id="${chat.adId || ''}" data-seller-id="${chat.sellerId || ''}"
-                 style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;background:#f8f9fc;margin-bottom:8px;cursor:pointer;">
-                <img src="${thumb}" alt="Ad" style="width:40px;height:40px;border-radius:6px;object-fit:cover;">
-                <div style="flex:1;overflow:hidden;">
-                    <div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${title}</div>
-                    <div style="font-size:12px;color:#666;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${msg}</div>
+    if (count === 0) {
+        html += `<div style="text-align:center; padding:20px; color:#64748b; font-size:13px;">No new notifications</div>`;
+    } else {
+        activeUnreadChats.forEach((chat) => {
+            const title = chat.adTitle || "Ad Inquiry";
+            const msg = chat.lastMessage || "New message received";
+            const thumb = chat.adImage || "images/sellby-logo.png";
+            const time = chat.updatedAt?.toDate ? chat.updatedAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "";
+
+            html += `
+                <div class="popover-item" data-chat-id="${chat.id}" data-ad-id="${chat.adId || ''}" data-seller-id="${chat.sellerId || ''}"
+                     style="display:flex; align-items:flex-start; gap:12px; padding:12px; border-radius:12px; background:#f8f9fc; margin-bottom:8px; cursor:pointer; transition:background 0.2s;">
+                    <img src="${thumb}" alt="Ad" style="width:44px; height:44px; border-radius:8px; object-fit:cover; border:1px solid #e2e8f0; flex-shrink:0;">
+                    <div style="flex:1; min-width:0;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;">
+                            <div style="font-weight:700; font-size:13px; color:#1e293b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1;">${title}</div>
+                            <div style="font-size:10px; color:#94a3b8; margin-left:5px;">${time}</div>
+                        </div>
+                        <div style="font-size:12px; color:#475569; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; line-height:1.3;">
+                            <span style="color:var(--primary); font-weight:600;">Message:</span> ${msg}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        `;
-    });
+            `;
+        });
+    }
 
     popover.innerHTML = html;
 

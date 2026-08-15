@@ -4,6 +4,7 @@
 
 import { db } from "./firebase-config.js";
 import { getTranslations, t, initTranslations } from "./i18n.js";
+import { resolveSearchIntent } from "./search-resolver.js";
 import {
     collection,
     query,
@@ -23,8 +24,22 @@ let allAds = [];
 let unsubscribe = null;
 
 const urlParams = new URLSearchParams(window.location.search);
-const categoryType = urlParams.get("type") || "property";
+let categoryType = urlParams.get("type") || null;
 const initialSearch = urlParams.get("search") || "";
+
+// If search is present, resolve intent to possibly change categoryType
+let searchIntent = null;
+if (initialSearch) {
+    searchIntent = resolveSearchIntent(initialSearch);
+    if (searchIntent.category && !categoryType) {
+        categoryType = searchIntent.category;
+    }
+}
+
+// Default to property if nothing is specified
+if (!categoryType && !initialSearch) {
+    categoryType = "property";
+}
 
 // Identity Resolver for consistent titles across categories
 function getAdTitle(ad) {
@@ -65,11 +80,19 @@ async function startCategoryListener() {
         };
 
         const labelElem = document.querySelector(".category-name");
-        if (labelElem) labelElem.textContent = categoryLabels[categoryType] || "Browse";
+        if (labelElem) {
+            if (categoryType) {
+                labelElem.textContent = categoryLabels[categoryType] || "Browse";
+            } else {
+                labelElem.textContent = "Marketplace";
+            }
+        }
 
         const emptyTitleElem = emptyState.querySelector("h2");
         const emptyDescElem = emptyState.querySelector("p");
-        if (emptyTitleElem) emptyTitleElem.textContent = emptyTitles[categoryType] || "No Ads Found";
+        if (emptyTitleElem) {
+            emptyTitleElem.textContent = categoryType ? (emptyTitles[categoryType] || "No Ads Found") : "No Results Found";
+        }
         if (emptyDescElem) emptyDescElem.textContent = trans.empty_desc;
 
         if (searchInput) searchInput.placeholder = `${trans.search_placeholder}`;
@@ -78,7 +101,7 @@ async function startCategoryListener() {
         const q = query(
             collection(db, "ads"),
             orderBy("createdAt", "desc"),
-            limit(100)
+            limit(150) // Increased limit for universal search
         );
 
         unsubscribe = onSnapshot(q, (snapshot) => {
@@ -93,12 +116,17 @@ async function startCategoryListener() {
 
                 // Filter by Category (with Cars/Bikes logic)
                 let isMatch = false;
+
+                // If we have an initial search, we start by including everything,
+                // but we can prioritize the detected category if present.
                 if (initialSearch) {
                     isMatch = true;
                 } else if (categoryType === "cars") {
                     isMatch = (data.category === "cars" || data.category === "bikes");
-                } else {
+                } else if (categoryType) {
                     isMatch = (data.category === categoryType);
+                } else {
+                    isMatch = true;
                 }
 
                 if (isMatch) {
@@ -149,14 +177,14 @@ function renderAds(ads) {
             <div class="ad-image">
                 <img src="${image}" alt="${escapeHtml(title)}">
             </div>
-            <div style="padding:15px; flex:1;">
+            <div style="padding:15px; flex:1; min-width:0;">
                 <h3 style="font-size:16px;font-weight:700;color:#1e293b;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;">
                     ${escapeHtml(title)}
                 </h3>
                 <h2 style="color:#6d28d9;font-weight:800;margin:10px 0;font-size:20px;">
                     ${t('price_symbol')}${Number(ad.price || 0).toLocaleString("en-IN")}
                 </h2>
-                <p style="font-size:13px;color:#64748b;margin-bottom:4px;">📍 ${escapeHtml(ad.location || 'Location N/A')}</p>
+                <p style="font-size:13px;color:#64748b;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">📍 ${escapeHtml(ad.location || 'Location N/A')}</p>
                 <div style="display:inline-block;padding:4px 10px;background:#f5f3ff;color:#7c3aed;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;">
                     ${ad.category || 'General'}
                 </div>
@@ -173,20 +201,44 @@ function renderAds(ads) {
 
 function filterAds() {
     if (!searchInput) return;
-    const keyword = searchInput.value.trim().toLowerCase();
-
-    if (!keyword) {
+    const rawValue = searchInput.value.trim();
+    if (!rawValue) {
         renderAds(allAds);
         return;
     }
 
+    const intent = resolveSearchIntent(rawValue);
+    const keyword = intent.keyword;
+
     const filtered = allAds.filter((ad) => {
+        // If an intent category was detected, we can prioritize it
+        // But for "Universal Search", we mostly filter by keyword across fields
+
         const title = getAdTitle(ad).toLowerCase();
         const loc = (ad.location || "").toLowerCase();
         const desc = (ad.description || "").toLowerCase();
         const cat = (ad.category || "").toLowerCase();
+        const brand = (ad.brand || "").toLowerCase();
+        const model = (ad.model || "").toLowerCase();
 
-        return title.includes(keyword) || loc.includes(keyword) || desc.includes(keyword) || cat.includes(keyword);
+        // Check if keyword exists in any field
+        const matchesKeyword = title.includes(keyword) ||
+                               loc.includes(keyword) ||
+                               desc.includes(keyword) ||
+                               cat.includes(keyword) ||
+                               brand.includes(keyword) ||
+                               model.includes(keyword);
+
+        // If intent category was detected, only show matching category if it's specific
+        if (intent.category) {
+            // Special handling for cars/bikes
+            if (intent.category === "cars") {
+                return matchesKeyword && (ad.category === "cars" || ad.category === "bikes");
+            }
+            return matchesKeyword && ad.category === intent.category;
+        }
+
+        return matchesKeyword;
     });
 
     renderAds(filtered);

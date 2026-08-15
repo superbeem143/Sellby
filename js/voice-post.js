@@ -47,8 +47,8 @@ function renderPreview() {
         thumb.className = "preview-thumb";
 
         const removeBtn = document.createElement("button");
-        removeBtn.className = "remove-img";
         removeBtn.innerHTML = "×";
+        removeBtn.className = "remove-img";
         removeBtn.onclick = (e) => {
             e.preventDefault();
             selectedFiles.splice(index, 1);
@@ -56,13 +56,17 @@ function renderPreview() {
         };
 
         reader.onload = (e) => {
-            thumb.innerHTML = `<img src="${e.target.result}">`;
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            thumb.appendChild(img);
             thumb.appendChild(removeBtn);
         };
         reader.readAsDataURL(file);
         imagePreview.appendChild(thumb);
     });
-    if (previewCount) previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES} images selected`;
+    if (previewCount) {
+        previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES}`;
+    }
 }
 
 /* 2. SPEECH RECOGNITION (ANDROID NATIVE BRIDGE) */
@@ -117,37 +121,39 @@ async function uploadToCloudinary(file) {
 if (publishBtn) {
     publishBtn.addEventListener("click", async () => {
         if (!auth.currentUser) {
-            alert("Please log in first.");
+            alert(t('login_first') || "Please log in first.");
             window.location.href = "login.html";
             return;
         }
 
-        const description = adDescription.value.trim();
-        const title = adTitle.value.trim();
-        const price = adPrice.value.trim();
-        const location = adLocation.value.trim();
+        const description = adDescription ? adDescription.value.trim() : "";
 
-        if (!title || !price || !location || !description || selectedFiles.length === 0) {
-            alert("Please fill all fields and upload at least one photo.");
+        // Safety check for missing elements to prevent crash
+        const title = (adTitle && adTitle.value) ? adTitle.value.trim() : (description ? description.substring(0, 30) + (description.length > 30 ? "..." : "") : "Voice Ad");
+        const price = (adPrice && adPrice.value) ? adPrice.value.trim() : "0";
+        const location = (adLocation && adLocation.value) ? adLocation.value.trim() : "Not Specified";
+
+        if (!description || selectedFiles.length === 0) {
+            alert(t('identity_required') || "Please add at least one photo and a description.");
             return;
         }
 
         publishBtn.disabled = true;
-        publishBtn.textContent = "⏳ Publishing...";
+        publishBtn.textContent = "⏳ " + (t('uploading') || "Publishing...");
         if (statusMessage) {
-            statusMessage.textContent = "Uploading images...";
+            statusMessage.textContent = t('uploading') || "Uploading images...";
             statusMessage.style.color = "#6d28d9";
         }
 
         try {
             const imageUrls = [];
             for (const file of selectedFiles) {
-                if (statusMessage) statusMessage.textContent = `Uploading photo ${imageUrls.length + 1} of ${selectedFiles.length}...`;
+                if (statusMessage) statusMessage.textContent = `${t('uploading') || 'Uploading'}... (${imageUrls.length + 1}/${selectedFiles.length})`;
                 const url = await uploadToCloudinary(file);
                 imageUrls.push(url);
             }
 
-            if (statusMessage) statusMessage.textContent = "Saving to database...";
+            if (statusMessage) statusMessage.textContent = t('loading') || "Saving to database...";
 
             const docData = {
                 category: "others",
@@ -155,7 +161,7 @@ if (publishBtn) {
                 sellerId: auth.currentUser.uid,
                 sellerEmail: auth.currentUser.email || "",
                 title,
-                price: Number(price),
+                price: Number(price) || 0,
                 location,
                 description,
                 imageUrls,
@@ -166,23 +172,23 @@ if (publishBtn) {
             await addDoc(collection(db, "ads"), docData);
 
             if (statusMessage) {
-                statusMessage.textContent = t('publish_success');
+                statusMessage.textContent = t('publish_success') || "✅ Ad Published Successfully!";
                 statusMessage.style.color = "#16a34a";
             }
             publishBtn.textContent = "Published!";
 
-            alert("Success: Your ad is now live!");
+            alert(t('success') || "Success: Your ad is now live!");
             window.location.href = "index.html";
 
         } catch (error) {
             console.error("Voice Publish Error:", error);
-            alert(`Failed to publish: ${error.message}`);
+            alert((t('failed') || "Failed to publish: ") + error.message);
             if (statusMessage) {
                 statusMessage.textContent = "❌ Error: " + error.message;
                 statusMessage.style.color = "#dc2626";
             }
             publishBtn.disabled = false;
-            publishBtn.textContent = "Publish Ad";
+            publishBtn.textContent = t('publish') || "Publish Ad";
         }
     });
 }
