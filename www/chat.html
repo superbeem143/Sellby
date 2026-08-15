@@ -1,183 +1,74 @@
 <!-- ===================================================== -->
 <!--                 SELLBY CHAT.HTML                      -->
-<!--                     HTML PART 1                       -->
 <!-- ===================================================== -->
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
-<title>SELLBY Chat</title>
-
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-rel="stylesheet">
-
-<link rel="stylesheet" href="css/style.css">
-
-<script type="module" src="js/auth-guard.js"></script>
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-}
-
-body{
-
-background:#f8fafc;
-
-display:flex;
-
-flex-direction:column;
-
-height:100vh;
-
-}
-
-.header{
-
-height:65px;
-
-background:linear-gradient(135deg, #6d28d9, #db2777);
-
-color:#fff;
-
-display:flex;
-
-align-items:center;
-
-padding:0 16px;
-
-gap:15px;
-
-box-shadow:0 4px 20px rgba(109, 40, 217, 0.2);
-
-}
-
-.back{
-
-font-size:24px;
-
-cursor:pointer;
-
-}
-
-.user{
-
-display:flex;
-
-flex-direction:column;
-
-}
-
-.user h2{
-
-font-size:18px;
-
-font-weight:600;
-
-}
-
-.user p{
-
-font-size:12px;
-
-opacity:.9;
-
-}
-
-.chat-area{
-
-flex:1;
-
-overflow-y:auto;
-
-padding:15px;
-
-background:#f8fafc;
-
-display:flex;
-
-flex-direction:column;
-
-gap:12px;
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SELLBY Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/auth-guard.js"></script>
 </head>
 
-<body>
+<body class="chat-page-body">
 
-<div class="header" style="justify-content: flex-start; gap: 12px;">
+<header class="header">
     <button class="back-btn-small" onclick="history.back()">←</button>
-    <div class="user">
-        <h2 id="sellerName">Seller</h2>
+    <div class="header-center">
+        <h1 id="sellerName">Seller</h1>
         <p id="sellerStatus" data-i18n="online">Online</p>
     </div>
-</div>
+</header>
 
 <!-- ================= AD CONTEXT BANNER ================= -->
-
-<div id="adContextBanner" style="display:none;background:#fff;padding:10px 15px;border-bottom:1px solid #ddd;align-items:center;gap:12px;cursor:pointer;">
-
-    <div style="width:50px;height:50px;border-radius:8px;overflow:hidden;background:#eee;flex-shrink:0;">
-        <img id="adContextImg" src="" alt="Ad Thumbnail" style="width:100%;height:100%;object-fit:cover;">
+<div id="adContextBanner" class="ad-context-banner">
+    <div class="ad-context-thumb">
+        <img id="adContextImg" src="" alt="Ad Thumbnail">
     </div>
-
-    <div style="flex:1;">
-        <h4 id="adContextTitle" style="font-size:14px;color:#6d28d9;margin-bottom:2px;font-weight:700;" data-i18n="loading">Loading Ad...</h4>
-        <p id="adContextPrice" style="font-size:13px;color:#0f172a;font-weight:700;"></p>
-        <p id="adContextLocation" style="font-size:11px;color:#64748b;"></p>
+    <div class="ad-context-info">
+        <h4 id="adContextTitle" data-i18n="loading">Loading Ad...</h4>
+        <div class="ad-context-meta">
+            <span id="adContextPrice"></span>
+            <span id="adContextLocation"></span>
+        </div>
     </div>
-
-    <div style="font-size:12px;color:#db2777;font-weight:600;"><span data-i18n="view_all">View Ad</span> →</div>
-
+    <div class="ad-context-action">
+        <span data-i18n="view_all">View</span> →
+    </div>
 </div>
 
+<!-- ================= CHAT AREA ================= -->
 <div id="chatMessages" class="chat-area"></div>
 
-<div id="voiceRecordingBar" class="voice-recording-bar" style="display:none;">
-    <span class="recording-indicator"><span data-i18n="recording">Recording:</span> <span id="recTimer">00:00</span></span>
-    <div class="recording-actions">
-        <button id="cancelVoiceBtn" type="button" class="voice-action-btn cancel" data-i18n="cancel">Cancel</button>
-        <button id="sendVoiceNoteBtn" type="button" class="voice-action-btn send" data-i18n="send_voice">Send Voice 🎵</button>
+<!-- ================= COMPOSER AREA ================= -->
+<div class="composer-container">
+    <div id="voiceRecordingBar" class="voice-recording-bar" style="display:none;">
+        <div class="recording-indicator">
+            <span data-i18n="recording">Recording</span>
+            <span id="recTimer" class="rec-timer">00:00</span>
+        </div>
+        <div class="recording-actions">
+            <button id="cancelVoiceBtn" type="button" class="voice-action-btn cancel" data-i18n="cancel">Cancel</button>
+            <button id="sendVoiceNoteBtn" type="button" class="voice-action-btn send" data-i18n="send_voice">Send Voice</button>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <button id="voiceMsgBtn" class="voice-msg-btn" type="button" title="Record Voice">🎤</button>
+        <input id="messageInput" type="text" data-i18n="type_message" placeholder="Type your message...">
+        <button id="sendBtn" class="send-btn"></button>
     </div>
 </div>
 
-<div class="input-area">
-    <button id="voiceMsgBtn" class="voice-msg-btn" type="button" title="Record Voice Message">🎤</button>
-    <input id="messageInput" type="text" data-i18n="type_message" placeholder="Type your message...">
-    <button id="sendBtn" data-i18n="send"></button>
-</div>
-<!-- ===================================================== -->
-<!--                 SELLBY CHAT.HTML                      -->
-<!--                     HTML PART 3                       -->
-<!-- ===================================================== -->
-
 <script type="module" src="./js/firebase-config.js"></script>
-
 <script type="module" src="./js/chat.js"></script>
-
 <script type="module" src="./js/messages.js"></script>
 
 </body>
-
 </html>

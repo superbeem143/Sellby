@@ -39,11 +39,10 @@ function renderPreview() {
         const reader = new FileReader();
         const thumb = document.createElement("div");
         thumb.className = "preview-thumb";
-        thumb.style.position = "relative";
 
         const removeBtn = document.createElement("button");
         removeBtn.innerHTML = "×";
-        removeBtn.style.cssText = "position:absolute;top:5px;right:5px;background:rgba(220,38,38,0.8);color:white;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;z-index:10;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;font-weight:bold;";
+        removeBtn.className = "remove-img";
         removeBtn.onclick = (e) => {
             e.preventDefault();
             selectedFiles.splice(index, 1);
@@ -59,7 +58,9 @@ function renderPreview() {
         reader.readAsDataURL(file);
         imagePreview.appendChild(thumb);
     });
-    if (previewCount) previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES} images selected`;
+    if (previewCount) {
+        previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES}`;
+    }
 }
 
 async function uploadToCloudinary(file) {

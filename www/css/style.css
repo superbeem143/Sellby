@@ -2288,20 +2288,399 @@ section{
 /*         SELLBY CHAT UI SYSTEM - FINAL POLISH          */
 /* ===================================================== */
 
-.chat-area {
-    padding: 18px 14px !important;
-    gap: 14px !important;
+.chat-page-body {
+    height: 100vh !important;
+    height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding-bottom: 0 !important;
+    overflow: hidden !important;
 }
 
+.ad-context-banner {
+    background: #ffffff;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    min-height: 56px;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.ad-context-thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f1f5f9;
+    flex-shrink: 0;
+}
+
+.ad-context-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ad-context-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ad-context-info h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.ad-context-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.ad-context-action {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--sellby-pink);
+    white-space: nowrap;
+}
+
+.chat-area {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 16px 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    background: #f8fafc !important;
+}
+
+.composer-container {
+    background: #ffffff;
+    border-top: 1px solid #f1f5f9;
+    flex-shrink: 0;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.input-area {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 10px 14px !important;
+    min-height: 64px !important;
+}
+
+.voice-msg-btn {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    background: #f1f5f9 !important;
+    border: none !important;
+    color: var(--primary) !important;
+    font-size: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.voice-msg-btn.recording {
+    background: #fee2e2 !important;
+    color: #ef4444 !important;
+    animation: pulse 1.5s infinite !important;
+}
+
+.input-area input {
+    flex: 1 !important;
+    height: 44px !important;
+    border-radius: 22px !important;
+    border: 1.5px solid #f1f5f9 !important;
+    background: #f8fafc !important;
+    padding: 0 16px !important;
+    font-size: 14px !important;
+    outline: none !important;
+    transition: all 0.2s ease !important;
+    width: 0 !important;
+}
+
+.input-area input:focus {
+    border-color: var(--primary-light) !important;
+    background: #ffffff !important;
+}
+
+.send-btn {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    background: var(--sellby-gradient) !important;
+    border: none !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2) !important;
+}
+
+.send-btn::before {
+    content: '➤' !important;
+    font-size: 18px !important;
+    margin-left: 2px !important;
+}
+
+/* Voice Recording Bar - Professional Redesign */
+.voice-recording-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 10px 16px !important;
+.chat-page-body {
+    height: 100vh !important;
+    height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding-bottom: 0 !important;
+    overflow: hidden !important;
+    background: #f8fafc !important;
+}
+
+.ad-context-banner {
+    background: #ffffff;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    min-height: 52px;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.ad-context-thumb {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f1f5f9;
+    flex-shrink: 0;
+}
+
+.ad-context-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ad-context-info {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.2;
+}
+
+.ad-context-info h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+}
+
+.ad-context-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 1px;
+}
+
+.ad-context-action {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--sellby-pink);
+    text-transform: uppercase;
+    background: #fdf2f8;
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+}
+
+.chat-area {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 16px 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    background: #f8fafc !important;
+    scrollbar-width: none;
+}
+
+.chat-area::-webkit-scrollbar {
+    display: none;
+}
+
+.composer-container {
+    background: #ffffff;
+    border-top: 1px solid #f1f5f9;
+    flex-shrink: 0;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.03);
+}
+
+.input-area {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 10px 14px !important;
+    min-height: 64px !important;
+}
+
+.voice-msg-btn {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    background: #f1f5f9 !important;
+    border: none !important;
+    color: var(--primary) !important;
+    font-size: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.voice-msg-btn.recording {
+    background: #fee2e2 !important;
+    color: #ef4444 !important;
+}
+
+.input-area input {
+    flex: 1 !important;
+    height: 44px !important;
+    border-radius: 22px !important;
+    border: 1.5px solid #f1f5f9 !important;
+    background: #f8fafc !important;
+    padding: 0 16px !important;
+    font-size: 14px !important;
+    outline: none !important;
+    transition: all 0.2s ease !important;
+    width: 0 !important;
+}
+
+.input-area input:focus {
+    border-color: var(--primary-light) !important;
+    background: #ffffff !important;
+}
+
+.send-btn {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    background: var(--sellby-gradient) !important;
+    border: none !important;
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2) !important;
+}
+
+.send-btn::before {
+    content: '➤' !important;
+    font-size: 18px !important;
+    margin-left: 2px !important;
+}
+
+/* Voice Recording Bar - Professional Redesign */
+.voice-recording-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 10px 16px !important;
+    background: #f8fafc !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.recording-indicator {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    color: #ef4444 !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+}
+
+.recording-indicator::before {
+    content: '' !important;
+    width: 8px !important;
+    height: 8px !important;
+    background: #ef4444 !important;
+    border-radius: 50% !important;
+    animation: pulse 1s infinite !important;
+}
+
+.rec-timer {
+    font-family: monospace !important;
+    font-size: 14px !important;
+    background: #fee2e2 !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+}
+
+.recording-actions {
+    display: flex !important;
+    gap: 8px !important;
+}
+
+.voice-action-btn {
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+.voice-action-btn.cancel {
+    background: #e2e8f0 !important;
+    color: #475569 !important;
+}
+
+.voice-action-btn.send {
+    background: var(--sellby-gradient) !important;
+    color: #ffffff !important;
+}
+
+/* Message Bubbles Spacing */
 .message {
-    max-width: 82% !important;
+    max-width: 80% !important;
     padding: 10px 14px !important;
     border-radius: 18px !important;
-    font-size: 14.5px !important;
+    font-size: 14px !important;
     line-height: 1.4 !important;
     margin-bottom: 2px !important;
     position: relative !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.04) !important;
 }
 
 .message.sent {
@@ -2323,86 +2702,26 @@ section{
     font-size: 10px !important;
     margin-top: 4px !important;
     opacity: 0.8 !important;
-    display: flex !important;
-    justify-content: flex-end !important;
-    align-items: center !important;
+    text-align: right !important;
 }
 
 .audio-bubble-player {
-    min-width: 200px !important;
-    width: 100% !important;
+    min-width: 180px !important;
     padding: 4px 0 !important;
 }
 
 .audio-bubble-player audio {
     width: 100% !important;
-    height: 36px !important;
-    filter: invert(100%) brightness(1.5); /* Makes standard player look better on dark gradient */
+    height: 32px !important;
 }
 
-.message.received .audio-bubble-player audio {
-    filter: none !important;
-}
-
-/* Voice Recording Bar - Professional Design */
-.voice-recording-bar {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 12px 18px !important;
-    background: #f8fafc !important;
-    border-top: 2px solid #f1f5f9 !important;
-    animation: slideUp 0.3s ease !important;
-}
-
-@keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-}
-
-.recording-indicator {
-    color: #ef4444 !important;
-    font-weight: 700 !important;
-    font-size: 14px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-}
-
-.recording-indicator::before {
-    content: '';
-    width: 8px;
-    height: 8px;
-    background: #ef4444;
-    border-radius: 50%;
-    animation: pulse 1s infinite;
-}
-
-.voice-action-btn {
-    padding: 8px 16px !important;
-    border-radius: 10px !important;
-    font-size: 13px !important;
-    font-weight: 700 !important;
-    border: none !important;
-    cursor: pointer !important;
-    transition: all 0.2s !important;
-}
-
-.voice-action-btn.cancel {
-    background: #f1f5f9 !important;
-    color: #64748b !important;
-    margin-right: 8px !important;
-}
-
-.voice-action-btn.send {
-    background: var(--sellby-gradient) !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2) !important;
+.message.sent .audio-bubble-player audio {
+    filter: invert(1) hue-rotate(180deg) brightness(1.5) !important;
 }
 
 @keyframes pulse {
     0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.3); opacity: 0.5; }
+    50% { transform: scale(1.1); opacity: 0.7; }
     100% { transform: scale(1); opacity: 1; }
 }
 
@@ -3309,3 +3628,4 @@ button, input, select, textarea {
     }
 
 }
+$newStyles

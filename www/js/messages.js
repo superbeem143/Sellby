@@ -129,7 +129,11 @@ function listenToMessages(chatId) {
         });
 
         if (incomingMessage) {
-            playNotificationSound();
+            // System Notification instead of custom audio
+            const lastMsg = snapshot.docs[snapshot.docs.length - 1]?.data();
+            if (lastMsg && lastMsg.senderId !== currentUser.uid) {
+                showSystemNotification("New Message", lastMsg.message || "You received a new message");
+            }
         }
 
         isFirstLoad = false;
@@ -144,23 +148,16 @@ function listenToMessages(chatId) {
     });
 }
 
-const notificationSound = new Audio("https://firebasestorage.googleapis.com/v0/b/mvr-properties-64922.firebasestorage.app/o/sounds%2Fnotification.mp3?alt=media");
-// Unlock audio on first interaction
-document.addEventListener('click', () => {
-    notificationSound.play().then(() => {
-        notificationSound.pause();
-        notificationSound.currentTime = 0;
-    }).catch(() => {});
-}, { once: true });
-
-function playNotificationSound() {
-    try {
-        notificationSound.currentTime = 0;
-        notificationSound.play().catch(e => {
-            console.warn("Audio play blocked by browser policy. Interaction needed.", e);
-        });
-    } catch (e) {
-        console.warn("Notification sound error:", e);
+function showSystemNotification(title, body) {
+    if ("Notification" in window && Notification.permission === "granted") {
+        try {
+            new Notification(title, {
+                body: body,
+                icon: "images/sellby-logo.png"
+            });
+        } catch (e) {
+            console.warn("Notification error:", e);
+        }
     }
 }
 

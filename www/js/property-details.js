@@ -3,7 +3,7 @@
 /*                    JS PART 1                          */
 /* ===================================================== */
 
-import { db } from "./firebase-config.js";
+import { db, auth } from "./firebase-config.js";
 
 import {
     doc,
@@ -146,13 +146,20 @@ function renderProperty(property) {
 
  const chatBtn = document.getElementById("chatBtn");
  if (chatBtn) {
-     const existingChatId = params.get("chatId");
-     const sellerId = property.sellerId || property.userId;
-     chatBtn.addEventListener("click", () => {
-         if (existingChatId) {
-             window.location.href = `chat.html?chatId=${existingChatId}&adId=${property.id}&sellerId=${sellerId || ''}`;
+     auth.onAuthStateChanged((user) => {
+         const sellerId = property.sellerId || property.userId;
+         if (user && user.uid === sellerId) {
+             chatBtn.style.display = "none";
          } else {
-             window.location.href = `chat.html?adId=${property.id}&sellerId=${sellerId || ''}`;
+             chatBtn.style.display = "block";
+             const existingChatId = params.get("chatId");
+             chatBtn.onclick = () => {
+                 if (existingChatId) {
+                     window.location.href = `chat.html?chatId=${existingChatId}&adId=${property.id}&sellerId=${sellerId || ''}`;
+                 } else {
+                     window.location.href = `chat.html?adId=${property.id}&sellerId=${sellerId || ''}`;
+                 }
+             };
          }
      });
  }
