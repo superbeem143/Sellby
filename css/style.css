@@ -1,3526 +1,1712 @@
-/* ===================================================== */
-/*                  SELLBY STYLE.CSS                     */
-/*                     CSS PART 1                        */
-/* ===================================================== */
-/*
-    File Name : style.css
-    Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
-    Contains  :
-    ✔ Global Styles
-    ✔ Premium Header
-    ✔ Search Section
-*/
-/* ===================================================== */
+/* =========================================================
+   SELLBY — STYLE.CSS V3.0
+   Unified Clean Design System
+   Mission: Sell Easy. Buy Easy.
+   ========================================================= */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+/* =========================
+   1. GLOBAL
+   ========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #6d28d9;
+    --primary-light: #8b5cf6;
+    --secondary: #db2777;
+    --pink: #ec4899;
+
+    --gradient: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+    --gradient-soft: linear-gradient(135deg, #f5f3ff 0%, #fdf2f8 100%);
+
+    --bg: #f8fafc;
+    --surface: #ffffff;
+
+    --text: #0f172a;
+    --text-secondary: #475569;
+    --muted: #64748b;
+
+    --border: #e2e8f0;
+    --border-light: #f1f5f9;
+
+    --success: #16a34a;
+    --danger: #dc2626;
+    --warning: #f59e0b;
+
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 26px;
+
+    --shadow-sm: 0 4px 14px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 20px 50px rgba(15, 23, 42, 0.11);
+
+    --transition: 0.25s ease;
 }
 
-:root{
-
-    --primary:#6d28d9;
-    --primary-light:#7c3aed;
-    --secondary:#ec4899;
-    --accent:#ec4899;
-    --sellby-pink:#db2777;
-    --sellby-pink-light:#ec4899;
-    --sellby-purple:#7c3aed;
-    --sellby-purple-dark:#6d28d9;
-    --sellby-gradient:linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
-    --sellby-gradient-header:linear-gradient(135deg, #6d28d9 0%, #db2777 100%);
-    --bg:#f8fafc;
-    --surface:#ffffff;
-    --white:#FFFFFF;
-    --text:#0f172a;
-    --text-muted:#64748b;
-    --border:#e2e8f0;
-    --shadow:0 10px 30px rgba(124, 58, 237, .08);
-    --shadow-hover:0 15px 35px rgba(124, 58, 237, .15);
-
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
-body{
-
-    background:var(--bg);
-    color:var(--text);
-    padding-bottom:100px;
-
+html {
+    width: 100%;
+    min-height: 100%;
+    scroll-behavior: smooth;
 }
 
-/* ================= HEADER ================= */
-
-.header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-    background:var(--sellby-gradient-header);
-    padding:16px 18px;
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-    gap:14px;
-    box-shadow:0 4px 25px rgba(109, 40, 217, 0.15);
-    border-bottom-left-radius:24px;
-    border-bottom-right-radius:24px;
+body {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
 }
 
-.header-center{
-    flex:1;
-    text-align:left;
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
 }
 
-.logo{
-    font-size:32px;
-    font-weight:900;
-    letter-spacing:0.5px;
-    line-height:1;
-    color:#ffffff;
-    text-transform:uppercase;
-}
-
-.brand-handshake-img{
-    width:64px;
-    height:auto;
-    max-height:50px;
-    object-fit:contain;
-    margin:8px auto 6px;
-    display:block;
-    filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-}
-
-.tagline{
-    color:rgba(255,255,255,0.9);
-    font-size:13px;
-    margin-top:2px;
-    font-weight:600;
-    letter-spacing:0.2px;
-}
-
-.header-actions{
-    position:absolute;
-    top:50%;
-    transform:translateY(-50%);
-    right:16px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.menu-btn,
-.notify-btn{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:12px;
-    background:rgba(255,255,255,0.15);
-    color:#fff;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
-    border:1px solid rgba(255,255,255,0.2);
-    box-shadow:0 4px 12px rgba(0,0,0,0.1);
-}
-
-.header-icon {
-    width: 22px;
-    height: 22px;
-    stroke: #ffffff;
-    stroke-width: 2;
-}
-
-.menu-btn:hover,
-.notify-btn:hover{
-    background:rgba(255,255,255,0.25);
-    transform:translateY(-2px);
-    box-shadow:0 6px 16px rgba(0,0,0,0.15);
-}
-
-.menu-btn:active,
-.notify-btn:active{
-    transform:scale(0.92);
-}
-
-/* ================= DROPDOWN MENU ================= */
-
-.dropdown-menu{
-    position:fixed;
-    top:60px;
-    right:16px;
-    width:200px;
-    background:#ffffff;
-    border-radius:18px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.1);
-    border:1px solid #f1f5f9;
-    z-index:1100;
-    padding:8px;
-    display:none;
-    flex-direction:column;
-    animation:fadeIn 0.2s ease;
-    overflow:hidden;
-}
-
-.dropdown-menu.show{
-    display:flex;
-}
-
-.menu-item{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:10px 14px;
-    color:#334155;
-    text-decoration:none;
-    font-size:15px;
-    font-weight:600;
-    border-radius:12px;
-    transition:all 0.2s ease;
-}
-
-.menu-item:hover{
-    background:#f5f3ff;
-    color:#7c3aed;
-}
-
-.menu-icon-svg {
-    width: 24px;
-    height: 24px;
-    stroke: #64748b;
-    stroke-width: 2;
-}
-
-.menu-item:hover .menu-icon-svg {
-    stroke: #7c3aed;
-}
-
-.menu-item.logout{
-    color:#dc2626;
-    margin-top:4px;
-    border-top:1px solid #f1f5f9;
-    border-radius: 0 0 12px 12px;
-    padding-top: 12px;
-}
-
-.menu-item.logout:hover{
-    background:#fef2f2;
-    color:#b91c1c;
-}
-
-.menu-item.logout .menu-icon-svg {
-    stroke: #dc2626;
-}
-
-    font-size:18px;
-
-}
-
-/* ================= SEARCH ================= */
-
-.search-section{
-    background:transparent;
-    padding:14px 16px 8px;
-    margin-top:4px;
-}
-
-.search-box{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    background:#ffffff;
-    padding:6px 10px;
-    border-radius:18px;
-    box-shadow:0 8px 20px rgba(124, 58, 237, 0.06);
-    border:1px solid #f1f5f9;
-    height:56px;
-    overflow:hidden;
-}
-
-.search-box input{
-    flex:1;
-    height:100%;
-    border:none;
-    padding:0 8px;
-    font-size:15px;
-    font-weight:500;
-    outline:none;
-    background:transparent;
-    color:var(--text);
-    min-width: 0;
-}
-
-.search-btn-icon {
-    color: var(--text-muted);
-    margin-right: 4px;
-    flex-shrink: 0;
+button {
     cursor: pointer;
 }
 
+img,
+video,
+iframe {
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+}
+
+/* =========================
+   2. COMMON
+   ========================= */
+
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+    animation: fadeIn .35s ease both;
+}
+
+.fade-up {
+    animation: fadeUp .4s ease both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.08);
+        opacity: .7;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* =========================
+   3. HEADER
+   ========================= */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    width: 100%;
+    min-height: 72px;
+
+    padding: 14px 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: #fff;
+    background: var(--gradient);
+
+    box-shadow: 0 6px 22px rgba(109, 40, 217, .18);
+
+    border-radius: 0 0 22px 22px;
+}
+
+.header-center {
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.logo {
+    color: #fff;
+    font-size: 29px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.7px;
+}
+
+.tagline {
+    margin-top: 4px;
+    color: rgba(255,255,255,.88);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.brand-handshake-img {
+    width: 54px;
+    height: 42px;
+    object-fit: contain;
+    margin: 0;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,.15));
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu-btn,
+.notify-btn,
+.back-btn,
+.back-btn-small {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 13px;
+
+    color: #fff;
+    background: rgba(255,255,255,.14);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    transition: var(--transition);
+}
+
+.menu-btn:hover,
+.notify-btn:hover,
+.back-btn:hover,
+.back-btn-small:hover {
+    background: rgba(255,255,255,.24);
+    transform: translateY(-1px);
+}
+
+.menu-btn:active,
+.notify-btn:active,
+.back-btn:active,
+.back-btn-small:active {
+    transform: scale(.93);
+}
+
+.header-icon,
+.menu-btn svg,
+.notify-btn svg {
+    width: 21px;
+    height: 21px;
+    stroke: currentColor;
+}
+
+/* =========================
+   4. DROPDOWN MENU
+   ========================= */
+
+.dropdown-menu {
+    position: fixed;
+    top: 64px;
+    right: 14px;
+    z-index: 1100;
+
+    width: 215px;
+    padding: 8px;
+
+    display: none;
+    flex-direction: column;
+
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.dropdown-menu.show {
+    display: flex;
+    animation: fadeUp .2s ease;
+}
+
+.menu-item {
+    min-height: 46px;
+    padding: 9px 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: var(--text-secondary);
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    border-radius: 12px;
+
+    transition: var(--transition);
+}
+
+.menu-item:hover {
+    color: var(--primary);
+    background: #f5f3ff;
+}
+
+.menu-icon-svg {
+    width: 21px;
+    height: 21px;
+    stroke: currentColor;
+}
+
+.menu-item.logout {
+    margin-top: 5px;
+    color: var(--danger);
+    border-top: 1px solid var(--border-light);
+    border-radius: 0 0 12px 12px;
+}
+
+.menu-item.logout:hover {
+    background: #fef2f2;
+}
+
+/* =========================
+   5. SEARCH
+   ========================= */
+
+.search-section {
+    width: 100%;
+    padding: 14px 16px 8px;
+}
+
+.search-box {
+    width: 100%;
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 5px 7px 5px 12px;
+
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+
+    box-shadow: var(--shadow-sm);
+
+    transition: var(--transition);
+}
+
+.search-box:focus-within {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 4px rgba(124,58,237,.08);
+}
+
+.search-box input {
+    flex: 1;
+    width: 0;
+    min-width: 0;
+    height: 100%;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.search-box input::placeholder {
+    color: #94a3b8;
+}
+
+.search-btn-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--muted);
+    flex-shrink: 0;
+}
+
 .voice-btn,
-.camera-btn{
-    width:42px;
-    height:42px;
-    border:none;
-    border-radius:12px;
-    background:var(--sellby-gradient);
-    color:#ffffff;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-    transition:all 0.3s ease;
-    box-shadow:0 4px 12px rgba(124, 58, 237, 0.25);
+.camera-btn {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 12px;
+
+    color: #fff;
+    background: var(--gradient);
+
+    box-shadow: 0 5px 14px rgba(124,58,237,.20);
+
+    transition: var(--transition);
+}
+
+.voice-btn:hover,
+.camera-btn:hover {
+    transform: translateY(-1px);
+}
+
+.voice-btn:active,
+.camera-btn:active {
+    transform: scale(.93);
 }
 
 .action-icon-svg {
     width: 20px;
-    height: 22px;
+    height: 20px;
 }
 
-.voice-btn:hover,
-.camera-btn:hover{
-    transform:translateY(-1px);
-    box-shadow:0 6px 16px rgba(124, 58, 237, 0.35);
-}
-
-.voice-btn:active,
-.camera-btn:active{
-    transform:scale(0.94);
-}
-/* ===================================================== */
-/*                  SELLBY STYLE.CSS                     */
-/*                     CSS PART 2                        */
-/* ===================================================== */
-/*
-    File Name : style.css
-    Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
-    Contains  :
-    ✔ Hero Section
-    ✔ Section Title
-    ✔ Premium Category Cards
-*/
-/* ===================================================== */
-
-/* ================= HERO ================= */
-
-.hero{
-
-    text-align:center;
-
-    background:linear-gradient(135deg,#f5f3ff 0%,#fdf2f8 100%);
-
-    color:var(--text);
-
-    padding:32px 20px;
-
-    border-radius:20px;
-
-    margin:16px 18px;
-
-    border:1px solid rgba(124, 58, 237, 0.1);
-
-    box-shadow:var(--shadow);
-
-}
-
-.hero h2{
-
-    font-size:28px;
-
-    font-weight:800;
-
-    color:var(--sellby-purple-dark);
-
-    margin-bottom:8px;
-
-}
-
-.hero p{
-
-    font-size:15px;
-
-    color:var(--text-muted);
-
-}
-
-/* ================= SECTION TITLE ================= */
-
-.section-title{
-
-    font-size:22px;
-
-    font-weight:700;
-
-    color:var(--text);
-
-    margin:25px 20px 18px;
-
-}
-
-/* ================= CATEGORIES ================= */
-
-.categories{
-
-    padding:10px 20px 30px;
-
-}
-
-.category-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:18px;
-
-}
-
-.category-card{
-
-    background:#ffffff;
-
-    border-radius:24px;
-
-    padding:32px 18px;
-
-    text-align:center;
-
-    text-decoration:none;
-
-    color:var(--text);
-
-    box-shadow:0 10px 30px rgba(124, 58, 237, 0.08);
-
-    border:1px solid #f1f5f9;
-
-    transition:all .30s cubic-bezier(0.4, 0, 0.2, 1);
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    min-height:145px;
-
-    position:relative;
-
-    overflow:hidden;
-
-}
-
-.category-card:hover{
-
-    transform:translateY(-6px) scale(1.02);
-
-    box-shadow:0 16px 36px rgba(124, 58, 237, 0.16);
-
-    border-color:rgba(124, 58, 237, 0.25);
-
-}
-
-.category-card:active{
-
-    transform:scale(0.97);
-
-}
-
-.category-icon-box{
-
-    width:72px;
-
-    height:72px;
-
-    border-radius:22px;
-
-    background:linear-gradient(135deg, #f5f3ff 0%, #fdf2f8 100%);
-
-    border:1px solid rgba(124, 58, 237, 0.12);
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    margin-bottom:14px;
-
-    box-shadow:0 8px 20px rgba(124, 58, 237, 0.08);
-
-    transition:transform .3s cubic-bezier(0.4, 0, 0.2, 1), background .3s ease;
-
-}
-
-.category-icon-box svg{
-
-    width:40px;
-
-    height:40px;
-
-}
-
-.category-card:hover .category-icon-box{
-
-    transform:scale(1.1) translateY(-2px);
-
-    background:linear-gradient(135deg, #ede9fe 0%, #fce7f3 100%);
-
-    box-shadow:0 12px 25px rgba(124, 58, 237, 0.18);
-
-}
-
-.category-icon{
-
-    font-size:42px;
-
-    line-height:1;
-
-    transition:transform .3s ease;
-
-}
-
-.category-card:hover .category-icon{
-
-    transform:scale(1.12);
-
-}
-
-.category-card h3{
-
-    font-size:17px;
-
-    font-weight:700;
-
-    color:#0f172a;
-
-    letter-spacing:-0.2px;
-
-}
-
-/* ================= LATEST ADS ================= */
-
-.latest-ads{
-
-    padding:10px 18px 30px;
-
-}
-
-#latestAds{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:16px;
-
-}
-/* ===================================================== */
-/*                  SELLBY STYLE.CSS                     */
-/*                     CSS PART 3                        */
-/* ===================================================== */
-/*
-    File Name : style.css
-    Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
-    Contains  :
-    ✔ Bottom Navigation
-    ✔ Floating Add to Sell Button
-    ✔ Mobile Responsive
-*/
-/* ===================================================== */
-
-/* ================= BOTTOM NAVIGATION ================= */
-
-.bottom-nav{
-
-    position:fixed;
-
-    bottom:0;
-
-    left:0;
-
-    width:100%;
-
-    height:72px;
-
-    background:#ffffff;
-
-    display:flex;
-
-    justify-content:space-around;
-
-    align-items:center;
-
-    box-shadow:0 -4px 20px rgba(124, 58, 237, .08);
-
-    border-top:1px solid #f1f5f9;
-
-    z-index:999;
-
-}
-
-.bottom-nav a{
-
-    text-decoration:none;
-
-    color:#64748b;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:4px;
-
-    font-size:12px;
-
-    font-weight:600;
-
-    transition:.25s;
-
-}
-
-.bottom-nav a.active,
-
-.bottom-nav a:hover{
-
-    color:var(--sellby-pink);
-
-}
-
-.bottom-nav span{
-
-    font-size:24px;
-
-}
-
-.bottom-nav .nav-icon{
-
-    width:24px;
-    height:24px;
-    stroke:#64748b;
-    transition:all .25s ease;
-
-}
-
-.bottom-nav a.active .nav-icon,
-.bottom-nav a:hover .nav-icon{
-
-    stroke:var(--sellby-pink);
-    transform:scale(1.12);
-
-}
-
-/* ================= FLOATING BUTTON ================= */
-
-.floating-post-btn{
-
-    position:fixed;
-
-    right:18px;
-
-    bottom:90px;
-
-    width:78px;
-
-    height:78px;
-
-    background:var(--sellby-gradient);
-
-    color:#ffffff;
-
-    border-radius:22px;
-
-    text-decoration:none;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.25);
-
-    transition:.25s;
-
-    z-index:1000;
-
-}
-
-.floating-post-btn:hover{
-
-    transform:scale(1.06);
-
-}
-
-.plus-icon{
-
-    font-size:34px;
-
-    line-height:1;
-
-    font-weight:700;
-
-}
-
-.floating-text{
-
-    margin-top:4px;
-
-    font-size:10px;
-
-    font-weight:700;
-
-    text-align:center;
-
-    line-height:1.2;
-
-    padding:0 4px;
-
-}
-
-/* ================= MOBILE ================= */
-
-@media (max-width:480px){
-
-    .logo{
-
-        font-size:28px;
-
-    }
-
-    .hero h2{
-
-        font-size:24px;
-
-    }
-
-    .hero p{
-
-        font-size:14px;
-
-    }
-
-    .category-grid{
-
-        gap:14px;
-
-    }
-
-    .category-card{
-
-        padding:22px 14px;
-
-    }
-
-    .category-icon{
-
-        font-size:46px;
-
-    }
-
-    .category-card h3{
-
-        font-size:16px;
-
-    }
-
-    .floating-post-btn{
-
-        width:76px;
-
-        height:76px;
-
-        right:14px;
-
-        bottom:88px;
-
-    }
-
-}
-/* ===================================================== */
-/*                  SELLBY STYLE.CSS                     */
-/*                     CSS PART 4                        */
-/* ===================================================== */
-/*
-    File Name : style.css
-    Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
-    Contains  :
-    ✔ Premium UI Polish
-    ✔ Category Card Effects
-    ✔ Search Effects
-    ✔ Header Effects
-    ✔ Smooth Animation
-*/
-/* ===================================================== */
-
-/* ================= PREMIUM EFFECTS ================= */
-
-html{
+/* =========================
+   6. HERO
+   ========================= */
 
-    scroll-behavior:smooth;
+.hero {
+    margin: 14px 16px;
+    padding: 28px 18px;
 
-}
-
-body{
-
-    overflow-x:hidden;
-
-}
-
-/* ================= HEADER ================= */
-
-.header{
-
-    border-bottom-left-radius:22px;
-
-    border-bottom-right-radius:22px;
-
-}
-
-/* ================= SEARCH ================= */
-
-.search-box input::placeholder{
-
-    color:#888;
-
-}
-
-.search-box input:focus{
-
-    box-shadow:0 0 0 4px rgba(30,136,229,.15);
-
-}
-
-/* ================= CATEGORY ================= */
-
-.category-card{
-
-    cursor:pointer;
-
-    border:2px solid transparent;
-
-}
-
-.category-card:hover{
-
-    border-color:#1E88E5;
-
-    background:#F8FBFF;
-
-}
-
-.category-card:active{
-
-    transform:scale(.96);
-
-}
-
-.category-icon{
-
-    transition:.30s;
-
-}
-
-.category-card:hover .category-icon{
-
-    transform:scale(1.18);
-
-}
-
-/* ================= SECTION TITLE ================= */
-
-.section-title{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-}
-
-/* ================= LATEST ADS ================= */
-
-#latestAds{
-
-    min-height:180px;
-
-}
-
-/* ================= SCROLL BAR ================= */
-
-::-webkit-scrollbar{
-
-    width:6px;
-
-}
-
-::-webkit-scrollbar-thumb{
-
-    background:#1E88E5;
-
-    border-radius:20px;
-
-}
-
-::-webkit-scrollbar-track{
-
-    background:#EAF2FF;
-
-}
-
-/* ================= ANIMATION ================= */
-
-@keyframes fadeUp{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(20px);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0);
-
-    }
-
-}
-
-.hero,
-.category-card,
-.latest-ads{
-
-    animation:fadeUp .45s ease;
-
-}
-/* ===================================================== */
-/*                  SELLBY STYLE.CSS                     */
-/*                     CSS PART 5                        */
-/* ===================================================== */
-/*
-    File Name : style.css
-    Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
-    Contains  :
-    ✔ Premium Latest Ad Card
-    ✔ Featured Card
-    ✔ Price
-    ✔ Location
-    ✔ Save Button
-*/
-/* ===================================================== */
-
-/* ================= AD CARD ================= */
-
-.ad-card{
-
-    background:#ffffff;
-
-    border-radius:22px;
-
-    overflow:hidden;
-
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-
-    margin-bottom:18px;
-
-    transition:.30s;
-
-}
-
-.ad-card:hover{
-
-    transform:translateY(-5px);
-
-}
-
-.ad-image{
-
-    width:100%;
-
-    height:220px;
-
-    background:#EEF4FF;
-
-    position:relative;
-
-    overflow:hidden;
-
-}
-
-.ad-image img{
-
-    width:100%;
-
-    height:100%;
-
-    object-fit:cover;
-
-}
-
-.save-btn{
-
-    position:absolute;
-
-    top:14px;
-
-    right:14px;
-
-    width:46px;
-
-    height:46px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:#ffffff;
-
-    box-shadow:0 5px 15px rgba(0,0,0,.18);
+    text-align: center;
 
-    font-size:22px;
+    background: var(--gradient-soft);
+    border: 1px solid rgba(124,58,237,.09);
+    border-radius: var(--radius-lg);
 
-    cursor:pointer;
+    box-shadow: var(--shadow-sm);
 
+    animation: fadeUp .4s ease;
 }
 
-.ad-content{
+.hero h2 {
+    margin-bottom: 7px;
 
-    padding:18px;
-
-}
-
-.ad-title{
-
-    font-size:20px;
-
-    font-weight:700;
-
-    color:#222;
-
-    margin-bottom:10px;
-
-}
-
-.ad-price{
-
-    font-size:26px;
-
-    font-weight:800;
-
-    color:var(--sellby-purple-dark);
-
-    margin-bottom:10px;
-
-}
-
-.ad-location{
-
-    color:var(--text-muted);
-
-    font-size:14px;
-
-    margin-bottom:14px;
-
-}
-
-.ad-tags{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:8px;
-
-}
-
-.ad-tag{
-
-    padding:6px 12px;
-
-    border-radius:30px;
-
-    background:#f5f3ff;
-
-    color:var(--sellby-purple-dark);
-
-    font-size:12px;
-
-    font-weight:600;
-
-    border:1px solid rgba(124, 58, 237, 0.12);
-
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:480px){
-
-    .ad-image{
-
-        height:190px;
-
-    }
-
-    .ad-title{
-
-        font-size:18px;
-
-    }
-
-    .ad-price{
-
-        font-size:22px;
-
-    }
-
-}
-/* ===================================================== */
-/*                  SELLBY STYLE.CSS                     */
-/*                     CSS PART 6                        */
-/* ===================================================== */
-/*
-    File Name : style.css
-    Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
-    Contains  :
-    ✔ Premium Floating Button
-    ✔ Premium Bottom Navigation
-    ✔ Active Menu
-    ✔ Ripple Effect
-*/
-/* ===================================================== */
-
-/* ================= FLOATING BUTTON ================= */
-
-.floating-post-btn{
-    position:fixed;
-    right:20px;
-    bottom:95px;
-    width:76px;
-    height:76px;
-    background:var(--sellby-gradient);
-    color:#ffffff;
-    border-radius:20px;
-    text-decoration:none;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 12px 28px rgba(124, 58, 237, 0.35);
-    transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index:1000;
-    border: 1.5px solid rgba(255,255,255,0.2);
-}
-
-.floating-post-btn:hover{
-    transform:translateY(-5px) scale(1.05);
-    box-shadow:0 15px 35px rgba(124, 58, 237, 0.45);
-}
-
-.floating-post-btn:active{
-    transform:scale(0.94);
-}
-
-.plus-icon-svg{
-    width:30px;
-    height:30px;
-    margin-bottom: 2px;
-}
-
-.floating-text{
-    font-size:10px;
-    font-weight:700;
-    text-align:center;
-    line-height:1;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
+    color: var(--primary);
+    font-size: 25px;
+    font-weight: 800;
 }
 
-/* ================= ACTIVE MENU ================= */
-
-.bottom-nav a.active{
-
-    color:#0B3D91;
-
-}
-
-.bottom-nav a.active span{
-
-    transform:scale(1.12);
-
-}
-
-/* ================= RIPPLE EFFECT ================= */
-
-.category-card,
-.bottom-nav a,
-.floating-post-btn{
-
-    -webkit-tap-highlight-color:transparent;
-
-}
-
-/* ================= MOBILE ================= */
-
-@media(max-width:480px){
-
-    .floating-post-btn{
-
-        width:88px;
-
-        height:88px;
-
-        right:14px;
-
-        bottom:88px;
-
-    }
-
-    .plus-icon{
-
-        font-size:36px;
-
-    }
-
-    .floating-text{
-
-        font-size:9px;
-
-    }
-
-}
-/* ===================================================== */
-/*                  SELLBY STYLE.CSS                     */
-/*                     CSS PART 7                        */
-/* ===================================================== */
-/*
-    File Name : style.css
-    Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
-    Contains  :
-    ✔ Premium Icon Containers
-    ✔ Premium Card Effects
-    ✔ Blue Highlight
-    ✔ Responsive
-*/
-/* ===================================================== */
-
-/* ================= PREMIUM CATEGORY ICON ================= */
-
-.category-icon{
-
-    width:82px;
-
-    height:82px;
-
-    margin:0 auto 16px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    background:linear-gradient(135deg,#EEF5FF,#FFFFFF);
-
-    border-radius:24px;
-
-    box-shadow:0 8px 18px rgba(30,136,229,.18);
-
-    transition:.35s;
-
-    overflow:hidden;
-
-}
-
-.category-icon img{
-
-    width:58px;
-
-    height:58px;
-
-    object-fit:contain;
-
-}
-
-.category-card:hover .category-icon{
-
-    transform:translateY(-5px) scale(1.08);
-
-    box-shadow:0 15px 30px rgba(11,61,145,.25);
-
+.hero p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
 }
 
-/* ================= CATEGORY TITLE ================= */
-
-.category-card h3{
-
-    margin-top:8px;
-
-    color:#0B3D91;
-
-    font-size:18px;
-
-    font-weight:700;
-
-    line-height:1.3;
-
-}
+/* =========================
+   7. SECTION TITLE
+   ========================= */
 
-/* ================= CATEGORY PAGE HEADER ================= */
+.section-title {
+    margin: 24px 18px 14px;
 
-.category-header {
-    background: var(--sellby-gradient-header);
-    padding: 16px 18px;
     display: flex;
     align-items: center;
-    gap: 16px;
-    color: #ffffff;
-    box-shadow: 0 4px 20px rgba(109, 40, 217, 0.15);
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    justify-content: space-between;
+
+    color: var(--text);
+    font-size: 20px;
+    font-weight: 700;
 }
 
-.back-btn-small {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.18);
-    border: 1px solid rgba(255,255,255,0.25);
+/* =========================
+   8. CATEGORIES
+   ========================= */
+
+.categories {
+    width: 100%;
+    padding: 6px 16px 24px;
+}
+
+.category-grid {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 14px;
+}
+
+.category-card {
+    min-height: 140px;
+    padding: 20px 12px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    text-decoration: none;
+
+    background: #fff;
+    color: var(--text);
+
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(124,58,237,.18);
+    box-shadow: var(--shadow-md);
+}
+
+.category-card:active {
+    transform: scale(.97);
+}
+
+.category-icon-box {
+    width: 62px;
+    height: 62px;
+    margin-bottom: 11px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ffffff;
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    flex-shrink: 0;
-    font-size: 20px;
+
+    background: var(--gradient-soft);
+    border: 1px solid rgba(124,58,237,.10);
+    border-radius: 18px;
+
+    box-shadow: 0 6px 16px rgba(124,58,237,.08);
+
+    transition: var(--transition);
+}
+
+.category-card:hover .category-icon-box {
+    transform: scale(1.06);
+}
+
+.category-icon-box svg,
+.category-icon-box img,
+.category-icon-box i {
+    width: 32px;
+    height: 32px;
+}
+
+.category-icon {
+    width: 62px;
+    height: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 11px;
+
+    background: var(--gradient-soft);
+    border-radius: 18px;
+
+    font-size: 32px;
     line-height: 1;
-    padding: 0;
 }
 
-.back-btn-small:hover {
-    background: rgba(255,255,255,0.28);
-    transform: translateY(-1px);
+.category-icon img {
+    width: 43px;
+    height: 43px;
+    object-fit: contain;
 }
 
-.back-btn-small:active {
-    transform: scale(0.92);
+.category-card h3 {
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+/* =========================
+   9. CATEGORY HEADER
+   ========================= */
+
+.category-header {
+    width: 100%;
+    min-height: 68px;
+
+    padding: 12px 16px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: #fff;
+    background: var(--gradient);
+
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 5px 18px rgba(109,40,217,.15);
 }
 
 .category-title-area {
     flex: 1;
-    overflow: hidden;
+    min-width: 0;
 }
 
 .category-title-area h1 {
-    font-size: 19px;
+    font-size: 18px;
     font-weight: 700;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .category-title-area p {
-    font-size: 12px;
-    opacity: 0.9;
+    margin-top: 2px;
+    color: rgba(255,255,255,.82);
+    font-size: 11px;
 }
 
-/* ================= MOBILE ================= */
-
-@media(max-width:480px){
-
-    .category-icon{
-
-        width:72px;
-
-        height:72px;
-
-    }
-
-    .category-icon img{
-
-        width:50px;
-
-        height:50px;
-
-    }
-
-    .category-card h3{
-
-        font-size:16px;
-
-    }
-
-}
-/* ===================================================== */
-/*                  SELLBY STYLE.CSS                     */
-/*                     CSS PART 8                        */
-/* ===================================================== */
-/*
-    File Name : style.css
-    Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
-    Contains  :
-    ✔ Featured Ads
-    ✔ Premium Ad Grid
-    ✔ Skeleton Loading
-    ✔ UI Polish
-*/
-/* ===================================================== */
-
-/* ================= FEATURED ADS ================= */
-
-.featured-section{
-
-    padding:20px 18px;
-
+.back-btn-small {
+    flex-shrink: 0;
 }
 
-.featured-grid{
+/* =========================
+   10. LATEST ADS
+   ========================= */
 
-    display:grid;
-
-    grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
-
-    gap:18px;
-
+.latest-ads {
+    width: 100%;
+    padding: 8px 16px 28px;
 }
 
-/* ================= FEATURED CARD ================= */
+#latestAds {
+    width: 100%;
+    min-height: 80px;
 
-.featured-card{
-
-    background:#ffffff;
-
-    border-radius:22px;
-
-    overflow:hidden;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
-
-    transition:.30s;
-
-    cursor:pointer;
-
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
 }
 
-.featured-card:hover{
+/* =========================
+   11. AD CARD
+   ========================= */
 
-    transform:translateY(-5px);
+.ad-card {
+    position: relative;
 
+    width: 100%;
+
+    display: flex;
+    gap: 13px;
+
+    padding: 12px;
+
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+
+    box-shadow: var(--shadow-sm);
+
+    transition: var(--transition);
 }
 
-.featured-card img{
-
-    width:100%;
-
-    height:170px;
-
-    object-fit:cover;
-
+.ad-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
-.featured-info{
+.ad-image {
+    width: 105px;
+    height: 105px;
+    flex-shrink: 0;
 
-    padding:14px;
+    overflow: hidden;
 
+    background: #f1f5f9;
+    border-radius: 14px;
 }
 
-.featured-title{
-
-    font-size:16px;
-
-    font-weight:700;
-
-    color:#222;
-
-    margin-bottom:8px;
-
+.ad-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.featured-price{
-
-    font-size:20px;
-
-    color:var(--sellby-purple-dark);
-
-    font-weight:700;
-
+.ad-content {
+    flex: 1;
+    min-width: 0;
+    padding: 2px 0;
 }
 
-.featured-location{
+.ad-title {
+    margin-bottom: 5px;
 
-    margin-top:6px;
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 700;
 
-    color:var(--text-muted);
-
-    font-size:13px;
-
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-/* ================= SKELETON LOADING ================= */
+.ad-price {
+    margin-bottom: 5px;
 
-.skeleton{
-
-    width:100%;
-
-    height:220px;
-
-    border-radius:20px;
-
-    background:linear-gradient(
-        90deg,
-        #f1f1f1 25%,
-        #e5e5e5 50%,
-        #f1f1f1 75%
-    );
-
-    background-size:200% 100%;
-
-    animation:skeleton-loading 1.3s infinite;
-
+    color: var(--primary);
+    font-size: 18px;
+    font-weight: 800;
 }
 
-@keyframes skeleton-loading{
+.ad-location {
+    margin-bottom: 7px;
 
-    0%{
-
-        background-position:200% 0;
-
-    }
-
-    100%{
-
-        background-position:-200% 0;
-
-    }
-
+    color: var(--muted);
+    font-size: 11px;
 }
 
-/* ================= MOBILE ================= */
-
-@media(max-width:480px){
-
-    .featured-grid{
-
-        grid-template-columns:1fr 1fr;
-
-        gap:14px;
-
-    }
-
-    .featured-card img{
-
-        height:145px;
-
-    }
-
-    .featured-title{
-
-        font-size:15px;
-
-    }
-
-    .featured-price{
-
-        font-size:18px;
-
-    }
-
-}
-/* ===================================================== */
-/*                  SELLBY STYLE.CSS                     */
-/*                     CSS PART 9                        */
-/* ===================================================== */
-/*
-    File Name : style.css
-    Project   : SELLBY
-    Version   : V2.0
-    Mission   : Sell Easy. Buy Easy.
-    Contains  :
-    ✔ Premium Buttons
-    ✔ Smooth Animations
-    ✔ Glass Effect
-    ✔ UI Polish
-*/
-/* ===================================================== */
-
-/* ================= PREMIUM BUTTON ================= */
-
-.primary-btn{
-
-    width:100%;
-
-    height:54px;
-
-    border:none;
-
-    border-radius:16px;
-
-    background:var(--sellby-gradient);
-
-    color:#ffffff;
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    box-shadow:0 10px 20px rgba(124, 58, 237, .25);
-
+.ad-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
-.primary-btn:hover{
+.ad-tag {
+    padding: 4px 8px;
 
-    transform:translateY(-2px);
+    color: var(--primary);
+    background: #f5f3ff;
 
-    box-shadow:0 14px 24px rgba(124, 58, 237, .35);
+    border: 1px solid #ede9fe;
+    border-radius: 20px;
 
+    font-size: 10px;
+    font-weight: 600;
 }
 
-.primary-btn:active{
+.save-btn {
+    position: absolute;
+    top: 9px;
+    right: 9px;
 
-    transform:scale(.98);
+    width: 34px;
+    height: 34px;
 
-}
-
-/* ================= GLASS CARD ================= */
-
-.glass-card{
-
-    background:rgba(255,255,255,.75);
-
-    backdrop-filter:blur(12px);
-
-    -webkit-backdrop-filter:blur(12px);
-
-    border:1px solid rgba(255,255,255,.40);
-
-    border-radius:22px;
-
-}
-
-/* ================= HOVER EFFECT ================= */
-
-.ad-card,
-.category-card,
-.featured-card{
-
-    transition:all .30s ease;
-
-}
-
-.ad-card:hover,
-.category-card:hover,
-.featured-card:hover{
-
-    box-shadow:0 15px 35px rgba(11,61,145,.15);
-
-}
-
-/* ================= FADE ANIMATION ================= */
-
-.fade-up{
-
-    animation:fadeUp .45s ease forwards;
-
-}
-
-.fade-in{
-
-    animation:fadeIn .45s ease forwards;
-
-}
-
-@keyframes fadeIn{
-
-    from{
-
-        opacity:0;
-
-    }
-
-    to{
-
-        opacity:1;
-
-    }
-
-}
-
-/* ================= SAFE SPACING ================= */
-
-section{
-
-    margin-bottom:10px;
-
-}
-
-/* ===================================================== */
-/*              SELLBY AUTHENTICATION STYLES             */
-/* ===================================================== */
-
-.auth-page {
-    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px 16px;
-    background: linear-gradient(135deg, #f5f3ff 0%, #fdf2f8 50%, #ffffff 100%);
+
+    border: 0;
+    border-radius: 50%;
+
+    color: var(--text-secondary);
+    background: rgba(255,255,255,.95);
+
+    box-shadow: 0 4px 12px rgba(0,0,0,.10);
+
+    font-size: 17px;
+}
+
+/* =========================
+   12. FEATURED ADS
+   ========================= */
+
+.featured-section {
+    padding: 14px 16px 28px;
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 13px;
+}
+
+.featured-card {
+    overflow: hidden;
+
+    background: #fff;
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+
+    box-shadow: var(--shadow-sm);
+
+    transition: var(--transition);
+}
+
+.featured-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.featured-card img {
+    width: 100%;
+    height: 145px;
+    object-fit: cover;
+}
+
+.featured-info {
+    padding: 11px;
+}
+
+.featured-title {
+    margin-bottom: 5px;
+
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.featured-price {
+    color: var(--primary);
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.featured-location {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+/* =========================
+   13. SKELETON
+   ========================= */
+
+.skeleton {
+    width: 100%;
+    height: 130px;
+
+    border-radius: 18px;
+
+    background: linear-gradient(
+        90deg,
+        #f1f5f9 25%,
+        #e2e8f0 50%,
+        #f1f5f9 75%
+    );
+
+    background-size: 200% 100%;
+    animation: skeletonMove 1.3s infinite;
+}
+
+@keyframes skeletonMove {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* =========================
+   14. FLOATING ADD / SELL
+   ========================= */
+
+.floating-post-btn {
+    position: fixed;
+    right: 16px;
+    bottom: 88px;
+    z-index: 1000;
+
+    width: 68px;
+    height: 68px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+    background: var(--gradient);
+
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 20px;
+
+    text-decoration: none;
+
+    box-shadow: 0 12px 28px rgba(109,40,217,.28);
+
+    transition: var(--transition);
+}
+
+.floating-post-btn:hover {
+    transform: translateY(-4px) scale(1.03);
+}
+
+.floating-post-btn:active {
+    transform: scale(.93);
+}
+
+.plus-icon,
+.plus-icon-svg {
+    width: 27px;
+    height: 27px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 29px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.floating-text {
+    margin-top: 3px;
+
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+
+    text-transform: uppercase;
+}
+
+/* =========================
+   15. BOTTOM NAV
+   ========================= */
+
+.bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+
+    width: 100%;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    padding: 5px 8px;
+
+    background: rgba(255,255,255,.97);
+    border-top: 1px solid var(--border-light);
+
+    box-shadow: 0 -6px 22px rgba(15,23,42,.06);
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.bottom-nav a {
+    flex: 1;
+    height: 58px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+
+    color: #94a3b8;
+
+    text-decoration: none;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    transition: var(--transition);
+}
+
+.bottom-nav a.active {
+    color: var(--primary);
+}
+
+.bottom-nav a:hover {
+    color: var(--primary);
+}
+
+.bottom-nav .nav-icon {
+    width: 23px;
+    height: 23px;
+
+    stroke: currentColor;
+
+    transition: var(--transition);
+}
+
+.bottom-nav a.active .nav-icon {
+    transform: scale(1.08);
+}
+
+.bottom-nav span,
+.bottom-nav small {
+    font-size: 10px;
+    line-height: 1;
+}
+
+/* =========================
+   16. GENERAL BUTTONS
+   ========================= */
+
+.primary-btn,
+.publish-btn,
+.submit-btn,
+.btn-primary {
+    width: 100%;
+    min-height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 15px;
+
+    color: #fff;
+    background: var(--gradient);
+
+    font-size: 15px;
+    font-weight: 700;
+
+    box-shadow: 0 9px 20px rgba(124,58,237,.20);
+
+    transition: var(--transition);
+}
+
+.primary-btn:hover,
+.publish-btn:hover,
+.submit-btn:hover,
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 13px 26px rgba(124,58,237,.28);
+}
+
+.primary-btn:active,
+.publish-btn:active,
+.submit-btn:active,
+.btn-primary:active {
+    transform: scale(.98);
+}
+
+/* =========================
+   17. FORMS
+   ========================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label,
+label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+textarea,
+input,
+select {
+    outline: none;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    height: 50px;
+
+    padding: 0 14px;
+
+    color: var(--text);
+    background: #fff;
+
+    border: 1px solid var(--border);
+    border-radius: 13px;
+
+    font-size: 14px;
+
+    transition: var(--transition);
+}
+
+.form-group textarea,
+textarea {
+    width: 100%;
+    min-height: 105px;
+
+    padding: 13px 14px;
+
+    color: var(--text);
+    background: #fff;
+
+    border: 1px solid var(--border);
+    border-radius: 13px;
+
+    font-size: 14px;
+
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+textarea:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 4px rgba(124,58,237,.08);
+}
+
+/* =========================
+   18. UPLOAD
+   ========================= */
+
+.upload-field,
+.upload-box,
+.image-upload-box {
+    width: 100%;
+    min-height: 130px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 16px;
+
+    color: var(--muted);
+    background: #fafafa;
+
+    border: 1.5px dashed #cbd5e1;
+    border-radius: 18px;
+
+    transition: var(--transition);
+}
+
+.upload-field:hover,
+.upload-box:hover,
+.image-upload-box:hover {
+    color: var(--primary);
+    background: #faf8ff;
+    border-color: var(--primary-light);
+}
+
+/* =========================
+   19. AUTH / LOGIN
+   ========================= */
+
+.auth-page {
+    width: 100%;
+    min-height: 100dvh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px 16px;
+
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(124,58,237,.11),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 90% 90%,
+            rgba(219,39,119,.10),
+            transparent 35%
+        ),
+        #f8fafc;
 }
 
 .auth-card {
-    width: 100%;
-    max-width: 440px;
-    background: #ffffff;
-    border-radius: 28px;
-    padding: 40px 32px;
-    box-shadow: 0 20px 40px rgba(124, 58, 237, 0.08), 0 1px 3px rgba(0,0,0,0.05);
-    border: 1px solid rgba(124, 58, 237, 0.1);
     position: relative;
+
+    width: 100%;
+    max-width: 430px;
+
+    padding: 34px 28px 30px;
+
+    background: #fff;
+
+    border: 1px solid rgba(124,58,237,.10);
+    border-radius: 28px;
+
+    box-shadow: var(--shadow-lg);
+
     overflow: hidden;
-    transition: all 0.3s ease;
 }
 
 .auth-card::before {
-    content: '';
+    content: "";
+
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, #7c3aed, #db2777, #ec4899);
+
+    height: 5px;
+
+    background: linear-gradient(
+        90deg,
+        #6d28d9,
+        #7c3aed,
+        #db2777,
+        #ec4899
+    );
 }
 
 .auth-header {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
 }
 
 .auth-brand-logo {
+    margin: 0;
+
     font-size: 38px;
     font-weight: 800;
-    letter-spacing: -0.5px;
-    margin-bottom: 4px;
-    font-family: 'Poppins', sans-serif;
+    line-height: 1;
+    letter-spacing: -1px;
 }
 
-.auth-brand-logo .logo-sell {
-    color: #6d28d9;
+.logo-sell {
+    color: var(--primary);
 }
 
-.auth-brand-logo .logo-by {
-    background: linear-gradient(135deg, #db2777, #ec4899);
+.logo-by {
+    background: linear-gradient(
+        135deg,
+        #db2777,
+        #ec4899
+    );
+
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .auth-tagline {
-    font-size: 14px;
-    color: #64748b;
+    margin-top: 8px;
+
+    color: var(--muted);
+
+    font-size: 13px;
     font-weight: 500;
-    margin-bottom: 20px;
 }
 
 .auth-card-title {
-    font-size: 22px;
+    margin-bottom: 7px;
+
+    color: var(--text);
+
+    font-size: 21px;
     font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 8px;
 }
 
 .auth-card-subtitle {
-    font-size: 14px;
-    color: #64748b;
+    color: var(--muted);
+
+    font-size: 13px;
     line-height: 1.5;
 }
 
 .target-phone-highlight {
+    color: var(--primary);
     font-weight: 700;
-    color: #6d28d9;
 }
 
 .form-step {
-    display: block;
-    animation: fadeIn 0.3s ease-in-out;
+    width: 100%;
+    animation: fadeUp .3s ease;
 }
 
 .form-step.hidden {
-    display: none;
+    display: none !important;
 }
 
+/* =========================
+   20. PHONE LOGIN
+   ========================= */
+
 .phone-input-wrapper {
+    width: 100%;
+    height: 56px;
+
+    margin: 20px 0 18px;
+
     display: flex;
     align-items: center;
-    border: 2px solid #e2e8f0;
-    border-radius: 16px;
-    background: #f8fafc;
-    transition: all 0.2s ease;
+
     overflow: hidden;
-    margin-top: 16px;
-    margin-bottom: 24px;
+
+    background: #f8fafc;
+
+    border: 1.5px solid var(--border);
+    border-radius: 17px;
+
+    transition: var(--transition);
 }
 
 .phone-input-wrapper:focus-within {
-    border-color: #7c3aed;
-    background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.12);
+    background: #fff;
+    border-color: var(--primary-light);
+
+    box-shadow: 0 0 0 4px rgba(124,58,237,.09);
 }
 
 .country-code-select {
-    padding: 14px 12px;
-    background: #f1f5f9;
-    border: none;
-    border-right: 1px solid #e2e8f0;
-    font-size: 15px;
-    font-weight: 600;
-    color: #334155;
-    outline: none;
-    cursor: pointer;
-}
-
-.phone-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    padding: 14px 16px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #0f172a;
-    outline: none;
-    letter-spacing: 0.5px;
-}
-
-.phone-input::placeholder {
-    color: #94a3b8;
-    font-weight: 400;
-}
-
-.gradient-btn {
-    width: 100%;
-    height: 54px;
-    border: none;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    box-shadow: 0 10px 20px rgba(124, 58, 237, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.gradient-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 24px rgba(124, 58, 237, 0.35);
-}
-
-.gradient-btn:active:not(:disabled) {
-    transform: translateY(0);
-}
-
-.gradient-btn:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-}
-
-/* OTP 6-Digit Inputs */
-.otp-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    margin: 28px 0 24px 0;
-}
-
-.otp-field {
-    width: 48px;
-    height: 56px;
-    border: 2px solid #e2e8f0;
-    border-radius: 14px;
-    background: #f8fafc;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    color: #6d28d9;
-    outline: none;
-    transition: all 0.2s ease;
-}
-
-.otp-field:focus {
-    border-color: #ec4899;
-    background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.15);
-    transform: translateY(-2px);
-}
-
-.otp-field.filled {
-    border-color: #7c3aed;
-    background: #f5f3ff;
-}
-
-.otp-meta-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-    font-size: 14px;
-}
-
-.timer-badge {
-    color: #64748b;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.timer-badge strong {
-    color: #7c3aed;
-    font-weight: 700;
-}
-
-.resend-btn {
-    background: none;
-    border: none;
-    color: #db2777;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 0;
-    text-decoration: underline;
-    transition: color 0.2s;
-}
-
-.resend-btn:disabled {
-    color: #cbd5e1;
-    cursor: not-allowed;
-    text-decoration: none;
-}
-
-.change-num-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    background: none;
-    border: none;
-    color: #6d28d9;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 16px;
-    transition: opacity 0.2s;
-}
-
-.change-num-btn:hover {
-    opacity: 0.8;
-}
-
-.auth-status-msg {
-    margin-top: 18px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    display: none;
-    line-height: 1.4;
-    animation: fadeIn 0.25s ease;
-}
-
-.auth-status-msg.error {
-    display: block;
-    background: #fef2f2;
-    color: #dc2626;
-    border: 1px solid #fecaca;
-}
-
-.auth-status-msg.success {
-    display: block;
-    background: #f0fdf4;
-    color: #16a34a;
-    border: 1px solid #bbf7d0;
-}
-
-.auth-status-msg.info {
-    display: block;
-    background: #eff6ff;
-    color: #2563eb;
-    border: 1px solid #bfdbfe;
-}
-
-.spinner-icon {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    border: 2.5px solid rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    border-top-color: #ffffff;
-    animation: spin 0.8s linear infinite;
-}
-.country-code-select {
-    padding: 14px 12px;
-    background: #f1f5f9;
-    border: none;
-    border-right: 1px solid #e2e8f0;
-    font-size: 15px;
-    font-weight: 600;
-    color: #334155;
-    outline: none;
-    cursor: pointer;
-}
-
-.phone-input {
-    flex: 1;
-    border: none;
-    background: transparent;
-    padding: 14px 16px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #0f172a;
-    outline: none;
-    letter-spacing: 0.5px;
-}
-
-.phone-input::placeholder {
-    color: #94a3b8;
-    font-weight: 400;
-}
-
-.gradient-btn {
-    width: 100%;
-    height: 54px;
-    border: none;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    box-shadow: 0 10px 20px rgba(124, 58, 237, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.gradient-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 24px rgba(124, 58, 237, 0.35);
-}
-
-.gradient-btn:active:not(:disabled) {
-    transform: translateY(0);
-}
-
-.gradient-btn:disabled {
-    opacity: 0.65;
-    cursor: not-allowed;
-}
-
-/* OTP 6-Digit Inputs */
-.otp-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    margin: 28px 0 24px 0;
-}
-
-.otp-field {
-    width: 48px;
-    height: 56px;
-    border: 2px solid #e2e8f0;
-    border-radius: 14px;
-    background: #f8fafc;
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    color: #6d28d9;
-    outline: none;
-    transition: all 0.2s ease;
-}
-
-.otp-field:focus {
-    border-color: #ec4899;
-    background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.15);
-    transform: translateY(-2px);
-}
-
-.otp-field.filled {
-    border-color: #7c3aed;
-    background: #f5f3ff;
-}
-
-.otp-meta-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-    font-size: 14px;
-}
-
-.timer-badge {
-    color: #64748b;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.timer-badge strong {
-    color: #7c3aed;
-    font-weight: 700;
-}
-
-.resend-btn {
-    background: none;
-    border: none;
-    color: #db2777;
-    font-weight: 600;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 0;
-    text-decoration: underline;
-    transition: color 0.2s;
-}
-
-.resend-btn:disabled {
-    color: #cbd5e1;
-    cursor: not-allowed;
-    text-decoration: none;
-}
-
-.change-num-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    background: none;
-    border: none;
-    color: #6d28d9;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 16px;
-    transition: opacity 0.2s;
-}
-
-.change-num-btn:hover {
-    opacity: 0.8;
-}
-
-.auth-status-msg {
-    margin-top: 18px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
-    text-align: center;
-    display: none;
-    line-height: 1.4;
-    animation: fadeIn 0.25s ease;
-}
-
-.auth-status-msg.error {
-    display: block;
-    background: #fef2f2;
-    color: #dc2626;
-    border: 1px solid #fecaca;
-}
-
-.auth-status-msg.success {
-    display: block;
-    background: #f0fdf4;
-    color: #16a34a;
-    border: 1px solid #bbf7d0;
-}
-
-.auth-status-msg.info {
-    display: block;
-    background: #eff6ff;
-    color: #2563eb;
-    border: 1px solid #bfdbfe;
-}
-
-.spinner-icon {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    border: 2.5px solid rgba(255, 255, 255, 0.4);
-    border-radius: 50%;
-    border-top-color: #ffffff;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-@media (max-width: 420px) {
-    .auth-card {
-        padding: 32px 20px;
-    }
-    
-    .otp-field {
-        width: 40px;
-        height: 50px;
-        font-size: 20px;
-    }
-}
-
-/* ===================================================== */
-/*         SELLBY DESIGN SYSTEM V1 - RESPONSIVE          */
-/* ===================================================== */
-
-@media (min-width: 768px) {
-    .category-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 24px;
-    }
-
-    .category-card {
-        padding: 38px 24px;
-        min-height: 160px;
-    }
-
-    .category-icon {
-        font-size: 60px;
-    }
-
-    .category-card h3 {
-        font-size: 18px;
-    }
-    
-    #latestAds {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-}
-
-@media (min-width: 1024px) {
-    body {
-        max-width: 1200px;
-        margin: 0 auto;
-        box-shadow: 0 0 50px rgba(0,0,0,0.04);
-        background-color: #f8fafc;
-    }
-    
-    .category-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 28px;
-    }
-
-    .category-card {
-        padding: 44px 28px;
-        min-height: 175px;
-    }
-
-    .category-icon {
-        font-size: 64px;
-    }
-
-    .category-card h3 {
-        font-size: 20px;
-    }
-    
-    #latestAds, .featured-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-    }
-    
-    .bottom-nav {
-        max-width: 1200px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-radius: 20px 20px 0 0;
-    }
-    
-    .floating-post-btn {
-        right: calc(50% - 580px);
-    }
-}
-
-/* ===================================================== */
-/*         SELLBY CHAT UI SYSTEM - FINAL POLISH          */
-/* ===================================================== */
-
-.chat-page-body {
-    height: 100vh !important;
-    height: 100dvh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    padding-bottom: 0 !important;
-    overflow: hidden !important;
-}
-
-.ad-context-banner {
-    background: #ffffff;
-    padding: 8px 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid #f1f5f9;
-    cursor: pointer;
-    min-height: 56px;
-    flex-shrink: 0;
-    z-index: 10;
-}
-
-.ad-context-thumb {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #f1f5f9;
-    flex-shrink: 0;
-}
-
-.ad-context-thumb img {
-    width: 100%;
+    width: 92px;
+    min-width: 92px;
     height: 100%;
-    object-fit: cover;
-}
 
-.ad-context-info {
-    flex: 1;
-    min-width: 0;
-}
+    padding: 0 8px;
 
-.ad-context-info h4 {
+    border: 0;
+    border-right: 1px solid var(--border);
+
+    outline: none;
+
+    color: var(--text-secondary);
+    background: #f1f5f9;
+
     font-size: 13px;
-    font-weight: 700;
-    color: var(--primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
+    font-weight: 600;
 }
 
-.ad-context-meta {
-    display: flex;
-    gap: 8px;
-    font-size: 11px;
-    color: var(--text-muted);
+.phone-input {
+    flex: 1;
+    width: 0;
+    min-width: 0;
+    height: 100%;
+
+    padding: 0 15px;
+
+    border: 0;
+    outline: 0;
+
+    color: var(--text);
+    background: transparent;
+
+    font-size: 16px;
+    font-weight: 600;
 }
 
-.ad-context-action {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--sellby-pink);
-    white-space: nowrap;
+.phone-input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
 }
 
-.chat-area {
-    flex: 1 !important;
-    overflow-y: auto !important;
-    padding: 16px 14px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    background: #f8fafc !important;
-}
+/* =========================
+   21. GRADIENT BUTTON
+   ========================= */
 
-.composer-container {
-    background: #ffffff;
-    border-top: 1px solid #f1f5f9;
-    flex-shrink: 0;
-    z-index: 100;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-}
+.gradient-btn {
+    width: 100%;
+    height: 54px;
 
-.input-area {
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding: 10px 14px !important;
-    min-height: 64px !important;
-}
-
-.voice-msg-btn {
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 50% !important;
-    background: #f1f5f9 !important;
-    border: none !important;
-    color: var(--primary) !important;
-    font-size: 18px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-}
-
-.voice-msg-btn.recording {
-    background: #fee2e2 !important;
-    color: #ef4444 !important;
-    animation: pulse 1.5s infinite !important;
-}
-
-.input-area input {
-    flex: 1 !important;
-    height: 44px !important;
-    border-radius: 22px !important;
-    border: 1.5px solid #f1f5f9 !important;
-    background: #f8fafc !important;
-    padding: 0 16px !important;
-    font-size: 14px !important;
-    outline: none !important;
-    transition: all 0.2s ease !important;
-    width: 0 !important;
-}
-
-.input-area input:focus {
-    border-color: var(--primary-light) !important;
-    background: #ffffff !important;
-}
-
-.send-btn {
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 50% !important;
-    background: var(--sellby-gradient) !important;
-    border: none !important;
-    color: #ffffff !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    cursor: pointer !important;
-    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2) !important;
-}
-
-.send-btn::before {
-    content: '➤' !important;
-    font-size: 18px !important;
-    margin-left: 2px !important;
-}
-
-/* Voice Recording Bar - Professional Redesign */
-.voice-recording-bar {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 10px 16px !important;
-.chat-page-body {
-    height: 100vh !important;
-    height: 100dvh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    padding-bottom: 0 !important;
-    overflow: hidden !important;
-    background: #f8fafc !important;
-}
-
-.ad-context-banner {
-    background: #ffffff;
-    padding: 6px 14px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    border: 0;
+    border-radius: 16px;
+
+    color: #fff;
+    background: var(--gradient);
+
+    font-size: 15px;
+    font-weight: 700;
+
+    box-shadow: 0 10px 23px rgba(124,58,237,.24);
+
+    transition: var(--transition);
+}
+
+.gradient-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(124,58,237,.31);
+}
+
+.gradient-btn:active:not(:disabled) {
+    transform: scale(.98);
+}
+
+.gradient-btn:disabled {
+    opacity: .65;
+    cursor: not-allowed;
+}
+
+/* =========================
+   22. OTP
+   ========================= */
+
+.otp-container {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 7px;
+
+    margin: 24px 0 20px;
+}
+
+.otp-field {
+    flex: 1;
+    width: 0;
+    max-width: 54px;
+    height: 55px;
+
+    padding: 0;
+
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+
+    outline: none;
+
+    background: #f8fafc;
+    color: var(--primary);
+
+    text-align: center;
+
+    font-size: 22px;
+    font-weight: 700;
+
+    transition: var(--transition);
+}
+
+.otp-field:focus {
+    background: #fff;
+    border-color: var(--secondary);
+
+    box-shadow: 0 0 0 4px rgba(219,39,119,.09);
+
+    transform: translateY(-2px);
+}
+
+.otp-field.filled {
+    background: #f5f3ff;
+    border-color: var(--primary);
+}
+
+.otp-meta-row {
+    width: 100%;
+
+    margin-top: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     gap: 10px;
-    border-bottom: 1px solid #f1f5f9;
-    cursor: pointer;
-    min-height: 52px;
-    flex-shrink: 0;
-    z-index: 10;
 }
 
-.ad-context-thumb {
-    width: 38px;
-    height: 38px;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #f1f5f9;
-    flex-shrink: 0;
-}
+.change-num-btn,
+.resend-btn {
+    padding: 5px 0;
 
-.ad-context-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+    border: 0;
+    background: transparent;
 
-.ad-context-info {
-    flex: 1;
-    min-width: 0;
-    line-height: 1.2;
-}
-
-.ad-context-info h4 {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
+}
+
+.change-num-btn {
     color: var(--primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin: 0;
 }
 
-.ad-context-meta {
+.resend-btn {
+    color: var(--secondary);
+}
+
+.resend-btn:disabled {
+    color: #cbd5e1;
+    cursor: not-allowed;
+}
+
+.timer-badge {
     display: flex;
-    gap: 8px;
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 1px;
+    align-items: center;
+    gap: 5px;
+
+    color: var(--muted);
+
+    font-size: 12px;
 }
 
-.ad-context-action {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--sellby-pink);
-    text-transform: uppercase;
-    background: #fdf2f8;
-    padding: 4px 8px;
-    border-radius: 6px;
-    white-space: nowrap;
+.timer-badge strong {
+    color: var(--primary);
 }
 
-.chat-area {
-    flex: 1 !important;
-    overflow-y: auto !important;
-    padding: 16px 14px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 12px !important;
-    background: #f8fafc !important;
-    scrollbar-width: none;
-}
+/* =========================
+   23. AUTH STATUS
+   ========================= */
 
-.chat-area::-webkit-scrollbar {
+.auth-status-msg {
+    width: 100%;
+
+    margin-top: 15px;
+    padding: 11px 14px;
+
     display: none;
+
+    border-radius: 12px;
+
+    text-align: center;
+
+    font-size: 12px;
+    line-height: 1.4;
 }
 
-.composer-container {
-    background: #ffffff;
-    border-top: 1px solid #f1f5f9;
-    flex-shrink: 0;
-    z-index: 100;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    box-shadow: 0 -4px 15px rgba(0,0,0,0.03);
+.auth-status-msg.error {
+    display: block;
+    color: var(--danger);
+    background: #fef2f2;
+    border: 1px solid #fecaca;
 }
 
-.input-area {
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding: 10px 14px !important;
-    min-height: 64px !important;
+.auth-status-msg.success {
+    display: block;
+    color: var(--success);
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
 }
 
-.voice-msg-btn {
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 50% !important;
-    background: #f1f5f9 !important;
-    border: none !important;
-    color: var(--primary) !important;
-    font-size: 18px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
+.auth-status-msg.info {
+    display: block;
+    color: #2563eb;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
 }
 
-.voice-msg-btn.recording {
-    background: #fee2e2 !important;
-    color: #ef4444 !important;
+.spinner-icon {
+    width: 18px;
+    height: 18px;
+
+    display: inline-block;
+
+    border: 2.5px solid rgba(255,255,255,.35);
+    border-top-color: #fff;
+
+    border-radius: 50%;
+
+    animation: spin .7s linear infinite;
 }
 
-.input-area input {
-    flex: 1 !important;
-    height: 44px !important;
-    border-radius: 22px !important;
-    border: 1.5px solid #f1f5f9 !important;
-    background: #f8fafc !important;
-    padding: 0 16px !important;
-    font-size: 14px !important;
-    outline: none !important;
-    transition: all 0.2s ease !important;
-    width: 0 !important;
+#recaptcha-container {
+    width: 0;
+    height: 0;
+    overflow: hidden;
 }
 
-.input-area input:focus {
-    border-color: var(--primary-light) !important;
-    background: #ffffff !important;
-}
-
-.send-btn {
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 50% !important;
-    background: var(--sellby-gradient) !important;
-    border: none !important;
-    color: #ffffff !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    cursor: pointer !important;
-    box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2) !important;
-}
-
-.send-btn::before {
-    content: '➤' !important;
-    font-size: 18px !important;
-    margin-left: 2px !important;
-}
-
-/* Voice Recording Bar - Professional Redesign */
-.voice-recording-bar {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 10px 16px !important;
-    background: #f8fafc !important;
-    border-bottom: 1px solid #f1f5f9 !important;
-}
-
-.recording-indicator {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    color: #ef4444 !important;
-    font-weight: 700 !important;
-    font-size: 13px !important;
-}
-
-.recording-indicator::before {
-    content: '' !important;
-    width: 8px !important;
-    height: 8px !important;
-    background: #ef4444 !important;
-    border-radius: 50% !important;
-    animation: pulse 1s infinite !important;
-}
-
-.rec-timer {
-    font-family: monospace !important;
-    font-size: 14px !important;
-    background: #fee2e2 !important;
-    padding: 2px 6px !important;
-    border-radius: 4px !important;
-}
-
-.recording-actions {
-    display: flex !important;
-    gap: 8px !important;
-}
-
-.voice-action-btn {
-    padding: 6px 12px !important;
-    border-radius: 8px !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-    border: none !important;
-    cursor: pointer !important;
-}
-
-.voice-action-btn.cancel {
-    background: #e2e8f0 !important;
-    color: #475569 !important;
-}
-
-.voice-action-btn.send {
-    background: var(--sellby-gradient) !important;
-    color: #ffffff !important;
-}
-
-/* Message Bubbles Spacing */
-.message {
-    max-width: 80% !important;
-    padding: 10px 14px !important;
-    border-radius: 18px !important;
-    font-size: 14px !important;
-    line-height: 1.4 !important;
-    margin-bottom: 2px !important;
-    position: relative !important;
-}
-
-.message.sent {
-    background: var(--sellby-gradient) !important;
-    color: #ffffff !important;
-    align-self: flex-end !important;
-    border-bottom-right-radius: 4px !important;
-}
-
-.message.received {
-    background: #ffffff !important;
-    color: #1e293b !important;
-    align-self: flex-start !important;
-    border-bottom-left-radius: 4px !important;
-    border: 1px solid #f1f5f9 !important;
-}
-
-.message-time {
-    font-size: 10px !important;
-    margin-top: 4px !important;
-    opacity: 0.8 !important;
-    text-align: right !important;
-}
-
-.audio-bubble-player {
-    min-width: 180px !important;
-    padding: 4px 0 !important;
-}
-
-.audio-bubble-player audio {
-    width: 100% !important;
-    height: 32px !important;
-}
-
-.message.sent .audio-bubble-player audio {
-    filter: invert(1) hue-rotate(180deg) brightness(1.5) !important;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.7; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-img, video, iframe {
-  max-width: 100%;
-  height: auto;
-}
-
-button, input, select, textarea {
-  max-width: 100%;
-}
-
-@media (max-width: 768px) {
-
-  /* 1. MOBILE PAGE WIDTH & PADDING */
-  html body {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    padding-bottom: 75px !important; /* Adjusted for bottom nav */
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
-  }
-
-  html body .auth-page {
-    padding: 10px !important;
-    min-height: 100dvh !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: #ffffff !important;
-  }
-
-  html body .auth-card {
-    padding: 20px 16px !important;
-    border-radius: 20px !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
-    width: 100% !important;
-  }
-
-  html body .auth-header {
-    margin-bottom: 12px !important;
-  }
-
-  html body .auth-brand-logo {
-    font-size: 28px !important;
-    margin-bottom: 2px !important;
-  }
-
-  html body .auth-tagline {
-    margin-bottom: 8px !important;
-    font-size: 13px !important;
-  }
-
-  html body .auth-card-title {
-    font-size: 18px !important;
-    margin-bottom: 4px !important;
-  }
-
-  html body .auth-card-subtitle {
-    font-size: 12px !important;
-    margin-bottom: 12px !important;
-    line-height: 1.3 !important;
-  }
-
-  html body .phone-input-wrapper {
-    margin-top: 8px !important;
-    margin-bottom: 16px !important;
-  }
-
-  html body .hero {
-    margin: 12px 14px !important;
-    padding: 20px 16px !important;
-  }
-
-  html body .section-title {
-    margin: 18px 14px 10px !important;
-    font-size: 19px !important;
-  }
-
-  html body .categories {
-    padding-top: 5px !important;
-    padding-bottom: 15px !important;
-  }
-
-  *, *::before, *::after {
-    box-sizing: border-box !important;
-  }
-
-  html body .container, 
-  html body .page, 
-  html body .main-content, 
-  html body .content-wrapper, 
-  html body section, 
-  html body .card-container, 
-  html body .page-wrap, 
-  html body .form-container, 
-  html body .details-container, 
-  html body .auth-container, 
-  html body .profile-container, 
-  html body .chats-container, 
-  html body .cars-page {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding-left: 14px !important;
-    padding-right: 14px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    box-sizing: border-box !important;
-  }
-
-  /* 2. CATEGORY CARDS (HOME & POSTING CATEGORY SELECTION) */
-  html body .category-grid, 
-  html body .container .grid, 
-  html body .post-cat-grid, 
-  html body .grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, calc(50% - 7px)) !important;
-    gap: 14px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  html body .category-card, 
-  html body .container .grid .card, 
-  html body .post-cat-grid .card, 
-  html body .grid .card {
-    width: 100% !important;
-    min-height: 120px !important;
-    height: 136px !important;
-    border-radius: 16px !important;
-    padding: 18px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-sizing: border-box !important;
-  }
-
-  html body .category-icon-box, 
-  html body .grid .category-icon-box {
-    width: 56px !important;
-    height: 56px !important;
-    min-width: 56px !important;
-    min-height: 56px !important;
-    border-radius: 16px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin: 0 auto 10px !important;
-  }
-
-  /* Rendered Category Icon Graphic */
-  html body .category-icon-box svg, 
-  html body .category-icon-box i, 
-  html body .category-icon-box img, 
-  html body .category-icon, 
-  html body .grid .category-icon-box svg,
-  html body .grid .category-icon-box i {
-    width: 30px !important;
-    height: 30px !important;
-    min-width: 30px !important;
-    min-height: 30px !important;
-    font-size: 30px !important;
-    line-height: 1 !important;
-    display: block !important;
-    flex-shrink: 0 !important;
-  }
-
-  html body .category-card h3, 
-  html body .category-card .name, 
-  html body .grid .name, 
-  html body .card .name {
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    line-height: 1.2 !important;
-    text-align: center !important;
-  }
-
-  /* Voice Post Banner */
-  html body .voice-post-banner {
-    min-height: 64px !important;
-    padding: 12px 16px !important;
-    border-radius: 18px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-    margin-bottom: 20px !important;
-  }
-
-  html body .voice-post-banner > div:first-child {
-    width: 40px !important;
-    height: 40px !important;
-    min-width: 40px !important;
-    min-height: 40px !important;
-    font-size: 24px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-  }
-
-  /* 3. SEARCH BAR & SEARCH BUTTONS */
-  html body .search-section {
-    width: 100% !important;
-    padding: 12px 14px !important;
-    box-sizing: border-box !important;
-  }
-
-  html body .search-box {
-    width: 100% !important;
-    height: 52px !important;
-    min-height: 52px !important;
-    border-radius: 16px !important;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 6px !important;
-    padding: 4px 10px !important;
-    background: #ffffff !important;
-    border: 1px solid #e2e8f0 !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-  }
-
-  html body .search-box input, 
-  html body #searchInput {
-    font-size: 15px !important;
-    height: 100% !important;
-    padding: 0 4px !important;
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-    display: block !important;
-  }
-
-  html body .voice-btn,
-  html body .camera-btn,
-  html body .search-box button {
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
-    border-radius: 12px !important;
-    font-size: 20px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex: 0 0 auto !important;
-    padding: 0 !important;
-  }
-
-  html body .search-box > svg, 
-  html body .search-box > i, 
-  html body .search-icon {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
-    font-size: 24px !important;
-    flex-shrink: 0 !important;
-  }
-
-  html body .voice-btn, 
-  html body .camera-btn, 
-  html body .search-box button {
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
-    min-height: 48px !important;
-    border-radius: 12px !important;
-    font-size: 24px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    padding: 0 !important;
-  }
-
-  html body .voice-btn svg, 
-  html body .camera-btn svg, 
-  html body .search-box button svg,
-  html body .voice-btn i, 
-  html body .camera-btn i, 
-  html body .search-box button i {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
-    font-size: 24px !important;
-  }
-
-  /* 4. HEADER / ACTION BUTTONS */
-  html body .header,
-  html body header {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: 70px !important;
-    padding: 12px 14px !important;
-    box-sizing: border-box !important;
-  }
-
-  html body .menu-btn, 
-  html body .notify-btn, 
-  html body .back-btn, 
-  html body .back, 
-  html body header .back-btn {
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
-    min-height: 48px !important;
-    border-radius: 12px !important;
-    font-size: 24px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  html body .menu-btn svg, 
-  html body .notify-btn svg, 
-  html body .back-btn svg,
-  html body .menu-btn i, 
-  html body .notify-btn i, 
-  html body .back-btn i {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
-    font-size: 24px !important;
-  }
-
-  /* 5. ADD TO SELL FLOATING BUTTON */
-  html body .floating-post-btn {
-    position: fixed !important;
-    right: 18px !important;
-    bottom: 90px !important;
-    width: 64px !important;
-    height: 64px !important;
-    min-width: 56px !important;
-    min-height: 56px !important;
-    border-radius: 18px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    z-index: 1000 !important;
-  }
-
-  html body .plus-icon, 
-  html body .floating-post-btn svg, 
-  html body .floating-post-btn i {
-    font-size: 30px !important;
-    width: 30px !important;
-    height: 30px !important;
-    line-height: 1 !important;
-    font-weight: 700 !important;
-  }
-
-  /* 6. BOTTOM NAVIGATION */
-  html body .bottom-nav {
-    position: fixed !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: 72px !important;
-    min-height: 72px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-around !important;
-    padding: 0 8px !important;
-    z-index: 999 !important;
-    background: #ffffff !important;
-    box-sizing: border-box !important;
-  }
-
-  html body .bottom-nav a {
-    width: 25% !important;
-    flex: 1 !important;
-    min-width: 0 !important;
-    min-height: 56px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 4px !important;
-    text-decoration: none !important;
-  }
-
-  html body .bottom-nav .nav-icon, 
-  html body .bottom-nav svg, 
-  html body .bottom-nav i {
-    width: 26px !important;
-    height: 26px !important;
-    min-width: 26px !important;
-    min-height: 26px !important;
-    font-size: 26px !important;
-  }
-
-  html body .bottom-nav a.active .nav-icon, 
-  html body .bottom-nav a.active svg, 
-  html body .bottom-nav a.active i {
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px !important;
-    min-height: 28px !important;
-    font-size: 28px !important;
-  }
-
-  html body .bottom-nav small, 
-  html body .bottom-nav span {
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    line-height: 1 !important;
-  }
-
-  /* 7. FORM INPUTS & SINGLE COLUMN STACK ON MOBILE */
-  html body .card, 
-  html body .form-card, 
-  html body .auth-card, 
-  html body .details-card, 
-  html body .profile-card, 
-  html body .page-wrap .card {
-    padding: 18px !important;
-    border-radius: 18px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  html body .form-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 12px !important;
-    width: 100% !important;
-  }
-
-  html body .full-width {
-    grid-column: 1 / -1 !important;
-  }
-
-  html body .form-group {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 6px !important;
-    width: 100% !important;
-  }
-
-  html body label {
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    color: #1e293b !important;
-  }
-
-  html body .form-group input,
-  html body .form-group select {
-    width: 100% !important;
-    height: 52px !important;
-    min-height: 48px !important;
-    font-size: 15px !important;
-    padding: 0 16px !important;
-    border-radius: 14px !important;
-    box-sizing: border-box !important;
-  }
-
-  html body textarea {
-    width: 100% !important;
-    min-height: 100px !important;
-    font-size: 15px !important;
-    padding: 14px 16px !important;
-    border-radius: 14px !important;
-    box-sizing: border-box !important;
-    resize: vertical !important;
-  }
-
-  html body .publish-btn, 
-  html body .submit-btn, 
-  html body .gradient-btn, 
-  html body .btn-primary {
-    width: 100% !important;
-    height: 52px !important;
-    min-height: 48px !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    border-radius: 16px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  /* Upload Photo Box */
-  html body .upload-field, 
-  html body .upload-box, 
-  html body .image-upload-box {
-    min-height: 130px !important;
-    padding: 16px !important;
-    border-radius: 18px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-sizing: border-box !important;
-  }
-
-  html body .upload-field svg, 
-  html body .upload-field .upload-icon, 
-  html body .upload-box svg, 
-  html body .upload-box i {
-    width: 32px !important;
-    height: 32px !important;
-    min-width: 32px !important;
-    min-height: 32px !important;
-    font-size: 32px !important;
-  }
-
-  /* 8. LISTING CARDS */
-  html body .ad-card, 
-  html body .car-card, 
-  html body .featured-card, 
-  html body .property-card {
-    padding: 16px !important;
-    border-radius: 18px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-    margin-bottom: 12px !important;
-    box-sizing: border-box !important;
-    background: #ffffff !important;
-  }
-
-  html body .ad-image, 
-  html body .ad-photo, 
-  html body .ad-card img, 
-  html body .car-card img, 
-  html body .featured-card img {
-    width: 88px !important;
-    height: 88px !important;
-    min-width: 88px !important;
-    min-height: 88px !important;
-    max-width: 88px !important;
-    max-height: 88px !important;
-    object-fit: cover !important;
-    border-radius: 14px !important;
-    flex-shrink: 0 !important;
-  }
-
-  html body .save-btn, 
-  html body .action-icon, 
-  html body .heart-icon {
-    width: 48px !important;
-    height: 48px !important;
-    min-width: 48px !important;
-    min-height: 48px !important;
-    font-size: 24px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-/* 9. CHAT SCREEN */
-.input-area {
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding: 12px 16px !important;
-    background: #ffffff !important;
-    border-top: 1px solid #e2e8f0 !important;
-    position: sticky !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    z-index: 100 !important;
-    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
-    box-sizing: border-box !important;
-}
-
-.voice-msg-btn {
-    width: 46px !important;
-    height: 46px !important;
-    border-radius: 50% !important;
-    border: 2px solid #f1f5f9 !important;
-    background: #f8fafc !important;
-    color: #7c3aed !important;
-    font-size: 20px !important;
-    cursor: pointer !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex-shrink: 0 !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
-}
-
-.voice-msg-btn:active {
-    transform: scale(0.9) !important;
-    background: #ede9fe !important;
-}
-
-.voice-msg-btn.recording {
-    background: #fee2e2 !important;
-    border-color: #ef4444 !important;
-    color: #ef4444 !important;
-}
-
-.input-area input {
-    flex: 1 !important;
-    height: 46px !important;
-    min-height: 46px !important;
-    font-size: 15px !important;
-    border-radius: 24px !important;
-    padding: 0 20px !important;
-    border: 2px solid #f1f5f9 !important;
-    outline: none !important;
-    background: #f8fafc !important;
-    width: 0 !important;
-    transition: all 0.2s ease !important;
-}
-
-.input-area input:focus {
-    border-color: #7c3aed !important;
-    background: #ffffff !important;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.05) !important;
-}
-
-#sendBtn {
-    width: 46px !important;
-    height: 46px !important;
-    min-width: 46px !important;
-    background: var(--sellby-gradient) !important;
-    color: #ffffff !important;
-    border: none !important;
-    outline: none !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    flex-shrink: 0 !important;
-    padding: 0 !important;
-    font-size: 0 !important; /* Hide text "Send" */
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3) !important;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    position: relative !important;
-}
-
-#sendBtn::before {
-    content: '➤' !important;
-    font-size: 18px !important;
-    margin-left: 2px !important;
-}
-
-#sendBtn:active {
-    transform: scale(0.9) rotate(-10deg) !important;
-}
-
-  /* 10. OTP SCREEN */
-  html body .otp-field {
-    width: 50px !important;
-    height: 56px !important;
-    min-width: 44px !important;
-    min-height: 50px !important;
-    font-size: 22px !important;
-    font-weight: 700 !important;
-    text-align: center !important;
-    border-radius: 12px !important;
-  }
-
-  html body #verifyOtpBtn {
-    height: 52px !important;
-    min-height: 48px !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    border-radius: 16px !important;
-  }
-}
-/* =====================================================
-   SELLBY PROFILE & ACCOUNT STYLES
-   ===================================================== */
+/* =========================
+   24. PROFILE
+   ========================= */
 
 .profile-page {
-    padding: 20px 16px;
+    width: 100%;
     max-width: 600px;
+
     margin: 0 auto;
+    padding: 20px 16px;
 }
 
 .profile-card {
-    background: #ffffff;
-    border-radius: 28px;
-    padding: 32px 24px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.08);
-    border: 1px solid rgba(124, 58, 237, 0.1);
-    margin-bottom: 24px;
     position: relative;
+
+    padding: 30px 22px;
+
+    text-align: center;
+
+    background: #fff;
+
+    border: 1px solid rgba(124,58,237,.10);
+    border-radius: 25px;
+
+    box-shadow: var(--shadow-md);
+
     overflow: hidden;
 }
 
 .profile-card::before {
-    content: '';
+    content: "";
+
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 6px;
-    background: var(--sellby-gradient);
+
+    height: 5px;
+
+    background: var(--gradient);
 }
 
 .profile-avatar {
-    width: 90px;
-    height: 90px;
-    background: var(--sellby-gradient);
-    border-radius: 50%;
-    margin: 0 auto 18px;
+    width: 84px;
+    height: 84px;
+
+    margin: 0 auto 15px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 40px;
-    color: #ffffff;
-    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25);
-    border: 4px solid #ffffff;
+
+    color: #fff;
+    background: var(--gradient);
+
+    border: 4px solid #fff;
+    border-radius: 50%;
+
+    box-shadow: 0 8px 20px rgba(124,58,237,.23);
+
+    font-size: 34px;
 }
 
 .profile-card h1 {
-    font-size: 22px;
-    font-weight: 700;
-    color: #1e293b;
     margin-bottom: 4px;
+
+    color: var(--text);
+    font-size: 21px;
+    font-weight: 700;
 }
 
 .profile-card p {
-    font-size: 14px;
-    color: #64748b;
-    font-weight: 500;
+    color: var(--muted);
+    font-size: 13px;
 }
 
 .profile-menu {
-    background: #ffffff;
-    border-radius: 24px;
-    padding: 8px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.04);
-    border: 1px solid #f1f5f9;
+    margin-top: 16px;
+
+    padding: 7px;
+
+    background: #fff;
+
+    border: 1px solid var(--border-light);
+    border-radius: 21px;
+
+    box-shadow: var(--shadow-sm);
 }
 
 .profile-item {
+    min-height: 58px;
+
+    padding: 8px 12px;
+
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 16px 20px;
-    color: #334155;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 16px;
-    transition: all 0.25s ease;
-    margin-bottom: 4px;
-}
+    gap: 12px;
 
-.profile-item:last-child {
-    margin-bottom: 0;
+    color: var(--text-secondary);
+    text-decoration: none;
+
+    border-radius: 14px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    transition: var(--transition);
 }
 
 .profile-item:hover {
+    color: var(--primary);
     background: #f5f3ff;
-    color: #7c3aed;
-    padding-left: 24px;
 }
 
 .profile-item-icon {
-    width: 42px;
-    height: 42px;
-    background: #f1f5f9;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6d28d9;
-    transition: all 0.25s ease;
-    flex-shrink: 0;
-}
 
-.profile-item:hover .profile-item-icon {
-    background: var(--sellby-gradient);
-    color: #ffffff;
-    transform: scale(1.1);
+    color: var(--primary);
+    background: #f5f3ff;
+
+    border-radius: 11px;
 }
 
 .profile-item-text {
@@ -3528,104 +1714,562 @@ button, input, select, textarea {
 }
 
 .profile-item-arrow {
-    font-size: 18px;
     color: #cbd5e1;
-    transition: all 0.25s ease;
 }
 
-.profile-item:hover .profile-item-arrow {
-    color: #7c3aed;
-    transform: translateX(4px);
-}
-
-/* Seller / Buyer Identity Tags */
 .account-type-badge {
     display: inline-block;
-    padding: 6px 14px;
+
+    margin-top: 10px;
+    padding: 5px 12px;
+
     border-radius: 30px;
-    font-size: 12px;
+
+    font-size: 10px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 12px;
 }
 
 .type-seller {
+    color: var(--secondary);
     background: #fdf2f8;
-    color: #db2777;
-    border: 1px solid #fce7f3;
 }
 
 .type-buyer {
+    color: var(--primary);
     background: #f5f3ff;
-    color: #6d28d9;
-    border: 1px solid #ede9fe;
 }
 
 #logoutBtn.publish-btn {
-    margin-top: 24px;
+    margin-top: 20px;
+
+    color: var(--danger);
     background: #fef2f2;
-    color: #dc2626;
+
     border: 1px solid #fee2e2;
     box-shadow: none;
 }
 
-#logoutBtn.publish-btn:hover {
-    background: #fee2e2;
-    transform: translateY(-2px);
+/* =========================
+   25. CHAT
+   ========================= */
+
+.chat-page-body {
+    width: 100%;
+    height: 100dvh !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    padding: 0 !important;
+
+    overflow: hidden !important;
+
+    background: #f8fafc !important;
 }
+
+.ad-context-banner {
+    min-height: 54px;
+    flex-shrink: 0;
+
+    padding: 7px 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: #fff;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.ad-context-thumb {
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+
+    overflow: hidden;
+    border-radius: 9px;
+
+    background: #f1f5f9;
+}
+
+.ad-context-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ad-context-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ad-context-info h4 {
+    color: var(--primary);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ad-context-meta {
+    display: flex;
+    gap: 7px;
+
+    margin-top: 2px;
+
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.ad-context-action {
+    padding: 5px 8px;
+
+    color: var(--secondary);
+    background: #fdf2f8;
+
+    border-radius: 7px;
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.chat-area {
+    flex: 1 !important;
+
+    overflow-y: auto !important;
+
+    padding: 15px 13px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 9px !important;
+
+    background: #f8fafc !important;
+
+    scrollbar-width: none;
+}
+
+.chat-area::-webkit-scrollbar {
+    display: none;
+}
+
+.message {
+    max-width: 78% !important;
+
+    padding: 9px 12px !important;
+
+    border-radius: 17px !important;
+
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+
+    box-shadow: 0 2px 7px rgba(15,23,42,.04);
+}
+
+.message.sent {
+    align-self: flex-end !important;
+
+    color: #fff !important;
+    background: var(--gradient) !important;
+
+    border-bottom-right-radius: 5px !important;
+}
+
+.message.received {
+    align-self: flex-start !important;
+
+    color: var(--text) !important;
+    background: #fff !important;
+
+    border: 1px solid var(--border-light) !important;
+
+    border-bottom-left-radius: 5px !important;
+}
+
+.message-time {
+    margin-top: 3px;
+
+    font-size: 9px;
+    opacity: .7;
+    text-align: right;
+}
+
+/* =========================
+   26. CHAT INPUT
+   ========================= */
+
+.composer-container {
+    flex-shrink: 0;
+
+    background: #fff;
+
+    border-top: 1px solid var(--border-light);
+
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    box-shadow: 0 -4px 15px rgba(15,23,42,.04);
+}
+
+.input-area {
+    width: 100%;
+
+    min-height: 64px;
+
+    padding: 9px 13px;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.voice-msg-btn {
+    width: 43px !important;
+    height: 43px !important;
+    flex-shrink: 0;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border: 0 !important;
+    border-radius: 50% !important;
+
+    color: var(--primary) !important;
+    background: #f5f3ff !important;
+
+    font-size: 17px;
+
+    transition: var(--transition);
+}
+
+.voice-msg-btn:active {
+    transform: scale(.91);
+}
+
+.input-area input {
+    flex: 1 !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    height: 43px !important;
+
+    padding: 0 15px !important;
+
+    border: 1px solid var(--border) !important;
+    border-radius: 22px !important;
+
+    outline: none !important;
+
+    background: #f8fafc !important;
+
+    font-size: 13px !important;
+
+    transition: var(--transition);
+}
+
+.input-area input:focus {
+    background: #fff !important;
+    border-color: var(--primary-light) !important;
+
+    box-shadow: 0 0 0 3px rgba(124,58,237,.07) !important;
+}
+
+.send-btn,
+#sendBtn {
+    width: 43px !important;
+    height: 43px !important;
+    flex-shrink: 0;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border: 0 !important;
+    border-radius: 50% !important;
+
+    color: #fff !important;
+    background: var(--gradient) !important;
+
+    box-shadow: 0 5px 14px rgba(124,58,237,.23);
+
+    font-size: 0 !important;
+
+    transition: var(--transition);
+}
+
+.send-btn::before,
+#sendBtn::before {
+    content: "➤";
+
+    margin-left: 2px;
+
+    color: #fff;
+
+    font-size: 17px;
+}
+
+.send-btn:active,
+#sendBtn:active {
+    transform: scale(.91);
+}
+
+/* =========================
+   27. VOICE RECORDING BAR
+   ========================= */
+
+.voice-recording-bar {
+    padding: 9px 13px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    background: #fff;
+
+    border-top: 1px solid var(--border-light);
+}
+
+.recording-indicator {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #ef4444;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.recording-indicator::before {
+    content: "";
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+    background: #ef4444;
+
+    animation: pulse 1s infinite;
+}
+
+.rec-timer {
+    padding: 2px 6px;
+
+    background: #fee2e2;
+
+    border-radius: 5px;
+
+    font-size: 12px;
+}
+
+.recording-actions {
+    display: flex;
+    gap: 7px;
+}
+
+.voice-action-btn {
+    padding: 7px 11px;
+
+    border: 0;
+    border-radius: 8px;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.voice-action-btn.cancel {
+    color: var(--text-secondary);
+    background: #e2e8f0;
+}
+
+.voice-action-btn.send {
+    color: #fff;
+    background: var(--gradient);
+}
+
+/* =========================
+   28. RESPONSIVE
+   ========================= */
 
 @media (max-width: 480px) {
-    .profile-card {
-        padding: 24px 18px;
+
+    body {
+        padding-bottom: 70px;
     }
 
-    .profile-avatar {
-        width: 80px;
-        height: 80px;
-        font-size: 34px;
+    .auth-page {
+        padding: 12px;
+    }
+
+    .auth-card {
+        padding: 30px 20px 25px;
+        border-radius: 24px;
+        box-shadow: var(--shadow-md);
+    }
+
+    .auth-header {
+        margin-bottom: 24px;
+    }
+
+    .auth-brand-logo {
+        font-size: 32px;
+    }
+
+    .auth-card-title {
+        font-size: 20px;
+    }
+
+    .auth-card-subtitle {
+        font-size: 12px;
+    }
+
+    .otp-container {
+        gap: 5px;
+    }
+
+    .otp-field {
+        max-width: none;
+        height: 51px;
+        font-size: 20px;
+        border-radius: 12px;
+    }
+
+    .otp-meta-row {
+        gap: 7px;
+    }
+
+    .floating-post-btn {
+        right: 14px;
+        bottom: 84px;
+
+        width: 64px;
+        height: 64px;
+
+        border-radius: 18px;
+    }
+
+    .ad-card {
+        padding: 10px;
+    }
+
+    .ad-image {
+        width: 94px;
+        height: 94px;
+    }
+
+    .ad-title {
+        font-size: 14px;
+    }
+
+    .ad-price {
+        font-size: 17px;
+    }
+
+    .category-card {
+        min-height: 132px;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 360px) {
 
-    html body .phone-input-wrapper {
-        width: 100% !important;
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        align-items: center !important;
-        gap: 0 !important;
-        overflow: hidden !important;
-        background: #f8fafc !important;
+    .auth-card {
+        padding: 27px 15px 22px;
     }
 
-    html body .phone-input-wrapper .country-code-select {
-        width: 90px !important;
-        min-width: 90px !important;
-        max-width: 90px !important;
-        flex: 0 0 90px !important;
-        height: 52px !important;
-        padding: 0 8px !important;
-        border: none !important;
-        border-right: 1px solid #e2e8f0 !important;
-        border-radius: 0 !important;
-        background: #f1f5f9 !important;
-        display: block !important;
+    .auth-brand-logo {
+        font-size: 29px;
     }
 
-    html body .phone-input-wrapper .phone-input {
-        width: 0 !important;
-        min-width: 0 !important;
-        flex: 1 1 auto !important;
-        height: 52px !important;
-        padding: 0 14px !important;
-        font-size: 16px !important;
-        border: none !important;
-        background: transparent !important;
-        display: block !important;
-        border-radius: 0 !important;
+    .otp-container {
+        gap: 3px;
     }
 
+    .otp-field {
+        height: 47px;
+        font-size: 18px;
+        border-radius: 10px;
+    }
+
+    .otp-meta-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .timer-badge {
+        justify-content: flex-end;
+    }
+
+    .category-card {
+        min-height: 122px;
+        padding: 15px 8px;
+    }
+
+    .category-icon-box,
+    .category-icon {
+        width: 55px;
+        height: 55px;
+        margin-bottom: 8px;
+    }
+
+    .category-card h3 {
+        font-size: 14px;
+    }
 }
-$newStyles
+
+@media (min-width: 768px) {
+
+    .category-grid {
+        grid-template-columns: repeat(3,minmax(0,1fr));
+        gap: 18px;
+    }
+
+    .featured-grid {
+        grid-template-columns: repeat(3,minmax(0,1fr));
+    }
+
+    #latestAds {
+        display: grid;
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+
+    .auth-card {
+        padding: 38px 34px;
+    }
+}
+
+@media (min-width: 1024px) {
+
+    body {
+        max-width: 1200px;
+        margin: 0 auto;
+        box-shadow: 0 0 50px rgba(15,23,42,.04);
+    }
+
+    .bottom-nav {
+        max-width: 1200px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        border-radius: 20px 20px 0 0;
+    }
+
+    .floating-post-btn {
+        right: calc(50% - 570px);
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(4,minmax(0,1fr));
+    }
+
+    #latestAds {
+        grid-template-columns: repeat(3,minmax(0,1fr));
+    }
+}
+
+/* =========================
+   END SELLBY V3.0
+   ========================= */
