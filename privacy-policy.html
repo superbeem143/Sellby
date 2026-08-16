@@ -1,39 +1,728 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>SELLBY | Privacy Policy</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- EXISTING AUTH GUARD — DO NOT REMOVE -->
     <script type="module" src="js/auth-guard.js"></script>
+
     <style>
-        .legal-content { padding: 24px 18px; line-height: 1.7; color: #334155; }
-        .legal-content h2 { font-size: 18px; font-weight: 700; margin: 20px 0 10px; color: #1e293b; }
-        .legal-content p { font-size: 14px; margin-bottom: 15px; }
+
+        /* =========================================================
+           SELLBY PRIVACY POLICY
+           UI ONLY
+           Existing authentication + i18n preserved
+           ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #f7f8fc;
+            color: #172033;
+        }
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+
+        .category-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            width: 100%;
+            min-height: 68px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 10px 14px;
+
+            background: linear-gradient(
+                135deg,
+                #7c3aed 0%,
+                #a832d4 50%,
+                #d51f7a 100%
+            );
+
+            box-shadow:
+                0 5px 18px rgba(124, 58, 237, 0.18);
+        }
+
+        .back-btn-small {
+            flex: 0 0 44px;
+
+            width: 44px;
+            height: 44px;
+
+            border: 0;
+            border-radius: 13px;
+
+            background: rgba(255, 255, 255, 0.16);
+
+            color: #ffffff;
+
+            font-size: 25px;
+            font-weight: 400;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .back-btn-small:active {
+            transform: scale(0.95);
+        }
+
+        .category-title-area {
+            min-width: 0;
+            padding-left: 12px;
+        }
+
+        .category-title-area h1 {
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 17px;
+            line-height: 1.25;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .category-title-area p {
+            margin: 3px 0 0;
+
+            color: rgba(255, 255, 255, 0.78);
+
+            font-size: 10px;
+            line-height: 1.3;
+
+            font-weight: 400;
+        }
+
+        /* =========================================================
+           PAGE
+           ========================================================= */
+
+        .legal-page {
+            width: 100%;
+            max-width: 760px;
+
+            margin: 0 auto;
+
+            padding: 18px 14px 40px;
+        }
+
+        /* =========================================================
+           HERO
+           ========================================================= */
+
+        .legal-hero {
+            width: 100%;
+
+            padding: 22px 18px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(124, 58, 237, 0.10),
+                    rgba(213, 31, 122, 0.07)
+                );
+
+            border: 1px solid rgba(124, 58, 237, 0.10);
+
+            margin-bottom: 16px;
+
+            text-align: center;
+        }
+
+        .privacy-icon {
+            width: 52px;
+            height: 52px;
+
+            margin: 0 auto 11px;
+
+            border-radius: 16px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(
+                135deg,
+                #7c3aed,
+                #d51f7a
+            );
+
+            color: #ffffff;
+
+            font-size: 25px;
+
+            box-shadow:
+                0 8px 20px rgba(124, 58, 237, 0.22);
+        }
+
+        .legal-hero h2 {
+            margin: 0;
+
+            font-size: 20px;
+            line-height: 1.35;
+
+            font-weight: 800;
+
+            color: #172033;
+        }
+
+        .legal-hero p {
+            margin: 7px auto 0;
+
+            max-width: 560px;
+
+            font-size: 12px;
+            line-height: 1.6;
+
+            color: #6b7280;
+        }
+
+        /* =========================================================
+           CONTENT CARD
+           ========================================================= */
+
+        .legal-card {
+            width: 100%;
+
+            background: #ffffff;
+
+            border: 1px solid #edf0f5;
+
+            border-radius: 20px;
+
+            padding: 20px 17px;
+
+            box-shadow:
+                0 5px 18px rgba(20, 30, 55, 0.055);
+
+            overflow: hidden;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            margin-bottom: 14px;
+
+            color: #5b21b6;
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .section-label::before {
+            content: "";
+
+            width: 4px;
+            height: 19px;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                180deg,
+                #7c3aed,
+                #d51f7a
+            );
+        }
+
+        /* =========================================================
+           EXISTING i18n CONTENT
+           ========================================================= */
+
+        .legal-content {
+            padding: 0;
+            margin: 0;
+
+            line-height: 1.8;
+
+            color: #475569;
+
+            font-size: 14px;
+
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
+
+        .legal-content p {
+            margin: 0 0 15px;
+
+            font-size: 14px;
+            line-height: 1.8;
+
+            color: #475569;
+        }
+
+        .legal-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .legal-content h2 {
+            margin: 22px 0 9px;
+
+            font-size: 16px;
+            line-height: 1.4;
+
+            font-weight: 700;
+
+            color: #1e293b;
+        }
+
+        .legal-content h3 {
+            margin: 18px 0 7px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            color: #334155;
+        }
+
+        .legal-content ul,
+        .legal-content ol {
+            margin: 10px 0 17px;
+            padding-left: 22px;
+        }
+
+        .legal-content li {
+            margin-bottom: 8px;
+
+            font-size: 13px;
+            line-height: 1.7;
+
+            color: #475569;
+        }
+
+        /* =========================================================
+           PRIVACY HIGHLIGHTS
+           ========================================================= */
+
+        .privacy-highlights {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 10px;
+
+            margin-top: 16px;
+        }
+
+        .privacy-item {
+            min-width: 0;
+
+            padding: 14px 12px;
+
+            border-radius: 15px;
+
+            background: #faf9ff;
+
+            border: 1px solid #eeeaff;
+
+            text-align: center;
+        }
+
+        .privacy-item-icon {
+            font-size: 20px;
+
+            margin-bottom: 6px;
+        }
+
+        .privacy-item-title {
+            margin: 0;
+
+            font-size: 11px;
+            line-height: 1.35;
+
+            font-weight: 700;
+
+            color: #4c1d95;
+        }
+
+        .privacy-item-text {
+            margin: 4px 0 0;
+
+            font-size: 9px;
+            line-height: 1.5;
+
+            color: #64748b;
+        }
+
+        /* =========================================================
+           PRIVACY NOTE
+           ========================================================= */
+
+        .legal-note {
+            margin-top: 16px;
+
+            padding: 14px 15px;
+
+            border-radius: 15px;
+
+            background: #faf7ff;
+
+            border: 1px solid #eee5ff;
+        }
+
+        .legal-note-title {
+            margin-bottom: 5px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            color: #6d28d9;
+        }
+
+        .legal-note-text {
+            margin: 0;
+
+            font-size: 11px;
+            line-height: 1.65;
+
+            color: #64748b;
+        }
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        .legal-footer {
+            padding: 20px 5px 5px;
+
+            text-align: center;
+        }
+
+        .legal-footer p {
+            margin: 0;
+
+            font-size: 10px;
+            line-height: 1.5;
+
+            color: #94a3b8;
+        }
+
+        /* =========================================================
+           SMALL ANDROID SCREENS
+           ========================================================= */
+
+        @media (max-width: 380px) {
+
+            .category-header {
+                min-height: 64px;
+                padding: 8px 10px;
+            }
+
+            .back-btn-small {
+                width: 40px;
+                height: 40px;
+                flex-basis: 40px;
+            }
+
+            .category-title-area h1 {
+                font-size: 15px;
+            }
+
+            .legal-page {
+                padding: 14px 10px 30px;
+            }
+
+            .legal-hero {
+                padding: 19px 14px;
+                border-radius: 17px;
+            }
+
+            .legal-card {
+                padding: 17px 14px;
+                border-radius: 17px;
+            }
+
+            .legal-content,
+            .legal-content p {
+                font-size: 13px;
+            }
+
+            .legal-hero h2 {
+                font-size: 18px;
+            }
+
+            .privacy-highlights {
+                gap: 8px;
+            }
+        }
+
+        /* =========================================================
+           TABLET / DESKTOP
+           ========================================================= */
+
+        @media (min-width: 700px) {
+
+            .category-header {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .legal-page {
+                padding: 30px 20px 60px;
+            }
+
+            .legal-card {
+                padding: 28px 26px;
+            }
+
+            .legal-content,
+            .legal-content p {
+                font-size: 15px;
+            }
+        }
+
+        /* =========================================================
+           ACCESSIBILITY
+           ========================================================= */
+
+        button {
+            font-family: inherit;
+        }
+
+        button:focus-visible {
+            outline: 3px solid rgba(124, 58, 237, 0.35);
+            outline-offset: 2px;
+        }
+
     </style>
 </head>
+
+
 <body>
+
+    <!-- =========================================================
+         EXISTING HEADER
+         ========================================================= -->
+
     <header class="category-header">
-        <button class="back-btn-small" onclick="history.back()">←</button>
+
+        <button
+            class="back-btn-small"
+            onclick="history.back()"
+            aria-label="Go back">
+
+            ←
+
+        </button>
+
         <div class="category-title-area">
-            <h1 id="pageTitle" data-i18n="privacy_policy">Privacy Policy</h1>
-            <p id="pageSubtitle" data-i18n="app_name">Your data is safe with us</p>
+
+            <h1
+                id="pageTitle"
+                data-i18n="privacy_policy">
+
+                Privacy Policy
+
+            </h1>
+
+            <p
+                id="pageSubtitle"
+                data-i18n="app_name">
+
+                Your data is safe with us
+
+            </p>
+
         </div>
+
     </header>
 
-    <main class="legal-content" id="mainContent">
-        <p data-i18n="policy_text"></p>
+
+    <!-- =========================================================
+         PRIVACY PAGE
+         ========================================================= -->
+
+    <main
+        class="legal-page"
+        id="mainContent">
+
+
+        <!-- HERO -->
+
+        <section class="legal-hero">
+
+            <div
+                class="privacy-icon"
+                aria-hidden="true">
+
+                🔒
+
+            </div>
+
+            <h2>
+                Privacy Policy
+            </h2>
+
+            <p>
+                Your privacy and personal information matter to us.
+            </p>
+
+        </section>
+
+
+        <!-- EXISTING POLICY CONTENT -->
+
+        <section class="legal-card">
+
+            <div class="section-label">
+                Your Privacy
+            </div>
+
+
+            <!-- IMPORTANT:
+                 KEEP EXISTING i18n HOOK.
+                 DO NOT REMOVE OR RENAME.
+            -->
+
+            <div
+                class="legal-content"
+                id="policyContent">
+
+                <p data-i18n="policy_text"></p>
+
+            </div>
+
+
+            <!-- PRIVACY HIGHLIGHTS -->
+
+            <div class="privacy-highlights">
+
+                <div class="privacy-item">
+
+                    <div class="privacy-item-icon">
+                        🔐
+                    </div>
+
+                    <p class="privacy-item-title">
+                        Data Protection
+                    </p>
+
+                    <p class="privacy-item-text">
+                        Your information is handled responsibly.
+                    </p>
+
+                </div>
+
+
+                <div class="privacy-item">
+
+                    <div class="privacy-item-icon">
+                        🛡️
+                    </div>
+
+                    <p class="privacy-item-title">
+                        Privacy First
+                    </p>
+
+                    <p class="privacy-item-text">
+                        We respect your privacy while using SELLBY.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- NOTE -->
+
+        <section class="legal-note">
+
+            <div class="legal-note-title">
+                SELLBY Privacy Commitment
+            </div>
+
+            <p class="legal-note-text">
+                SELLBY is designed to provide a safe marketplace
+                experience while respecting user privacy and
+                protecting information used to provide our services.
+            </p>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="legal-footer">
+
+            <p>
+                SELLBY · Sell Easy. Buy Easy.
+            </p>
+
+        </footer>
+
     </main>
 
+
+    <!-- =========================================================
+         EXISTING i18n SYSTEM — PRESERVED
+         ========================================================= -->
+
     <script type="module">
+
         import { initTranslations } from "./js/i18n.js";
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener("DOMContentLoaded", () => {
+
+            /*
+             * EXISTING TRANSLATION SYSTEM
+             * DO NOT REPLACE WITH MOCK LOGIC.
+             */
+
             initTranslations();
+
         });
+
     </script>
+
 </body>
-</html>
+
+    </html>
