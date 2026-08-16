@@ -142,4 +142,593 @@
         .about-hero {
             width: 100%;
 
-            padding: 28px 18px 25
+            padding: 28px 18px 25px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(124, 58, 237, 0.10),
+                    rgba(213, 31, 122, 0.08)
+                );
+
+            border: 1px solid rgba(124, 58, 237, 0.10);
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 18px rgba(20, 30, 55, 0.035);
+        }
+
+        /* =========================================================
+           SELLBY LOGO
+           ========================================================= */
+
+        .about-logo {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin: 0;
+
+            font-size: 44px;
+            line-height: 1;
+
+            font-weight: 800;
+            letter-spacing: -2px;
+        }
+
+        .about-logo .sell {
+            color: #6d28d9;
+        }
+
+        .about-logo .by {
+            background: linear-gradient(
+                135deg,
+                #7c3aed,
+                #d51f7a
+            );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+        }
+
+        .version {
+            margin: 11px 0 0;
+
+            color: #64748b;
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .tagline {
+            margin: 9px 0 0;
+
+            color: #8a94a6;
+
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* =========================================================
+           ABOUT CONTENT CARD
+           ========================================================= */
+
+        .about-card {
+            margin-top: 16px;
+
+            width: 100%;
+
+            padding: 20px 17px;
+
+            background: #ffffff;
+
+            border: 1px solid #edf0f5;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 5px 18px rgba(20, 30, 55, 0.055);
+        }
+
+        .about-section-title {
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            margin-bottom: 12px;
+
+            color: #5b21b6;
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .about-section-title::before {
+            content: "";
+
+            width: 4px;
+            height: 19px;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                180deg,
+                #7c3aed,
+                #d51f7a
+            );
+        }
+
+        .about-text {
+            margin: 0;
+
+            color: #475569;
+
+            font-size: 13px;
+            line-height: 1.8;
+
+            text-align: left;
+
+            overflow-wrap: anywhere;
+        }
+
+        /* =========================================================
+           SELLBY FEATURES
+           ========================================================= */
+
+        .about-features {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 9px;
+
+            margin-top: 16px;
+        }
+
+        .feature-card {
+            min-width: 0;
+
+            padding: 14px 8px;
+
+            background: #faf9ff;
+
+            border: 1px solid #eeeaff;
+
+            border-radius: 15px;
+
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 35px;
+            height: 35px;
+
+            margin: 0 auto 7px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background: linear-gradient(
+                135deg,
+                rgba(124, 58, 237, 0.12),
+                rgba(213, 31, 122, 0.10)
+            );
+
+            font-size: 17px;
+        }
+
+        .feature-title {
+            margin: 0;
+
+            color: #4c1d95;
+
+            font-size: 10px;
+            line-height: 1.4;
+
+            font-weight: 700;
+        }
+
+        .feature-text {
+            margin: 4px 0 0;
+
+            color: #64748b;
+
+            font-size: 8px;
+            line-height: 1.45;
+        }
+
+        /* =========================================================
+           SOCIAL / LINKS
+           ========================================================= */
+
+        .social-section {
+            margin-top: 18px;
+
+            text-align: center;
+        }
+
+        .social-title {
+            margin: 0 0 11px;
+
+            color: #64748b;
+
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .social-row {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 12px;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 14px;
+
+            background: #ffffff;
+
+            border: 1px solid #edf0f5;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.045);
+
+            font-size: 18px;
+
+            color: #7c3aed;
+
+            text-decoration: none;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .social-link:active {
+            transform: scale(0.94);
+        }
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        .about-footer {
+            padding: 20px 5px 5px;
+
+            text-align: center;
+        }
+
+        .about-footer p {
+            margin: 0;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+        /* =========================================================
+           SMALL ANDROID
+           ========================================================= */
+
+        @media (max-width: 380px) {
+
+            .category-header {
+                min-height: 64px;
+                padding: 8px 10px;
+            }
+
+            .back-btn-small {
+                width: 40px;
+                height: 40px;
+                flex-basis: 40px;
+            }
+
+            .category-title-area h1 {
+                font-size: 15px;
+            }
+
+            .about-page {
+                padding: 14px 10px 30px;
+            }
+
+            .about-hero {
+                padding: 23px 14px;
+                border-radius: 18px;
+            }
+
+            .about-logo {
+                font-size: 38px;
+            }
+
+            .about-card {
+                padding: 17px 14px;
+                border-radius: 17px;
+            }
+
+            .about-text {
+                font-size: 12.5px;
+            }
+
+            .about-features {
+                gap: 7px;
+            }
+
+            .feature-card {
+                padding: 12px 6px;
+            }
+        }
+
+        /* =========================================================
+           TABLET / DESKTOP
+           ========================================================= */
+
+        @media (min-width: 700px) {
+
+            .category-header {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .about-page {
+                padding: 30px 20px 60px;
+            }
+
+            .about-card {
+                padding: 28px 26px;
+            }
+
+            .about-text {
+                font-size: 15px;
+            }
+        }
+
+        /* =========================================================
+           ACCESSIBILITY
+           ========================================================= */
+
+        button {
+            font-family: inherit;
+        }
+
+        button:focus-visible {
+            outline: 3px solid rgba(124, 58, 237, 0.35);
+            outline-offset: 2px;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
+
+    <header class="category-header">
+
+        <button
+            class="back-btn-small"
+            onclick="history.back()"
+            aria-label="Go back">
+
+            ←
+
+        </button>
+
+        <div class="category-title-area">
+
+            <h1
+                id="pageTitle"
+                data-i18n="about_title">
+
+                About
+
+            </h1>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         ABOUT PAGE
+         ========================================================= -->
+
+    <main class="about-page">
+
+
+        <!-- HERO -->
+
+        <section class="about-hero">
+
+            <div class="about-logo">
+
+                <span class="sell">
+                    SELL
+                </span>
+
+                <span class="by">
+                    BY
+                </span>
+
+            </div>
+
+            <div class="version">
+                Version 1.0.0
+            </div>
+
+            <div class="tagline">
+                Sell Easy. Buy Easy.
+            </div>
+
+        </section>
+
+
+        <!-- ABOUT CONTENT -->
+
+        <section class="about-card">
+
+            <div class="about-section-title">
+                About SELLBY
+            </div>
+
+            <!-- EXISTING i18n HOOK PRESERVED -->
+
+            <p
+                class="about-text"
+                id="aboutText"
+                data-i18n="about_text">
+            </p>
+
+
+            <!-- FEATURES -->
+
+            <div class="about-features">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🛍️
+                    </div>
+
+                    <p class="feature-title">
+                        Easy Selling
+                    </p>
+
+                    <p class="feature-text">
+                        Post and manage your ads easily.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🔎
+                    </div>
+
+                    <p class="feature-title">
+                        Easy Buying
+                    </p>
+
+                    <p class="feature-text">
+                        Find products from local sellers.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        💬
+                    </div>
+
+                    <p class="feature-title">
+                        In-App Chat
+                    </p>
+
+                    <p class="feature-text">
+                        Communicate inside SELLBY.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SOCIAL LINKS -->
+
+        <section class="social-section">
+
+            <p class="social-title">
+                Connect with SELLBY
+            </p>
+
+            <div class="social-row">
+
+                <a
+                    href="#"
+                    class="social-link"
+                    aria-label="Website">
+                    🌐
+                </a>
+
+                <a
+                    href="#"
+                    class="social-link"
+                    aria-label="Instagram">
+                    📸
+                </a>
+
+                <a
+                    href="#"
+                    class="social-link"
+                    aria-label="Facebook">
+                    📘
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="about-footer">
+
+            <p>
+                SELLBY · Sell Easy. Buy Easy.
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <!-- =========================================================
+         EXISTING i18n SYSTEM — PRESERVED
+         ========================================================= -->
+
+    <script type="module">
+
+        import { initTranslations } from "./js/i18n.js";
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            /*
+             * EXISTING TRANSLATION SYSTEM
+             * DO NOT REPLACE WITH MOCK LOGIC.
+             */
+
+            initTranslations();
+
+        });
+
+    </script>
+
+</body>
+
+</html>
