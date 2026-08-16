@@ -2,38 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>SELLBY | Terms & Conditions</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- EXISTING AUTHENTICATION GUARD — DO NOT REMOVE -->
     <script type="module" src="js/auth-guard.js"></script>
+
     <style>
-        .legal-content { padding: 24px 18px; line-height: 1.7; color: #334155; }
-        .legal-content h2 { font-size: 18px; font-weight: 700; margin: 20px 0 10px; color: #1e293b; }
-        .legal-content p { font-size: 14px; margin-bottom: 15px; }
-    </style>
-</head>
-<body>
-    <header class="category-header">
-        <button class="back-btn-small" id="backBtn" onclick="history.back()">←</button>
-        <div class="category-title-area">
-            <h1 id="pageTitle" data-i18n="terms_conditions">Terms & Conditions</h1>
-            <p id="pageSubtitle" data-i18n="app_name">Usage Guidelines</p>
-        </div>
-    </header>
+        /* =========================================================
+           SELLBY TERMS & CONDITIONS
+           UI ONLY — EXISTING JS / AUTH / i18n PRESERVED
+           ========================================================= */
 
-    <main class="legal-content" id="mainContent">
-        <p data-i18n="terms_text"></p>
-    </main>
+        * {
+            box-sizing: border-box;
+        }
 
-    <script type="module">
-        import { initTranslations } from "./js/i18n.js";
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initTranslations();
-        });
-    </script>
-</body>
-</html>
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #f7f8fc;
+            color: #172033;
+        }
+
+        /* ---------- HEADER ---------- */
+
+        .category-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            width: 100%;
+            min-height: 68px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 10px 14px;
+
+            background: linear-gradient(
+                135deg,
+                #7c3aed 0%,
+                #a832d4 50%,
+                #d51f7a 100%
+            );
+
+            box-shadow:
+                0 5px 18px rgba(124, 58, 
