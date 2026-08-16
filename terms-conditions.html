@@ -66,4 +66,522 @@
             );
 
             box-shadow:
-                0 5px 18px rgba(124, 58, 
+                0 5px 18px rgba(124, 58, 237, 0.18);
+        }
+
+        .back-btn-small {
+            flex: 0 0 44px;
+
+            width: 44px;
+            height: 44px;
+
+            border: 0;
+            border-radius: 13px;
+
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+
+            font-size: 25px;
+            font-weight: 400;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .back-btn-small:active {
+            transform: scale(0.95);
+        }
+
+        .category-title-area {
+            min-width: 0;
+            padding-left: 12px;
+        }
+
+        .category-title-area h1 {
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 17px;
+            line-height: 1.25;
+            font-weight: 700;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .category-title-area p {
+            margin: 3px 0 0;
+
+            color: rgba(255, 255, 255, 0.78);
+
+            font-size: 10px;
+            line-height: 1.3;
+            font-weight: 400;
+        }
+
+        /* ---------- MAIN ---------- */
+
+        .legal-page {
+            width: 100%;
+            max-width: 760px;
+
+            margin: 0 auto;
+
+            padding: 18px 14px 40px;
+        }
+
+        /* ---------- HERO ---------- */
+
+        .legal-hero {
+            width: 100%;
+
+            padding: 22px 18px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(124, 58, 237, 0.10),
+                    rgba(213, 31, 122, 0.07)
+                );
+
+            border: 1px solid rgba(124, 58, 237, 0.10);
+
+            margin-bottom: 16px;
+
+            text-align: center;
+        }
+
+        .legal-icon {
+            width: 52px;
+            height: 52px;
+
+            margin: 0 auto 11px;
+
+            border-radius: 16px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(
+                135deg,
+                #7c3aed,
+                #d51f7a
+            );
+
+            color: #ffffff;
+
+            font-size: 25px;
+
+            box-shadow:
+                0 8px 20px rgba(124, 58, 237, 0.22);
+        }
+
+        .legal-hero h2 {
+            margin: 0;
+
+            font-size: 20px;
+            line-height: 1.35;
+
+            font-weight: 800;
+
+            color: #172033;
+        }
+
+        .legal-hero p {
+            margin: 7px auto 0;
+
+            max-width: 560px;
+
+            font-size: 12px;
+            line-height: 1.6;
+
+            color: #6b7280;
+        }
+
+        /* ---------- CONTENT CARD ---------- */
+
+        .legal-card {
+            width: 100%;
+
+            background: #ffffff;
+
+            border: 1px solid #edf0f5;
+
+            border-radius: 20px;
+
+            padding: 20px 17px;
+
+            box-shadow:
+                0 5px 18px rgba(20, 30, 55, 0.055);
+
+            overflow: hidden;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            margin-bottom: 14px;
+
+            color: #5b21b6;
+
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .section-label::before {
+            content: "";
+
+            width: 4px;
+            height: 19px;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                180deg,
+                #7c3aed,
+                #d51f7a
+            );
+        }
+
+        /* Existing i18n content hook */
+
+        .legal-content {
+            padding: 0;
+            margin: 0;
+
+            line-height: 1.8;
+
+            color: #475569;
+
+            font-size: 14px;
+
+            overflow-wrap: anywhere;
+            word-break: normal;
+        }
+
+        .legal-content p {
+            margin: 0 0 15px;
+
+            font-size: 14px;
+            line-height: 1.8;
+
+            color: #475569;
+        }
+
+        .legal-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .legal-content h2 {
+            margin: 22px 0 9px;
+
+            font-size: 16px;
+            line-height: 1.4;
+
+            font-weight: 700;
+
+            color: #1e293b;
+        }
+
+        .legal-content h3 {
+            margin: 18px 0 7px;
+
+            font-size: 14px;
+            font-weight: 700;
+
+            color: #334155;
+        }
+
+        .legal-content ul,
+        .legal-content ol {
+            margin: 10px 0 17px;
+            padding-left: 22px;
+        }
+
+        .legal-content li {
+            margin-bottom: 8px;
+
+            font-size: 13px;
+            line-height: 1.7;
+
+            color: #475569;
+        }
+
+        /* ---------- IMPORTANT NOTE ---------- */
+
+        .legal-note {
+            margin-top: 16px;
+
+            padding: 14px 15px;
+
+            border-radius: 15px;
+
+            background: #faf7ff;
+
+            border: 1px solid #eee5ff;
+        }
+
+        .legal-note-title {
+            margin-bottom: 5px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            color: #6d28d9;
+        }
+
+        .legal-note-text {
+            margin: 0;
+
+            font-size: 11px;
+            line-height: 1.65;
+
+            color: #64748b;
+        }
+
+        /* ---------- FOOTER ---------- */
+
+        .legal-footer {
+            padding: 20px 5px 5px;
+
+            text-align: center;
+        }
+
+        .legal-footer p {
+            margin: 0;
+
+            font-size: 10px;
+            line-height: 1.5;
+
+            color: #94a3b8;
+        }
+
+        /* ---------- SMALL ANDROID SCREENS ---------- */
+
+        @media (max-width: 380px) {
+
+            .category-header {
+                min-height: 64px;
+                padding: 8px 10px;
+            }
+
+            .back-btn-small {
+                width: 40px;
+                height: 40px;
+                flex-basis: 40px;
+            }
+
+            .category-title-area h1 {
+                font-size: 15px;
+            }
+
+            .legal-page {
+                padding: 14px 10px 30px;
+            }
+
+            .legal-hero {
+                padding: 19px 14px;
+                border-radius: 17px;
+            }
+
+            .legal-card {
+                padding: 17px 14px;
+                border-radius: 17px;
+            }
+
+            .legal-content,
+            .legal-content p {
+                font-size: 13px;
+            }
+
+            .legal-hero h2 {
+                font-size: 18px;
+            }
+        }
+
+        /* ---------- TABLET / DESKTOP ---------- */
+
+        @media (min-width: 700px) {
+
+            .category-header {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .legal-page {
+                padding: 30px 20px 60px;
+            }
+
+            .legal-card {
+                padding: 28px 26px;
+            }
+
+            .legal-content,
+            .legal-content p {
+                font-size: 15px;
+            }
+        }
+
+        /* ---------- ACCESSIBILITY ---------- */
+
+        button {
+            font-family: inherit;
+        }
+
+        button:focus-visible {
+            outline: 3px solid rgba(124, 58, 237, 0.35);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         EXISTING HEADER / JS HOOKS PRESERVED
+         ========================================================= -->
+
+    <header class="category-header">
+
+        <button
+            class="back-btn-small"
+            id="backBtn"
+            onclick="history.back()"
+            aria-label="Go back">
+            ←
+        </button>
+
+        <div class="category-title-area">
+
+            <h1
+                id="pageTitle"
+                data-i18n="terms_conditions">
+                Terms & Conditions
+            </h1>
+
+            <p
+                id="pageSubtitle"
+                data-i18n="app_name">
+                SELLBY
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN TERMS CONTENT
+         ========================================================= -->
+
+    <main
+        class="legal-page"
+        id="mainContent">
+
+        <!-- HERO -->
+
+        <section class="legal-hero">
+
+            <div class="legal-icon" aria-hidden="true">
+                📄
+            </div>
+
+            <h2>
+                Terms & Conditions
+            </h2>
+
+            <p>
+                Please read these terms carefully before using SELLBY.
+            </p>
+
+        </section>
+
+
+        <!-- EXISTING TRANSLATION CONTENT -->
+
+        <section class="legal-card">
+
+            <div class="section-label">
+                Terms of Use
+            </div>
+
+            <!-- IMPORTANT:
+                 KEEP THIS EXISTING i18n HOOK.
+                 DO NOT REMOVE OR RENAME IT.
+            -->
+
+            <div
+                class="legal-content"
+                id="legalText">
+
+                <p data-i18n="terms_text"></p>
+
+            </div>
+
+        </section>
+
+
+        <!-- GENERAL NOTE -->
+
+        <section class="legal-note">
+
+            <div class="legal-note-title">
+                SELLBY Guidelines
+            </div>
+
+            <p class="legal-note-text">
+                By using SELLBY, you agree to follow the applicable
+                rules and use the marketplace responsibly and respectfully.
+            </p>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="legal-footer">
+
+            <p>
+                SELLBY · Sell Easy. Buy Easy.
+            </p>
+
+        </footer>
+
+    </main>
+
+
+    <!-- =========================================================
+         EXISTING i18n SYSTEM — PRESERVED
+         ========================================================= -->
+
+    <script type="module">
+
+        import { initTranslations } from "./js/i18n.js";
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            /*
+             * EXISTING TRANSLATION SYSTEM
+             * DO NOT REPLACE WITH MOCK LOGIC.
+             */
+
+            initTranslations();
+
+        });
+
+    </script>
+
+</body>
+</html>
