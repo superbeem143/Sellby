@@ -1,55 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
     <title>SELLBY | About</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- EXISTING AUTH GUARD — DO NOT REMOVE -->
     <script type="module" src="js/auth-guard.js"></script>
+
     <style>
-        .about-content { padding: 40px 18px; text-align: center; }
-        .about-logo { font-size: 44px; font-weight: 900; margin-bottom: 10px; }
-        .about-logo .sell { color: #6d28d9; }
-        .about-logo .by { background: var(--sellby-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .version { color: #64748b; font-size: 14px; margin-bottom: 30px; font-weight: 600; }
-        .about-text { color: #475569; line-height: 1.8; font-size: 15px; max-width: 500px; margin: 0 auto 40px; }
-        .social-row { display: flex; justify-content: center; gap: 20px; }
-        .social-link { width: 50px; height: 50px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; font-size: 20px; color: #7c3aed; text-decoration: none; }
-    </style>
-</head>
-<body>
-    <header class="category-header">
-        <button class="back-btn-small" onclick="history.back()">←</button>
-        <div class="category-title-area">
-            <h1 id="pageTitle" data-i18n="about_title">About</h1>
-        </div>
-    </header>
 
-    <main class="about-content">
-        <div class="about-logo">
-            <span class="sell">SELL</span><span class="by">BY</span>
-        </div>
-        <div class="version">Version 1.0.0</div>
+        /* =========================================================
+           SELLBY ABOUT PAGE
+           UI ONLY — EXISTING AUTH + i18n PRESERVED
+           ========================================================= */
 
-        <p class="about-text" id="aboutText" data-i18n="about_text">
-        </p>
+        * {
+            box-sizing: border-box;
+        }
 
-        <div class="social-row">
-            <a href="#" class="social-link">🌐</a>
-            <a href="#" class="social-link">📸</a>
-            <a href="#" class="social-link">📘</a>
-        </div>
-    </main>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
 
-    <script type="module">
-        import { initTranslations } from "./js/i18n.js";
+        body {
+            font-family: "Poppins", sans-serif;
+            background: #f7f8fc;
+            color: #172033;
+        }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initTranslations();
-        });
-    </script>
-</body>
-</html>
+        /* =========================================================
+           HEADER
+           ========================================================= */
+
+        .category-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            width: 100%;
+            min-height: 68px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 10px 14px;
+
+            background: linear-gradient(
+                135deg,
+                #7c3aed 0%,
+                #a832d4 50%,
+                #d51f7a 100%
+            );
+
+            box-shadow:
+                0 5px 18px rgba(124, 58, 237, 0.18);
+        }
+
+        .back-btn-small {
+            flex: 0 0 44px;
+
+            width: 44px;
+            height: 44px;
+
+            border: 0;
+            border-radius: 13px;
+
+            background: rgba(255, 255, 255, 0.16);
+
+            color: #ffffff;
+
+            font-size: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .back-btn-small:active {
+            transform: scale(0.95);
+        }
+
+        .category-title-area {
+            min-width: 0;
+            padding-left: 12px;
+        }
+
+        .category-title-area h1 {
+            margin: 0;
+
+            color: #ffffff;
+
+            font-size: 17px;
+            line-height: 1.25;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* =========================================================
+           MAIN PAGE
+           ========================================================= */
+
+        .about-page {
+            width: 100%;
+            max-width: 760px;
+
+            margin: 0 auto;
+
+            padding: 20px 14px 45px;
+        }
+
+        /* =========================================================
+           HERO CARD
+           ========================================================= */
+
+        .about-hero {
+            width: 100%;
+
+            padding: 28px 18px 25
