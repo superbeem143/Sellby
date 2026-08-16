@@ -1,412 +1,445 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    >
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-    <title>SELLBY | Mobile Login</title>
+<title>SELLBY | Login</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
 
-    <style>
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
 
-        /* =====================================================
-           SELLBY LOGIN UI
-           UI ONLY — DO NOT CHANGE AUTHENTICATION
-           ===================================================== */
+html,
+body{
+    width:100%;
+    min-height:100%;
+    overflow-x:hidden;
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+body{
+    font-family:"Poppins",sans-serif;
+    background:
+        linear-gradient(
+            145deg,
+            #f5f0ff,
+            #fff4f9 55%,
+            #f8f9fd
+        );
+    color:#172033;
+}
 
-        html,
-        body {
-            width: 100%;
-            min-height: 100%;
-            overflow-x: hidden;
-        }
+button,
+input,
+select{
+    font:inherit;
+}
 
-        body {
-            font-family: "Poppins", sans-serif;
-            color: #172033;
-            background:
-                radial-gradient(
-                    circle at top left,
-                    rgba(124,58,237,.12),
-                    transparent 38%
-                ),
-                radial-gradient(
-                    circle at top right,
-                    rgba(219,39,119,.10),
-                    transparent 35%
-                ),
-                #f8f9fd;
-        }
+.auth-page{
+    min-height:100dvh;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px 14px;
+}
 
-        button,
-        input,
-        select {
-            font-family: inherit;
-        }
+.auth-card{
+    width:100%;
+    max-width:430px;
+    background:rgba(255,255,255,.97);
+    border:1px solid #eee8f8;
+    border-radius:26px;
+    padding:28px 22px 24px;
+    box-shadow:0 20px 55px rgba(50,30,90,.12);
+    position:relative;
+    overflow:hidden;
+}
 
-        button {
-            cursor: pointer;
-        }
+.auth-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:5px;
+    background:
+        linear-gradient(
+            90deg,
+            #7c3aed,
+            #a855f7,
+            #db2777
+        );
+}
 
-        /* =====================================================
-           PAGE
-           ===================================================== */
+/* BRAND */
 
-        .auth-page {
-            min-height: 100dvh;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px 14px;
-        }
+.auth-header{
+    text-align:center;
+    margin-bottom:28px;
+}
 
-        /* =====================================================
-           CARD
-           ===================================================== */
+.auth-brand-logo{
+    font-size:38px;
+    line-height:1;
+    font-weight:800;
+    letter-spacing:-1.5px;
+    margin-bottom:7px;
+}
 
-        .auth-card {
-            width: 100%;
-            max-width: 430px;
-            background: rgba(255,255,255,.96);
-            border: 1px solid rgba(124,58,237,.10);
-            border-radius: 28px;
-            padding: 30px 24px 24px;
-            box-shadow:
-                0 25px 60px rgba(37,25,75,.10),
-                0 5px 20px rgba(124,58,237,.06);
-            position: relative;
-            overflow: hidden;
-        }
+.logo-sell{
+    color:#6d28d9;
+}
 
-        .auth-card::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(
-                90deg,
-                #7c3aed,
-                #a855f7,
-                #db2777
-            );
-        }
+.logo-by{
+    color:#db2777;
+}
 
-        /* =====================================================
-           BRAND
-           ===================================================== */
+.auth-tagline{
+    font-size:12px;
+    color:#858b99;
+    font-weight:500;
+}
 
-        .auth-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+/* STEPS */
 
-        .auth-brand-logo {
-            font-size: 38px;
-            line-height: 1;
-            font-weight: 800;
-            letter-spacing: -1.5px;
-            margin-bottom: 8px;
-        }
+.form-step{
+    width:100%;
+    animation:fade .22s ease;
+}
 
-        .logo-sell {
-            color: #6d28d9;
-        }
+.form-step.hidden{
+    display:none;
+}
 
-        .logo-by {
-            background: linear-gradient(
-                135deg,
-                #db2777,
-                #ec4899
-            );
+.auth-card-title{
+    font-size:23px;
+    font-weight:700;
+    margin-bottom:7px;
+}
 
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+.auth-card-subtitle{
+    font-size:13px;
+    line-height:1.6;
+    color:#7c8492;
+    margin-bottom:21px;
+}
 
-        .auth-tagline {
-            font-size: 12px;
-            color: #7b8495;
-            font-weight: 500;
-            letter-spacing: .2px;
-        }
+.target-phone-highlight{
+    color:#6d28d9;
+    font-weight:700;
+}
 
-        /* =====================================================
-           FORM STEP
-           ===================================================== */
+/* PHONE */
 
-        .form-step {
-            width: 100%;
-            animation: fadeIn .25s ease;
-        }
+.phone-input-wrapper{
+    height:58px;
+    width:100%;
+    display:flex;
+    border:2px solid #e3e5ed;
+    border-radius:16px;
+    background:#f9f9fc;
+    overflow:hidden;
+    margin-bottom:17px;
+}
 
-        .form-step.hidden {
-            display: none;
-        }
+.phone-input-wrapper:focus-within{
+    border-color:#8b5cf6;
+    box-shadow:0 0 0 4px rgba(124,58,237,.09);
+    background:#fff;
+}
 
-        .auth-card-title {
-            font-size: 23px;
-            font-weight: 700;
-            color: #172033;
-            margin-bottom: 8px;
-        }
+/* COUNTRY */
 
-        .auth-card-subtitle {
-            font-size: 13px;
-            line-height: 1.6;
-            color: #7b8495;
-            margin-bottom: 22px;
-        }
+.country-code-select{
+    width:96px;
+    min-width:96px;
+    border:0;
+    border-right:1px solid #e1e3eb;
+    outline:0;
+    background:#f0eff8;
+    color:#242b3b;
+    font-size:15px;
+    font-weight:600;
+    padding:0 7px;
+}
 
-        .target-phone-highlight {
-            color: #6d28d9;
-            font-weight: 700;
-        }
+/* MOBILE NUMBER */
 
-        /* =====================================================
-           PHONE INPUT
-           ===================================================== */
+.phone-input{
+    width:100%;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:transparent;
+    padding:0 14px;
+    font-size:17px;
+    font-weight:600;
+    color:#172033;
+}
 
-        .phone-input-wrapper {
-            width: 100%;
-            height: 58px;
-            display: flex;
-            align-items: stretch;
-            background: #f8f9fc;
-            border: 1.8px solid #e3e6ee;
-            border-radius: 17px;
-            overflow: hidden;
-            transition: .2s ease;
-            margin-bottom: 18px;
-        }
+.phone-input::placeholder{
+    font-size:14px;
+    color:#a0a6b2;
+    font-weight:400;
+}
 
-        .phone-input-wrapper:focus-within {
-            background: #fff;
-            border-color: #7c3aed;
-            box-shadow:
-                0 0 0 4px rgba(124,58,237,.10);
-        }
+/* BUTTON */
 
-        /* =====================================================
-           COUNTRY SELECT
-           ===================================================== */
+.gradient-btn{
+    width:100%;
+    min-height:55px;
+    border:0;
+    border-radius:16px;
 
-        .country-code-select {
-            width: 96px;
-            min-width: 96px;
-            height: 100%;
-            border: 0;
-            outline: none;
-            background: #f1f3f8;
-            border-right: 1px solid #e1e4ec;
-            color: #263044;
-            font-size: 15px;
-            font-weight: 600;
-            padding: 0 8px;
-            cursor: pointer;
-            appearance: auto;
-        }
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #a855f7 48%,
+            #db2777
+        );
 
-        .country-code-select:focus {
-            background: #ecebff;
-        }
+    color:white;
+    font-size:15px;
+    font-weight:700;
 
-        /* =====================================================
-           MOBILE NUMBER
-           ===================================================== */
+    box-shadow:
+        0 10px 24px rgba(124,58,237,.24);
 
-        .phone-input {
-            flex: 1;
-            min-width: 0;
-            height: 100%;
-            border: 0;
-            outline: none;
-            background: transparent;
-            color: #172033;
-            font-size: 17px;
-            font-weight: 600;
-            padding: 0 16px;
-            letter-spacing: .5px;
-        }
+    transition:.18s;
+}
 
-        .phone-input::placeholder {
-            color: #a1a8b5;
-            font-size: 14px;
-            font-weight: 400;
-        }
+.gradient-btn:active{
+    transform:scale(.98);
+}
 
-        /* =====================================================
-           SELLBY BUTTON
-           ===================================================== */
+.gradient-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
 
-        .gradient-btn {
-            width: 100%;
-            min-height: 55px;
-            border: 0;
-            border-radius: 17px;
-            background:
-                linear-gradient(
-                    135deg,
-                    #7c3aed 0%,
-                    #a855f7 45%,
-                    #db2777 100%
-                );
-            color: #fff;
-            font-size: 15px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow:
-                0 10px 24px rgba(124,58,237,.25);
-            transition:
-                transform .18s ease,
-                box-shadow .18s ease,
-                opacity .18s ease;
-        }
+/* OTP */
 
-        .gradient-btn:hover {
-            transform: translateY(-1px);
-            box-shadow:
-                0 14px 30px rgba(124,58,237,.30);
-        }
+.otp-container{
+    width:100%;
+    display:grid;
+    grid-template-columns:
+        repeat(6,minmax(0,1fr));
 
-        .gradient-btn:active {
-            transform: scale(.98);
-        }
+    gap:7px;
+    margin:24px 0 19px;
+}
 
-        .gradient-btn:disabled {
-            opacity: .65;
-            cursor: not-allowed;
-            transform: none;
-        }
+.otp-field{
+    width:100%;
+    min-width:0;
+    height:54px;
 
-        /* =====================================================
-           OTP
-           ===================================================== */
+    border:2px solid #e2e5ed;
+    border-radius:13px;
 
-        .otp-container {
-            width: 100%;
-            display: grid;
-            grid-template-columns:
-                repeat(6, minmax(0, 1fr));
-            gap: 8px;
-            margin: 25px 0 20px;
-        }
+    background:#f9f9fc;
+    outline:0;
 
-        .otp-field {
-            width: 100%;
-            min-width: 0;
-            height: 55px;
-            border: 2px solid #e4e7ef;
-            border-radius: 14px;
-            background: #f8f9fc;
-            outline: none;
-            text-align: center;
-            color: #6d28d9;
-            font-size: 22px;
-            font-weight: 700;
-            transition: .18s ease;
-        }
+    text-align:center;
 
-        .otp-field:focus {
-            background: #fff;
-            border-color: #a855f7;
-            box-shadow:
-                0 0 0 4px rgba(168,85,247,.10);
-            transform: translateY(-2px);
-        }
+    color:#6d28d9;
+    font-size:21px;
+    font-weight:700;
+}
 
-        .otp-field.filled {
-            background: #f5f0ff;
-            border-color: #7c3aed;
-        }
+.otp-field:focus{
+    border-color:#a855f7;
+    background:#fff;
 
-        /* =====================================================
-           OTP BOTTOM ROW
-           ===================================================== */
+    box-shadow:
+        0 0 0 4px rgba(168,85,247,.09);
+}
 
-        .otp-meta-row {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-top: 18px;
-        }
+/* OTP BOTTOM */
 
-        .change-num-btn {
-            border: 0;
-            background: transparent;
-            color: #6d28d9;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 8px 0;
-            white-space: nowrap;
-        }
+.otp-meta-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:17px;
+}
 
-        .change-num-btn:hover {
-            color: #db2777;
-        }
+.change-num-btn,
+.resend-btn{
+    border:0;
+    background:transparent;
+    padding:8px 0;
+    font-size:12px;
+    font-weight:700;
+}
 
-        .timer-badge {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 7px;
-            font-size: 12px;
-            color: #7b8495;
-            white-space: nowrap;
-        }
+.change-num-btn{
+    color:#6d28d9;
+}
 
-        #timerCountdown {
-            font-weight: 600;
-        }
+.resend-btn{
+    color:#db2777;
+}
 
-        #timerCountdown strong {
-            color: #7c3aed;
-            font-weight: 700;
-        }
+.resend-btn:disabled{
+    color:#b7bcc7;
+}
 
-        .resend-btn {
-            border: 0;
-            background: transparent;
-            color: #db2777;
-            font-size: 12px;
-            font-weight: 700;
-            padding: 8px 0;
-        }
+.timer-badge{
+    display:flex;
+    align-items:center;
+    gap:6px;
 
-        .resend-btn:disabled {
-            color: #b9bfca;
-            cursor: not-allowed;
-        }
+    color:#858b99;
+    font-size:11px;
+    white-space:nowrap;
+}
 
-        /* =====================================================
-           STATUS
-           ===================================================== */
+#timerCountdown strong{
+    color:#7c3aed;
+}
 
-        .auth-status-msg {
-            width:
+/* STATUS */
+
+.auth-status-msg{
+    display:none;
+    width:100%;
+
+    margin-top:17px;
+    padding:11px 13px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    font-size:12px;
+    font-weight:600;
+    line-height:1.45;
+}
+
+.auth-status-msg.error{
+    display:block;
+    color:#b91c1c;
+    background:#fff1f2;
+    border:1px solid #fecdd3;
+}
+
+.auth-status-msg.success{
+    display:block;
+    color:#15803d;
+    background:#f0fdf4;
+    border:1px solid #bbf7d0;
+}
+
+.auth-status-msg.info{
+    display:block;
+    color:#2563eb;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+}
+
+/* RECAPTCHA */
+
+#recaptcha-container{
+    width:100%;
+    overflow:hidden;
+}
+
+/* ANIMATION */
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(4px);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+/* SMALL ANDROID */
+
+@media(max-width:380px){
+
+    .auth-page{
+        padding:12px 9px;
+    }
+
+    .auth-card{
+        padding:25px 16px 20px;
+        border-radius:23px;
+    }
+
+    .auth-brand-logo{
+        font-size:34px;
+    }
+
+    .auth-card-title{
+        font-size:21px;
+    }
+
+    .country-code-select{
+        width:88px;
+        min-width:88px;
+        font-size:14px;
+    }
+
+    .phone-input{
+        font-size:16px;
+        padding:0 11px;
+    }
+
+    .otp-container{
+        gap:5px;
+    }
+
+    .otp-field{
+        height:50px;
+        font-size:19px;
+    }
+
+    .otp-meta-row{
+        gap:5px;
+    }
+}
+
+/* VERY SMALL SCREEN */
+
+@media(max-width:330px){
+
+    .otp-meta-row{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .timer-badge{
+        justify-content:space-between;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<main class="auth-page">
+
+<section class="auth-card">
+
+<!--
