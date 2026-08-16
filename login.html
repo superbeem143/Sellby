@@ -1,109 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SELLBY | Mobile Login</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+Inspect the existing SELLBY login.html exactly as it is.
 
-    <main class="auth-page">
-        <section class="auth-card">
-            
-            <!-- SELLBY BRAND LOGO & TAGLINE -->
-            <header class="auth-header">
-                <h1 class="auth-brand-logo">
-                    <span class="logo-sell">SELL</span><span class="logo-by">BY</span>
-                </h1>
-                <p class="auth-tagline">
-                    Sell Easy. Buy Easy.
-                </p>
-            </header>
+DO NOT rewrite the authentication system.
 
-            <!-- STEP 1: MOBILE NUMBER ENTRY -->
-            <div id="phoneStep" class="form-step">
-                <h2 class="auth-card-title" data-i18n="login_or_register">Login or Register</h2>
-                <p class="auth-card-subtitle" data-i18n="enter_mobile">
-                    Enter your mobile number to receive a verification code via SMS.
-                </p>
+Preserve:
+- js/firebase-config.js
+- js/login.js
+- Firebase Phone Authentication
+- reCAPTCHA
+- OTP sending
+- OTP verification
+- resend OTP
+- change number
+- multilingual i18n behavior
+- all existing event IDs and JavaScript hooks
 
-                <div class="phone-input-wrapper">
-                    <select id="countryCode" class="country-code-select" aria-label="Country Code">
-                        <option value="+91">🇮🇳 +91</option>
-                        <option value="+1">🇺🇸 +1</option>
-                        <option value="+44">🇬🇧 +44</option>
-                        <option value="+971">🇦🇪 +971</option>
-                    </select>
-                    <input 
-                        id="mobileNumber" 
-                        type="tel" 
-                        class="phone-input" 
-                        data-i18n="phone_placeholder"
-                        placeholder="Enter mobile number"
-                        maxlength="10"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        autocomplete="tel-national"
-                        required>
-                </div>
+The IDs used by JavaScript must remain unchanged:
+phoneStep
+otpStep
+countryCode
+mobileNumber
+sendOtpBtn
+displayPhoneNumber
+otp-1 through otp-6
+verifyOtpBtn
+changeNumberBtn
+resendOtpBtn
+timerCountdown
+recaptcha-container
+statusMessage
 
-                <button id="sendOtpBtn" class="gradient-btn" type="button">
-                    <span data-i18n="continue">Continue</span>
-                </button>
-            </div>
+ONLY improve the presentation/UI.
 
-            <!-- STEP 2: OTP VERIFICATION -->
-            <div id="otpStep" class="form-step hidden">
-                <h2 class="auth-card-title" data-i18n="enter_code">Enter verification code</h2>
-                <p class="auth-card-subtitle">
-                    <span data-i18n="code_sent">Code sent to</span> <span id="displayPhoneNumber" class="target-phone-highlight">+91 00000 00000</span>
-                </p>
+Create a premium, clean, mobile-first SELLBY login screen.
 
-                <div class="otp-container">
-                    <input type="text" maxlength="1" class="otp-field" id="otp-1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                    <input type="text" maxlength="1" class="otp-field" id="otp-2" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                    <input type="text" maxlength="1" class="otp-field" id="otp-3" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                    <input type="text" maxlength="1" class="otp-field" id="otp-4" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                    <input type="text" maxlength="1" class="otp-field" id="otp-5" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                    <input type="text" maxlength="1" class="otp-field" id="otp-6" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                </div>
+Requirements:
+- Correct India +91 default presentation.
+- Country selector must visually match the selected country.
+- Mobile number input must be clearly visible and touch-friendly.
+- OTP fields must appear as six proper individual boxes.
+- Continue and Verify buttons must be polished SELLBY gradient buttons.
+- Change Number and Resend OTP must have a clean layout.
+- Countdown must be clearly visible.
+- Loading, success and error states must look professional.
+- Prevent horizontal overflow.
+- Make the page work correctly on small Android screens.
+- Keep all existing JavaScript hooks and functionality intact.
+- Do not replace real Firebase functionality with mock/demo logic.
 
-                <button id="verifyOtpBtn" class="gradient-btn" type="button">
-                    <span data-i18n="verify_code">Verify Code</span>
-                </button>
+Before editing, inspect login.js and firebase-config.js to understand the existing hooks.
 
-                <div class="otp-meta-row">
-                    <button id="changeNumberBtn" class="change-num-btn" type="button" data-i18n="change_number">
-                        ← Change number
-                    </button>
-                    
-                    <div class="timer-badge">
-                        <button id="resendOtpBtn" class="resend-btn" type="button" disabled data-i18n="resend_otp">Resend OTP</button>
-                        <span id="timerCountdown">in <strong>30s</strong></span>
-                    </div>
-                </div>
-            </div>
+After editing, test:
+1. Login page loads.
+2. +91 is selected by default.
+3. Mobile number can be entered.
+4. Continue triggers the existing OTP flow.
+5. OTP screen appears.
+6. Six OTP inputs work correctly.
+7. Verify uses the existing Firebase logic.
+8. Resend works.
+9. Change number works.
+10. Error/status messages work.
+11. No Firebase or JavaScript functionality is broken.
 
-            <!-- RECAPTCHA CONTAINER (INVISIBLE) -->
-            <div id="recaptcha-container"></div>
-
-            <!-- STATUS & ERROR MESSAGES -->
-            <div id="statusMessage" class="auth-status-msg" role="alert"></div>
-
-        </section>
-    </main>
-
-    <!-- FIREBASE SERVICES -->
-    <script type="module" src="js/firebase-config.js"></script>
-
-    <!-- LOGIN SCRIPT -->
-    <script type="module" src="js/login.js"></script>
-
-</body>
-</html>
+This is a UI repair/refinement task, NOT an authentication rewrite.
