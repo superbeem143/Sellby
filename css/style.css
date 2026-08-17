@@ -2391,3 +2391,126 @@ textarea:focus {
     font-size: 15px;
     font-weight: 700;
 }
+/* =========================
+   SETTINGS / PROFILE PAGE
+   ========================= */
+
+.profile-page {
+    width: 100%;
+    padding: 18px 16px 110px;
+}
+
+.profile-menu {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+}
+
+.profile-item {
+    width: 100%;
+    min-height: 64px;
+    padding: 12px 14px;
+
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    color: var(--text);
+    background: #ffffff;
+
+    text-decoration: none;
+    border-bottom: 1px solid var(--border-light);
+
+    transition: var(--transition);
+}
+
+.profile-item:last-child {
+    border-bottom: none;
+}
+
+.profile-item:hover {
+    background: #faf5ff;
+}
+
+.profile-item:active {
+    background: #f5f3ff;
+}
+
+.profile-item-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--primary);
+    background: #f5f3ff;
+
+    border-radius: 12px;
+}
+
+.profile-item-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.profile-item-text {
+    flex: 1;
+    min-width: 0;
+
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+.profile-item-arrow {
+    flex-shrink: 0;
+
+    color: #94a3b8;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.lang-subtext {
+    color: var(--muted);
+}
+
+.profile-page > div[data-i18n="preferences"],
+.profile-page > div[data-i18n="support"] {
+    padding-left: 2px;
+}
+
+#logoutBtn {
+    width: 100%;
+    min-height: 52px;
+    border-radius: 15px;
+    font-weight: 700;
+}
+
+/* Settings mobile spacing */
+@media (max-width: 480px) {
+    .profile-page {
+        padding: 16px 12px 110px;
+    }
+
+    .profile-item {
+        min-height: 62px;
+        padding: 10px 12px;
+    }
+
+    .profile-item-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .profile-item-text {
+        font-size: 14px;
+    }
+}
