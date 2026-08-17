@@ -1,5 +1,17 @@
+/* =========================================================
+   SELLBY — i18n.js
+   Multi-language System
+   Languages: English / Telugu / Hindi
+   ========================================================= */
+
 const translations = {
+
+    /* =====================================================
+       ENGLISH
+       ===================================================== */
+
     en: {
+
         // Shared
         app_name: "SELLBY",
         back: "Go Back",
@@ -32,7 +44,7 @@ const translations = {
         my_ads: "My Ads",
         my_chats: "My Chats",
 
-        // Home Page
+        // Home
         hero_title: "India's Premium Marketplace",
         hero_subtitle: "Buy and Sell anything with ease.",
         browse_categories: "Browse Categories",
@@ -70,7 +82,7 @@ const translations = {
         seller_info: "Seller Information",
         post_date: "Posted on",
 
-        // Post Ad Page
+        // Post Ad
         post_ad_title: "What are you selling?",
         post_ad_subtitle: "Choose a category to continue",
 
@@ -97,22 +109,47 @@ const translations = {
         help_support: "Help & Support",
         help_title: "Help & Support",
         help_subtitle: "How can we help you?",
+
         help_content: [
-            { h: "🛒 How to buy?", p: "Browse categories, find what you like, and chat with the seller to negotiate and buy." },
-            { h: "📢 How to sell?", p: "Click the 'Sell' button, choose a category or use Voice Post, add photos and details, and publish." },
-            { h: "🔒 Safety Tips", p: "Always meet in public places for transactions and never share your password or sensitive info." }
+            {
+                h: "🛒 How to buy?",
+                p: "Browse categories, find what you like, and chat with the seller to negotiate and buy."
+            },
+            {
+                h: "📢 How to sell?",
+                p: "Click the 'Sell' button, choose a category, add photos and details, and publish."
+            },
+            {
+                h: "🔒 Safety Tips",
+                p: "Always meet in public places for transactions and never share your password or sensitive info."
+            }
         ],
+
         safety_report: "Safety & Report",
+
         policy_title: "Privacy Policy",
-        policy_text: "At SELLBY, we take your privacy seriously. We only collect necessary information to provide our services and ensure a safe trading environment. Your data is protected and never sold to third parties.",
+
+        policy_text:
+            "At SELLBY, we take your privacy seriously. We only collect necessary information to provide our services and ensure a safe trading environment. Your data is protected and never sold to third parties.",
+
         terms_title: "Terms & Conditions",
-        terms_text: "By using SELLBY, you agree to our terms. You must provide accurate information, not post prohibited items, and treat other users with respect. We reserve the right to remove any content that violates our policies.",
+
+        terms_text:
+            "By using SELLBY, you agree to our terms. You must provide accurate information, not post prohibited items, and treat other users with respect. We reserve the right to remove any content that violates our policies.",
+
         safety_title: "Safety & Report",
-        safety_text: "Your safety is our top priority. If you encounter any suspicious activity or inappropriate content, please report it immediately. We will investigate and take necessary action.",
+
+        safety_text:
+            "Your safety is our top priority. If you encounter any suspicious activity or inappropriate content, please report it immediately. We will investigate and take necessary action.",
+
         report_btn: "Report Suspicious Activity",
+
         about_sellby: "About SELLBY",
+
         about_title: "About Us",
-        about_text: "SELLBY is India's premium local marketplace. Our mission is to make buying and selling as easy as a conversation. With our innovative voice-to-text posting, you can list your items in seconds.",
+
+        about_text:
+            "SELLBY is India's premium local marketplace. Our mission is to make buying and selling as easy as a conversation. With our innovative voice-to-text posting, you can list your items in seconds.",
 
         // Localization
         lang_en: "English",
@@ -120,7 +157,7 @@ const translations = {
         lang_hi: "हिन्दी",
         select_lang: "Select Language",
 
-        // Post Category Specifics
+        // Post Categories
         post_property: "Post Property",
         post_mobile: "Post Mobile",
         post_car: "Post Car",
@@ -128,7 +165,9 @@ const translations = {
         post_electronics: "Post Electronics",
         post_furniture: "Post Furniture",
         post_others: "Post Others",
+
         voice_posting: "Voice Posting",
+
         desc_prop: "House, Apartment, Land",
         desc_mobile: "Phone, Tablet, Accessories",
         desc_car: "Sedan, SUV, Hatchback",
@@ -137,6 +176,7 @@ const translations = {
         desc_furniture: "Sofa, Bed, Table",
         desc_voice: "Sell faster by speaking",
         desc_others: "Fashion, Books, Sports",
+
         speak_instantly: "Speak and create your ad instantly",
         tap_mic: "Tap the microphone",
         speak_clearly: "Speak clearly in Telugu, English or Hindi.",
@@ -213,10 +253,18 @@ const translations = {
         change_number: "Change number",
         resend_otp: "Resend OTP",
         mobile_login_active: "Mobile Login Active",
-        mobile_login_desc: "SELLBY now uses instant Mobile Number + OTP verification! Password resets are no longer needed.",
+        mobile_login_desc:
+            "SELLBY now uses instant Mobile Number + OTP verification! Password resets are no longer needed.",
         continue_to_login: "Continue to Mobile Login"
     },
+
+
+    /* =====================================================
+       TELUGU
+       ===================================================== */
+
     te: {
+
         // Shared
         app_name: "SELLBY",
         back: "వెనుకకు",
@@ -249,7 +297,7 @@ const translations = {
         my_ads: "నా ప్రకటనలు",
         my_chats: "నా చాట్లు",
 
-        // Home Page
+        // Home
         hero_title: "భారతదేశపు ప్రీమియం మార్కెట్‌ప్లేస్",
         hero_subtitle: "దేన్నైనా సులభంగా కొనండి మరియు అమ్మండి.",
         browse_categories: "వర్గాలను బ్రౌజ్ చేయండి",
@@ -287,7 +335,7 @@ const translations = {
         seller_info: "అమ్మకందారుని సమాచారం",
         post_date: "పోస్ట్ చేసిన తేదీ",
 
-        // Post Ad Page
+        // Post Ad
         post_ad_title: "మీరు ఏమి అమ్ముతున్నారు?",
         post_ad_subtitle: "కొనసాగించడానికి ఒక వర్గాన్ని ఎంచుకోండి",
 
@@ -314,22 +362,47 @@ const translations = {
         help_support: "సహాయం & మద్దతు",
         help_title: "సహాయం & మద్దతు",
         help_subtitle: "మేము మీకు ఎలా సహాయం చేయగలము?",
+
         help_content: [
-            { h: "🛒 ఎలా కొనాలి?", p: "వర్గాలను బ్రౌజ్ చేయండి, మీకు నచ్చినదాన్ని కనుగొనండి మరియు ధర గురించి చర్చించడానికి మరియు కొనడానికి అమ్మకందారునితో చాట్ చేయండి." },
-            { h: "📢 ఎలా అమ్మాలి?", p: "'అమ్మండి' బటన్ క్లిక్ చేయండి, ఒక వర్గాన్ని ఎంచుకోండి లేదా వాయిస్ పోస్ట్ ఉపయోగించండి, ఫోటోలు మరియు వివరాలను జోడించి, ప్రచురించండి." },
-            { h: "🔒 భద్రతా చిట్కాలు", p: "లావాదేవీల కోసం ఎల్లప్పుడూ బహిరంగ ప్రదేశాలలో కలవండి మరియు మీ పాస్‌వర్డ్ లేదా సున్నితమైన సమాచారాన్ని ఎప్పుడూ పంచుకోవద్దు." }
+            {
+                h: "🛒 ఎలా కొనాలి?",
+                p: "వర్గాలను బ్రౌజ్ చేయండి, మీకు నచ్చినదాన్ని కనుగొనండి మరియు ధర గురించి చర్చించడానికి మరియు కొనడానికి అమ్మకందారునితో చాట్ చేయండి."
+            },
+            {
+                h: "📢 ఎలా అమ్మాలి?",
+                p: "'అమ్మండి' బటన్ క్లిక్ చేయండి, ఒక వర్గాన్ని ఎంచుకోండి, ఫోటోలు మరియు వివరాలను జోడించి, ప్రచురించండి."
+            },
+            {
+                h: "🔒 భద్రతా చిట్కాలు",
+                p: "లావాదేవీల కోసం ఎల్లప్పుడూ బహిరంగ ప్రదేశాలలో కలవండి మరియు మీ పాస్‌వర్డ్ లేదా సున్నితమైన సమాచారాన్ని ఎప్పుడూ పంచుకోవద్దు."
+            }
         ],
+
         safety_report: "భద్రత & నివేదిక",
+
         policy_title: "గోప్యతా విధానం",
-        policy_text: "SELLBY వద్ద, మేము మీ గోప్యతను తీవ్రంగా పరిగణిస్తాము. మా సేవలను అందించడానికి మరియు సురక్షితమైన వ్యాపార వాతావరణాన్ని నిర్ధారించడానికి మేము అవసరమైన సమాచారాన్ని మాత్రమే సేకరిస్తాము. మీ డేటా సురక్షితంగా ఉంటుంది మరియు ఎప్పుడూ మూడవ పక్షాలకు విక్రయించబడదు.",
+
+        policy_text:
+            "SELLBY వద్ద, మేము మీ గోప్యతను తీవ్రంగా పరిగణిస్తాము. మా సేవలను అందించడానికి మరియు సురక్షితమైన వ్యాపార వాతావరణాన్ని నిర్ధారించడానికి మేము అవసరమైన సమాచారాన్ని మాత్రమే సేకరిస్తాము. మీ డేటా సురక్షితంగా ఉంటుంది మరియు ఎప్పుడూ మూడవ పక్షాలకు విక్రయించబడదు.",
+
         terms_title: "నియమ నిబంధనలు",
-        terms_text: "SELLBYని ఉపయోగించడం ద్వారా, మీరు మా నిబంధనలకు అంగీకరిస్తున్నారు. మీరు ఖచ్చితమైన సమాచారాన్ని అందించాలి, నిషేధించబడిన వస్తువులను పోస్ట్ చేయకూడదు మరియు ఇతర వినియోగదారులను గౌరవంగా చూడాలి. మా విధానాలను ఉల్లంఘించే ఏదైనా కంటెంట్‌ను తొలగించే హక్కు మాకు ఉంది.",
+
+        terms_text:
+            "SELLBYని ఉపయోగించడం ద్వారా, మీరు మా నిబంధనలకు అంగీకరిస్తున్నారు. మీరు ఖచ్చితమైన సమాచారాన్ని అందించాలి, నిషేధించబడిన వస్తువులను పోస్ట్ చేయకూడదు మరియు ఇతర వినియోగదారులను గౌరవంగా చూడాలి. మా విధానాలను ఉల్లంఘించే ఏదైనా కంటెంట్‌ను తొలగించే హక్కు మాకు ఉంది.",
+
         safety_title: "భద్రత & నివేదిక",
-        safety_text: "మీ భద్రత మా మొదటి ప్రాధాన్యత. మీరు ఏదైనా అనుమానాస్పద కార్యకలాపాన్ని లేదా అనుచితమైన కంటెంట్‌ను చూసినట్లయితే, దయచేసి వెంటనే నివేదించండి. మేము విచారణ చేసి అవసరమైన చర్య తీసుకుంటాము.",
+
+        safety_text:
+            "మీ భద్రత మా మొదటి ప్రాధాన్యత. మీరు ఏదైనా అనుమానాస్పద కార్యకలాపాన్ని లేదా అనుచితమైన కంటెంట్‌ను చూసినట్లయితే, దయచేసి వెంటనే నివేదించండి. మేము విచారణ చేసి అవసరమైన చర్య తీసుకుంటాము.",
+
         report_btn: "అనుమానాస్పద కార్యాచరణను నివేదించండి",
+
         about_sellby: "SELLBY గురించి",
+
         about_title: "మా గురించి",
-        about_text: "SELLBY భారతదేశపు ప్రీమియం స్థానిక మార్కెట్‌ప్లేస్. కొనడం మరియు అమ్మడం ఒక సంభాషణ అంత సులభం చేయడమే మా లక్ష్యం. మా వినూత్న వాయిస్-టు-టెక్స్ట్ పోస్టింగ్‌తో, మీరు మీ వస్తువులను సెకన్లలో లిస్ట్ చేయవచ్చు.",
+
+        about_text:
+            "SELLBY భారతదేశపు ప్రీమియం స్థానిక మార్కెట్‌ప్లేస్. కొనడం మరియు అమ్మడం ఒక సంభాషణ అంత సులభం చేయడమే మా లక్ష్యం. మా వినూత్న వాయిస్-టు-టెక్స్ట్ పోస్టింగ్‌తో, మీరు మీ వస్తువులను సెకన్లలో లిస్ట్ చేయవచ్చు.",
 
         // Localization
         lang_en: "English",
@@ -337,7 +410,7 @@ const translations = {
         lang_hi: "हिन्दी",
         select_lang: "భాషను ఎంచుకోండి",
 
-        // Post Category Specifics
+        // Post Categories
         post_property: "ఆస్తిని పోస్ట్ చేయండి",
         post_mobile: "మొబైల్‌ను పోస్ట్ చేయండి",
         post_car: "కారును పోస్ట్ చేయండి",
@@ -345,7 +418,9 @@ const translations = {
         post_electronics: "ఎలక్ట్రానిక్స్‌ను పోస్ట్ చేయండి",
         post_furniture: "ఫర్నిచర్‌ను పోస్ట్ చేయండి",
         post_others: "ఇతరాలను పోస్ట్ చేయండి",
+
         voice_posting: "వాయిస్ పోస్టింగ్",
+
         desc_prop: "ఇల్లు, అపార్ట్మెంట్, స్థలం",
         desc_mobile: "ఫోన్, టాబ్లెట్, యాక్సెసరీస్",
         desc_car: "సెడాన్, ఎస్‌యూవీ, హ్యాచ్‌బ్యాక్",
@@ -354,6 +429,7 @@ const translations = {
         desc_furniture: "సోఫా, బెడ్, టేబుల్",
         desc_voice: "మాట్లాడటం ద్వారా వేగంగా అమ్మండి",
         desc_others: "ఫ్యాషన్, పుస్తకాలు, క్రీడలు",
+
         speak_instantly: "మాట్లాడండి మరియు మీ ప్రకటనను తక్షణమే సృష్టించండి",
         tap_mic: "మైక్రోఫోన్‌ను నొక్కండి",
         speak_clearly: "తెలుగు, ఇంగ్లీష్ లేదా హిందీలో స్పష్టంగా మాట్లాడండి.",
@@ -430,10 +506,18 @@ const translations = {
         change_number: "నంబర్‌ను మార్చండి",
         resend_otp: "OTPని మళ్లీ పంపండి",
         mobile_login_active: "మొబైల్ లాగిన్ యాక్టివ్‌గా ఉంది",
-        mobile_login_desc: "SELLBY ఇప్పుడు తక్షణ మొబైల్ నంబర్ + OTP ధృవీకరణను ఉపయోగిస్తుంది! పాస్‌వర్డ్ రీసెట్‌లు ఇకపై అవసరం లేదు.",
+        mobile_login_desc:
+            "SELLBY ఇప్పుడు తక్షణ మొబైల్ నంబర్ + OTP ధృవీకరణను ఉపయోగిస్తుంది! పాస్‌వర్డ్ రీసెట్‌లు ఇకపై అవసరం లేదు.",
         continue_to_login: "మొబైల్ లాగిన్‌కి కొనసాగండి"
     },
+
+
+    /* =====================================================
+       HINDI
+       ===================================================== */
+
     hi: {
+
         // Shared
         app_name: "SELLBY",
         back: "पीछे",
@@ -466,7 +550,7 @@ const translations = {
         my_ads: "मेरे विज्ञापन",
         my_chats: "मेरी चैट",
 
-        // Home Page
+        // Home
         hero_title: "भारत का प्रीमियम मार्केटप्लेस",
         hero_subtitle: "आसानी से कुछ भी खरीदें और बेचें।",
         browse_categories: "श्रेणियां ब्राउज़ करें",
@@ -504,7 +588,7 @@ const translations = {
         seller_info: "विक्रेता की जानकारी",
         post_date: "पोस्ट करने की तारीख",
 
-        // Post Ad Page
+        // Post Ad
         post_ad_title: "आप क्या बेच रहे हैं?",
         post_ad_subtitle: "जारी रखने के लिए एक श्रेणी चुनें",
 
@@ -528,25 +612,50 @@ const translations = {
         privacy_policy: "गोपनीयता नीति",
         terms_conditions: "नियम और शर्तें",
         support: "समर्थन",
-        help_support: " सहायता और समर्थन",
+        help_support: "सहायता और समर्थन",
         help_title: "सहायता और समर्थन",
         help_subtitle: "हम आपकी क्या मदद कर सकते हैं?",
+
         help_content: [
-            { h: "🛒 कैसे खरीदें?", p: "श्रेणियां ब्राउज़ करें, जो आपको पसंद हो उसे खोजें और मोलभाव करने और खरीदने के लिए विक्रेता के साथ चैट करें।" },
-            { h: "📢 कैसे बेचें?", p: "'बेचें' बटन पर क्लिक करें, एक श्रेणी चुनें या वॉयस पोस्ट का उपयोग करें, फोटो और विवरण जोड़ें और प्रकाशित करें।" },
-            { h: "🔒 सुरक्षा टिप्स", p: "लेन-देन के लिए हमेशा सार्वजनिक स्थानों पर मिलें और अपना पासवर्ड या संवेदनशील जानकारी कभी साझा न करें।" }
+            {
+                h: "🛒 कैसे खरीदें?",
+                p: "श्रेणियां ब्राउज़ करें, जो आपको पसंद हो उसे खोजें और मोलभाव करने और खरीदने के लिए विक्रेता के साथ चैट करें।"
+            },
+            {
+                h: "📢 कैसे बेचें?",
+                p: "'बेचें' बटन पर क्लिक करें, एक श्रेणी चुनें, फोटो और विवरण जोड़ें और प्रकाशित करें।"
+            },
+            {
+                h: "🔒 सुरक्षा टिप्स",
+                p: "लेन-देन के लिए हमेशा सार्वजनिक स्थानों पर मिलें और अपना पासवर्ड या संवेदनशील जानकारी कभी साझा न करें।"
+            }
         ],
+
         safety_report: "सुरक्षा और रिपोर्ट",
+
         policy_title: "गोपनीयता नीति",
-        policy_text: "SELLBY में, हम आपकी गोपनीयता को गंभीरता से लेते हैं। हम केवल अपनी सेवाएं प्रदान करने और एक सुरक्षित व्यापारिक वातावरण सुनिश्चित करने के लिए आवश्यक जानकारी एकत्र करते हैं। आपका डेटा सुरक्षित है और कभी भी तीसरे पक्ष को नहीं बेचा जाता है।",
+
+        policy_text:
+            "SELLBY में, हम आपकी गोपनीयता को गंभीरता से लेते हैं। हम केवल अपनी सेवाएं प्रदान करने और एक सुरक्षित व्यापारिक वातावरण सुनिश्चित करने के लिए आवश्यक जानकारी एकत्र करते हैं। आपका डेटा सुरक्षित है और कभी भी तीसरे पक्ष को नहीं बेचा जाता है।",
+
         terms_title: "नियम और शर्तें",
-        terms_text: "SELLBY का उपयोग करके, आप हमारी शर्तों से सहमत होते हैं। आपको सटीक जानकारी प्रदान करनी चाहिए, प्रतिबंधित वस्तुओं को पोस्ट नहीं करना चाहिए, और अन्य उपयोगकर्ताओं के साथ सम्मानपूर्वक व्यवहार करना चाहिए। हमारे पास ऐसी किसी भी सामग्री को हटाने का अधिकार है जो हमारी नीतियों का उल्लंघन करती है।",
+
+        terms_text:
+            "SELLBY का उपयोग करके, आप हमारी शर्तों से सहमत होते हैं। आपको सटीक जानकारी प्रदान करनी चाहिए, प्रतिबंधित वस्तुओं को पोस्ट नहीं करना चाहिए, और अन्य उपयोगकर्ताओं के साथ सम्मानपूर्वक व्यवहार करना चाहिए। हमारे पास ऐसी किसी भी सामग्री को हटाने का अधिकार है जो हमारी नीतियों का उल्लंघन करती है।",
+
         safety_title: "सुरक्षा और रिपोर्ट",
-        safety_text: "आपकी सुरक्षा हमारी सर्वोच्च प्राथमिकता है। यदि आप किसी भी संदिग्ध गतिविधि या अनुचित सामग्री का सामना करते हैं, तो कृपया तुरंत इसकी रिपोर्ट करें। हम जांच करेंगे और आवश्यक कार्रवाई करेंगे।",
+
+        safety_text:
+            "आपकी सुरक्षा हमारी सर्वोच्च प्राथमिकता है। यदि आप किसी भी संदिग्ध गतिविधि या अनुचित सामग्री का सामना करते हैं, तो कृपया तुरंत इसकी रिपोर्ट करें। हम जांच करेंगे और आवश्यक कार्रवाई करेंगे।",
+
         report_btn: "संदिग्ध गतिविधि की रिपोर्ट करें",
+
         about_sellby: "SELLBY के बारे में",
+
         about_title: "हमारे बारे में",
-        about_text: "SELLBY भारत का प्रीमियम स्थानीय मार्केटप्लेस है। हमारा मिशन खरीदना और बेचना एक बातचीत जितना आसान बनाना है। हमारे अभिनव वॉयस-टू-टेक्स्ट पोस्टिंग के साथ, आप सेकंडों में अपने आइटम सूचीबद्ध कर सकते हैं।",
+
+        about_text:
+            "SELLBY भारत का प्रीमियम स्थानीय मार्केटप्लेस है। हमारा मिशन खरीदना और बेचना एक बातचीत जितना आसान बनाना है। हमारे अभिनव वॉयस-टू-टेक्स्ट पोस्टिंग के साथ, आप सेकंडों में अपने आइटम सूचीबद्ध कर सकते हैं।",
 
         // Localization
         lang_en: "English",
@@ -554,7 +663,7 @@ const translations = {
         lang_hi: "हिन्दी",
         select_lang: "भाषा चुनें",
 
-        // Post Category Specifics
+        // Post Categories
         post_property: "प्रॉपर्टी पोस्ट करें",
         post_mobile: "मोबाइल पोस्ट करें",
         post_car: "कार पोस्ट करें",
@@ -562,7 +671,9 @@ const translations = {
         post_electronics: "इलेक्ट्रॉनिक्स पोस्ट करें",
         post_furniture: "फर्नीचर पोस्ट करें",
         post_others: "अन्य पोस्ट करें",
+
         voice_posting: "वॉइस पोस्टिंग",
+
         desc_prop: "घर, अपार्टमेंट, भूमि",
         desc_mobile: "फोन, टैबलेट, सहायक उपकरण",
         desc_car: "सेडान, एसयूवी, हैचबैक",
@@ -571,6 +682,7 @@ const translations = {
         desc_furniture: "सोफा, बेड, टेबल",
         desc_voice: "बोलकर तेजी से बेचें",
         desc_others: "फैशन, किताबें, खेल",
+
         speak_instantly: "बोलें और अपना विज्ञापन तुरंत बनाएं",
         tap_mic: "माइक्रोफ़ोन पर टैप करें",
         speak_clearly: "तेलुगु, अंग्रेजी या हिंदी में स्पष्ट बोलें।",
@@ -647,51 +759,211 @@ const translations = {
         change_number: "नंबर बदलें",
         resend_otp: "OTP पुन: भेजें",
         mobile_login_active: "मोबाइल लॉगिन सक्रिय",
-        mobile_login_desc: "SELLBY अब तत्काल मोबाइल नंबर + OTP सत्यापन का उपयोग करता है! पासवर्ड रीसेट की अब आवश्यकता नहीं है।",
+        mobile_login_desc:
+            "SELLBY अब तत्काल मोबाइल नंबर + OTP सत्यापन का उपयोग करता है! पासवर्ड रीसेट की अब आवश्यकता नहीं है।",
         continue_to_login: "मोबाइल लॉगिन पर जारी रखें"
     }
 };
 
+
+/* =========================================================
+   LANGUAGE HELPERS
+   ========================================================= */
+
+const SUPPORTED_LANGUAGES = ["en", "te", "hi"];
+
+const DEFAULT_LANGUAGE = "en";
+
+const STORAGE_KEY = "sellby_lang";
+
+
+/* =========================================================
+   GET CURRENT LANGUAGE
+   ========================================================= */
+
 export function getLanguage() {
-    return localStorage.getItem("sellby_lang") || "en";
+
+    const savedLanguage = localStorage.getItem(STORAGE_KEY);
+
+    if (SUPPORTED_LANGUAGES.includes(savedLanguage)) {
+        return savedLanguage;
+    }
+
+    return DEFAULT_LANGUAGE;
 }
+
+
+/* =========================================================
+   SET LANGUAGE
+   ========================================================= */
 
 export function setLanguage(lang) {
-    localStorage.setItem("sellby_lang", lang);
+
+    if (!SUPPORTED_LANGUAGES.includes(lang)) {
+        console.warn(`Unsupported language: ${lang}`);
+        return false;
+    }
+
+    localStorage.setItem(STORAGE_KEY, lang);
+
+    return true;
 }
+
+
+/* =========================================================
+   TRANSLATION FUNCTION
+   ========================================================= */
 
 export function t(key) {
+
     const lang = getLanguage();
-    return translations[lang][key] || translations["en"][key] || key;
+
+    const currentTranslations =
+        translations[lang] || translations[DEFAULT_LANGUAGE];
+
+    if (currentTranslations[key] !== undefined) {
+        return currentTranslations[key];
+    }
+
+    if (translations[DEFAULT_LANGUAGE][key] !== undefined) {
+        return translations[DEFAULT_LANGUAGE][key];
+    }
+
+    return key;
 }
+
+
+/* =========================================================
+   GET ALL TRANSLATIONS
+   ========================================================= */
 
 export function getTranslations() {
+
     const lang = getLanguage();
-    return translations[lang] || translations["en"];
+
+    return translations[lang] || translations[DEFAULT_LANGUAGE];
 }
 
-// Global initialization mechanism to translate elements with data-i18n attribute
+
+/* =========================================================
+   APPLY TRANSLATIONS
+   ========================================================= */
+
 export function initTranslations() {
+
     const elements = document.querySelectorAll("[data-i18n]");
-    elements.forEach(el => {
-        const key = el.getAttribute("data-i18n");
-        if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") {
-            el.placeholder = t(key);
+
+    elements.forEach(element => {
+
+        const key = element.getAttribute("data-i18n");
+
+        if (!key) {
+            return;
+        }
+
+        const value = t(key);
+
+        /*
+         * Input / Textarea:
+         * Use translation as placeholder.
+         */
+        if (
+            element.tagName === "INPUT" ||
+            element.tagName === "TEXTAREA"
+        ) {
+
+            element.placeholder = value;
+
         } else {
-            el.textContent = t(key);
+
+            element.textContent = value;
+
         }
     });
 
-    // Handle attributes like placeholders separately if needed
-    const placeholderElements = document.querySelectorAll("[data-i18n-placeholder]");
-    placeholderElements.forEach(el => {
-        const key = el.getAttribute("data-i18n-placeholder");
-        el.placeholder = t(key);
+
+    /* =====================================================
+       PLACEHOLDER TRANSLATIONS
+       ===================================================== */
+
+    const placeholderElements =
+        document.querySelectorAll("[data-i18n-placeholder]");
+
+    placeholderElements.forEach(element => {
+
+        const key =
+            element.getAttribute("data-i18n-placeholder");
+
+        if (!key) {
+            return;
+        }
+
+        element.placeholder = t(key);
     });
 
-    // Set document title if exists
-    const titleKey = document.querySelector("title")?.getAttribute("data-i18n");
-    if (titleKey) {
+
+    /* =====================================================
+       VALUE TRANSLATIONS
+       ===================================================== */
+
+    const valueElements =
+        document.querySelectorAll("[data-i18n-value]");
+
+    valueElements.forEach(element => {
+
+        const key =
+            element.getAttribute("data-i18n-value");
+
+        if (!key) {
+            return;
+        }
+
+        element.value = t(key);
+    });
+
+
+    /* =====================================================
+       DOCUMENT TITLE
+       ===================================================== */
+
+    const titleElement = document.querySelector("title[data-i18n]");
+
+    if (titleElement) {
+
+        const titleKey =
+            titleElement.getAttribute("data-i18n");
+
         document.title = t(titleKey);
     }
+
+
+    /* =====================================================
+       HTML LANG ATTRIBUTE
+       ===================================================== */
+
+    document.documentElement.lang = getLanguage();
 }
+
+
+/* =========================================================
+   AUTO INITIALIZATION
+   ========================================================= */
+
+if (document.readyState === "loading") {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initTranslations,
+        { once: true }
+    );
+
+} else {
+
+    initTranslations();
+
+}
+
+
+/* =========================================================
+   END SELLBY i18n.js
+   ========================================================= */
