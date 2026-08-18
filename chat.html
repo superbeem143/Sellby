@@ -18,30 +18,13 @@
 
 <body class="chat-page-body">
 
-<header class="header">
+<header class="header chat-compact-header">
     <button class="back-btn-small" onclick="history.back()">←</button>
-    <div class="header-center">
-        <h1 id="sellerName">Seller</h1>
-        <p id="sellerStatus" data-i18n="online">Online</p>
+    <div id="chatHeaderInfo" class="chat-header-info">
+        <img id="chatHeaderThumb" class="chat-header-thumb" src="images/sellby-logo.png" alt="Ad Thumbnail">
+        <h1 id="chatHeaderTitle" class="chat-header-title" data-i18n="chat">SELLBY Chat</h1>
     </div>
 </header>
-
-<!-- ================= AD CONTEXT BANNER ================= -->
-<div id="adContextBanner" class="ad-context-banner">
-    <div class="ad-context-thumb">
-        <img id="adContextImg" src="" alt="Ad Thumbnail">
-    </div>
-    <div class="ad-context-info">
-        <h4 id="adContextTitle" data-i18n="loading">Loading Ad...</h4>
-        <div class="ad-context-meta">
-            <span id="adContextPrice"></span>
-            <span id="adContextLocation"></span>
-        </div>
-    </div>
-    <div class="ad-context-action">
-        <span data-i18n="view_all">View</span> →
-    </div>
-</div>
 
 <!-- ================= CHAT AREA ================= -->
 <div id="chatMessages" class="chat-area"></div>

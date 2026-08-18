@@ -2,412 +2,342 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>SELLBY | Safety & Report</title>
+    <title>SELLBY - Safety & Report</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-
-    <!-- EXISTING AUTH GUARD — PRESERVED -->
     <script type="module" src="js/auth-guard.js"></script>
 
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f8fafc; color: #0f172a; min-height: 100vh; padding-bottom: 80px; }
 
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            margin: 0;
-            padding: 0;
+        .safety-header {
             width: 100%;
-            min-height: 100%;
-            overflow-x: hidden;
-        }
-
-        body {
-            font-family: "Poppins", sans-serif;
-            background: #f7f8fc;
-            color: #172033;
-        }
-
-        /* =========================
-           HEADER
-           ========================= */
-
-        .category-header {
+            min-height: 56px;
+            height: 56px;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(109, 40, 217, 0.18);
             position: sticky;
             top: 0;
             z-index: 100;
-
-            width: 100%;
-            min-height: 68px;
-
-            display: flex;
-            align-items: center;
-
-            padding: 10px 14px;
-
-            background: linear-gradient(
-                135deg,
-                #7c3aed 0%,
-                #a832d4 50%,
-                #d51f7a 100%
-            );
-
-            box-shadow:
-                0 5px 18px rgba(124, 58, 237, 0.18);
         }
 
-        .back-btn-small {
-            flex: 0 0 44px;
-
-            width: 44px;
-            height: 44px;
-
-            border: 0;
-            border-radius: 13px;
-
-            background: rgba(255, 255, 255, 0.16);
-
-            color: #fff;
-
-            font-size: 25px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            cursor: pointer;
-
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .back-btn-small:active {
-            transform: scale(0.95);
-        }
-
-        .category-title-area {
-            min-width: 0;
-            padding-left: 12px;
-        }
-
-        .category-title-area h1 {
-            margin: 0;
-
-            color: #fff;
-
+        .safety-header-title {
             font-size: 17px;
-            line-height: 1.25;
-
             font-weight: 700;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: #ffffff;
+            margin: 0 0 0 12px;
+            flex: 1;
         }
 
-        .category-title-area p {
-            margin: 2px 0 0;
-
-            color: rgba(255, 255, 255, 0.78);
-
-            font-size: 9px;
-            line-height: 1.3;
+        .page-wrap {
+            max-width: 600px;
+            margin: 16px auto 40px;
+            padding: 0 14px 40px;
         }
 
-        /* =========================
-           MAIN
-           ========================= */
-
-        .safety-content {
-            width: 100%;
-            max-width: 760px;
-
-            margin: 0 auto;
-
-            padding: 18px 14px 45px;
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 20px 16px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+            border: 1px solid #f1f5f9;
+            margin-bottom: 16px;
         }
 
-        /* =========================
-           HERO
-           ========================= */
-
-        .safety-hero {
-            padding: 25px 18px;
-
-            border-radius: 21px;
-
-            text-align: center;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(124, 58, 237, 0.10),
-                    rgba(213, 31, 122, 0.08)
-                );
-
-            border: 1px solid rgba(124, 58, 237, 0.10);
-
-            box-shadow:
-                0 5px 18px rgba(20, 30, 55, 0.035);
-        }
-
-        .safety-icon {
-            width: 54px;
-            height: 54px;
-
-            margin: 0 auto 12px;
-
-            border-radius: 17px;
-
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            justify-content: center;
-
-            background: linear-gradient(
-                135deg,
-                #7c3aed,
-                #d51f7a
-            );
-
-            color: #fff;
-
-            font-size: 26px;
-
-            box-shadow:
-                0 7px 18px rgba(124, 58, 237, 0.22);
+            gap: 8px;
         }
 
-        .safety-hero h2 {
-            margin: 0;
-
-            color: #172033;
-
-            font-size: 18px;
-            font-weight: 700;
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 14px;
         }
 
-        .safety-hero p {
-            margin: 7px 0 0;
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1e293b;
+        }
 
-            color: #64748b;
+        .form-group label .required {
+            color: #dc2626;
+        }
 
+        .form-group label .optional {
+            font-weight: 400;
+            color: #94a3b8;
             font-size: 11px;
-            line-height: 1.6;
         }
 
-        /* =========================
-           SAFETY INTRO
-           ========================= */
-
-        .safety-intro {
-            margin: 16px 0 0;
-
-            padding: 17px;
-
-            background: #fff;
-
-            border: 1px solid #edf0f5;
-
-            border-radius: 18px;
-
-            color: #475569;
-
-            font-size: 12px;
-            line-height: 1.75;
-
-            box-shadow:
-                0 5px 18px rgba(20, 30, 55, 0.045);
-        }
-
-        /* =========================
-           SAFETY CARDS
-           ========================= */
-
-        .safety-card {
-            position: relative;
-
-            margin-top: 13px;
-
-            padding: 17px 16px 17px 20px;
-
-            background: #fff;
-
-            border-radius: 18px;
-
-            border: 1px solid #edf0f5;
-
-            box-shadow:
-                0 5px 18px rgba(20, 30, 55, 0.045);
-
-            overflow: hidden;
-        }
-
-        .safety-card::before {
-            content: "";
-
-            position: absolute;
-
-            left: 0;
-            top: 0;
-            bottom: 0;
-
-            width: 4px;
-
-            background: linear-gradient(
-                180deg,
-                #7c3aed,
-                #d51f7a
-            );
-        }
-
-        .safety-card h3 {
-            margin: 0 0 7px;
-
-            color: #4c1d95;
-
+        .form-group select,
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 14px;
             font-size: 14px;
-            font-weight: 700;
+            background: #f8fafc;
+            color: #0f172a;
+            outline: none;
+            transition: all 0.2s ease;
         }
 
-        .safety-card p {
-            margin: 0;
-
-            color: #64748b;
-
-            font-size: 11px;
-            line-height: 1.7;
+        .form-group select:focus,
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #7c3aed;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
         }
 
-        /* =========================
-           REPORT BOX
-           ========================= */
-
-        .report-box {
-            margin-top: 18px;
-
-            padding: 19px 16px;
-
-            background: #fff;
-
-            border-radius: 20px;
-
-            border: 1px solid #fee2e2;
-
-            box-shadow:
-                0 5px 18px rgba(20, 30, 55, 0.045);
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
-        .report-box h3 {
-            margin: 0 0 7px;
-
-            color: #991b1b;
-
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            padding: 14px;
             font-size: 15px;
             font-weight: 700;
-        }
-
-        .report-box p {
-            margin: 0;
-
-            color: #64748b;
-
-            font-size: 11px;
-            line-height: 1.7;
-        }
-
-        /* =========================
-           REPORT BUTTON
-           ========================= */
-
-        .report-btn {
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25);
+            transition: all 0.2s ease;
             display: flex;
-
-            width: 100%;
-            min-height: 50px;
-
-            margin-top: 15px;
-
             align-items: center;
             justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
 
-            padding: 13px 16px;
+        .submit-btn:hover {
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+        }
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #fff1f2,
-                    #fef2f2
-                );
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
 
-            color: #dc2626;
-
-            text-align: center;
-
-            border-radius: 15px;
-
-            font-family: inherit;
-
+        .inline-validation {
             font-size: 12px;
-            font-weight: 700;
-
-            text-decoration: none;
-
-            border: 1px solid #fecaca;
-
-            cursor: pointer;
-
-            -webkit-tap-highlight-color: transparent;
+            font-weight: 500;
+            color: #dc2626;
+            margin-top: 4px;
+            display: none;
         }
 
-        .report-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* =========================
-           FOOTER
-           ========================= */
-
-        .safety-footer {
-            padding: 20px 5px 5px;
-
+        /* Success State */
+        .success-box {
+            display: none;
             text-align: center;
+            padding: 28px 16px;
         }
 
-        .safety-footer p {
-            margin: 0;
-
-            color: #94a3b8;
-
-            font-size: 9px;
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 14px;
+            font-weight: bold;
         }
 
-        /* =========================
-           SMALL ANDROID
-           ========================= */
+        .success-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
 
-        @media (max-width: 380px) {
+        .success-desc {
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
 
-            .category-header {
-                min-height: 64px;
-                padding: 8px 10px;
-            }
+        .done-btn {
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 28px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
 
-            .back-btn-small {
-                width: 40px;
-                height: 40px;
-                flex-basis: 40px;
-            }
+        /* Safety Tips Section */
+        .safety-tips-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-            .category
+        .safety-tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .safety-tip-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .safety-tip-text {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .safety-tip-text strong {
+            color: #0f172a;
+            display: block;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+
+<body class="safety-page-body">
+
+    <!-- HEADER -->
+    <header class="safety-header">
+        <button class="back-btn-small" onclick="history.back()">←</button>
+        <h1 class="safety-header-title">Safety & Report</h1>
+    </header>
+
+    <main class="page-wrap">
+
+        <!-- REPORT FORM CARD -->
+        <section id="reportFormCard" class="card">
+            <h2 class="card-title">🚩 Submit a Report</h2>
+
+            <form id="reportForm" onsubmit="return false;">
+                
+                <div class="form-group">
+                    <label for="reportCategory">What would you like to report? <span class="required">*</span></label>
+                    <select id="reportCategory" required>
+                        <option value="">Select a reason</option>
+                        <option value="Scam or Fraud">Scam or Fraud</option>
+                        <option value="Fake / Misleading Ad">Fake / Misleading Ad</option>
+                        <option value="Inappropriate Content">Inappropriate Content</option>
+                        <option value="Harassment">Harassment</option>
+                        <option value="Spam">Spam</option>
+                        <option value="Suspicious User">Suspicious User</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div id="categoryValidation" class="inline-validation">Please select a reason for your report.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reportDetails">Report Details <span class="required">*</span></label>
+                    <textarea id="reportDetails" placeholder="Describe the issue in detail..." required></textarea>
+                    <div id="detailsValidation" class="inline-validation">Please describe the issue in detail.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="targetId">Ad or User ID <span class="optional">(Optional)</span></label>
+                    <input id="targetId" type="text" placeholder="Enter Ad ID or User ID if applicable">
+                </div>
+
+                <div class="form-action">
+                    <button id="submitReportBtn" type="button" class="submit-btn">
+                        <span>Submit Report</span>
+                    </button>
+                </div>
+
+            </form>
+        </section>
+
+        <!-- SUCCESS CARD -->
+        <section id="successCard" class="card success-box">
+            <div class="success-icon">✓</div>
+            <h2 class="success-title">Report Submitted Successfully</h2>
+            <p class="success-desc">Thank you for helping keep SELLBY safe. Our moderation team will review your report shortly.</p>
+            <button id="doneBtn" type="button" class="done-btn" onclick="history.back()">Done</button>
+        </section>
+
+        <!-- SAFETY TIPS CARD -->
+        <section class="card">
+            <h2 class="card-title">🛡️ Stay Safe on SELLBY</h2>
+            <div class="safety-tips-list">
+                <div class="safety-tip-item">
+                    <span class="safety-tip-icon">🔒</span>
+                    <div class="safety-tip-text">
+                        <strong>Never share sensitive information</strong>
+                        Never share passwords, bank details, or OTPs with anyone.
+                    </div>
+                </div>
+
+                <div class="safety-tip-item">
+                    <span class="safety-tip-icon">💳</span>
+                    <div class="safety-tip-text">
+                        <strong>Beware of suspicious payments</strong>
+                        Avoid paying advance money before physically verifying items or properties.
+                    </div>
+                </div>
+
+                <div class="safety-tip-item">
+                    <span class="safety-tip-icon">🚨</span>
+                    <div class="safety-tip-text">
+                        <strong>Report suspicious activity</strong>
+                        Use the report form above if you encounter fake ads or suspicious users.
+                    </div>
+                </div>
+
+                <div class="safety-tip-item">
+                    <span class="safety-tip-icon">💬</span>
+                    <div class="safety-tip-text">
+                        <strong>Keep communication in SELLBY</strong>
+                        Chat directly inside the app to keep your conversations recorded and secure.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FIREBASE & SCRIPT -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/safety-report.js"></script>
+
+</body>
+
+</html>

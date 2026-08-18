@@ -758,95 +758,40 @@ function renderAdBannerWithMeta(
     meta
 ) {
 
-    const banner =
+    const headerThumb =
         document.getElementById(
-            "adContextBanner"
+            "chatHeaderThumb"
         );
 
-    const image =
+    const headerTitle =
         document.getElementById(
-            "adContextImg"
+            "chatHeaderTitle"
         );
 
-    const title =
+    const headerInfo =
         document.getElementById(
-            "adContextTitle"
-        );
-
-    const price =
-        document.getElementById(
-            "adContextPrice"
-        );
-
-    const location =
-        document.getElementById(
-            "adContextLocation"
+            "chatHeaderInfo"
         );
 
 
-    if (!banner) return;
+    if (headerThumb) {
+        headerThumb.src =
+            meta.image ||
+            "images/sellby-logo.png";
+    }
 
+    if (headerTitle) {
+        headerTitle.textContent =
+            meta.title ||
+            "SELLBY Chat";
+    }
 
-    if (
-        meta.title ||
-        targetAdId
-    ) {
-
-        banner.style.display =
-            "flex";
-
-
-        if (image) {
-
-            image.src =
-                meta.image ||
-                "images/sellby-logo.png";
-
-        }
-
-
-        if (title) {
-
-            title.textContent =
-                meta.title ||
-                "Ad Details";
-
-        }
-
-
-        if (price) {
-
-            price.textContent =
-                "₹ " +
-                Number(
-                    meta.price || 0
-                ).toLocaleString(
-                    "en-IN"
-                );
-
-        }
-
-
-        if (location) {
-
-            location.textContent =
-                meta.location
-                    ? "📍 " +
-                      meta.location
-                    : "";
-
-        }
-
-
-        banner.onclick = () => {
-
+    if (headerInfo) {
+        headerInfo.onclick = () => {
             if (!targetAdId) return;
-
             window.location.href =
                 `ad-details.html?id=${encodeURIComponent(targetAdId)}`;
-
         };
-
     }
 
 }

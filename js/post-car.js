@@ -11,9 +11,11 @@ const UPLOAD_PRESET = "mvrproperties";
 
 const publishBtn = document.getElementById("publishBtn");
 const photosInput = document.getElementById("photos");
-const imagePreview = document.getElementById("imagePreview");
-const previewCount = document.getElementById("previewCount");
+const imageGrid = document.getElementById("imageGrid");
+const currentImgCount = document.getElementById("currentImgCount");
+const addImgHeaderBtn = document.getElementById("addImgHeaderBtn");
 const statusMessage = document.getElementById("statusMessage");
+const saveDraftBtn = document.getElementById("saveDraftBtn");
 
 let selectedFiles = [];
 const MAX_IMAGES = 10;
@@ -22,44 +24,79 @@ function localizeUI() {
     initTranslations();
 }
 
-photosInput.addEventListener("change", () => {
-    const files = Array.from(photosInput.files);
-    files.forEach(file => {
-        if (selectedFiles.length < MAX_IMAGES && file.type.startsWith("image/")) {
-            selectedFiles.push(file);
-        }
+if (photosInput) {
+    photosInput.addEventListener("change", () => {
+        const files = Array.from(photosInput.files);
+        files.forEach(file => {
+            if (selectedFiles.length < MAX_IMAGES && file.type.startsWith("image/")) {
+                selectedFiles.push(file);
+            }
+        });
+        renderPreview();
+        photosInput.value = "";
     });
-    renderPreview();
-    photosInput.value = "";
-});
+}
 
 function renderPreview() {
-    imagePreview.innerHTML = "";
+    if (!imageGrid) return;
+    imageGrid.innerHTML = "";
+
     selectedFiles.forEach((file, index) => {
-        const reader = new FileReader();
-        const thumb = document.createElement("div");
-        thumb.className = "preview-thumb";
+        const tile = document.createElement("div");
+        tile.className = "thumb-tile";
+
+        const img = document.createElement("img");
+        img.alt = `Preview ${index + 1}`;
 
         const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "remove-thumb-btn";
         removeBtn.innerHTML = "×";
-        removeBtn.className = "remove-img";
+        removeBtn.title = "Remove image";
         removeBtn.onclick = (e) => {
             e.preventDefault();
+            e.stopPropagation();
             selectedFiles.splice(index, 1);
             renderPreview();
         };
 
+        const reader = new FileReader();
         reader.onload = (e) => {
-            const img = document.createElement("img");
             img.src = e.target.result;
-            thumb.appendChild(img);
-            thumb.appendChild(removeBtn);
         };
         reader.readAsDataURL(file);
-        imagePreview.appendChild(thumb);
+
+        tile.appendChild(img);
+        tile.appendChild(removeBtn);
+        imageGrid.appendChild(tile);
     });
-    if (previewCount) {
-        previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES}`;
+
+    if (selectedFiles.length < MAX_IMAGES) {
+        const addTile = document.createElement("div");
+        addTile.className = "add-tile";
+        addTile.onclick = () => photosInput && photosInput.click();
+        addTile.innerHTML = `
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#db2777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+            <span>Add Image</span>
+        `;
+        imageGrid.appendChild(addTile);
+    }
+
+    if (currentImgCount) {
+        currentImgCount.textContent = selectedFiles.length;
+    }
+
+    if (addImgHeaderBtn) {
+        if (selectedFiles.length >= MAX_IMAGES) {
+            addImgHeaderBtn.style.opacity = "0.5";
+            addImgHeaderBtn.style.pointerEvents = "none";
+        } else {
+            addImgHeaderBtn.style.opacity = "1";
+            addImgHeaderBtn.style.pointerEvents = "auto";
+        }
     }
 }
 
@@ -84,94 +121,103 @@ function getFieldValue(id) {
     return el ? el.value.trim() : "";
 }
 
-publishBtn.addEventListener("click", async () => {
-    if (!auth.currentUser) {
-        alert(t('login_first'));
-        window.location.href = "login.html";
-        return;
-    }
-
-    const brand = getFieldValue("brand");
-    const model = getFieldValue("model");
-    const price = getFieldValue("price");
-    const location = getFieldValue("location");
-    const description = getFieldValue("description");
-
-    if (selectedFiles.length === 0 || !brand || !model || !price) {
-        alert(t('identity_required'));
-        return;
-    }
-
-    publishBtn.disabled = true;
-    publishBtn.textContent = "⏳ " + t('uploading');
-    statusMessage.textContent = t('uploading') + "... Please wait.";
-    statusMessage.style.color = "#6d28d9";
-
-    try {
-        const imageUrls = [];
-        for (const file of selectedFiles) {
-            statusMessage.textContent = `Uploading image ${imageUrls.length + 1} of ${selectedFiles.length}...`;
-            const url = await uploadToCloudinary(file);
-            imageUrls.push(url);
+if (publishBtn) {
+    publishBtn.addEventListener("click", async () => {
+        if (!auth.currentUser) {
+            alert(t('login_first') || "Please login first.");
+            window.location.href = "login.html";
+            return;
         }
 
-        statusMessage.textContent = "Finalizing ad... Do not close the app.";
+        const brand = getFieldValue("brand");
+        const model = getFieldValue("model");
+        const price = getFieldValue("price");
+        const location = getFieldValue("location");
+        const description = getFieldValue("description");
 
-        const docData = {
-            category: "cars",
-            sellerId: auth.currentUser.uid,
-            sellerEmail: auth.currentUser.email || "",
-            brand,
-            model,
-            price: Number(price),
-            year: Number(getFieldValue("year")) || null,
-            kms: Number(getFieldValue("kms")) || null,
-            location,
-            description,
-            imageUrls,
-            status: "published",
-            createdAt: serverTimestamp()
-        };
+        if (selectedFiles.length === 0 || !brand || !model || !price) {
+            alert(t('identity_required') || "1 Photo + Price + Brand/Model required.");
+            return;
+        }
 
-        await addDoc(collection(db, "ads"), docData);
+        publishBtn.disabled = true;
+        publishBtn.textContent = "⏳ Uploading...";
+        if (statusMessage) {
+            statusMessage.textContent = "Uploading images... Please wait.";
+            statusMessage.style.color = "#6d28d9";
+        }
 
-        // Success State
-        statusMessage.textContent = t('publish_success');
-        statusMessage.style.color = "#16a34a";
-        publishBtn.textContent = "Published!";
-
-        alert("Success: Your ad is now live!");
-        window.location.href = "category.html?type=cars";
-    } catch (error) {
-        console.error(error);
-        alert(`Failed to publish: ${error.message}`);
-        statusMessage.textContent = "❌ Error: " + error.message;
-        statusMessage.style.color = "#dc2626";
-        publishBtn.disabled = false;
-        publishBtn.textContent = t('publish');
-    }
-});
-
-function prefillVoiceData() {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("voice") === "true") {
-        const rawData = localStorage.getItem("voice_post_data");
-        if (rawData) {
-            try {
-                const data = JSON.parse(rawData);
-                // ONLY pre-fill description as per latest simplified requirement
-                if (data.description) document.getElementById("description").value = data.description;
-
-                // Clear after use
-                localStorage.removeItem("voice_post_data");
-            } catch (e) {
-                console.warn("Voice data parse failed:", e);
+        try {
+            const imageUrls = [];
+            for (const file of selectedFiles) {
+                if (statusMessage) {
+                    statusMessage.textContent = `Uploading image ${imageUrls.length + 1} of ${selectedFiles.length}...`;
+                }
+                const url = await uploadToCloudinary(file);
+                imageUrls.push(url);
             }
+
+            if (statusMessage) {
+                statusMessage.textContent = "Finalizing ad... Do not close the app.";
+            }
+
+            const docData = {
+                category: "cars",
+                sellerId: auth.currentUser.uid,
+                sellerEmail: auth.currentUser.email || "",
+                brand,
+                model,
+                year: Number(getFieldValue("year")),
+                fuel: getFieldValue("fuel"),
+                transmission: getFieldValue("transmission"),
+                kms: Number(getFieldValue("kms")),
+                price: Number(price),
+                location,
+                description,
+                imageUrls,
+                status: "published",
+                createdAt: serverTimestamp()
+            };
+
+            await addDoc(collection(db, "ads"), docData);
+
+            if (statusMessage) {
+                statusMessage.textContent = "Published successfully!";
+                statusMessage.style.color = "#16a34a";
+            }
+            publishBtn.textContent = "Published!";
+
+            alert("Success: Your car ad is now live!");
+            window.location.href = "cars.html";
+        } catch (error) {
+            console.error("Publish Error:", error);
+            alert(`Failed to publish: ${error.message}`);
+            if (statusMessage) {
+                statusMessage.textContent = "❌ Error: " + error.message;
+                statusMessage.style.color = "#dc2626";
+            }
+            publishBtn.disabled = false;
+            publishBtn.textContent = "Publish Car";
         }
-    }
+    });
+}
+
+if (saveDraftBtn) {
+    saveDraftBtn.addEventListener("click", () => {
+        const draft = {
+            brand: getFieldValue("brand"),
+            model: getFieldValue("model"),
+            year: getFieldValue("year"),
+            price: getFieldValue("price"),
+            location: getFieldValue("location"),
+            description: getFieldValue("description")
+        };
+        localStorage.setItem("car_ad_draft", JSON.stringify(draft));
+        alert("Car draft saved locally!");
+    });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     localizeUI();
-    prefillVoiceData();
+    renderPreview();
 });

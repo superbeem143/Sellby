@@ -145,7 +145,9 @@ auth.onAuthStateChanged((user) => {
     }
 
     // Request notification permission
-    if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
+    if (window.AndroidNotification) {
+        window.AndroidNotification.requestPermission();
+    } else if ("Notification" in window && Notification.permission !== "granted" && Notification.permission !== "denied") {
         Notification.requestPermission();
     }
 
@@ -185,7 +187,9 @@ auth.onAuthStateChanged((user) => {
 });
 
 function showSystemNotification(title, body) {
-    if ("Notification" in window && Notification.permission === "granted") {
+    if (window.AndroidNotification) {
+        window.AndroidNotification.showNotification(title, body);
+    } else if ("Notification" in window && Notification.permission === "granted") {
         try {
             new Notification(title, {
                 body: body,

@@ -1,326 +1,153 @@
-<!-- ===================================================== -->
-<!--               SELLBY POST-CAR.HTML                   -->
-<!--                   HTML PART 1                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : post-car.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ HTML Document Start
-    ✔ Head Section
-    ✔ CSS Link
-    ✔ Header
-    ✔ Upload Photos
-    ✔ Car Brand
--->
-<!-- ===================================================== -->
-
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>SELLBY - Post Your Car</title>
 
-    <title>SELLBY | Post Car</title>
-
-    <link rel="preconnect"
-          href="https://fonts.googleapis.com">
-
-    <link rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
-
-    <script type="module" src="js/auth-guard.js"></script>
-
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Poppins',sans-serif;
-        }
-        body{
-            background:#f8fafc;
-            color:#0f172a;
-            min-height:100vh;
-        }
-        .page-wrap{
-            max-width:920px;
-            margin:24px auto 48px;
-            padding:0 18px;
-        }
-        .card{
-            background:#ffffff;
-            border-radius:24px;
-            padding:32px 28px;
-            box-shadow:0 10px 30px rgba(124, 58, 237, 0.08);
-            border:1px solid #f1f5f9;
-        }
-        .form-grid{
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:20px;
-        }
-        .full-width{
-            grid-column:1 / -1;
-        }
-        .form-group{
-            display:flex;
-            flex-direction:column;
-            gap:8px;
-        }
-        label{
-            font-size:14px;
-            font-weight:600;
-            color:#1e293b;
-        }
-        input, select, textarea{
-            width:100%;
-            border:2px solid #e2e8f0;
-            border-radius:16px;
-            padding:14px 16px;
-            font-size:15px;
-            background:#f8fafc;
-            color:#0f172a;
-            outline:none;
-            transition:all .2s ease;
-        }
-        input:focus, select:focus, textarea:focus{
-            border-color:#7c3aed;
-            box-shadow:0 0 0 4px rgba(124, 58, 237, 0.12);
-            background:#ffffff;
-        }
-        textarea{
-            min-height:130px;
-            resize:vertical;
-        }
-        .upload-area {
-            border: 2px dashed #cbd5e1;
-            border-radius: 18px;
-            padding: 24px;
-            text-align: center;
-            background: #f8fafc;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .upload-area:hover {
-            border-color: #7c3aed;
-            background: #f5f3ff;
-        }
-        .preview-count{
-            font-size:13px;
-            font-weight:600;
-            color:#6d28d9;
-            margin-top:6px;
-        }
-        .submit-row{
-            display:flex;
-            flex-wrap:wrap;
-            gap:16px;
-            margin-top:28px;
-            align-items:center;
-            justify-content:space-between;
-        }
-        .publish-btn{
-            background:linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
-            color:#ffffff;
-            border:none;
-            border-radius:16px;
-            padding:16px 32px;
-            font-size:16px;
-            font-weight:700;
-            cursor:pointer;
-            transition:all .2s ease;
-            box-shadow:0 10px 24px rgba(124, 58, 237, 0.25);
-            min-width:180px;
-        }
-        .publish-btn:hover{
-            transform:translateY(-2px);
-            box-shadow:0 14px 28px rgba(124, 58, 237, 0.35);
-        }
-        .status-message{
-            flex:1;
-            font-size:14px;
-            font-weight:500;
-            color:#475569;
-        }
-        @media (max-width:767px){
-            .form-grid{
-                grid-template-columns:1fr;
-                gap:16px;
-            }
-            .card{
-                padding:24px 18px;
-            }
-            .publish-btn{
-                width:100%;
-            }
-        }
-    </style>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/auth-guard.js"></script>
 
 </head>
 
-<body>
+<body class="post-ad-body">
 
-    <!-- ================= HEADER ================= -->
-
-    <header class="header">
+    <!-- HEADER -->
+    <header class="post-ad-header">
         <button class="back-btn-small" onclick="history.back()">←</button>
-        <div class="page-title">
-            <h1 data-i18n="post_car">Post Your Car</h1>
-            <p data-i18n="post_hint">Fill the details below</p>
-        </div>
+        <h1 class="post-ad-title">Post Your Car</h1>
+        <button id="saveDraftBtn" type="button" class="save-draft-btn">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            <span>Save Draft</span>
+        </button>
     </header>
 
-    <!-- ================= POST FORM ================= -->
+    <main class="post-ad-wrap">
+        <form id="postCarForm" class="post-ad-card" onsubmit="return false;">
 
-    <main class="page-wrap">
+            <!-- AD PHOTO SECTION -->
+            <div class="photo-section-header">
+                <h3 class="photo-section-title" data-i18n="add_photos">Ad Photo</h3>
+                <button id="addImgHeaderBtn" type="button" class="add-img-header-btn" onclick="document.getElementById('photos').click()">
+                    <span>+</span> Add Image
+                </button>
+            </div>
 
-        <section class="card">
-
-            <div class="form-grid">
-
-                <div class="form-group full-width">
-                    <label data-i18n="add_photos">Upload Photos</label>
-                    <div class="upload-area" onclick="document.getElementById('photos').click()">
-                        <div style="font-size: 32px; margin-bottom: 8px;">📷</div>
-                        <div style="font-weight: 600; color: #7c3aed;" data-i18n="select_lang">Choose File</div>
-                        <div style="font-size: 12px; color: #94a3b8;" data-i18n="upload_hint">Upload up to 10 images.</div>
-                        <input type="file" id="photos" name="photos" multiple accept="image/*" style="display: none;">
+            <!-- IMAGE UPLOAD CONTAINER BOX -->
+            <div class="upload-container-box">
+                <input type="file" id="photos" name="photos" multiple accept="image/*" style="display: none;">
+                
+                <div id="imageGrid" class="upload-image-grid">
+                    <div class="add-tile" onclick="document.getElementById('photos').click()">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#db2777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                        <span>Add Image</span>
                     </div>
-                    <div class="image-preview" id="imagePreview"></div>
-                    <div id="previewCount" class="preview-count">0 / 10</div>
+                </div>
+
+                <div class="upload-box-footer">
+                    <span class="img-count-text"><strong id="currentImgCount">0</strong> / 10 images selected</span>
+                    <span class="img-count-hint">You can upload up to 10 images</span>
+                </div>
+            </div>
+
+            <!-- FORM FIELDS -->
+            <div class="form-fields-grid">
+
+                <div class="form-group">
+                    <label for="brand" data-i18n="brand">Car Brand <span class="required">*</span></label>
+                    <input id="brand" name="brand" type="text" placeholder="Example: Maruti Suzuki" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="brand" data-i18n="brand">Car Brand</label>
-                    <input id="brand" name="brand" type="text" data-i18n="brand" placeholder="Example: Maruti Suzuki" required>
-                </div>
-<!-- ===================================================== -->
-<!--               SELLBY POST-CAR.HTML                   -->
-<!--                   HTML PART 2                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : post-car.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 2
-    Contains  :
-    ✔ Car Model
-    ✔ Year
-    ✔ Fuel Type
-    ✔ Transmission
-    ✔ KM Driven
-    ✔ Price
-    ✔ Location
--->
-<!-- ===================================================== -->
-
-                <div class="form-group">
-                    <label for="model" data-i18n="model">Car Model</label>
-                    <input id="model" name="model" type="text" data-i18n="model" placeholder="Example: Swift VXI" required>
+                    <label for="model" data-i18n="model">Car Model <span class="required">*</span></label>
+                    <input id="model" name="model" type="text" placeholder="Example: Swift VXI" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="year" data-i18n="year">Year</label>
-                    <input id="year" name="year" type="number" data-i18n="year" placeholder="Example: 2022" required>
+                    <label for="year" data-i18n="year">Year <span class="required">*</span></label>
+                    <input id="year" name="year" type="number" placeholder="Example: 2022" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="fuel" data-i18n="select_type">Fuel Type</label>
+                    <label for="fuel">Fuel Type <span class="required">*</span></label>
                     <select id="fuel" name="fuel" required>
-                        <option value="" data-i18n="select_type">Select Fuel Type</option>
-                        <option data-i18n="petrol">Petrol</option>
-                        <option data-i18n="diesel">Diesel</option>
-                        <option data-i18n="cng">CNG</option>
-                        <option data-i18n="electric">Electric</option>
-                        <option data-i18n="hybrid">Hybrid</option>
+                        <option value="">Select Fuel Type</option>
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                        <option value="CNG">CNG</option>
+                        <option value="Electric">Electric</option>
+                        <option value="Hybrid">Hybrid</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="transmission" data-i18n="select_type">Transmission</label>
+                    <label for="transmission">Transmission <span class="required">*</span></label>
                     <select id="transmission" name="transmission" required>
-                        <option value="" data-i18n="select_type">Select Transmission</option>
-                        <option data-i18n="manual">Manual</option>
-                        <option data-i18n="automatic">Automatic</option>
+                        <option value="">Select Transmission</option>
+                        <option value="Manual">Manual</option>
+                        <option value="Automatic">Automatic</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="kms" data-i18n="kms">KM Driven</label>
-                    <input id="kms" name="kms" type="number" data-i18n="kms" placeholder="Example: 35000" required>
+                    <label for="kms" data-i18n="kms">KM Driven <span class="required">*</span></label>
+                    <input id="kms" name="kms" type="number" placeholder="Example: 35000" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="price" data-i18n="price">Price</label>
-                    <input id="price" name="price" type="number" data-i18n="price" placeholder="Enter Price" required>
+                    <label for="price" data-i18n="price">Price <span class="required">*</span></label>
+                    <div class="input-with-icon">
+                        <span class="input-prefix">₹</span>
+                        <input id="price" name="price" type="number" placeholder="Enter Price" required>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="location" data-i18n="location">Location</label>
-                    <input id="location" name="location" type="text" data-i18n="location_placeholder" placeholder="City, Area or Landmark" required>
+                    <label for="location" data-i18n="location">Location <span class="required">*</span></label>
+                    <div class="input-with-icon">
+                        <span class="input-prefix">📍</span>
+                        <input id="location" name="location" type="text" placeholder="City, Area or Landmark" required>
+                    </div>
                 </div>
-<!-- ===================================================== -->
-<!--               SELLBY POST-CAR.HTML                   -->
-<!--                   HTML PART 3                        -->
-<!-- ===================================================== -->
-<!--
-    File Name : post-car.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Description
-    ✔ Contact Number
-    ✔ WhatsApp Number
-    ✔ Publish Button
-    ✔ JavaScript Files
-    ✔ Closing Body & HTML
--->
-<!-- ===================================================== -->
 
                 <div class="form-group full-width">
                     <label for="description" data-i18n="description">Description</label>
-                    <textarea id="description" name="description" data-i18n="desc_placeholder" placeholder="Describe your car..." required></textarea>
+                    <textarea id="description" name="description" placeholder="Describe your car..."></textarea>
                 </div>
+
             </div>
 
-            <div class="submit-row">
-                <div class="status-message" id="statusMessage" data-i18n="identity_required">1 Photo + Price + Brand/Model required.</div>
-                <button id="publishBtn" class="publish-btn" type="button" data-i18n="publish">Publish Car</button>
+            <!-- SUBMIT ACTION -->
+            <div class="submit-action-area">
+                <div id="statusMessage" class="status-message">1 Photo + Price + Brand/Model required.</div>
+                <button id="publishBtn" class="publish-submit-btn" type="button">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                    <span>Publish Car</span>
+                </button>
             </div>
 
-        </section>
-
+        </form>
     </main>
 
     <!-- ================= FIREBASE ================= -->
+    <script type="module" src="js/firebase-config.js"></script>
 
-    <script
-        type="module"
-        src="js/firebase-config.js">
-    </script>
-
-    <!-- ================= POST CAR ================= -->
-
-    <script
-        type="module"
-        src="js/post-car.js">
-    </script>
+    <!-- ================= POST CAR JS ================= -->
+    <script type="module" src="js/post-car.js"></script>
 
 </body>
 
-</html>                                    
+</html>

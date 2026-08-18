@@ -24,8 +24,10 @@ async function loadUserData(user) {
     userName.textContent = user.displayName || "SELLBY User";
     userEmail.textContent = user.phoneNumber || user.email || "Member";
 
-    if (user.photoURL) {
-        profileAvatar.innerHTML = `<img src="${user.photoURL}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+    const cameraBadgeHTML = `<div style="position: absolute; bottom: 0; right: 0; background: #ffffff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 1px solid #f1f5f9;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div>`;
+
+    if (user.photoURL && profileAvatar) {
+        profileAvatar.innerHTML = `<img src="${user.photoURL}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">${cameraBadgeHTML}`;
     }
 
     try {
@@ -34,8 +36,8 @@ async function loadUserData(user) {
             const data = userDoc.data();
             userName.textContent = data.displayName || userName.textContent;
             if (data.email) userEmail.textContent = data.email;
-            if (data.photoURL) {
-                profileAvatar.innerHTML = `<img src="${data.photoURL}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+            if (data.photoURL && profileAvatar) {
+                profileAvatar.innerHTML = `<img src="${data.photoURL}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">${cameraBadgeHTML}`;
             }
         }
     } catch (e) {

@@ -2,8 +2,16 @@ package com.sellby.app;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -11,23 +19,121 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import com.getcapacitor.BridgeActivity;
 import java.util.ArrayList;
 
 public class MainActivity extends BridgeActivity {
-    private static final String TAG = "SELLBY_NATIVE_SPEECH";
+    private static final String TAG = "SELLBY_NATIVE";
     private static final int MIC_PERMISSION_REQUEST_CODE = 1001;
     private static final int SPEECH_REQUEST_CODE = 1002;
+    private static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 1003;
+    private static final String CHANNEL_ID = "sellby_default_channel";
+    private static final String CHANNEL_NAME = "SELLBY Notifications";
+    private static int notificationId = 1000;
     private String currentRequestedLang = "en-IN";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        createNotificationChannel();
+
         WebView webView = bridge.getWebView();
         if (webView != null) {
             webView.addJavascriptInterface(new AndroidSpeechInterface(), "AndroidSpeech");
+            webView.addJavascriptInterface(new AndroidNotificationInterface(), "AndroidNotification");
+        }
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                if (notificationManager.getNotificationChannel(CHANNEL_ID) == null) {
+                    NotificationChannel channel = new NotificationChannel(
+                        CHANNEL_ID,
+                        CHANNEL_NAME,
+                        NotificationManager.IMPORTANCE_DEFAULT
+                    );
+                    channel.setDescription("Notifications for SELLBY messages and updates");
+                    
+                    Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build();
+                    
+                    channel.setSound(defaultSoundUri, audioAttributes);
+                    channel.enableVibration(true);
+                    
+                    notificationManager.createNotificationChannel(channel);
+                }
+            }
+        }
+    }
+
+    private boolean hasNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            return ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;
+    }
+
+    private void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, NOTIFICATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    public void showSystemNotification(String title, String body) {
+        if (!hasNotificationPermission()) {
+            requestNotificationPermission();
+            return;
+        }
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager == null) return;
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+            this, 
+            0, 
+            intent, 
+            PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0)
+        );
+
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setAutoCancel(true)
+            .setSound(defaultSoundUri)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent);
+
+        notificationManager.notify(notificationId++, builder.build());
+    }
+
+    public class AndroidNotificationInterface {
+        @JavascriptInterface
+        public void showNotification(final String title, final String body) {
+            runOnUiThread(() -> {
+                showSystemNotification(title, body);
+            });
+        }
+
+        @JavascriptInterface
+        public void requestPermission() {
+            runOnUiThread(() -> {
+                if (!hasNotificationPermission()) {
+                    requestNotificationPermission();
+                }
+            });
         }
     }
 
@@ -105,7 +211,6 @@ public class MainActivity extends BridgeActivity {
 
         @JavascriptInterface
         public void stopListening() {
-            // Not needed for Intent-based speech as system handles it
         }
     }
 

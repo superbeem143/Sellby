@@ -461,68 +461,7 @@ if (saveProfileBtn) {
                         "info"
                     );
 
-
-                    /*
-                     * UNIQUE FILE NAME
-                     *
-                     * This prevents old browser cache
-                     * from showing the previous photo.
-                     */
-
-                    const extension =
-                        getFileExtension(
-                            selectedFile
-                        );
-
-                    const fileName =
-                        `avatar_${Date.now()}.${extension}`;
-
-
-                    const storagePath =
-                        `profiles/${user.uid}/${fileName}`;
-
-
-                    const storageRef =
-                        ref(
-                            storage,
-                            storagePath
-                        );
-
-
-                    /*
-                     * Upload image to Firebase Storage
-                     */
-
-                    await uploadBytes(
-                        storageRef,
-                        selectedFile,
-                        {
-                            contentType:
-                                selectedFile.type,
-                            cacheControl:
-                                "public,max-age=31536000"
-                        }
-                    );
-
-
-                    /*
-                     * Get Firebase download URL
-                     */
-
-                    const downloadURL =
-                        await getDownloadURL(
-                            storageRef
-                        );
-
-
-                    /*
-                     * Cache-busting URL
-                     */
-
-                    photoURL =
-                        addCacheBuster(
-                            downloadURL
-                        );
+                    photoURL = await uploadPhotoFile(selectedFile, user.uid);
 
                 }
 
@@ -691,4 +630,73 @@ if (saveProfileBtn) {
 
 
 /* =========================================================
-   FILE
+   HELPER FUNCTIONS
+   ========================================================= */
+
+function getFileExtension(file) {
+    if (!file || !file.name) return "jpg";
+    const parts = file.name.split(".");
+    return parts.length > 1 ? parts.pop().toLowerCase() : "jpg";
+}
+
+function showStatus(message, type = "info") {
+    if (!saveStatus) return;
+    saveStatus.textContent = message;
+    saveStatus.style.display = "block";
+    if (type === "error") {
+        saveStatus.style.color = "#dc2626";
+    } else if (type === "success") {
+        saveStatus.style.color = "#16a34a";
+    } else {
+        saveStatus.style.color = "#7c3aed";
+    }
+}
+
+async function uploadPhotoFile(file, uid) {
+    const extension = getFileExtension(file);
+    const fileName = `avatar_${Date.now()}.${extension}`;
+
+    // 1. Try Firebase Storage upload with timeout
+    try {
+        const storagePath = `profiles/${uid}/${fileName}`;
+        const storageRef = ref(storage, storagePath);
+
+        const uploadPromise = uploadBytes(storageRef, file, {
+            contentType: file.type,
+            cacheControl: "public,max-age=31536000"
+        });
+
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Firebase Storage timeout")), 6000)
+        );
+
+        await Promise.race([uploadPromise, timeoutPromise]);
+        const downloadURL = await getDownloadURL(storageRef);
+        return addCacheBuster(downloadURL);
+    } catch (fbError) {
+        console.warn("Firebase Storage upload fallback triggered:", fbError.message || fbError);
+
+        // 2. Fallback to Cloudinary (used across SELLBY post pages)
+        const CLOUD_NAME = "onrnn2hn";
+        const UPLOAD_PRESET = "mvrproperties";
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+
+        const resp = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+            method: "POST",
+            body: formData
+        });
+
+        if (!resp.ok) {
+            const errData = await resp.json().catch(() => ({}));
+            throw new Error(errData.error?.message || "Photo upload failed.");
+        }
+
+        const data = await resp.json();
+        return addCacheBuster(data.secure_url);
+    }
+}
+
+

@@ -1,300 +1,176 @@
-<!-- ===================================================== -->
-<!--             SELLBY POST-PROPERTY.HTML                 -->
-<!--                  HTML PART 1                          -->
-<!-- ===================================================== -->
-<!--
-    File Name : post-property.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 1
-    Contains  :
-    ✔ HTML Document Start
-    ✔ Head Section
-    ✔ Internal CSS
--->
-<!-- ===================================================== -->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>SELLBY - Post Property</title>
+    <title>SELLBY - Post Your Ad</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script type="module" src="js/auth-guard.js"></script>
-
-    <style>
-
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Poppins',sans-serif;
-        }
-
-        body{
-            background:#f8fafc;
-            color:#0f172a;
-            min-height:100vh;
-        }
-
-        .page-wrap{
-            max-width:920px;
-            margin:24px auto 48px;
-            padding:0 18px;
-        }
-
-        .card{
-            background:#ffffff;
-            border-radius:24px;
-            padding:32px 28px;
-            box-shadow:0 10px 30px rgba(124, 58, 237, 0.08);
-            border:1px solid #f1f5f9;
-        }
-
-        .form-grid{
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:20px;
-        }
-
-        .full-width{
-            grid-column:1 / -1;
-        }
-
-        .form-group{
-            display:flex;
-            flex-direction:column;
-            gap:8px;
-        }
-
-        label{
-            font-size:14px;
-            font-weight:600;
-            color:#1e293b;
-        }
-
-        input,
-        select,
-        textarea{
-            width:100%;
-            border:2px solid #e2e8f0;
-            border-radius:16px;
-            padding:14px 16px;
-            font-size:15px;
-            background:#f8fafc;
-            color:#0f172a;
-            outline:none;
-            transition:all .2s ease;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus{
-            border-color:#7c3aed;
-            box-shadow:0 0 0 4px rgba(124, 58, 237, 0.12);
-            background:#ffffff;
-        }
-
-        textarea{
-            min-height:140px;
-            resize:vertical;
-        }
-
-        .upload-area {
-            border: 2px dashed #cbd5e1;
-            border-radius: 18px;
-            padding: 24px;
-            text-align: center;
-            background: #f8fafc;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .upload-area:hover {
-            border-color: #7c3aed;
-            background: #f5f3ff;
-        }
-
-        .hint{
-            font-size:13px;
-            color:#64748b;
-        }
-
-        .preview-count{
-            font-size:13px;
-            font-weight:600;
-            color:#6d28d9;
-            margin-top:6px;
-        }
-
-        .submit-row{
-            display:flex;
-            flex-wrap:wrap;
-            gap:16px;
-            margin-top:28px;
-            align-items:center;
-            justify-content:space-between;
-        }
-
-        .publish-btn{
-            background:linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
-            color:#ffffff;
-            border:none;
-            border-radius:16px;
-            padding:16px 32px;
-            font-size:16px;
-            font-weight:700;
-            cursor:pointer;
-            transition:all .2s ease;
-            box-shadow:0 10px 24px rgba(124, 58, 237, 0.25);
-            min-width:180px;
-        }
-
-        .publish-btn:hover{
-            transform:translateY(-2px);
-            box-shadow:0 14px 28px rgba(124, 58, 237, 0.35);
-        }
-
-        .status-message{
-            flex:1;
-            font-size:14px;
-            font-weight:500;
-            color:#475569;
-        }
-
-        @media (max-width:767px){
-
-            .form-grid{
-                grid-template-columns:1fr;
-                gap:16px;
-            }
-
-            .card{
-                padding:24px 18px;
-            }
-
-            .publish-btn{
-                width:100%;
-            }
-        }
-
-    </style>
-
     <link rel="stylesheet" href="css/style.css">
+    <script type="module" src="js/auth-guard.js"></script>
 
 </head>
 
-<body>
+<body class="post-ad-body">
 
-    <header class="category-header">
+    <!-- HEADER -->
+    <header class="post-ad-header">
         <button class="back-btn-small" onclick="history.back()">←</button>
-        <div class="category-title-area">
-            <h1 data-i18n="post_property">Post Property</h1>
-            <p data-i18n="post_hint">Fill the details below</p>
-        </div>
+        <h1 class="post-ad-title">Post Your Ad</h1>
+        <button id="saveDraftBtn" type="button" class="save-draft-btn">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            <span>Save Draft</span>
+        </button>
     </header>
 
-    <main class="page-wrap">
+    <main class="post-ad-wrap">
+        <form id="postPropertyForm" class="post-ad-card" onsubmit="return false;">
 
-        <section class="card">
+            <!-- AD PHOTO SECTION -->
+            <div class="photo-section-header">
+                <h3 class="photo-section-title" data-i18n="add_photos">Ad Photo</h3>
+                <button id="addImgHeaderBtn" type="button" class="add-img-header-btn" onclick="document.getElementById('photos').click()">
+                    <span>+</span> Add Image
+                </button>
+            </div>
 
-            <div class="form-grid">
-
-                <div class="form-group full-width">
-                    <label data-i18n="add_photos">Upload Photos</label>
-                    <div class="upload-area" onclick="document.getElementById('photos').click()">
-                        <div style="font-size: 32px; margin-bottom: 8px;">📷</div>
-                        <div style="font-weight: 600; color: #7c3aed;" data-i18n="select_lang">Choose File</div>
-                        <div style="font-size: 12px; color: #94a3b8;" data-i18n="upload_hint">Upload up to 10 images.</div>
-                        <input type="file" id="photos" name="photos" multiple accept="image/*" style="display: none;">
+            <!-- IMAGE UPLOAD CONTAINER BOX -->
+            <div class="upload-container-box">
+                <input type="file" id="photos" name="photos" multiple accept="image/*" style="display: none;">
+                
+                <div id="imageGrid" class="upload-image-grid">
+                    <div class="add-tile" onclick="document.getElementById('photos').click()">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#db2777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
+                        <span>Add Image</span>
                     </div>
-                    <div class="image-preview" id="imagePreview"></div>
-                    <div id="previewCount" class="preview-count">0 / 10</div>
                 </div>
 
-                <div class="form-group">
-                    <label for="title" data-i18n="title">Property Title</label>
-                    <input id="title" name="title" type="text" data-i18n="title" placeholder="Example: Spacious 3BHK in downtown" required>
+                <div class="upload-box-footer">
+                    <span class="img-count-text"><strong id="currentImgCount">0</strong> / 10 images selected</span>
+                    <span class="img-count-hint">You can upload up to 10 images</span>
+                </div>
+            </div>
+
+            <!-- FORM FIELDS -->
+            <div class="form-fields-grid">
+
+                <!-- Title -->
+                <div class="form-group full-width">
+                    <label for="title">Property Title <span class="required">*</span></label>
+                    <input id="title" name="title" type="text" placeholder="Enter property title" required>
                 </div>
 
+                <!-- Type & Layout Name -->
                 <div class="form-group">
-                    <label for="price" data-i18n="price">Price</label>
-                    <input id="price" name="price" type="number" data-i18n="price" placeholder="Enter price in rupees" min="0" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="type" data-i18n="property_type">Property Type</label>
+                    <label for="type">Property Type <span class="required">*</span></label>
                     <select id="type" name="type" required>
-                        <option value="" data-i18n="select_type">Select property type</option>
-                        <option data-i18n="apartment">Apartment</option>
-                        <option data-i18n="independent_house">Independent House</option>
-                        <option data-i18n="plot_land">Plot / Land</option>
-                        <option data-i18n="villa">Villa</option>
-                        <option data-i18n="commercial">Office / Commercial</option>
-                        <option data-i18n="pg_hostel">PG / Hostel</option>
+                        <option value="">Select property type</option>
+                        <option value="Apartment">Apartment</option>
+                        <option value="Independent House">Independent House</option>
+                        <option value="Plot / Land">Plot / Land</option>
+                        <option value="Villa">Villa</option>
+                        <option value="Commercial">Office / Commercial</option>
+                        <option value="PG / Hostel">PG / Hostel</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="location" data-i18n="location">Location</label>
-                    <input id="location" name="location" type="text" data-i18n="location_placeholder" placeholder="City, area, or landmark" required>
+                    <label for="layoutName">Layout Name</label>
+                    <input id="layoutName" name="layoutName" type="text" placeholder="Enter layout name">
                 </div>
-      <!-- ===================================================== -->
-<!--             SELLBY POST-PROPERTY.HTML                 -->
-<!--                  HTML PART 3                          -->
-<!-- ===================================================== -->
-<!--
-    File Name : post-property.html
-    Project   : SELLBY
-    Mission   : Sell Easy. Buy Easy.
-    Part      : 3
-    Contains  :
-    ✔ Description
-    ✔ Contact Number
-    ✔ WhatsApp Number
-    ✔ Publish Button
-    ✔ JavaScript Files
-    ✔ Closing Body & HTML
--->
-<!-- ===================================================== -->
 
+                <!-- Price & Price per Sq.Yard -->
+                <div class="form-group">
+                    <label for="price">Price <span class="required">*</span></label>
+                    <div class="input-with-icon">
+                        <span class="input-prefix">₹</span>
+                        <input id="price" name="price" type="number" placeholder="Enter price" min="0" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pricePerSqYard">Price per Sq.Yard</label>
+                    <div class="input-with-icon">
+                        <span class="input-prefix">₹</span>
+                        <input id="pricePerSqYard" name="pricePerSqYard" type="number" placeholder="Enter price per sq.yard" min="0">
+                    </div>
+                </div>
+
+                <!-- Total Area & Facing -->
+                <div class="form-group">
+                    <label for="totalArea">Total Area <span class="required">*</span></label>
+                    <div class="input-with-unit">
+                        <input id="totalArea" name="totalArea" type="text" placeholder="Enter total area" required>
+                        <select id="areaUnit" class="unit-select">
+                            <option value="Sq.Yards">Sq.Yards</option>
+                            <option value="Sq.Ft">Sq.Ft</option>
+                            <option value="Acres">Acres</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="facing">Facing <span class="required">*</span></label>
+                    <select id="facing" name="facing" required>
+                        <option value="">Select facing</option>
+                        <option value="East">East</option>
+                        <option value="West">West</option>
+                        <option value="North">North</option>
+                        <option value="South">South</option>
+                        <option value="North-East">North-East</option>
+                        <option value="North-West">North-West</option>
+                        <option value="South-East">South-East</option>
+                        <option value="South-West">South-West</option>
+                    </select>
+                </div>
+
+                <!-- Location -->
                 <div class="form-group full-width">
-                    <label for="description" data-i18n="description">Description</label>
-                    <textarea id="description" name="description" data-i18n="desc_placeholder" placeholder="Describe the property, amenities, and nearby points of interest" required></textarea>
+                    <label for="location">Location <span class="required">*</span></label>
+                    <div class="input-with-icon">
+                        <span class="input-prefix">📍</span>
+                        <input id="location" name="location" type="text" placeholder="Enter property location" required>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group full-width">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Describe the property, amenities, and nearby points of interest"></textarea>
+                </div>
+
             </div>
 
-            <div class="submit-row">
-                <div class="status-message" id="statusMessage" data-i18n="identity_required">1 Photo + Price + Title required.</div>
-                <button id="publishBtn" class="publish-btn" type="button" data-i18n="publish">Publish Property</button>
+            <!-- SUBMIT ACTION -->
+            <div class="submit-action-area">
+                <div id="statusMessage" class="status-message">1 Photo + Price + Title required.</div>
+                <button id="publishBtn" class="publish-submit-btn" type="button">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                    <span>Preview Ad</span>
+                </button>
             </div>
 
-        </section>
-
+        </form>
     </main>
 
     <!-- ================= FIREBASE ================= -->
-
-    <script
-        type="module"
-        src="js/firebase-config.js">
-    </script>
+    <script type="module" src="js/firebase-config.js"></script>
 
     <!-- ================= POST PROPERTY JS ================= -->
-
-    <script
-        type="module"
-        src="js/post-property.js">
-    </script>
+    <script type="module" src="js/post-property.js"></script>
 
 </body>
 
-</html>        
+</html>

@@ -149,7 +149,9 @@ function listenToMessages(chatId) {
 }
 
 function showSystemNotification(title, body) {
-    if ("Notification" in window && Notification.permission === "granted") {
+    if (window.AndroidNotification) {
+        window.AndroidNotification.showNotification(title, body);
+    } else if ("Notification" in window && Notification.permission === "granted") {
         try {
             new Notification(title, {
                 body: body,
@@ -258,6 +260,7 @@ function initEventListeners() {
     }
 
     initVoiceRecorder();
+    initVisualViewportHandler();
 }
 
 let mediaRecorder = null;
@@ -405,11 +408,70 @@ if (document.readyState === "interactive" || document.readyState === "complete")
     initEventListeners();
 }
 
-function scrollToBottom() {
+function initVisualViewportHandler() {
+    function updateViewport() {
+        if (window.innerWidth > 768) {
+            document.documentElement.style.removeProperty('--visual-viewport-height');
+            document.body.classList.remove('keyboard-open');
+            return;
+        }
+
+        if (window.visualViewport) {
+            const vvHeight = window.visualViewport.height;
+            document.documentElement.style.setProperty('--visual-viewport-height', `${vvHeight}px`);
+
+            const isKeyboard = (window.innerHeight - vvHeight) > 120;
+            if (isKeyboard) {
+                document.body.classList.add('keyboard-open');
+            } else {
+                document.body.classList.remove('keyboard-open');
+            }
+        }
+    }
+
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+            updateViewport();
+            scrollToBottom(false);
+        });
+        window.visualViewport.addEventListener('scroll', updateViewport);
+    }
+
+    window.addEventListener('resize', updateViewport);
+    window.addEventListener('orientationchange', () => {
+        setTimeout(updateViewport, 150);
+    });
+
+    updateViewport();
+
+    const messageInput = document.getElementById("messageInput");
+    if (messageInput && !messageInput.dataset.focusBound) {
+        messageInput.dataset.focusBound = "true";
+        messageInput.addEventListener("focus", () => {
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+                document.body.scrollTop = 0;
+                scrollToBottom(true);
+            }, 100);
+        });
+    }
+}
+
+function scrollToBottom(force = false) {
     const chatMessages = document.getElementById("chatMessages");
-    if (chatMessages) {
+    if (!chatMessages) return;
+
+    if (force) {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return;
+    }
+
+    const threshold = 150;
+    const isNearBottom = (chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight) <= threshold;
+    if (isNearBottom) {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 }
 
 console.log("SELLBY Messages Loaded");
+

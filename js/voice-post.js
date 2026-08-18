@@ -7,8 +7,9 @@ import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/fir
 import { initTranslations, t, getLanguage } from "./i18n.js";
 
 const photosInput = document.getElementById("photos");
-const imagePreview = document.getElementById("imagePreview");
-const previewCount = document.getElementById("previewCount");
+const imageGrid = document.getElementById("imageGrid");
+const currentImgCount = document.getElementById("currentImgCount");
+const addImgHeaderBtn = document.getElementById("addImgHeaderBtn");
 const adDescription = document.getElementById("adDescription");
 const micBtn = document.getElementById("micBtn");
 const publishBtn = document.getElementById("publishBtn");
@@ -39,41 +40,71 @@ if (photosInput) {
 }
 
 function renderPreview() {
-    if (!imagePreview) return;
-    imagePreview.innerHTML = "";
+    if (!imageGrid) return;
+    imageGrid.innerHTML = "";
+
     selectedFiles.forEach((file, index) => {
-        const reader = new FileReader();
-        const thumb = document.createElement("div");
-        thumb.className = "preview-thumb";
+        const tile = document.createElement("div");
+        tile.className = "thumb-tile";
+
+        const img = document.createElement("img");
+        img.alt = `Preview ${index + 1}`;
 
         const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "remove-thumb-btn";
         removeBtn.innerHTML = "×";
-        removeBtn.className = "remove-img";
+        removeBtn.title = "Remove image";
         removeBtn.onclick = (e) => {
             e.preventDefault();
+            e.stopPropagation();
             selectedFiles.splice(index, 1);
             renderPreview();
         };
 
+        const reader = new FileReader();
         reader.onload = (e) => {
-            const img = document.createElement("img");
             img.src = e.target.result;
-            thumb.appendChild(img);
-            thumb.appendChild(removeBtn);
         };
         reader.readAsDataURL(file);
-        imagePreview.appendChild(thumb);
+
+        tile.appendChild(img);
+        tile.appendChild(removeBtn);
+        imageGrid.appendChild(tile);
     });
-    if (previewCount) {
-        previewCount.textContent = `${selectedFiles.length} / ${MAX_IMAGES}`;
+
+    if (selectedFiles.length < MAX_IMAGES) {
+        const addTile = document.createElement("div");
+        addTile.className = "add-tile";
+        addTile.onclick = () => photosInput && photosInput.click();
+        addTile.innerHTML = `
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#db2777" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+            <span>Add Image</span>
+        `;
+        imageGrid.appendChild(addTile);
+    }
+
+    if (currentImgCount) {
+        currentImgCount.textContent = selectedFiles.length;
+    }
+
+    if (addImgHeaderBtn) {
+        if (selectedFiles.length >= MAX_IMAGES) {
+            addImgHeaderBtn.style.opacity = "0.5";
+            addImgHeaderBtn.style.pointerEvents = "none";
+        } else {
+            addImgHeaderBtn.style.opacity = "1";
+            addImgHeaderBtn.style.pointerEvents = "auto";
+        }
     }
 }
 
 /* 2. SPEECH RECOGNITION (ANDROID NATIVE BRIDGE) */
-// Native Callbacks defined globally
 window.onSpeechResults = (text) => {
     if (adDescription) {
-        // Append text if already exists
         const currentText = adDescription.value.trim();
         adDescription.value = (currentText + (currentText ? " " : "") + text).trim();
         adDescription.scrollTop = adDescription.scrollHeight;
@@ -128,7 +159,6 @@ if (publishBtn) {
 
         const description = adDescription ? adDescription.value.trim() : "";
 
-        // Safety check for missing elements to prevent crash
         const title = (adTitle && adTitle.value) ? adTitle.value.trim() : (description ? description.substring(0, 30) + (description.length > 30 ? "..." : "") : "Voice Ad");
         const price = (adPrice && adPrice.value) ? adPrice.value.trim() : "0";
         const location = (adLocation && adLocation.value) ? adLocation.value.trim() : "Not Specified";
@@ -195,5 +225,6 @@ if (publishBtn) {
 
 document.addEventListener("DOMContentLoaded", () => {
     initTranslations();
+    renderPreview();
     console.log("SELLBY Voice Post Page Ready");
 });
