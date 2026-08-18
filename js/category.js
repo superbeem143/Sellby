@@ -4,7 +4,7 @@
 
 import { db } from "./firebase-config.js";
 import { getTranslations, t, initTranslations } from "./i18n.js";
-import { resolveSearchIntent } from "./search-resolver.js";
+import { resolveSearchIntent, matchesPropertyMicroCategory } from "./search-resolver.js";
 import {
     collection,
     query,
@@ -81,7 +81,9 @@ async function startCategoryListener() {
 
         const labelElem = document.querySelector(".category-name");
         if (labelElem) {
-            if (categoryType) {
+            if (searchIntent && searchIntent.displayLabel) {
+                labelElem.textContent = searchIntent.displayLabel;
+            } else if (categoryType) {
                 labelElem.textContent = categoryLabels[categoryType] || "Browse";
             } else {
                 labelElem.textContent = "Marketplace";
@@ -101,7 +103,7 @@ async function startCategoryListener() {
         const q = query(
             collection(db, "ads"),
             orderBy("createdAt", "desc"),
-            limit(150) // Increased limit for universal search
+            limit(150)
         );
 
         unsubscribe = onSnapshot(q, (snapshot) => {
@@ -114,11 +116,9 @@ async function startCategoryListener() {
                 const isValidStatus = (data.status === "published" || data.status === "available");
                 if (!isValidStatus) return;
 
-                // Filter by Category (with Cars/Bikes logic)
+                // Filter by Category
                 let isMatch = false;
 
-                // If we have an initial search, we start by including everything,
-                // but we can prioritize the detected category if present.
                 if (initialSearch) {
                     isMatch = true;
                 } else if (categoryType === "cars") {
@@ -208,11 +208,31 @@ function filterAds() {
     }
 
     const intent = resolveSearchIntent(rawValue);
-    const keyword = intent.keyword;
+
+    // Dynamic header update if microCategory is detected
+    const labelElem = document.querySelector(".category-name");
+    if (labelElem && intent.displayLabel) {
+        labelElem.textContent = intent.displayLabel;
+    }
 
     const filtered = allAds.filter((ad) => {
-        // If an intent category was detected, we can prioritize it
-        // But for "Universal Search", we mostly filter by keyword across fields
+        // Priority 1: Property Micro-Category Match
+        if (intent.category === "property" && intent.microCategory) {
+            return ad.category === "property" && matchesPropertyMicroCategory(ad, intent.microCategory);
+        }
+
+        // Priority 2: Standard Category Filter
+        if (intent.category) {
+            if (intent.category === "cars") {
+                if (ad.category !== "cars" && ad.category !== "bikes") return false;
+            } else if (ad.category !== intent.category) {
+                return false;
+            }
+        }
+
+        // Priority 3: Keyword Text Match
+        const keyword = intent.keyword || rawValue.toLowerCase();
+        if (!keyword) return true;
 
         const title = getAdTitle(ad).toLowerCase();
         const loc = (ad.location || "").toLowerCase();
@@ -220,25 +240,15 @@ function filterAds() {
         const cat = (ad.category || "").toLowerCase();
         const brand = (ad.brand || "").toLowerCase();
         const model = (ad.model || "").toLowerCase();
+        const type = (ad.type || "").toLowerCase();
 
-        // Check if keyword exists in any field
-        const matchesKeyword = title.includes(keyword) ||
-                               loc.includes(keyword) ||
-                               desc.includes(keyword) ||
-                               cat.includes(keyword) ||
-                               brand.includes(keyword) ||
-                               model.includes(keyword);
-
-        // If intent category was detected, only show matching category if it's specific
-        if (intent.category) {
-            // Special handling for cars/bikes
-            if (intent.category === "cars") {
-                return matchesKeyword && (ad.category === "cars" || ad.category === "bikes");
-            }
-            return matchesKeyword && ad.category === intent.category;
-        }
-
-        return matchesKeyword;
+        return title.includes(keyword) ||
+               loc.includes(keyword) ||
+               desc.includes(keyword) ||
+               cat.includes(keyword) ||
+               brand.includes(keyword) ||
+               model.includes(keyword) ||
+               type.includes(keyword);
     });
 
     renderAds(filtered);
@@ -257,4 +267,4 @@ document.addEventListener("DOMContentLoaded", () => {
     startCategoryListener();
 });
 
-console.log("SELLBY Unified Category logic ready.");
+console.log("SELLBY Micro-Category Search logic ready.");
