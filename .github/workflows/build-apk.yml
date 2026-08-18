@@ -2,42 +2,76 @@ name: Build SELLBY APK
 
 on:
   workflow_dispatch:
+
   push:
     branches:
       - main
 
 jobs:
   build-apk:
+
     runs-on: ubuntu-latest
 
     steps:
+
+      # 1. Get latest MAIN code
       - name: Checkout SELLBY
         uses: actions/checkout@v4
 
+      # 2. Setup Node
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
+      # 3. Install dependencies
       - name: Install dependencies
         run: npm install
 
+      # 4. Create a completely fresh WWW folder
+      - name: Create fresh WWW
+        run: |
+          rm -rf www
+          mkdir -p www
+
+          cp -r *.html www/ || true
+          cp -r css www/ || true
+          cp -r js www/ || true
+          cp -r assets www/ || true
+          cp -r images www/ || true
+          cp -r img www/ || true
+          cp -r icons www/ || true
+          cp -r firebase* www/ || true
+
+      # 5. Show WWW contents
+      - name: Verify WWW
+        run: |
+          echo "===== WWW CONTENT ====="
+          find www -maxdepth 2 -type f | sort
+          echo "======================="
+
+      # 6. Capacitor sync
       - name: Sync Capacitor Android
         run: npx cap sync android
 
+      # 7. Setup Java
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
+      # 8. Make Gradle executable
       - name: Make Gradle executable
         run: chmod +x android/gradlew
 
+      # 9. Build APK
       - name: Build SELLBY Debug APK
         working-directory: android
         run: ./gradlew assembleDebug --no-daemon
 
+      # 10. Upload APK
       - name: Upload SELLBY APK
         uses: actions/upload-artifact@v4
         with:
