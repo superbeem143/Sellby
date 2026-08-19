@@ -43,6 +43,7 @@ import {
     getDocs,
     addDoc,
     updateDoc,
+    deleteDoc,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
@@ -146,6 +147,8 @@ export {
     addDoc,
 
     updateDoc,
+
+    deleteDoc,
 
     serverTimestamp,
 

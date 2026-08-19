@@ -775,8 +775,9 @@ body.page-exiting {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(6px);
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
     z-index: 3000;
     display: flex;
     align-items: center;
@@ -785,6 +786,9 @@ body.page-exiting {
 }
 
 .modal-card {
+    position: relative;
+    z-index: 3001;
+    isolation: isolate;
     background: #1e293b;
     border: 1px solid var(--border-highlight);
     border-radius: var(--radius);
@@ -794,7 +798,13 @@ body.page-exiting {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateZ(0);
+    filter: none !important;
+    backdrop-filter: none !important;
 }
 
 .modal-header {

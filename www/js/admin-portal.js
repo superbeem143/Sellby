@@ -3,7 +3,7 @@
 /*          Functional Admin Panel Controller            */
 /* ===================================================== */
 
-import { auth, db, getDocs, collection, doc, updateDoc, setDoc, serverTimestamp } from "./firebase-config.js";
+import { auth, db, getDocs, collection, doc, updateDoc, deleteDoc, setDoc, serverTimestamp } from "./firebase-config.js";
 import { isAuthorizedAdmin, clearAdminSession, logAdminAction, getAdminCredentials, hashPassword, verifySecretPassword } from "./admin-auth.js";
 
 // Product categories in SELLBY
@@ -451,17 +451,21 @@ async function loadAds() {
 
     try {
         allAds = [];
+        const seenIds = new Set();
         for (const cat of CATEGORIES) {
             try {
                 const catSnap = await getDocs(collection(db, cat));
                 catSnap.forEach(d => {
-                    const docData = d.data();
-                    allAds.push({
-                        id: d.id,
-                        _collectionName: cat, // Exact Firestore collection name where this doc lives!
-                        category: docData.category || cat,
-                        ...docData
-                    });
+                    if (!seenIds.has(d.id)) {
+                        seenIds.add(d.id);
+                        const docData = d.data();
+                        allAds.push({
+                            id: d.id,
+                            _collectionName: cat, // Exact Firestore collection name where this doc lives!
+                            category: docData.category || cat,
+                            ...docData
+                        });
+                    }
                 });
             } catch (e) {}
         }
@@ -487,6 +491,7 @@ function renderAdsGrid(ads) {
         const price = Number(ad.price || 0).toLocaleString("en-IN");
         const status = getEffectiveAdStatus(ad);
         const sellerUid = ad.sellerId || ad.userId || "UID: Unknown";
+        const catName = (ad.category || ad._collectionName || "general").toUpperCase();
 
         return `
             <div class="ad-card-item">
@@ -498,17 +503,16 @@ function renderAdsGrid(ads) {
                     </div>
                     <div class="ad-card-price">₹${price}</div>
                     <div class="ad-card-meta">
-                        <div>📁 ${ad.category.toUpperCase()} | 📍 ${escapeHtml(ad.location || 'N/A')}</div>
+                        <div>📁 ${escapeHtml(catName)} | 📍 ${escapeHtml(ad.location || 'N/A')}</div>
                         <div>👤 Seller UID: ${escapeHtml(sellerUid.substring(0, 14))}...</div>
                     </div>
-                    <div style="display:flex;gap:8px;margin-top:auto;">
-                        <button class="btn-action btn-edit" onclick="inspectAdDetails('${ad.id}')">Inspect Details</button>
-                        <select class="form-control" style="height:32px;font-size:11px;padding:4px;" onchange="changeAdStatus('${ad.id}', this.value)">
-                            <option value="published" ${status === 'published' ? 'selected' : ''}>Published</option>
-                            <option value="sold" ${status === 'sold' ? 'selected' : ''}>Sold</option>
-                            <option value="expired" ${status === 'expired' ? 'selected' : ''}>Expired</option>
-                            <option value="blocked" ${status === 'blocked' ? 'selected' : ''}>Blocked</option>
-                        </select>
+                    <div style="display:flex;gap:8px;margin-top:auto;align-items:center;">
+                        ${status === 'blocked' ? `
+                            <button class="btn-action btn-restore" onclick="unblockAd(event, '${ad.id}')" style="background:#22c55e;color:#ffffff;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;">🔓 Unblock</button>
+                        ` : (status === 'published' || status === 'available') ? `
+                            <button class="btn-action btn-ban" onclick="blockAd(event, '${ad.id}')" style="background:#f59e0b;color:#ffffff;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;">🚫 Block</button>
+                        ` : ''}
+                        <button class="btn-action btn-delete" onclick="deleteAd(event, '${ad.id}')" style="background:#ef4444;color:#ffffff;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;">🗑️ Delete</button>
                     </div>
                 </div>
             </div>
@@ -527,7 +531,7 @@ function filterAds() {
 
     const filtered = allAds.filter(ad => {
         const matchesTerm = (ad.title || "").toLowerCase().includes(term) || (ad.sellerId || ad.userId || "").toLowerCase().includes(term);
-        const matchesCat = cat === "all" || ad.category === cat;
+        const matchesCat = cat === "all" || ad.category === cat || (cat === "mobiles" && (ad.category === "mobile" || ad.category === "mobiles"));
         const currentStatus = getEffectiveAdStatus(ad);
         
         let matchesStat = true;
@@ -547,87 +551,150 @@ function filterAds() {
     renderAdsGrid(filtered);
 }
 
-// AD DETAILS INSPECTION MODAL & BLOCKING
-let currentTargetAdIdForBlock = null;
-let currentTargetCategoryForBlock = null;
-
-window.inspectAdDetails = function(adId) {
-    const ad = allAds.find(a => a.id === adId);
+// DIRECT AD ACTIONS: BLOCK, UNBLOCK & DELETE (NO MODALS / NO OVERLAYS)
+window.blockAd = async function(event, adId) {
+    if (event && event.preventDefault) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    if (typeof event === 'string' && !adId) {
+        adId = event;
+    }
+    const ad = allAds.find(a => String(a.id) === String(adId));
     if (!ad) return;
 
-    currentTargetAdIdForBlock = adId;
-    currentTargetCategoryForBlock = ad._collectionName || "ads";
+    const targetCollection = ad._collectionName || "ads";
+    const adminEmail = auth.currentUser?.email || "sellby369@gmail.com";
 
-    const modal = document.getElementById("adDetailModal");
-    if (!modal) return;
+    try {
+        const adRef = doc(db, targetCollection, adId);
+        await updateDoc(adRef, {
+            status: "blocked",
+            blocked: true,
+            blockedBy: adminEmail,
+            blockedAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+        });
 
-    const expiryInfo = calculateAdExpiryInfo(ad);
-    const effectiveStatus = getEffectiveAdStatus(ad);
+        await logAdminAction("BLOCK_AD", "AD", adId, {
+            collection: targetCollection,
+            category: ad.category || targetCollection,
+            sellerUid: ad.sellerId || ad.userId || "UNKNOWN"
+        });
 
-    document.getElementById("modalAdTitle").textContent = ad.title || "Ad Inspection Details";
-    const imgElem = document.getElementById("modalAdImage");
-    if (imgElem) {
-        imgElem.src = (ad.imageUrls && ad.imageUrls.length > 0) ? ad.imageUrls[0] : "images/sellby-logo.png";
+        await loadDashboardStats();
+        await loadAds();
+    } catch (err) {
+        alert("Failed to block ad: " + err.message);
     }
-
-    document.getElementById("modalAdCategory").textContent = ad.category.toUpperCase();
-    document.getElementById("modalAdPrice").textContent = `₹${Number(ad.price || 0).toLocaleString('en-IN')}`;
-    document.getElementById("modalAdLocation").textContent = ad.location || "N/A";
-    document.getElementById("modalAdStatus").textContent = effectiveStatus.toUpperCase();
-
-    document.getElementById("modalAdPublishedDate").textContent = expiryInfo.publishedDateStr;
-    document.getElementById("modalAdExpiryDate").textContent = expiryInfo.expiryDateStr;
-    document.getElementById("modalAdDuration").textContent = `${expiryInfo.durationDays} Days`;
-    document.getElementById("modalAdRemainingDays").textContent = expiryInfo.remainingDaysStr;
-
-    document.getElementById("modalAdSeller").textContent = ad.sellerId || ad.userId || "UID: Unknown Seller";
-    document.getElementById("modalAdDescription").textContent = ad.description || ad.details || "No description provided.";
-
-    const blockBtn = document.getElementById("modalBlockAdBtn");
-    if (blockBtn) {
-        if (effectiveStatus === "blocked") {
-            blockBtn.textContent = "🚫 Ad is Blocked";
-            blockBtn.disabled = true;
-            blockBtn.style.opacity = "0.5";
-            blockBtn.onclick = null;
-        } else {
-            blockBtn.textContent = "🚫 Block Ad";
-            blockBtn.disabled = false;
-            blockBtn.style.opacity = "1";
-            blockBtn.onclick = () => {
-                closeAdModal();
-                openBlockAdModal(adId, ad._collectionName || "ads");
-            };
-        }
-    }
-
-    modal.style.display = "flex";
 };
 
-window.closeAdModal = function() {
-    const modal = document.getElementById("adDetailModal");
-    if (modal) modal.style.display = "none";
+window.unblockAd = async function(event, adId) {
+    if (event && event.preventDefault) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    if (typeof event === 'string' && !adId) {
+        adId = event;
+    }
+    const ad = allAds.find(a => String(a.id) === String(adId));
+    if (!ad) return;
+
+    const targetCollection = ad._collectionName || "ads";
+    const adminEmail = auth.currentUser?.email || "sellby369@gmail.com";
+
+    try {
+        const adRef = doc(db, targetCollection, adId);
+        await updateDoc(adRef, {
+            status: "published",
+            blocked: false,
+            blockReason: null,
+            unblockedBy: adminEmail,
+            unblockedAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+        });
+
+        await logAdminAction("UNBLOCK_AD", "AD", adId, {
+            collection: targetCollection,
+            category: ad.category || targetCollection,
+            sellerUid: ad.sellerId || ad.userId || "UNKNOWN"
+        });
+
+        await loadDashboardStats();
+        await loadAds();
+    } catch (err) {
+        alert("Failed to unblock ad: " + err.message);
+    }
+};
+
+window.deleteAd = async function(event, adId) {
+    if (event && event.preventDefault) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    if (typeof event === 'string' && !adId) {
+        adId = event;
+    }
+    const ad = allAds.find(a => String(a.id) === String(adId));
+    if (!ad) return;
+
+    const title = ad.title || (ad.brand ? `${ad.brand} ${ad.model || ''}` : "this listing");
+    if (!confirm(`Are you sure you want to permanently delete "${title}"? This action cannot be undone.`)) {
+        return;
+    }
+
+    const targetCollection = ad._collectionName || "ads";
+
+    try {
+        const adRef = doc(db, targetCollection, adId);
+        await deleteDoc(adRef);
+
+        await logAdminAction("DELETE_AD", "AD", adId, {
+            collection: targetCollection,
+            category: ad.category || targetCollection,
+            sellerUid: ad.sellerId || ad.userId || "UNKNOWN"
+        });
+
+        await loadDashboardStats();
+        await loadAds();
+    } catch (err) {
+        alert("Failed to delete ad: " + err.message);
+    }
 };
 
 window.changeAdStatus = async function(adId, newStatus) {
-    const ad = allAds.find(a => a.id === adId);
+    const ad = allAds.find(a => String(a.id) === String(adId));
     if (!ad) return;
 
     const targetCollection = ad._collectionName || "ads";
 
     try {
         const adRef = doc(db, targetCollection, adId);
-        await updateDoc(adRef, { status: newStatus, updatedAt: serverTimestamp() });
+        const updates = { status: newStatus, updatedAt: serverTimestamp() };
+        if (newStatus === "blocked") {
+            updates.blocked = true;
+        } else if (newStatus === "published" || newStatus === "available") {
+            updates.blocked = false;
+        }
+        await updateDoc(adRef, updates);
         await logAdminAction("AD_ACTION", "AD", adId, { category: targetCollection, newStatus });
-        loadDashboardStats();
-        loadAds();
+        await loadDashboardStats();
+        await loadAds();
     } catch (e) {
         alert("Failed to update ad status: " + e.message);
     }
 };
 
 // BLOCK AD MODERATION MODAL
-window.openBlockAdModal = function(adId, category) {
+window.openBlockAdModal = function(event, adId, category) {
+    if (event && event.preventDefault) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    if (typeof event === 'string' && (!category || typeof adId !== 'string')) {
+        category = adId;
+        adId = event;
+    }
     currentTargetAdIdForBlock = adId;
     currentTargetCategoryForBlock = category;
 

@@ -435,7 +435,7 @@
 
 <!-- AD DETAILS INSPECTION MODAL -->
 <div id="adDetailModal" class="modal-overlay" style="display:none;">
-    <div class="modal-card">
+    <div class="modal-card" onclick="event.stopPropagation()">
         <div class="modal-header">
             <h3 id="modalAdTitle">Ad Inspection Details</h3>
             <button class="modal-close-btn" onclick="closeAdModal()">✕</button>
@@ -487,8 +487,12 @@
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button id="modalBlockAdBtn" class="btn-action btn-ban" style="margin-right:auto;">🚫 Block Ad</button>
+        <div class="modal-footer" style="gap:10px;">
+            <div id="modalActionContainer" style="display:flex;gap:8px;margin-right:auto;flex-wrap:wrap;">
+                <button id="modalBlockAdBtn" class="btn-action btn-ban">🚫 Block Ad</button>
+                <button id="modalUnblockAdBtn" class="btn-action btn-restore" style="background:#22c55e;color:#ffffff;display:none;">🔓 Unblock Ad</button>
+                <button id="modalDeleteAdBtn" class="btn-action btn-delete" style="background:#ef4444;color:#ffffff;">🗑️ Delete Ad</button>
+            </div>
             <button class="btn-action btn-exit" onclick="closeAdModal()">Close</button>
         </div>
     </div>
@@ -496,7 +500,7 @@
 
 <!-- BLOCK AD MODERATION CONFIRMATION MODAL -->
 <div id="blockAdModal" class="modal-overlay" style="display:none;">
-    <div class="modal-card" style="max-width:440px;">
+    <div class="modal-card" onclick="event.stopPropagation()" style="max-width:440px;">
         <div class="modal-header" style="border-bottom:1px solid rgba(239,68,68,0.3);">
             <h3 style="color:#fca5a5;display:flex;align-items:center;gap:8px;">🚫 Block Ad Listing</h3>
             <button class="modal-close-btn" onclick="closeBlockAdModal()">✕</button>
