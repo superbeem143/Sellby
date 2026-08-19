@@ -123,6 +123,9 @@ async function startCategoryListener() {
                     isMatch = true;
                 } else if (categoryType === "cars") {
                     isMatch = (data.category === "cars" || data.category === "bikes");
+                } else if (categoryType === "mobile" || categoryType === "mobiles") {
+                    const cat = (data.category || "").toLowerCase();
+                    isMatch = (cat === "mobile" || cat === "mobiles");
                 } else if (categoryType) {
                     isMatch = (data.category === categoryType);
                 } else {
@@ -225,6 +228,9 @@ function filterAds() {
         if (intent.category) {
             if (intent.category === "cars") {
                 if (ad.category !== "cars" && ad.category !== "bikes") return false;
+            } else if (intent.category === "mobile" || intent.category === "mobiles") {
+                const cat = (ad.category || "").toLowerCase();
+                if (cat !== "mobile" && cat !== "mobiles") return false;
             } else if (ad.category !== intent.category) {
                 return false;
             }

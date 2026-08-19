@@ -123,6 +123,9 @@ async function startCategoryListener() {
                     isMatch = true;
                 } else if (categoryType === "cars") {
                     isMatch = (data.category === "cars" || data.category === "bikes");
+                } else if (categoryType === "mobile" || categoryType === "mobiles") {
+                    const cat = (data.category || "").toLowerCase();
+                    isMatch = (cat === "mobile" || cat === "mobiles");
                 } else if (categoryType) {
                     isMatch = (data.category === categoryType);
                 } else {
@@ -234,6 +237,9 @@ function filterAds() {
             // Special handling for cars/bikes
             if (intent.category === "cars") {
                 return matchesKeyword && (ad.category === "cars" || ad.category === "bikes");
+            } else if (intent.category === "mobile" || intent.category === "mobiles") {
+                const cat = (ad.category || "").toLowerCase();
+                return matchesKeyword && (cat === "mobile" || cat === "mobiles");
             }
             return matchesKeyword && ad.category === intent.category;
         }

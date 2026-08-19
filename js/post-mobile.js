@@ -162,7 +162,7 @@ if (publishBtn) {
             }
 
             const docData = {
-                category: "mobiles",
+                category: "mobile",
                 sellerId: auth.currentUser.uid,
                 sellerEmail: auth.currentUser.email || "",
                 brand,
@@ -187,7 +187,7 @@ if (publishBtn) {
             publishBtn.textContent = "Published!";
 
             alert("Success: Your mobile ad is now live!");
-            window.location.href = "mobiles.html";
+            window.location.href = "category.html?type=mobile";
         } catch (error) {
             console.error("Publish Error:", error);
             alert(`Failed to publish: ${error.message}`);

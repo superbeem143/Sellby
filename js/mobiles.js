@@ -268,7 +268,7 @@ async function loadMobiles() {
     try {
         const mobilesQuery = query(
             collection(db, "ads"),
-            where("category", "==", "mobile"),
+            where("category", "in", ["mobile", "mobiles", "Mobile", "Mobiles"]),
             where("status", "in", ["published", "available"]),
             orderBy("createdAt", "desc"),
             limit(50)
