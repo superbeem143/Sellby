@@ -27,7 +27,9 @@ import {
     setPersistence,
     browserLocalPersistence,
     RecaptchaVerifier,
-    signInWithPhoneNumber
+    signInWithPhoneNumber,
+    GoogleAuthProvider,
+    signInWithPopup
 } from "https://www.gstatic.com/firebasejs/12.17.0/firebase-auth.js";
 
 import {
@@ -151,6 +153,10 @@ export {
 
     uploadBytes,
 
-    getDownloadURL
+    getDownloadURL,
+
+    GoogleAuthProvider,
+
+    signInWithPopup
 
 };

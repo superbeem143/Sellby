@@ -1,4 +1,5 @@
-import { auth, signOut } from "./firebase-config.js";
+import { auth, db, signOut, getDoc, doc } from "./firebase-config.js";
+import { isAuthorizedAdmin } from "./admin-auth.js";
 import { getLanguage, setLanguage, initTranslations } from "./i18n.js";
 
 const logoutBtn = document.getElementById("logoutBtn");
@@ -122,3 +123,114 @@ document.addEventListener("DOMContentLoaded", () => {
         langSubText.textContent = names[lang] || "English";
     }
 });
+
+// =========================
+// ADMIN PORTAL VISIBILITY CHECK
+// =========================
+
+async function isSellbyAdminAuthenticated(user) {
+    const targetAdminEmail = "sellby369@gmail.com";
+
+    // 1. Check passed user object email
+    if (user) {
+        let email = (user.email || "").trim().toLowerCase();
+        if (!email && user.providerData && user.providerData.length > 0) {
+            email = (user.providerData[0].email || "").trim().toLowerCase();
+        }
+        if (email === targetAdminEmail) return true;
+    }
+
+    // 2. Check auth.currentUser directly
+    if (auth.currentUser) {
+        let email = (auth.currentUser.email || "").trim().toLowerCase();
+        if (!email && auth.currentUser.providerData && auth.currentUser.providerData.length > 0) {
+            email = (auth.currentUser.providerData[0].email || "").trim().toLowerCase();
+        }
+        if (email === targetAdminEmail) return true;
+    }
+
+    // 3. Check Firestore user profile if UID is available
+    const activeUid = user?.uid || auth.currentUser?.uid;
+    if (activeUid) {
+        try {
+            const userDocSnap = await getDoc(doc(db, "users", activeUid));
+            if (userDocSnap.exists()) {
+                const data = userDocSnap.data();
+                if (data && data.email && data.email.trim().toLowerCase() === targetAdminEmail) {
+                    return true;
+                }
+            }
+        } catch (err) {
+            console.warn("Notice checking user document email:", err);
+        }
+    }
+
+    // 4. Check LocalStorage Firebase Auth persistence keys
+    try {
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith("firebase:authUser:")) {
+                const val = localStorage.getItem(key);
+                if (val && val.toLowerCase().includes(targetAdminEmail)) {
+                    const parsed = JSON.parse(val);
+                    const storedEmail = (parsed.email || (parsed.providerData && parsed.providerData[0] && parsed.providerData[0].email) || "").trim().toLowerCase();
+                    if (storedEmail === targetAdminEmail) {
+                        return true;
+                    }
+                }
+            }
+        }
+    } catch (e) {
+        console.warn("Notice reading localStorage auth persistence:", e);
+    }
+
+    return false;
+}
+
+async function updateAdminPortalVisibility(user) {
+    const adminHeader = document.getElementById("adminHeaderLabel");
+    const adminSection = document.getElementById("adminPortalSection");
+
+    if (!adminHeader && !adminSection) return;
+
+    const isAdmin = await isSellbyAdminAuthenticated(user);
+
+    if (isAdmin) {
+        if (adminHeader) adminHeader.style.display = "block";
+        if (adminSection) adminSection.style.display = "block";
+    } else {
+        if (adminHeader) adminHeader.style.display = "none";
+        if (adminSection) adminSection.style.display = "none";
+    }
+}
+
+// 1. Listen for auth state changes
+auth.onAuthStateChanged((user) => {
+    updateAdminPortalVisibility(user);
+});
+
+// 2. Immediate evaluation if auth.currentUser is already initialized
+if (auth.currentUser) {
+    updateAdminPortalVisibility(auth.currentUser);
+}
+
+// 3. Fallback evaluation on DOMContentLoaded and load
+document.addEventListener("DOMContentLoaded", () => {
+    updateAdminPortalVisibility(auth.currentUser);
+});
+
+window.addEventListener("load", () => {
+    updateAdminPortalVisibility(auth.currentUser);
+});
+
+// 4. Polling check during initial session load (3 seconds)
+let pollCount = 0;
+const pollInterval = setInterval(() => {
+    pollCount++;
+    updateAdminPortalVisibility(auth.currentUser);
+    if (pollCount >= 10) {
+        clearInterval(pollInterval);
+    }
+}, 300);
+
+

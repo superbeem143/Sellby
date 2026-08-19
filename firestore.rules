@@ -12,7 +12,10 @@ service cloud.firestore {
     }
     
     function isAdmin() {
-      return isAuthenticated() && request.auth.token.admin == true;
+      return isAuthenticated() && request.auth.token.email != null && (
+        request.auth.token.email.toLowerCase() == "sellby369@gmail.com" ||
+        request.auth.token.admin == true
+      );
     }
 
     function isValidListingStatus(status) {
@@ -139,6 +142,28 @@ service cloud.firestore {
     // 12. Admin Logs
     match /adminLogs/{logId} {
       allow read, write: if isAdmin();
+    }
+
+    // 13. Monetization Plans
+    match /plans/{planId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 14. Payment Transactions
+    match /payments/{paymentId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+
+    // 15. Admin Config & Credentials
+    match /adminConfig/{configId} {
+      allow read: if isAuthenticated() && request.auth.token.email != null && (
+        (exists(/databases/$(database)/documents/adminConfig/credentials) && request.auth.token.email == get(/databases/$(database)/documents/adminConfig/credentials).data.adminEmail) ||
+        isAdmin()
+      );
+      allow write: if isAdmin() || (isAuthenticated() && request.auth.token.email != null && !exists(/databases/$(database)/documents/adminConfig/credentials));
     }
   }
 }

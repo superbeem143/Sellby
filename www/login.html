@@ -1,109 +1,759 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SELLBY | Mobile Login</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>SELLBY | Login</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+    overflow-x:hidden;
+}
+
+body{
+    font-family:"Poppins",sans-serif;
+    background:
+        linear-gradient(
+            145deg,
+            #f5f0ff,
+            #fff4f9 55%,
+            #f8f9fd
+        );
+    color:#172033;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+.auth-page{
+    min-height:100dvh;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px 14px;
+}
+
+.auth-card{
+    width:100%;
+    max-width:430px;
+    background:rgba(255,255,255,.97);
+    border:1px solid #eee8f8;
+    border-radius:26px;
+    padding:28px 22px 24px;
+    box-shadow:0 20px 55px rgba(50,30,90,.12);
+    position:relative;
+    overflow:hidden;
+}
+
+.auth-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:5px;
+    background:
+        linear-gradient(
+            90deg,
+            #7c3aed,
+            #a855f7,
+            #db2777
+        );
+}
+
+/* BRAND */
+
+.auth-header{
+    text-align:center;
+    margin-bottom:28px;
+}
+
+.auth-brand-logo{
+    font-size:38px;
+    line-height:1;
+    font-weight:800;
+    letter-spacing:-1.5px;
+    margin-bottom:7px;
+}
+
+.logo-sell{
+    color:#6d28d9;
+}
+
+.logo-by{
+    color:#db2777;
+}
+
+.auth-tagline{
+    font-size:12px;
+    color:#858b99;
+    font-weight:500;
+}
+
+/* STEPS */
+
+.form-step{
+    width:100%;
+    animation:fade .22s ease;
+}
+
+.form-step.hidden{
+    display:none;
+}
+
+.auth-card-title{
+    font-size:23px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.auth-card-subtitle{
+    font-size:13px;
+    line-height:1.6;
+    color:#7c8492;
+    margin-bottom:21px;
+}
+
+.target-phone-highlight{
+    color:#6d28d9;
+    font-weight:700;
+}
+
+/* PHONE */
+
+.phone-input-wrapper{
+    height:58px;
+    width:100%;
+    display:flex;
+    border:2px solid #e3e5ed;
+    border-radius:16px;
+    background:#f9f9fc;
+    overflow:hidden;
+    margin-bottom:17px;
+}
+
+.phone-input-wrapper:focus-within{
+    border-color:#8b5cf6;
+    box-shadow:0 0 0 4px rgba(124,58,237,.09);
+    background:#fff;
+}
+
+/* COUNTRY */
+
+.country-code-select{
+    width:96px;
+    min-width:96px;
+    border:0;
+    border-right:1px solid #e1e3eb;
+    outline:0;
+    background:#f0eff8;
+    color:#242b3b;
+    font-size:15px;
+    font-weight:600;
+    padding:0 7px;
+}
+
+/* MOBILE NUMBER */
+
+.phone-input{
+    width:100%;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:transparent;
+    padding:0 14px;
+    font-size:17px;
+    font-weight:600;
+    color:#172033;
+}
+
+.phone-input::placeholder{
+    font-size:14px;
+    color:#a0a6b2;
+    font-weight:400;
+}
+
+/* BUTTON */
+
+.gradient-btn{
+    width:100%;
+    min-height:55px;
+    border:0;
+    border-radius:16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #a855f7 48%,
+            #db2777
+        );
+
+    color:white;
+    font-size:15px;
+    font-weight:700;
+
+    box-shadow:
+        0 10px 24px rgba(124,58,237,.24);
+
+    transition:.18s;
+}
+
+.gradient-btn:active{
+    transform:scale(.98);
+}
+
+.gradient-btn:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+/* OTP */
+
+.otp-container{
+    width:100%;
+    display:grid;
+    grid-template-columns:
+        repeat(6,minmax(0,1fr));
+
+    gap:7px;
+    margin:24px 0 19px;
+}
+
+.otp-field{
+    width:100%;
+    min-width:0;
+    height:54px;
+
+    border:2px solid #e2e5ed;
+    border-radius:13px;
+
+    background:#f9f9fc;
+    outline:0;
+
+    text-align:center;
+
+    color:#6d28d9;
+    font-size:21px;
+    font-weight:700;
+}
+
+.otp-field:focus{
+    border-color:#a855f7;
+    background:#fff;
+
+    box-shadow:
+        0 0 0 4px rgba(168,85,247,.09);
+}
+
+/* OTP BOTTOM */
+
+.otp-meta-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:17px;
+}
+
+.change-num-btn,
+.resend-btn{
+    border:0;
+    background:transparent;
+    padding:8px 0;
+    font-size:12px;
+    font-weight:700;
+}
+
+.change-num-btn{
+    color:#6d28d9;
+}
+
+.resend-btn{
+    color:#db2777;
+}
+
+.resend-btn:disabled{
+    color:#b7bcc7;
+}
+
+.timer-badge{
+    display:flex;
+    align-items:center;
+    gap:6px;
+
+    color:#858b99;
+    font-size:11px;
+    white-space:nowrap;
+}
+
+#timerCountdown strong{
+    color:#7c3aed;
+}
+
+/* STATUS */
+
+.auth-status-msg{
+    display:none;
+    width:100%;
+
+    margin-top:17px;
+    padding:11px 13px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    font-size:12px;
+    font-weight:600;
+    line-height:1.45;
+}
+
+.auth-status-msg.error{
+    display:block;
+    color:#b91c1c;
+    background:#fff1f2;
+    border:1px solid #fecdd3;
+}
+
+.auth-status-msg.success{
+    display:block;
+    color:#15803d;
+    background:#f0fdf4;
+    border:1px solid #bbf7d0;
+}
+
+.auth-status-msg.info{
+    display:block;
+    color:#2563eb;
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+}
+
+/* RECAPTCHA */
+
+#recaptcha-container{
+    width:100%;
+    overflow:hidden;
+}
+
+/* ANIMATION */
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(4px);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+/* SMALL ANDROID */
+
+@media(max-width:380px){
+
+    .auth-page{
+        padding:12px 9px;
+    }
+
+    .auth-card{
+        padding:25px 16px 20px;
+        border-radius:23px;
+    }
+
+    .auth-brand-logo{
+        font-size:34px;
+    }
+
+    .auth-card-title{
+        font-size:21px;
+    }
+
+    .country-code-select{
+        width:88px;
+        min-width:88px;
+        font-size:14px;
+    }
+
+    .phone-input{
+        font-size:16px;
+        padding:0 11px;
+    }
+
+    .otp-container{
+        gap:5px;
+    }
+
+    .otp-field{
+        height:50px;
+        font-size:19px;
+    }
+
+    .otp-meta-row{
+        gap:5px;
+    }
+}
+
+/* VERY SMALL SCREEN */
+
+@media(max-width:330px){
+
+    .otp-meta-row{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .timer-badge{
+        justify-content:space-between;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <main class="auth-page">
-        <section class="auth-card">
-            
-            <!-- SELLBY BRAND LOGO & TAGLINE -->
-            <header class="auth-header">
-                <h1 class="auth-brand-logo">
-                    <span class="logo-sell">SELL</span><span class="logo-by">BY</span>
-                </h1>
-                <p class="auth-tagline">
-                    Sell Easy. Buy Easy.
-                </p>
-            </header>
+<main class="auth-page">
 
-            <!-- STEP 1: MOBILE NUMBER ENTRY -->
-            <div id="phoneStep" class="form-step">
-                <h2 class="auth-card-title" data-i18n="login_or_register">Login or Register</h2>
-                <p class="auth-card-subtitle" data-i18n="enter_mobile">
-                    Enter your mobile number to receive a verification code via SMS.
-                </p>
+<section class="auth-card">
 
-                <div class="phone-input-wrapper">
-                    <select id="countryCode" class="country-code-select" aria-label="Country Code">
-                        <option value="+91">🇮🇳 +91</option>
-                        <option value="+1">🇺🇸 +1</option>
-                        <option value="+44">🇬🇧 +44</option>
-                        <option value="+971">🇦🇪 +971</option>
-                    </select>
-                    <input 
-                        id="mobileNumber" 
-                        type="tel" 
-                        class="phone-input" 
-                        data-i18n="phone_placeholder"
-                        placeholder="Enter mobile number"
-                        maxlength="10"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        autocomplete="tel-national"
-                        required>
-                </div>
+<!-- BRAND -->
 
-                <button id="sendOtpBtn" class="gradient-btn" type="button">
-                    <span data-i18n="continue">Continue</span>
-                </button>
-            </div>
+<header class="auth-header">
 
-            <!-- STEP 2: OTP VERIFICATION -->
-            <div id="otpStep" class="form-step hidden">
-                <h2 class="auth-card-title" data-i18n="enter_code">Enter verification code</h2>
-                <p class="auth-card-subtitle">
-                    <span data-i18n="code_sent">Code sent to</span> <span id="displayPhoneNumber" class="target-phone-highlight">+91 00000 00000</span>
-                </p>
+<h1 class="auth-brand-logo">
+    <span class="logo-sell">SELL</span><span class="logo-by">BY</span>
+</h1>
 
-                <div class="otp-container">
-                    <input type="text" maxlength="1" class="otp-field" id="otp-1" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                    <input type="text" maxlength="1" class="otp-field" id="otp-2" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                    <input type="text" maxlength="1" class="otp-field" id="otp-3" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                    <input type="text" maxlength="1" class="otp-field" id="otp-4" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                    <input type="text" maxlength="1" class="otp-field" id="otp-5" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                    <input type="text" maxlength="1" class="otp-field" id="otp-6" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" />
-                </div>
+<p class="auth-tagline">
+    Sell Easy. Buy Easy.
+</p>
 
-                <button id="verifyOtpBtn" class="gradient-btn" type="button">
-                    <span data-i18n="verify_code">Verify Code</span>
-                </button>
+</header>
 
-                <div class="otp-meta-row">
-                    <button id="changeNumberBtn" class="change-num-btn" type="button" data-i18n="change_number">
-                        ← Change number
-                    </button>
-                    
-                    <div class="timer-badge">
-                        <button id="resendOtpBtn" class="resend-btn" type="button" disabled data-i18n="resend_otp">Resend OTP</button>
-                        <span id="timerCountdown">in <strong>30s</strong></span>
-                    </div>
-                </div>
-            </div>
 
-            <!-- RECAPTCHA CONTAINER (INVISIBLE) -->
-            <div id="recaptcha-container"></div>
+<!-- PHONE STEP -->
 
-            <!-- STATUS & ERROR MESSAGES -->
-            <div id="statusMessage" class="auth-status-msg" role="alert"></div>
+<div id="phoneStep" class="form-step">
 
-        </section>
-    </main>
+<h2 class="auth-card-title"
+    data-i18n="login_or_register">
+    Login or Register
+</h2>
 
-    <!-- FIREBASE SERVICES -->
-    <script type="module" src="js/firebase-config.js"></script>
+<p class="auth-card-subtitle"
+   data-i18n="enter_mobile">
+    Enter your mobile number to receive a verification code via SMS.
+</p>
 
-    <!-- LOGIN SCRIPT -->
-    <script type="module" src="js/login.js"></script>
+
+<div class="phone-input-wrapper">
+
+<select
+    id="countryCode"
+    class="country-code-select"
+    aria-label="Country Code">
+
+    <option value="+91" selected>
+        🇮🇳 +91
+    </option>
+
+    <option value="+1">
+        🇺🇸 +1
+    </option>
+
+    <option value="+44">
+        🇬🇧 +44
+    </option>
+
+    <option value="+971">
+        🇦🇪 +971
+    </option>
+
+</select>
+
+
+<input
+    id="mobileNumber"
+    class="phone-input"
+    type="tel"
+    data-i18n="phone_placeholder"
+    placeholder="Enter mobile number"
+    maxlength="10"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    autocomplete="tel-national"
+    required>
+
+</div>
+
+
+<button
+    id="sendOtpBtn"
+    class="gradient-btn"
+    type="button">
+
+    <span data-i18n="continue">
+        Continue
+    </span>
+
+</button>
+
+<div style="text-align:center; margin-top:18px;">
+    <button
+        id="switchToEmailBtn"
+        type="button"
+        style="background:transparent; border:none; color:#7c3aed; font-size:13px; font-weight:700; cursor:pointer; padding:8px 12px; border-radius:8px;">
+        📧 Login with Email
+    </button>
+</div>
+
+</div>
+
+
+<!-- EMAIL LOGIN STEP -->
+
+<div id="emailStep" class="form-step hidden">
+
+<h2 class="auth-card-title">
+    Login with Email
+</h2>
+
+<p class="auth-card-subtitle">
+    Enter your registered email address and password.
+</p>
+
+<div class="phone-input-wrapper" style="margin-bottom:14px; padding:0 14px;">
+    <input
+        id="emailInput"
+        class="phone-input"
+        type="email"
+        placeholder="Enter email address"
+        autocomplete="email">
+</div>
+
+<div class="phone-input-wrapper" style="margin-bottom:18px; padding:0 14px;">
+    <input
+        id="passwordInput"
+        class="phone-input"
+        type="password"
+        placeholder="Enter password"
+        autocomplete="current-password">
+</div>
+
+<button
+    id="emailLoginBtn"
+    class="gradient-btn"
+    type="button">
+
+    <span>Login with Email</span>
+
+</button>
+
+<div style="text-align:center; margin-top:18px;">
+    <button
+        id="switchToPhoneBtn"
+        type="button"
+        style="background:transparent; border:none; color:#6d28d9; font-size:13px; font-weight:700; cursor:pointer; padding:8px 12px; border-radius:8px;">
+        📱 Login with Mobile Number
+    </button>
+</div>
+
+</div>
+
+
+
+<!-- OTP STEP -->
+
+<div id="otpStep" class="form-step hidden">
+
+<h2 class="auth-card-title"
+    data-i18n="enter_code">
+    Enter verification code
+</h2>
+
+
+<p class="auth-card-subtitle">
+
+<span data-i18n="code_sent">
+    Code sent to
+</span>
+
+<span
+    id="displayPhoneNumber"
+    class="target-phone-highlight">
+
+    +91 00000 00000
+
+</span>
+
+</p>
+
+
+<!-- SIX OTP BOXES -->
+
+<div class="otp-container">
+
+<input
+    id="otp-1"
+    class="otp-field"
+    type="text"
+    maxlength="1"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    autocomplete="one-time-code">
+
+<input
+    id="otp-2"
+    class="otp-field"
+    type="text"
+    maxlength="1"
+    inputmode="numeric"
+    pattern="[0-9]*">
+
+<input
+    id="otp-3"
+    class="otp-field"
+    type="text"
+    maxlength="1"
+    inputmode="numeric"
+    pattern="[0-9]*">
+
+<input
+    id="otp-4"
+    class="otp-field"
+    type="text"
+    maxlength="1"
+    inputmode="numeric"
+    pattern="[0-9]*">
+
+<input
+    id="otp-5"
+    class="otp-field"
+    type="text"
+    maxlength="1"
+    inputmode="numeric"
+    pattern="[0-9]*">
+
+<input
+    id="otp-6"
+    class="otp-field"
+    type="text"
+    maxlength="1"
+    inputmode="numeric"
+    pattern="[0-9]*">
+
+</div>
+
+
+<!-- VERIFY -->
+
+<button
+    id="verifyOtpBtn"
+    class="gradient-btn"
+    type="button">
+
+    <span data-i18n="verify_code">
+        Verify Code
+    </span>
+
+</button>
+
+
+<!-- CHANGE / RESEND / TIMER -->
+
+<div class="otp-meta-row">
+
+<button
+    id="changeNumberBtn"
+    class="change-num-btn"
+    type="button"
+    data-i18n="change_number">
+
+    ← Change number
+
+</button>
+
+
+<div class="timer-badge">
+
+<button
+    id="resendOtpBtn"
+    class="resend-btn"
+    type="button"
+    disabled
+    data-i18n="resend_otp">
+
+    Resend OTP
+
+</button>
+
+<span id="timerCountdown">
+    in <strong>30s</strong>
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FIREBASE RECAPTCHA -->
+
+<div id="recaptcha-container"></div>
+
+
+<!-- STATUS -->
+
+<div
+    id="statusMessage"
+    class="auth-status-msg"
+    role="alert"
+    aria-live="polite">
+</div>
+
+</section>
+
+</main>
+
+
+<!-- DO NOT CHANGE FIREBASE FILES -->
+
+<script
+    type="module"
+    src="js/firebase-config.js">
+</script>
+
+<script
+    type="module"
+    src="js/login.js">
+</script>
 
 </body>
 </html>

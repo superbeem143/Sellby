@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SELLBY | Admin Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<!-- TOP NAVBAR -->
+<header class="admin-navbar">
+    <div class="brand-area">
+        <button id="sidebarToggleMobile" class="mobile-toggle-btn" aria-label="Toggle Navigation">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+        <h1 class="brand-logo">
+            <span class="logo-sell">SELL</span><span class="logo-by">BY</span>
+        </h1>
+        <span class="admin-tag">🛡️ Admin Portal</span>
+    </div>
+
+    <div class="nav-actions">
+        <div class="admin-user-badge">
+            <span class="user-badge-icon">👤</span>
+            <span id="adminUserEmail">sellby369@gmail.com</span>
+        </div>
+
+        <!-- THREE-DOTS MENU BUTTON -->
+        <div class="three-dots-wrapper">
+            <button id="threeDotsBtn" class="three-dots-btn" title="Admin Options Menu">⋮</button>
+            <div id="threeDotsMenu" class="three-dots-dropdown">
+                <div class="menu-item-info">
+                    <div style="font-weight:700; color:#f8fafc; font-size:13px;">sellby369@gmail.com</div>
+                    <div style="font-size:11px; color:#94a3b8;">Authorized Admin Account</div>
+                </div>
+                <div class="menu-divider"></div>
+                <button class="menu-action-btn" id="menuBtnChangePass">
+                    🔑 Change Admin Password
+                </button>
+                <button class="menu-action-btn" id="menuBtnSecurityInfo">
+                    🛡️ Security & Session Info
+                </button>
+                <div class="menu-divider"></div>
+                <button class="menu-action-btn menu-exit-btn" id="menuBtnExit">
+                    🚪 Exit Portal / Logout
+                </button>
+            </div>
+        </div>
+
+        <button id="adminLogoutBtn" class="btn-exit">Exit Portal</button>
+    </div>
+</header>
+
+<!-- MOBILE BACKDROP OVERLAY -->
+<div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+<!-- SIDEBAR NAVIGATION -->
+<aside id="adminSidebar" class="admin-sidebar">
+    <!-- COLLAPSE / EXPAND CONTROL -->
+    <div class="sidebar-header">
+        <button id="sidebarCollapseBtn" class="collapse-toggle-btn" title="Toggle Sidebar Width">
+            <span class="toggle-icon">←</span>
+            <span class="toggle-text">Collapse Sidebar</span>
+        </button>
+    </div>
+
+    <!-- SIDEBAR NAV LINKS -->
+    <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="dashboard">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
+        </button>
+        
+        <button class="nav-item" data-tab="users">
+            <span class="nav-icon">👥</span>
+            <span class="nav-label">Users</span>
+        </button>
+
+        <button class="nav-item" data-tab="ads-all">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">All Ads</span>
+        </button>
+
+        <button class="nav-item" data-tab="ads-active">
+            <span class="nav-icon">✅</span>
+            <span class="nav-label">Active Live Ads</span>
+        </button>
+
+        <button class="nav-item" data-tab="ads-sold">
+            <span class="nav-icon">🏷️</span>
+            <span class="nav-label">Sold Ads</span>
+        </button>
+
+        <button class="nav-item" data-tab="ads-expired">
+            <span class="nav-icon">⏰</span>
+            <span class="nav-label">Expired Ads</span>
+        </button>
+
+        <button class="nav-item" data-tab="ads-blocked">
+            <span class="nav-icon">🚫</span>
+            <span class="nav-label">Blocked Ads</span>
+        </button>
+
+        <button class="nav-item" data-tab="reports">
+            <span class="nav-icon">🛡️</span>
+            <span class="nav-label">Reports & Moderation</span>
+        </button>
+
+        <button class="nav-item" data-tab="monetization">
+            <span class="nav-icon">💰</span>
+            <span class="nav-label">Ads & Monetization</span>
+        </button>
+
+        <button class="nav-item" data-tab="audit">
+            <span class="nav-icon">📋</span>
+            <span class="nav-label">Audit Logs</span>
+        </button>
+
+        <button class="nav-item" data-tab="settings">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-label">Admin Settings</span>
+        </button>
+    </nav>
+</aside>
+
+<!-- MAIN CONTENT PANES -->
+<main id="adminMainContent" class="admin-main">
+
+    <!-- 1. DASHBOARD PANE -->
+    <section id="tab-dashboard" class="tab-pane active">
+        <div class="pane-header">
+            <h2>Platform Overview & Metrics</h2>
+            <p>Real-time statistics computed dynamically from actual Firestore data.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div id="dashTotalUsersCard" class="stat-card users-card clickable-card">
+                <div class="stat-title">Total Registered Users</div>
+                <div id="dashTotalUsers" class="stat-value">...</div>
+                <div class="stat-desc">Click to inspect Users →</div>
+            </div>
+
+            <div id="dashTotalAdsCard" class="stat-card clickable-card">
+                <div class="stat-title">Total Ads Posted</div>
+                <div id="dashTotalAds" class="stat-value">...</div>
+                <div class="stat-desc">Click to inspect All Ads →</div>
+            </div>
+
+            <div id="dashActiveAdsCard" class="stat-card active-card clickable-card">
+                <div class="stat-title">Active Live Ads</div>
+                <div id="dashActiveAds" class="stat-value">...</div>
+                <div class="stat-desc">Click to inspect Published Ads →</div>
+            </div>
+
+            <div id="dashSoldAdsCard" class="stat-card sold-card clickable-card">
+                <div class="stat-title">Sold Ads</div>
+                <div id="dashSoldAds" class="stat-value">0</div>
+                <div class="stat-desc">Click to inspect Sold Ads →</div>
+            </div>
+
+            <div id="dashExpiredAdsCard" class="stat-card expired-card clickable-card">
+                <div class="stat-title">Expired Ads</div>
+                <div id="dashExpiredAds" class="stat-value">0</div>
+                <div class="stat-desc">Click to inspect Expired Ads →</div>
+            </div>
+
+            <div id="dashBlockedAdsCard" class="stat-card blocked-card clickable-card">
+                <div class="stat-title">Blocked Ads</div>
+                <div id="dashBlockedAds" class="stat-value">0</div>
+                <div class="stat-desc">Click to inspect Blocked Ads →</div>
+            </div>
+        </div>
+
+        <div class="summary-card">
+            <h3>Operational Health Summary</h3>
+            <div id="healthSummaryContainer" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 16px;">
+                <div class="health-item">
+                    <div class="health-title">Firebase Auth Connection</div>
+                    <div id="healthAuthStatus" class="health-value">Checking...</div>
+                </div>
+                <div class="health-item">
+                    <div class="health-title">Firestore Database Status</div>
+                    <div id="healthFirestoreStatus" class="health-value">Checking...</div>
+                </div>
+                <div class="health-item">
+                    <div class="health-title">Admin Identity Enforcement</div>
+                    <div id="healthAdminStatus" class="health-value">Enforced (sellby369@gmail.com)</div>
+                </div>
+                <div class="health-item">
+                    <div class="health-title">Registered Users Collection</div>
+                    <div id="healthUsersCount" class="health-value">Checking...</div>
+                </div>
+                <div class="health-item">
+                    <div class="health-title">Ad Listings Collections</div>
+                    <div id="healthAdsCount" class="health-value">Checking...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. USERS PANE -->
+    <section id="tab-users" class="tab-pane">
+        <div class="pane-header flex-between">
+            <div>
+                <h2>User Account Management</h2>
+                <p>Inspect registered user profiles, status, contact details, and suspension state.</p>
+            </div>
+            <button class="back-dashboard-btn" onclick="navigateToTab('dashboard')">← Back to Dashboard</button>
+        </div>
+
+        <div class="controls-bar">
+            <div class="search-input-group">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="userSearchInput" class="search-input" placeholder="Search users by name or UID...">
+            </div>
+        </div>
+
+        <div class="data-table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>User Profile / UID</th>
+                        <th>Display Name / Details</th>
+                        <th>Account Status</th>
+                        <th>Registered Date</th>
+                        <th>Administrative Action</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <tr><td colspan="5" style="text-align:center;padding:20px;">Loading users...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 3. ADS PANE -->
+    <section id="tab-ads" class="tab-pane">
+        <div class="pane-header flex-between">
+            <div>
+                <h2>Ad Listings Management</h2>
+                <p>Browse, filter, inspect, moderate, and update status for published item listings.</p>
+            </div>
+            <button class="back-dashboard-btn" onclick="navigateToTab('dashboard')">← Back to Dashboard</button>
+        </div>
+
+        <div class="controls-bar">
+            <div class="search-input-group">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="adSearchInput" class="search-input" placeholder="Search ads by title or seller UID...">
+            </div>
+
+            <select id="adCategoryFilter" class="filter-select">
+                <option value="all">All Categories</option>
+                <option value="ads">General Ads</option>
+                <option value="property">Property</option>
+                <option value="cars">Cars</option>
+                <option value="bikes">Bikes</option>
+                <option value="mobiles">Mobiles</option>
+                <option value="electronics">Electronics</option>
+                <option value="furniture">Furniture</option>
+                <option value="others">Others</option>
+            </select>
+
+            <select id="adStatusFilter" class="filter-select">
+                <option value="all">All Statuses</option>
+                <option value="published">Published / Live</option>
+                <option value="sold">Sold</option>
+                <option value="expired">Expired</option>
+                <option value="blocked">Blocked</option>
+            </select>
+        </div>
+
+        <div id="adsGrid" class="ads-grid">
+            <div style="grid-column:1/-1;text-align:center;padding:30px;">Loading ads...</div>
+        </div>
+    </section>
+
+    <!-- 4. REPORTS / MODERATION PANE -->
+    <section id="tab-reports" class="tab-pane">
+        <div class="pane-header flex-between">
+            <div>
+                <h2>Reports & Content Moderation</h2>
+                <p>Inspect safety reports, flag incidents, and moderate content submitted by users.</p>
+            </div>
+            <button class="back-dashboard-btn" onclick="navigateToTab('dashboard')">← Back to Dashboard</button>
+        </div>
+
+        <div class="data-table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Report ID / Target</th>
+                        <th>Reporter UID</th>
+                        <th>Reason / Category</th>
+                        <th>Submitted Date</th>
+                        <th>Status / Resolution</th>
+                    </tr>
+                </thead>
+                <tbody id="reportsTableBody">
+                    <tr><td colspan="5" style="text-align:center;padding:20px;">No safety or moderation reports currently filed.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 5. ADS & MONETIZATION PANE -->
+    <section id="tab-monetization" class="tab-pane">
+        <div class="pane-header flex-between">
+            <div>
+                <h2>Ads & Monetization Plans</h2>
+                <p>Configure subscription plans, duration, pricing (₹), and inspect payment transaction logs.</p>
+            </div>
+            <button class="back-dashboard-btn" onclick="navigateToTab('dashboard')">← Back to Dashboard</button>
+        </div>
+
+        <div id="plansListContainer" class="stats-grid" style="margin-bottom: 32px;">
+            <!-- Dynamically Rendered Plans -->
+        </div>
+
+        <div style="margin-bottom: 16px;">
+            <h3 style="font-size: 18px; font-weight: 700; color: #f8fafc; margin-bottom: 8px;">Payment Transaction History</h3>
+        </div>
+
+        <div class="data-table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>User ID</th>
+                        <th>Ad ID</th>
+                        <th>Amount (₹)</th>
+                        <th>Payment Status</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="paymentsTableBody">
+                    <tr><td colspan="6" style="text-align:center;padding:20px;">No payment records.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 6. AUDIT LOGS PANE -->
+    <section id="tab-audit" class="tab-pane">
+        <div class="pane-header flex-between">
+            <div>
+                <h2>Administrative Audit Trail</h2>
+                <p>Immutable log of sensitive administrator actions and system changes.</p>
+            </div>
+            <button class="back-dashboard-btn" onclick="navigateToTab('dashboard')">← Back to Dashboard</button>
+        </div>
+
+        <div class="data-table-wrapper">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Administrator</th>
+                        <th>Action Type</th>
+                        <th>Target Resource</th>
+                        <th>Timestamp</th>
+                        <th>Action Details</th>
+                    </tr>
+                </thead>
+                <tbody id="auditLogsTableBody">
+                    <tr><td colspan="5" style="text-align:center;padding:20px;">Loading audit logs...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- 7. ADMIN SETTINGS PANE -->
+    <section id="tab-settings" class="tab-pane">
+        <div class="pane-header flex-between">
+            <div>
+                <h2>Admin Security & Credential Settings</h2>
+                <p>Manage single authorized Admin identity and Secret Password credentials.</p>
+            </div>
+            <button class="back-dashboard-btn" onclick="navigateToTab('dashboard')">← Back to Dashboard</button>
+        </div>
+
+        <!-- GMAIL SETTINGS -->
+        <div class="settings-section">
+            <h4 class="section-title">Authorized Admin Email Identity</h4>
+            <div class="form-group">
+                <label class="form-label">Single Authorized Admin Email</label>
+                <input type="email" id="adminGmailInput" class="form-control" value="sellby369@gmail.com" readonly style="opacity:0.85;cursor:not-allowed;background:rgba(124,58,237,0.1);border-color:rgba(124,58,237,0.3);">
+                <small style="display:block;margin-top:6px;color:#c084fc;font-size:12px;">🔒 Permanent single Authorized Admin identity for SELLBY.</small>
+            </div>
+        </div>
+
+        <!-- PASSWORD SETTINGS -->
+        <div class="settings-section">
+            <h4 class="section-title">Change Secret Admin Password</h4>
+            <form id="changePasswordForm">
+                <div class="form-group">
+                    <label class="form-label">Current Admin Password</label>
+                    <input type="password" id="currentPasswordInput" class="form-control" placeholder="••••••••••••" required autocomplete="current-password">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">New Secret Password</label>
+                    <input type="password" id="newPasswordInput" class="form-control" placeholder="••••••••••••" required minlength="6" autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Confirm New Secret Password</label>
+                    <input type="password" id="confirmPasswordInput" class="form-control" placeholder="••••••••••••" required minlength="6" autocomplete="new-password">
+                </div>
+                
+                <div id="passwordChangeStatusMessage" style="display:none; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:600; margin-bottom:14px;"></div>
+
+                <button type="submit" class="btn-action btn-edit" style="padding:10px 20px;font-size:14px;">Update Secret Password</button>
+            </form>
+
+            <div id="passwordChangeNavActions" style="display:none; gap:12px; margin-top:16px;">
+                <button type="button" class="back-dashboard-btn" onclick="navigateToTab('settings')">← Back to Admin Settings</button>
+                <button type="button" class="back-dashboard-btn" onclick="navigateToTab('dashboard')">Return to Dashboard →</button>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- FLOATING STICKY BACK TO DASHBOARD BUTTON -->
+<button id="floatingBackDashboardBtn" class="floating-back-btn" style="display:none;" onclick="navigateToTab('dashboard')">
+    <span>←</span>
+    <span>Back to Dashboard</span>
+</button>
+
+<!-- AD DETAILS INSPECTION MODAL -->
+<div id="adDetailModal" class="modal-overlay" style="display:none;">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3 id="modalAdTitle">Ad Inspection Details</h3>
+            <button class="modal-close-btn" onclick="closeAdModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <div id="modalAdImageWrapper" class="modal-img-container">
+                <img id="modalAdImage" src="" alt="Ad Image">
+            </div>
+            <div class="modal-grid">
+                <div>
+                    <label class="form-label">Category</label>
+                    <div id="modalAdCategory" class="modal-value">-</div>
+                </div>
+                <div>
+                    <label class="form-label">Price (₹)</label>
+                    <div id="modalAdPrice" class="modal-value">-</div>
+                </div>
+                <div>
+                    <label class="form-label">Location</label>
+                    <div id="modalAdLocation" class="modal-value">-</div>
+                </div>
+                <div>
+                    <label class="form-label">Status</label>
+                    <div id="modalAdStatus" class="modal-value">-</div>
+                </div>
+                <div>
+                    <label class="form-label">Published Date</label>
+                    <div id="modalAdPublishedDate" class="modal-value">-</div>
+                </div>
+                <div>
+                    <label class="form-label">Expiry Date</label>
+                    <div id="modalAdExpiryDate" class="modal-value">-</div>
+                </div>
+                <div>
+                    <label class="form-label">Duration (Days)</label>
+                    <div id="modalAdDuration" class="modal-value">-</div>
+                </div>
+                <div>
+                    <label class="form-label">Remaining Days</label>
+                    <div id="modalAdRemainingDays" class="modal-value">-</div>
+                </div>
+                <div style="grid-column:1/-1;">
+                    <label class="form-label">Seller UID</label>
+                    <div id="modalAdSeller" class="modal-value">-</div>
+                </div>
+                <div style="grid-column:1/-1;">
+                    <label class="form-label">Item Description</label>
+                    <div id="modalAdDescription" class="modal-value" style="white-space:pre-wrap;">-</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="modalBlockAdBtn" class="btn-action btn-ban" style="margin-right:auto;">🚫 Block Ad</button>
+            <button class="btn-action btn-exit" onclick="closeAdModal()">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- BLOCK AD MODERATION CONFIRMATION MODAL -->
+<div id="blockAdModal" class="modal-overlay" style="display:none;">
+    <div class="modal-card" style="max-width:440px;">
+        <div class="modal-header" style="border-bottom:1px solid rgba(239,68,68,0.3);">
+            <h3 style="color:#fca5a5;display:flex;align-items:center;gap:8px;">🚫 Block Ad Listing</h3>
+            <button class="modal-close-btn" onclick="closeBlockAdModal()">✕</button>
+        </div>
+        <div class="modal-body">
+            <p style="font-size:13px;color:#94a3b8;margin-bottom:16px;line-height:1.5;">
+                This ad will be immediately blocked and removed from the public marketplace. It will no longer count as an Active Live Ad.
+            </p>
+            <div id="blockAdModalStatusMsg" style="display:none; padding:10px 14px; border-radius:8px; font-size:13px; font-weight:600; margin-bottom:14px;"></div>
+            <div class="form-group">
+                <label class="form-label">Select Block Reason *</label>
+                <select id="blockReasonSelect" class="form-control">
+                    <option value="Suspicious / Fraud">Suspicious / Fraud</option>
+                    <option value="Prohibited content">Prohibited content</option>
+                    <option value="Misleading listing">Misleading listing</option>
+                    <option value="Duplicate listing">Duplicate listing</option>
+                    <option value="Policy violation">Policy violation</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Additional Moderation Notes (Optional)</label>
+                <textarea id="blockReasonCustom" class="form-control" rows="2" placeholder="Describe policy violation..."></textarea>
+            </div>
+        </div>
+        <div class="modal-footer" style="gap:10px;">
+            <button class="btn-action btn-exit" onclick="closeBlockAdModal()">Cancel</button>
+            <button id="confirmBlockAdBtn" class="btn-action btn-ban">Confirm & Block Ad</button>
+        </div>
+    </div>
+</div>
+
+<!-- JS SCRIPTS -->
+<script type="module" src="js/firebase-config.js"></script>
+<script type="module" src="js/admin-auth.js"></script>
+<script type="module" src="js/admin-portal.js"></script>
+
+</body>
+</html>

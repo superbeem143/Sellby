@@ -8,6 +8,7 @@ import {
     db,
     RecaptchaVerifier,
     signInWithPhoneNumber,
+    signInWithEmailAndPassword,
     onAuthStateChanged,
     getDoc,
     doc,
@@ -24,6 +25,13 @@ import { initTranslations } from "./i18n.js";
 
 const phoneStep = document.getElementById("phoneStep");
 const otpStep = document.getElementById("otpStep");
+const emailStep = document.getElementById("emailStep");
+
+const switchToEmailBtn = document.getElementById("switchToEmailBtn");
+const switchToPhoneBtn = document.getElementById("switchToPhoneBtn");
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+const emailLoginBtn = document.getElementById("emailLoginBtn");
 
 const countryCodeInput =
     document.getElementById("countryCode");
@@ -315,6 +323,105 @@ function resetVerifyBtn() {
     verifyOtpBtn.innerHTML = `
         <span>Verify Code</span>
     `;
+}
+
+
+/* =====================================================
+   EMAIL LOGIN
+   ===================================================== */
+
+if (switchToEmailBtn) {
+    switchToEmailBtn.addEventListener("click", () => {
+        showStatus("", "");
+        if (phoneStep) phoneStep.classList.add("hidden");
+        if (otpStep) otpStep.classList.add("hidden");
+        if (emailStep) emailStep.classList.remove("hidden");
+    });
+}
+
+if (switchToPhoneBtn) {
+    switchToPhoneBtn.addEventListener("click", () => {
+        showStatus("", "");
+        if (emailStep) emailStep.classList.add("hidden");
+        if (otpStep) otpStep.classList.add("hidden");
+        if (phoneStep) phoneStep.classList.remove("hidden");
+    });
+}
+
+if (emailLoginBtn) {
+    emailLoginBtn.addEventListener("click", handleEmailLogin);
+}
+
+async function handleEmailLogin() {
+    showStatus("", "");
+    const email = emailInput ? emailInput.value.trim() : "";
+    const password = passwordInput ? passwordInput.value.trim() : "";
+
+    if (!email || !email.includes("@")) {
+        showStatus("Please enter a valid email address.", "error");
+        if (emailInput) emailInput.focus();
+        return;
+    }
+
+    if (!password) {
+        showStatus("Please enter your password.", "error");
+        if (passwordInput) passwordInput.focus();
+        return;
+    }
+
+    emailLoginBtn.disabled = true;
+    emailLoginBtn.innerHTML = `<span>Logging in...</span>`;
+
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        showStatus("Login successful! Redirecting...", "success");
+
+        // Sync Firestore user profile if missing
+        try {
+            const userDocRef = doc(db, "users", user.uid);
+            const userDocSnap = await getDoc(userDocRef);
+            if (!userDocSnap.exists()) {
+                await setDoc(userDocRef, {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName || user.email.split("@")[0],
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
+                });
+            }
+        } catch (err) {
+            console.warn("Firestore profile sync notice:", err);
+        }
+
+        setTimeout(() => {
+            window.location.replace("index.html");
+        }, 500);
+
+    } catch (error) {
+        console.error("Email Login Error:", error);
+        emailLoginBtn.disabled = false;
+        emailLoginBtn.innerHTML = `<span>Login with Email</span>`;
+
+        switch (error.code) {
+            case "auth/invalid-email":
+                showStatus("Invalid email address format.", "error");
+                break;
+            case "auth/user-not-found":
+            case "auth/wrong-password":
+            case "auth/invalid-credential":
+                showStatus("Invalid email or password. Please check your credentials.", "error");
+                break;
+            case "auth/user-disabled":
+                showStatus("This user account has been disabled.", "error");
+                break;
+            case "auth/too-many-requests":
+                showStatus("Too many failed attempts. Please try again later.", "error");
+                break;
+            default:
+                showStatus(error.message || "Failed to log in with email.", "error");
+        }
+    }
 }
 
 

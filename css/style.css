@@ -66,6 +66,42 @@ body {
     background: var(--bg);
     color: var(--text);
     overflow-x: hidden;
+    transition: opacity 0.18s ease-out, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+/* Smooth Page Entrance Keyframe */
+@keyframes pageEnter {
+    from { opacity: 0.85; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body.auth-ready,
+body.page-loaded {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    visibility: visible !important;
+    animation: pageEnter 0.18s ease-out forwards;
+}
+
+/* Smooth Page Exit */
+body.page-exiting {
+    opacity: 0 !important;
+    transform: translateY(-4px) !important;
+    transition: opacity 0.14s ease-in, transform 0.14s ease-in;
+    pointer-events: none !important;
+}
+
+/* Accessibility: Respect Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+    body,
+    body.auth-ready,
+    body.page-loaded,
+    body.page-exiting {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 button,
@@ -641,6 +677,32 @@ a {
     padding: 8px 16px 28px;
 }
 
+/* Mobile App Shell Fixed Viewport & Independent Latest Ads Scroll Container */
+@media (max-width: 767px) {
+    body.home-page {
+        height: 100vh;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    body.home-page .header,
+    body.home-page .search-section,
+    body.home-page .hero,
+    body.home-page .categories {
+        flex-shrink: 0;
+    }
+
+    body.home-page .latest-ads {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 95px;
+    }
+}
+
 #latestAds {
     width: 100%;
     min-height: 80px;
@@ -875,7 +937,7 @@ a {
     position: fixed;
     right: 16px;
     bottom: 88px;
-    z-index: 1000;
+    z-index: 1002;
 
     width: 68px;
     height: 68px;
@@ -940,7 +1002,7 @@ a {
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 999;
+    z-index: 1001;
 
     width: 100%;
     height: 70px;
@@ -2318,7 +2380,7 @@ body.keyboard-open .composer-container {
     }
 
     .floating-post-btn {
-        right: calc(50% - 570px);
+        right: max(24px, calc(50% - 570px));
     }
 
     .category-grid {

@@ -4,6 +4,10 @@
    Mission: Sell Easy. Buy Easy.
    ========================================================= */
 
+/* =========================
+   1. GLOBAL
+   ========================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -62,6 +66,42 @@ body {
     background: var(--bg);
     color: var(--text);
     overflow-x: hidden;
+    transition: opacity 0.18s ease-out, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+/* Smooth Page Entrance Keyframe */
+@keyframes pageEnter {
+    from { opacity: 0.85; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body.auth-ready,
+body.page-loaded {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    visibility: visible !important;
+    animation: pageEnter 0.18s ease-out forwards;
+}
+
+/* Smooth Page Exit */
+body.page-exiting {
+    opacity: 0 !important;
+    transform: translateY(-4px) !important;
+    transition: opacity 0.14s ease-in, transform 0.14s ease-in;
+    pointer-events: none !important;
+}
+
+/* Accessibility: Respect Reduced Motion Preference */
+@media (prefers-reduced-motion: reduce) {
+    body,
+    body.auth-ready,
+    body.page-loaded,
+    body.page-exiting {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 button,
@@ -85,6 +125,10 @@ a {
     color: inherit;
 }
 
+/* =========================
+   2. COMMON
+   ========================= */
+
 .hidden {
     display: none !important;
 }
@@ -98,8 +142,13 @@ a {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes fadeUp {
@@ -107,6 +156,7 @@ a {
         opacity: 0;
         transform: translateY(12px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -114,7 +164,9 @@ a {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes pulse {
@@ -122,17 +174,21 @@ a {
         transform: scale(1);
         opacity: 1;
     }
+
     50% {
         transform: scale(1.08);
         opacity: .7;
     }
+
     100% {
         transform: scale(1);
         opacity: 1;
     }
 }
 
-/* ================= HEADER ================= */
+/* =========================
+   3. HEADER
+   ========================= */
 
 .header {
     position: sticky;
@@ -240,7 +296,9 @@ a {
     stroke: currentColor;
 }
 
-/* ================= DROPDOWN ================= */
+/* =========================
+   4. DROPDOWN MENU
+   ========================= */
 
 .dropdown-menu {
     position: fixed;
@@ -308,7 +366,9 @@ a {
     background: #fef2f2;
 }
 
-/* ================= SEARCH ================= */
+/* =========================
+   5. SEARCH
+   ========================= */
 
 .search-section {
     width: 100%;
@@ -402,7 +462,9 @@ a {
     height: 20px;
 }
 
-/* ================= HERO ================= */
+/* =========================
+   6. HERO
+   ========================= */
 
 .hero {
     margin: 14px 16px;
@@ -433,7 +495,9 @@ a {
     line-height: 1.5;
 }
 
-/* ================= SECTION TITLE ================= */
+/* =========================
+   7. SECTION TITLE
+   ========================= */
 
 .section-title {
     margin: 24px 18px 14px;
@@ -447,7 +511,9 @@ a {
     font-weight: 700;
 }
 
-/* ================= CATEGORIES ================= */
+/* =========================
+   8. CATEGORIES
+   ========================= */
 
 .categories {
     width: 100%;
@@ -557,7 +623,9 @@ a {
     line-height: 1.25;
 }
 
-/* ================= CATEGORY HEADER ================= */
+/* =========================
+   9. CATEGORY HEADER
+   ========================= */
 
 .category-header {
     width: 100%;
@@ -600,11 +668,39 @@ a {
     flex-shrink: 0;
 }
 
-/* ================= LATEST ADS ================= */
+/* =========================
+   10. LATEST ADS
+   ========================= */
 
 .latest-ads {
     width: 100%;
     padding: 8px 16px 28px;
+}
+
+/* Mobile App Shell Fixed Viewport & Independent Latest Ads Scroll Container */
+@media (max-width: 767px) {
+    body.home-page {
+        height: 100vh;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    body.home-page .header,
+    body.home-page .search-section,
+    body.home-page .hero,
+    body.home-page .categories {
+        flex-shrink: 0;
+    }
+
+    body.home-page .latest-ads {
+        flex: 1;
+        min-height: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 95px;
+    }
 }
 
 #latestAds {
@@ -616,7 +712,9 @@ a {
     gap: 13px;
 }
 
-/* ================= AD CARD ================= */
+/* =========================
+   11. AD CARD
+   ========================= */
 
 .ad-card {
     position: relative;
@@ -735,7 +833,9 @@ a {
     font-size: 17px;
 }
 
-/* ================= FEATURED ================= */
+/* =========================
+   12. FEATURED ADS
+   ========================= */
 
 .featured-section {
     padding: 14px 16px 28px;
@@ -798,7 +898,9 @@ a {
     font-size: 10px;
 }
 
-/* ================= SKELETON ================= */
+/* =========================
+   13. SKELETON
+   ========================= */
 
 .skeleton {
     width: 100%;
@@ -818,17 +920,24 @@ a {
 }
 
 @keyframes skeletonMove {
-    from { background-position: 200% 0; }
-    to { background-position: -200% 0; }
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -200% 0;
+    }
 }
 
-/* ================= FLOATING SELL ================= */
+/* =========================
+   14. FLOATING ADD / SELL
+   ========================= */
 
 .floating-post-btn {
     position: fixed;
     right: 16px;
     bottom: 88px;
-    z-index: 1000;
+    z-index: 1002;
 
     width: 68px;
     height: 68px;
@@ -884,14 +993,16 @@ a {
     text-transform: uppercase;
 }
 
-/* ================= BOTTOM NAV ================= */
+/* =========================
+   15. BOTTOM NAV
+   ========================= */
 
 .bottom-nav {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 0;
-    z-index: 999;
+    z-index: 1001;
 
     width: 100%;
     height: 70px;
@@ -958,7 +1069,9 @@ a {
     line-height: 1;
 }
 
-/* ================= BUTTONS ================= */
+/* =========================
+   16. GENERAL BUTTONS
+   ========================= */
 
 .primary-btn,
 .publish-btn,
@@ -1000,7 +1113,9 @@ a {
     transform: scale(.98);
 }
 
-/* ================= FORMS ================= */
+/* =========================
+   17. FORMS
+   ========================= */
 
 .form-grid {
     display: grid;
@@ -1080,7 +1195,9 @@ textarea:focus {
     box-shadow: 0 0 0 4px rgba(124,58,237,.08);
 }
 
-/* ================= UPLOAD ================= */
+/* =========================
+   18. UPLOAD
+   ========================= */
 
 .upload-field,
 .upload-box,
@@ -1113,7 +1230,9 @@ textarea:focus {
     border-color: var(--primary-light);
 }
 
-/* ================= AUTH ================= */
+/* =========================
+   19. AUTH / LOGIN
+   ========================= */
 
 .auth-page {
     width: 100%;
@@ -1245,7 +1364,9 @@ textarea:focus {
     display: none !important;
 }
 
-/* ================= PHONE ================= */
+/* =========================
+   20. PHONE LOGIN
+   ========================= */
 
 .phone-input-wrapper {
     width: 100%;
@@ -1315,7 +1436,9 @@ textarea:focus {
     font-weight: 400;
 }
 
-/* ================= GRADIENT BUTTON ================= */
+/* =========================
+   21. GRADIENT BUTTON
+   ========================= */
 
 .gradient-btn {
     width: 100%;
@@ -1354,7 +1477,9 @@ textarea:focus {
     cursor: not-allowed;
 }
 
-/* ================= OTP ================= */
+/* =========================
+   22. OTP
+   ========================= */
 
 .otp-container {
     width: 100%;
@@ -1456,7 +1581,9 @@ textarea:focus {
     color: var(--primary);
 }
 
-/* ================= AUTH STATUS ================= */
+/* =========================
+   23. AUTH STATUS
+   ========================= */
 
 .auth-status-msg {
     width: 100%;
@@ -1515,7 +1642,9 @@ textarea:focus {
     overflow: hidden;
 }
 
-/* ================= PROFILE ================= */
+/* =========================
+   24. PROFILE
+   ========================= */
 
 .profile-page {
     width: 100%;
@@ -1682,34 +1811,89 @@ textarea:focus {
     box-shadow: none;
 }
 
-/* ================= CHAT ================= */
+/* =========================
+   25. CHAT
+   ========================= */
 
 .chat-page-body {
     width: 100%;
-    height: 100dvh !important;
+    height: 100vh;
+    height: 100dvh;
+    height: var(--visual-viewport-height, 100dvh) !important;
 
     display: flex !important;
     flex-direction: column !important;
 
     padding: 0 !important;
+    margin: 0 !important;
 
     overflow: hidden !important;
+    overscroll-behavior: none;
 
     background: #f8fafc !important;
 }
 
+.chat-page-body .header,
+.chat-compact-header {
+    position: relative !important;
+    top: 0 !important;
+    flex-shrink: 0 !important;
+    z-index: 100 !important;
+
+    width: 100% !important;
+    min-height: 52px !important;
+    max-height: 58px !important;
+    height: 54px !important;
+
+    padding: 8px 14px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+
+    color: #fff !important;
+    background: var(--gradient) !important;
+    box-shadow: 0 4px 14px rgba(109, 40, 217, 0.15) !important;
+
+    border-radius: 0 0 16px 16px !important;
+}
+
+.chat-header-info {
+    flex: 1 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+}
+
+.chat-header-thumb {
+    width: 36px !important;
+    height: 36px !important;
+    flex-shrink: 0 !important;
+    border-radius: 8px !important;
+    object-fit: cover !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.chat-header-title {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+}
+
 .ad-context-banner {
-    min-height: 54px;
-    flex-shrink: 0;
-
-    padding: 7px 14px;
-
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    background: #fff;
-    border-bottom: 1px solid var(--border-light);
+    display: none !important;
 }
 
 .ad-context-thumb {
@@ -1768,9 +1952,12 @@ textarea:focus {
 }
 
 .chat-area {
-    flex: 1 !important;
+    flex: 1 1 auto !important;
+    height: 0 !important;
+    min-height: 0 !important;
 
     overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
 
     padding: 15px 13px !important;
 
@@ -1829,10 +2016,12 @@ textarea:focus {
     text-align: right;
 }
 
-/* ================= CHAT INPUT ================= */
+/* =========================
+   26. CHAT INPUT
+   ========================= */
 
 .composer-container {
-    flex-shrink: 0;
+    flex-shrink: 0 !important;
 
     background: #fff;
 
@@ -1841,6 +2030,10 @@ textarea:focus {
     padding-bottom: env(safe-area-inset-bottom, 0px);
 
     box-shadow: 0 -4px 15px rgba(15,23,42,.04);
+}
+
+body.keyboard-open .composer-container {
+    padding-bottom: 0 !important;
 }
 
 .input-area {
@@ -1945,7 +2138,9 @@ textarea:focus {
     transform: scale(.91);
 }
 
-/* ================= VOICE RECORDING BAR ================= */
+/* =========================
+   27. VOICE RECORDING BAR
+   ========================= */
 
 .voice-recording-bar {
     padding: 9px 13px;
@@ -2018,7 +2213,9 @@ textarea:focus {
     background: var(--gradient);
 }
 
-/* ================= RESPONSIVE ================= */
+/* =========================
+   28. RESPONSIVE
+   ========================= */
 
 @media (max-width: 480px) {
 
@@ -2183,7 +2380,7 @@ textarea:focus {
     }
 
     .floating-post-btn {
-        right: calc(50% - 570px);
+        right: max(24px, calc(50% - 570px));
     }
 
     .category-grid {
@@ -2195,4 +2392,338 @@ textarea:focus {
     }
 }
 
-/* ================= END SELLBY V3.0 ================= */
+/* =========================
+   END SELLBY V3.0
+   ========================= */
+
+/* =========================
+   28. POST YOUR AD REDESIGN
+   ========================= */
+
+.post-ad-body {
+    background: #f8fafc;
+    color: #0f172a;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.post-ad-header {
+    width: 100%;
+    min-height: 56px;
+    height: 56px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(109, 40, 217, 0.18);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.post-ad-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+    flex: 1;
+    text-align: left;
+    margin-left: 12px;
+}
+
+.save-draft-btn {
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 6px 12px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.save-draft-btn:active {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.post-ad-wrap {
+    max-width: 680px;
+    margin: 16px auto 40px;
+    padding: 0 14px;
+}
+
+.post-ad-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px 16px;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+    border: 1px solid #f1f5f9;
+}
+
+.photo-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.photo-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.add-img-header-btn {
+    border: 1.5px solid #ec4899;
+    color: #ec4899;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.add-img-header-btn:hover {
+    background: #fdf2f8;
+}
+
+/* Upload Container Box */
+.upload-container-box {
+    border: 1.5px dashed #f472b6;
+    border-radius: 16px;
+    padding: 14px;
+    background: #ffffff;
+    margin-bottom: 20px;
+}
+
+.upload-image-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 380px) {
+    .upload-image-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.thumb-tile,
+.add-tile {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.thumb-tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+}
+
+.remove-thumb-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: none;
+    color: #0f172a;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    padding: 0;
+    line-height: 1;
+}
+
+.add-tile {
+    border: 1.5px dashed #f472b6;
+    border-radius: 12px;
+    background: #fffdfd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #db2777;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.add-tile:hover {
+    background: #fdf2f8;
+}
+
+.add-tile span {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 4px;
+    color: #db2777;
+}
+
+.upload-box-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #64748b;
+    padding-top: 6px;
+    border-top: 1px solid #f8fafc;
+}
+
+.img-count-text {
+    font-weight: 500;
+}
+
+.img-count-text strong {
+    color: #db2777;
+}
+
+.img-count-hint {
+    color: #94a3b8;
+}
+
+/* Form Fields Grid */
+.form-fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 12px;
+}
+
+.form-fields-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.form-group label .required {
+    color: #dc2626;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-size: 14px;
+    background: #f8fafc;
+    color: #0f172a;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #7c3aed;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.input-with-icon,
+.input-with-unit {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon .input-prefix {
+    position: absolute;
+    left: 12px;
+    font-weight: 600;
+    color: #64748b;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+.input-with-icon input {
+    padding-left: 30px;
+}
+
+.input-with-unit input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    flex: 1;
+}
+
+.input-with-unit .unit-select {
+    width: 110px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: 0;
+    background: #f1f5f9;
+    font-weight: 600;
+    color: #475569;
+}
+
+.submit-action-area {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.publish-submit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.25);
+    transition: all 0.2s ease;
+}
+
+.publish-submit-btn:hover {
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+}
+
+@media (max-width: 600px) {
+    .form-fields-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
