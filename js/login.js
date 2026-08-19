@@ -80,6 +80,7 @@ let countdownInterval = null;
 let fullPhoneNumber = "";
 let isVerifying = false;
 let isSendingOtp = false;
+let webOtpAbortController = null;
 
 
 /* =====================================================
@@ -703,6 +704,8 @@ async function verifyOtp() {
         return;
     }
 
+    stopWebOtpListener();
+
 
     showStatus("", "");
 
@@ -972,8 +975,8 @@ otpFields.forEach(
             "input",
             () => {
 
-                const value =
-                    field.value;
+                let value =
+                    field.value.replace(/\D/g, "");
 
 
                 /* Paste / autofill */
@@ -986,7 +989,8 @@ otpFields.forEach(
 
                     if (
                         getOtpValue()
-                            .length === 6
+                            .length === 6 &&
+                        !isVerifying
                     ) {
                         verifyOtp();
                     }
@@ -996,6 +1000,8 @@ otpFields.forEach(
 
 
                 if (value) {
+
+                    field.value = value;
 
                     field.classList.add(
                         "filled"
@@ -1010,6 +1016,8 @@ otpFields.forEach(
                     }
 
                 } else {
+
+                    field.value = "";
 
                     field.classList.remove(
                         "filled"
@@ -1133,10 +1141,27 @@ otpFields.forEach(
 
 
 /* =====================================================
-   ANDROID WEB OTP
+   ANDROID WEB OTP & LIFECYCLE
    ===================================================== */
 
+function stopWebOtpListener() {
+
+    if (webOtpAbortController) {
+
+        try {
+
+            webOtpAbortController.abort();
+
+        } catch (e) {}
+
+        webOtpAbortController = null;
+    }
+}
+
+
 function listenForWebOTP() {
+
+    stopWebOtpListener();
 
     if (
         !("OTPCredential" in window)
@@ -1144,62 +1169,86 @@ function listenForWebOTP() {
         return;
     }
 
+    try {
 
-    const controller =
-        new AbortController();
+        webOtpAbortController =
+            new AbortController();
 
 
-    navigator.credentials
-        .get({
-            otp: {
-                transport: ["sms"]
-            },
-            signal:
-                controller.signal
-        })
+        navigator.credentials
+            .get({
+                otp: {
+                    transport: ["sms"]
+                },
+                signal:
+                    webOtpAbortController.signal
+            })
 
-        .then((otp) => {
-
-            if (
-                otp &&
-                otp.code
-            ) {
-
-                const code =
-                    otp.code
-                        .replace(
-                            /\D/g,
-                            ""
-                        )
-                        .slice(
-                            0,
-                            6
-                        );
-
+            .then((otp) => {
 
                 if (
-                    code.length === 6
+                    otp &&
+                    otp.code
                 ) {
 
-                    fillOtpFields(
-                        code
-                    );
+                    const code =
+                        otp.code
+                            .replace(
+                                /\D/g,
+                                ""
+                            )
+                            .slice(
+                                0,
+                                6
+                            );
 
-                    verifyOtp();
+
+                    if (
+                        code.length === 6 &&
+                        !isVerifying
+                    ) {
+
+                        fillOtpFields(
+                            code
+                        );
+
+                        verifyOtp();
+                    }
                 }
-            }
 
-        })
+            })
 
-        .catch((error) => {
+            .catch((error) => {
 
-            console.log(
-                "WebOTP notice:",
-                error.message ||
-                error
-            );
-        });
+                if (
+                    error &&
+                    error.name !== "AbortError"
+                ) {
+                    console.log(
+                        "WebOTP notice:",
+                        error.message ||
+                        error
+                    );
+                }
+
+            })
+
+            .finally(() => {
+
+                webOtpAbortController = null;
+            });
+
+    } catch (err) {
+
+        console.warn(
+            "WebOTP initialization notice:",
+            err
+        );
+    }
 }
+
+window.addEventListener("beforeunload", stopWebOtpListener);
+window.addEventListener("unload", stopWebOtpListener);
 
 
 /* =====================================================
@@ -1271,6 +1320,8 @@ function startCountdown(
    ===================================================== */
 
 function changeNumber() {
+
+    stopWebOtpListener();
 
     if (countdownInterval) {
 
