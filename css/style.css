@@ -677,30 +677,24 @@ a {
     padding: 8px 16px 28px;
 }
 
-/* Mobile App Shell Fixed Viewport & Independent Latest Ads Scroll Container */
-@media (max-width: 767px) {
-    body.home-page {
-        height: 100vh;
-        height: 100dvh;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
+/* Fixed Viewport & Unified Home Scroll Container (Search + Hero + Categories + Latest Ads) */
+body.home-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
 
-    body.home-page .header,
-    body.home-page .search-section,
-    body.home-page .hero,
-    body.home-page .categories {
-        flex-shrink: 0;
-    }
+body.home-page .header {
+    flex-shrink: 0;
+}
 
-    body.home-page .latest-ads {
-        flex: 1;
-        min-height: 0;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        padding-bottom: 95px;
-    }
+body.home-page .home-scroll-area {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 95px;
 }
 
 #latestAds {
